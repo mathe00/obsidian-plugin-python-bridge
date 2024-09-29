@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "es6",
+      "strict": true,
+      "jsx": "react",
+      "esModuleInterop": true,
+      "experimentalDecorators": true,
+      "lib": ["es2017", "dom"],
+      "types": ["node", "obsidian"],
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "outDir": "dist"
+    },
+    "include": ["src/**/*.ts"]
+  }
+  

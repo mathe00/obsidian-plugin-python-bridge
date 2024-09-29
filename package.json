@@ -1,0 +1,24 @@
+{
+  "name": "obsidian-python-bridge",
+  "version": "0.1.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "rollup -w -c",
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^18.11.9",
+    "obsidian": "latest",
+    "rollup": "^3.2.5",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "tslib": "^2.4.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

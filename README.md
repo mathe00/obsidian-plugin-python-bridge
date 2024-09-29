@@ -1,8 +1,8 @@
 # 🐍 Obsidian Python Bridge Plugin
 
-👋 **Welcome to the Obsidian Python Bridge plugin repository!**
+👋 **Welcome to the [Obsidian](https://obsidian.md/) Python Bridge plugin repository!**
 
-### **💥 Develop Obsidian plugins in Python!**
+### **💥 Develop [Obsidian plugins](https://obsidian.md/plugins) in Python!**
 
 Yes, you read that right! With this plugin, you can **develop plugins for Obsidian using Python**. 🎉 This is likely the **first plugin** that lets you directly integrate **Python scripts** into Obsidian to interact with your notes, retrieve metadata, display notifications, and so much more!
 

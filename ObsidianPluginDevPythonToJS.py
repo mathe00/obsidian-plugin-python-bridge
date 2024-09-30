@@ -8,7 +8,7 @@ class ObsidianPluginDevPythonToJS:
     """
     This class provides a simplified interface to interact with the Obsidian plugin via Unix sockets.
     It encapsulates the socket communication and provides easy-to-use methods for sending notifications,
-    retrieving active note content, frontmatter, and more.
+    retrieving active note content, paths, and other metadata.
     """
 
     def __init__(self, socket_path=SOCKET_PATH):
@@ -80,12 +80,56 @@ class ObsidianPluginDevPythonToJS:
 
     def get_active_note_content(self):
         """
-        Retrieves the content and title of the currently active note in Obsidian.
+        Retrieves the content of the currently active note in Obsidian.
 
-        :return: A dictionary containing the title and content of the active note, or an error message.
+        :return: A dictionary containing the content of the active note, or an error message.
         """
         request_data = {
-            "action": "get_active_note"
+            "action": "get_active_note_content"
+        }
+        return self._send_request(request_data)
+
+    def get_active_note_absolute_path(self):
+        """
+        Retrieves the absolute path of the currently active note in Obsidian.
+
+        :return: A dictionary containing the absolute path of the active note, or an error message.
+        """
+        request_data = {
+            "action": "get_active_note_absolute_path"
+        }
+        return self._send_request(request_data)
+
+    def get_active_note_relative_path(self):
+        """
+        Retrieves the relative path of the currently active note from the root of the vault.
+
+        :return: A dictionary containing the relative path of the active note, or an error message.
+        """
+        request_data = {
+            "action": "get_active_note_relative_path"
+        }
+        return self._send_request(request_data)
+
+    def get_active_note_title(self):
+        """
+        Retrieves the title of the currently active note in Obsidian.
+
+        :return: A dictionary containing the title of the active note, or an error message.
+        """
+        request_data = {
+            "action": "get_active_note_title"
+        }
+        return self._send_request(request_data)
+
+    def get_current_vault_absolute_path(self):
+        """
+        Retrieves the absolute path of the current vault in Obsidian.
+
+        :return: A dictionary containing the absolute path of the current vault, or an error message.
+        """
+        request_data = {
+            "action": "get_current_vault_absolute_path"
         }
         return self._send_request(request_data)
 
@@ -97,23 +141,6 @@ class ObsidianPluginDevPythonToJS:
         """
         request_data = {
             "action": "get_frontmatter"
-        }
-        response = self._send_request(request_data)
-        
-        # If the response contains 'frontmatter', strip the unnecessary key
-        if "frontmatter" in response:
-            return response["frontmatter"]
-        
-        return response
-
-    def get_vault_metadata(self):
-        """
-        Requests metadata about the vault, including titles and paths of all notes.
-
-        :return: A dictionary containing metadata about the notes in the vault, or an error message.
-        """
-        request_data = {
-            "action": "get_vault_metadata"
         }
         return self._send_request(request_data)
 

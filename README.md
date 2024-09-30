@@ -100,9 +100,11 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 - 🌐 **HTTP support for Windows**: Unix sockets don’t work on **Windows**, but **HTTP support** is in the works to enable seamless interaction on this platform.
 - 📊 **User Input Management**: Display **pop-ups in Obsidian** to let users input data, similar to terminal inputs, for your Python scripts.
-- 📱 **Mobile Support**: While mobile support is a long-term goal, it's quite challenging to implement. However, we're exploring possibilities to make this work in the future.
-- 🛠️ **Better Python Integration**: We aim to allow Python scripts to integrate more seamlessly with Obsidian by enabling script-specific settings sections within the plugin's settings. This will let Python scripts have isolated configurations, making them function more like “real” Obsidian plugins.
+- 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
 - 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
+- 📱 **Mobile Support (Future)**: There are long-term plans to potentially support mobile devices, though implementing this feature will be quite challenging.
+- ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
+- 📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
 
 ---
 
@@ -112,11 +114,9 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 2. **Create a folder** under `<your-vault>/.obsidian/plugins/obsidian-python-bridge/`.
 3. **Place the downloaded files** into this folder.
 4. **Restart Obsidian**.
-5. Go to **Settings** > **Community plugins** and enable **Obsidian Python Bridge**.
-
+5. Note that the plugin has **not yet been submitted** to the Obsidian community plugins directory, so you will need to enable it manually in **Settings** > **Community plugins**.
 6. **Set up the script path**:  
    In the plugin settings, configure the **path to the folder** where your Python scripts will be located.
-
 7. **Download the Python library** `ObsidianPluginDevPythonToJS.py`:  
    To use the ready-made functions and avoid re-writing complex JSON code each time, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts**. This will allow you to **drastically reduce complexity** and make your scripts more minimalist and readable.
 

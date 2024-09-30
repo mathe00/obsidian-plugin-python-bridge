@@ -100,7 +100,8 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 - 🌐 **HTTP support for Windows**: Unix sockets don’t work on **Windows**, but **HTTP support** is in the works to enable seamless interaction on this platform.
 - 📊 **User Input Management**: Display **pop-ups in Obsidian** to let users input data, similar to terminal inputs, for your Python scripts.
-- 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
+- 📱 **Mobile Support**: While mobile support is a long-term goal, it's quite challenging to implement. However, we're exploring possibilities to make this work in the future.
+- 🛠️ **Better Python Integration**: We aim to allow Python scripts to integrate more seamlessly with Obsidian by enabling script-specific settings sections within the plugin's settings. This will let Python scripts have isolated configurations, making them function more like “real” Obsidian plugins.
 - 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 
 ---

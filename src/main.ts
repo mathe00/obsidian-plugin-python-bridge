@@ -86,25 +86,47 @@ export default class ObsidianPythonBridge extends Plugin {
         if (fs.existsSync(this.settings.socketPath)) {
             fs.unlinkSync(this.settings.socketPath); // Remove the old socket if present
         }
-    
+
         this.server = net.createServer((connection) => {
             connection.on('data', async (data) => {
                 try {
                     const request = JSON.parse(data.toString());
 
-                    if (request.action === 'get_active_note') {
-                        const noteData = await this.getActiveNoteContentAndTitle();
-                        connection.write(JSON.stringify(noteData));
+                    // Handle different actions from Python requests
+                    if (request.action === 'get_active_note_content') {
+                        const content = await this.getActiveNoteContent();
+                        connection.write(JSON.stringify({ content }));
+
+                    } else if (request.action === 'get_active_note_absolute_path') {
+                        const absolutePath = this.getActiveNoteAbsolutePath();
+                        connection.write(JSON.stringify({ absolutePath }));
+
+                    } else if (request.action === 'get_active_note_relative_path') {
+                        const relativePath = this.getActiveNoteRelativePath();
+                        connection.write(JSON.stringify({ relativePath }));
+
+                    } else if (request.action === 'get_active_note_title') {
+                        const title = this.getActiveNoteTitle();
+                        connection.write(JSON.stringify({ title }));
+
+                    } else if (request.action === 'get_current_vault_absolute_path') {
+                        const vaultPath = this.getCurrentVaultAbsolutePath();
+                        connection.write(JSON.stringify({ vaultPath }));
+
                     } else if (request.action === 'show_notification') {
                         new Notice(request.text_for_notif);
                         connection.write(JSON.stringify({ status: 'notification sent' }));
+
                     } else if (request.action === 'get_frontmatter') {
-                        // New action to get the frontmatter of the note
+                        // Get the frontmatter of the active note
                         const frontmatterData = await this.getActiveNoteFrontmatter();
                         connection.write(JSON.stringify(frontmatterData));
+
                     } else {
+                        // Handle unknown actions
                         connection.write(JSON.stringify({ error: 'Unknown action' }));
                     }
+
                 } catch (error) {
                     console.error('Error handling socket data:', error);
                     connection.write(JSON.stringify({ error: 'Invalid request format' }));
@@ -147,19 +169,80 @@ export default class ObsidianPythonBridge extends Plugin {
         return activeLeaf.view.file;
     }
 
-    // Function to retrieve the content and title of the active note
-    async getActiveNoteContentAndTitle(): Promise<any> {
+    // Function to retrieve the content of the current active note
+    async getActiveNoteContent(): Promise<string | null> {
         const activeNote = this.getActiveNote();
         if (!activeNote) {
-            return { error: 'No active note found' };
+            console.error('No active note found');
+            return null;
         }
 
         const content = await this.app.vault.read(activeNote);
+        return content;
+    }
+
+    // Function to retrieve the absolute path of the current active note
+    getActiveNoteRelativePath(): string | null {
+        const activeNote = this.getActiveNote();
+        if (!activeNote) {
+            console.error('No active note found');
+            return null;
+        }
+
+        const absolutePath = activeNote.path;
+        return absolutePath;
+    }
+
+    // Function to retrieve the absolute path of the current active note
+    getActiveNoteAbsolutePath(): string | null {
+        const activeNote = this.getActiveNote();
+        if (!activeNote) {
+            console.error('No active note found');
+            return null;
+        }
+
+        // Retrieve the vault's absolute path
+        const vaultPath = this.getCurrentVaultAbsolutePath();
+        if (!vaultPath) {
+            console.error('Unable to retrieve the vault path');
+            return null;
+        }
+
+        // Retrieve the note's relative path
+        const relativeNotePath = this.getActiveNoteRelativePath();
+        if (!relativeNotePath) {
+            console.error('Unable to retrieve the relative note path');
+            return null;
+        }
+
+        // Construct and return the absolute path by combining the vault path and the note's relative path
+        const absoluteNotePath = `${vaultPath}/${relativeNotePath}`;
+        return absoluteNotePath;
+    }
+
+    // Function to retrieve the title of the current active note
+    getActiveNoteTitle(): string | null {
+        const activeNote = this.getActiveNote();
+        if (!activeNote) {
+            console.error('No active note found');
+            return null;
+        }
+
         const title = activeNote.basename;
-        return {
-            title,
-            content,
-        };
+        return title;
+    }
+
+    // Function to retrieve the absolute path of the current vault
+    getCurrentVaultAbsolutePath(): string | null {
+        const adapter = this.app.vault.adapter;
+
+        // Ensure the adapter is a FileSystemAdapter (which gives access to the local file system)
+        if (adapter instanceof FileSystemAdapter) {
+            const vaultPath = adapter.getBasePath(); // Correct method for FileSystemAdapter
+            return vaultPath;
+        } else {
+            return null; // If the adapter is not a FileSystemAdapter (e.g., in a non-file system vault)
+        }
     }
 
     // Function to retrieve the active note's Frontmatter and convert the values
@@ -167,8 +250,7 @@ export default class ObsidianPythonBridge extends Plugin {
         const activeNote = this.getActiveNote();
         if (!activeNote) {
             return { error: 'No active note found' };
-        }
-    
+    }
         const cache = this.app.metadataCache.getFileCache(activeNote);
         if (cache && cache.frontmatter) {
             // Convert each frontmatter value
@@ -180,7 +262,7 @@ export default class ObsidianPythonBridge extends Plugin {
 
             return { frontmatter: convertedFrontmatter };
         } else {
-            return { error: 'No frontmatter found in the active note' };
+            return null;
         }
     }
 

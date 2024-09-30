@@ -54,17 +54,45 @@ from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS
 # Create an instance of the class
 obsidian = ObsidianPluginDevPythonToJS()
 
-# Send a simple notification
-obsidian.send_notification(content="This is a test notification", duration=5000)
+# Test sending a notification
+response = obsidian.send_notification(content="Test notification: send_notification function", duration=5000)
 
-# Retrieve the frontmatter of the active note
+# Test retrieving the content of the active note
+note_data = obsidian.get_active_note_content()
+if "content" in note_data:
+    obsidian.send_notification(content=f"Note content: {note_data['content'][:50]}...", duration=5000)  # Show the first 50 characters of the content
+else:
+    obsidian.send_notification(content="No active note found", duration=5000)
+
+# Test retrieving the absolute path of the active note
+absolute_path = obsidian.get_active_note_absolute_path()
+obsidian.send_notification(content=f"Absolute path of the note: {absolute_path.get('absolutePath', 'Error retrieving')}", duration=5000)
+
+# Test retrieving the relative path of the active note
+relative_path = obsidian.get_active_note_relative_path()
+obsidian.send_notification(content=f"Relative path of the note: {relative_path.get('relativePath', 'Error retrieving')}", duration=5000)
+
+# Test retrieving the title of the active note
+title = obsidian.get_active_note_title()
+obsidian.send_notification(content=f"Title of the active note: {title.get('title', 'Error retrieving')}", duration=5000)
+
+# Test retrieving the absolute path of the current vault
+vault_path = obsidian.get_current_vault_absolute_path()
+obsidian.send_notification(content=f"Absolute path of the vault: {vault_path.get('vaultPath', 'Error retrieving')}", duration=5000)
+
+# Test retrieving the frontmatter of the active note
 frontmatter = obsidian.get_active_note_frontmatter()
-
-# Display the frontmatter in another notification
-obsidian.send_notification(content=f"The frontmatter is: {frontmatter}", duration=10000)
+if frontmatter:
+    obsidian.send_notification(content=f"Frontmatter: {frontmatter}", duration=5000)
+else:
+    obsidian.send_notification(content="No frontmatter found", duration=5000)
 ```
 
-In just **a few lines**, you can interact with your Obsidian vault, display notifications, and manipulate note metadata.
+And here's a screenshot showing the results of the above code executed in the Obsidian environment:
+![image](https://github.com/user-attachments/assets/49324d1d-02d3-414f-971d-820f05cbe23f)
+
+
+In just a **few lines**, you can interact with your Obsidian vault, display notifications, and manipulate note metadata effectively and easily.
 
 ---
 

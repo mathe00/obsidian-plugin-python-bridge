@@ -110,15 +110,32 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ### 🛠️ Installation
 
-1. **Download** the `main.js`, `manifest.json`, and `styles.css` files from this repository.
-2. **Create a folder** under `<your-vault>/.obsidian/plugins/obsidian-python-bridge/`.
-3. **Place the downloaded files** into this folder.
-4. **Restart Obsidian**.
-5. Note that the plugin has **not yet been submitted** to the Obsidian community plugins directory, so you will need to enable it manually in **Settings** > **Community plugins**.
-6. **Set up the script path**:  
-   In the plugin settings, configure the **path to the folder** where your Python scripts will be located.
-7. **Download the Python library** `ObsidianPluginDevPythonToJS.py`:  
-   To use the ready-made functions and avoid re-writing complex JSON code each time, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts**. This will allow you to **drastically reduce complexity** and make your scripts more minimalist and readable.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/mathe00/obsidian-plugin-python-bridge.git
+   ```
+2. **Navigate into the project folder**:
+   ```bash
+   cd obsidian-plugin-python-bridge/
+   ```
+3. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+4. **Build the project**:
+   ```bash
+   npm run build
+   ```
+   This will generate the `main.js` file.
+5. **Follow these steps**:
+   - **Create a folder** under `<your-vault>/.obsidian/plugins/obsidian-python-bridge/`.
+   - **Place the generated `main.js` and `manifest.json` files** into this folder.
+   - **Restart Obsidian**.
+   - Since the plugin has **not yet been submitted** to the Obsidian community plugins directory, you will need to enable it manually in **Settings** > **Community plugins**.
+   - **Set up the script path**:  
+     In the plugin settings, configure the **path to the folder** where your Python scripts will be located.
+   - **Download the Python library** `ObsidianPluginDevPythonToJS.py`:  
+     To use pre-made functions and avoid rewriting complex JSON code, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts**. This will help **simplify** your scripts and make them more readable.
 
 ---
 

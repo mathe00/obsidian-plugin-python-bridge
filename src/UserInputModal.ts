@@ -54,11 +54,12 @@ export default class UserInputModal extends Modal {
             if (this.inputEl) {
                 let inputValue: any;
                 if (this.inputType === 'boolean') {
-                    inputValue = (this.inputEl as HTMLInputElement).checked;
+                    inputValue = this.inputEl.checked;
                 } else {
                     inputValue = this.inputEl.value;
                 }
-                this.onSubmit(inputValue);
+                // Return value as JSON object
+                this.onSubmit({ inputValue });
                 this.close();
             }
         });

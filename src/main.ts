@@ -1,9 +1,15 @@
-import { App, Notice, Plugin, PluginSettingTab, Setting, TFile, MarkdownView, SuggestModal, FileSystemAdapter } from 'obsidian';
+import { App, Notice, Plugin, PluginSettingTab, Setting, TFile, MarkdownView, SuggestModal, FileSystemAdapter, Modal } from 'obsidian';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import * as net from 'net'; // Use the net module for Unix sockets
 import * as path from 'path'; // Import the path module to manipulate paths
 import moment from 'moment'; // Use moment.js to handle dates
+
+// Import of other .ts files
+import PythonBridgeSettingTab from './PythonBridgeSettingTab';
+import UserInputModal from './UserInputModal';
+
+
 
 interface PythonBridgeSettings {
     pythonScriptsFolder: string;
@@ -47,7 +53,6 @@ function convertFrontmatterValue(value: any): any {
         return value; // In all other cases, keep the value as is
     }
 }
-
 
 
 export default class ObsidianPythonBridge extends Plugin {
@@ -121,6 +126,19 @@ export default class ObsidianPythonBridge extends Plugin {
                         // Get the frontmatter of the active note
                         const frontmatterData = await this.getActiveNoteFrontmatter();
                         connection.write(JSON.stringify(frontmatterData));
+                    
+                    } else if (request.action === 'request_user_input') {
+                        // Request user input
+                        const userInput = await this.requestUserInput(
+                            request.scriptName,
+                            request.inputType,
+                            request.message,
+                            request.validationRegex,
+                            request.minValue,
+                            request.maxValue,
+                            request.step
+                        );
+                        connection.write(JSON.stringify({ userInput }));
 
                     } else {
                         // Handle unknown actions
@@ -159,7 +177,17 @@ export default class ObsidianPythonBridge extends Plugin {
         );
     }
 
-
+    // Function to request user input via a modal
+    async requestUserInput(scriptName: string, inputType: string, message: string, validationRegex?: string, minValue?: number, maxValue?: number, step?: number): Promise<any> {
+        return new Promise((resolve) => {
+            const onSubmit = (input: any) => {
+                resolve(input);
+            };
+            new UserInputModal(this.app, scriptName, inputType, message, onSubmit, validationRegex, minValue, maxValue, step).open();
+        });
+    }
+    
+    
     // Function to get the active note's file
     getActiveNote(): TFile | null {
         const activeLeaf = this.app.workspace.activeLeaf;
@@ -403,61 +431,6 @@ export default class ObsidianPythonBridge extends Plugin {
     }
 }
 
-// Plugin settings
-class PythonBridgeSettingTab extends PluginSettingTab {
-    plugin: ObsidianPythonBridge;
-
-    constructor(app: App, plugin: ObsidianPythonBridge) {
-        super(app, plugin);
-        this.plugin = plugin;
-    }
-
-    display(): void {
-        const { containerEl } = this;
-    
-        containerEl.empty();
-        containerEl.createEl('h2', { text: 'Obsidian Python Bridge Plugin Settings' });
-    
-        new Setting(containerEl)
-            .setName('Python Scripts Folder')
-            .setDesc('Path to the folder containing your Python scripts (absolute or relative to the vault).')
-            .addText((text) =>
-                text
-                    .setPlaceholder('/path/to/your/scripts or ./scripts-python')
-                    .setValue(this.plugin.settings.pythonScriptsFolder)
-                    .onChange(async (value) => {
-                        this.plugin.settings.pythonScriptsFolder = value;
-                        await this.plugin.saveSettings();
-                    })
-            );
-    
-        new Setting(containerEl)
-            .setName('Unix Socket Path')
-            .setDesc('Path to the Unix socket file (default: /tmp/obsidian-python.sock).')
-            .addText((text) =>
-                text
-                    .setPlaceholder('/tmp/obsidian-python.sock')
-                    .setValue(this.plugin.settings.socketPath)
-                    .onChange(async (value) => {
-                        this.plugin.settings.socketPath = value;
-                        await this.plugin.saveSettings();
-                    })
-            );
-    
-        // New option to disable Python cache (__pycache__)
-        new Setting(containerEl)
-            .setName('Disable Python Cache (__pycache__)')
-            .setDesc('Disable the generation of __pycache__ files when running Python scripts.')
-            .addToggle((toggle) =>
-                toggle
-                    .setValue(this.plugin.settings.disablePyCache)
-                    .onChange(async (value) => {
-                        this.plugin.settings.disablePyCache = value;
-                        await this.plugin.saveSettings();
-                    })
-            );
-    }    
-}
 
 // Modal class for selecting a Python script from the list
 class ScriptSelectionModal extends SuggestModal<string> {

@@ -10,7 +10,6 @@ import PythonBridgeSettingTab from './PythonBridgeSettingTab';
 import UserInputModal from './UserInputModal';
 
 
-
 interface PythonBridgeSettings {
     pythonScriptsFolder: string;
     socketPath: string;
@@ -187,9 +186,6 @@ export default class ObsidianPythonBridge extends Plugin {
             new UserInputModal(this.app, scriptName, inputType, message, onSubmit, validationRegex, minValue, maxValue, step).open();
         });
     }
-    
-    
-    
     
     // Function to get the active note's file
     getActiveNote(): TFile | null {

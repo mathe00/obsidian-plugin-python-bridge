@@ -2,13 +2,13 @@ import socket
 import json
 import os
 
-SOCKET_PATH = "/tmp/obsidian-python.sock"
+SOCKET_PATH = "/tmp/obsidian-python.sock" # Put your socket path here for the moment
 
 class ObsidianPluginDevPythonToJS:
     """
     This class provides a simplified interface to interact with the Obsidian plugin via Unix sockets.
     It encapsulates the socket communication and provides easy-to-use methods for sending notifications,
-    retrieving active note content, paths, and other metadata.
+    retrieving active note content, frontmatter, and more.
     """
 
     def __init__(self, socket_path=SOCKET_PATH):
@@ -20,6 +20,7 @@ class ObsidianPluginDevPythonToJS:
         if not os.path.exists(socket_path):
             raise FileNotFoundError(f"Socket path {socket_path} does not exist.")
         self.socket_path = socket_path
+
 
     def _send_request(self, request_data):
         """
@@ -46,6 +47,7 @@ class ObsidianPluginDevPythonToJS:
         except json.JSONDecodeError as json_error:
             return {"error": f"Failed to encode request data: {json_error}"}
 
+
     def _parse_response(self, response):
         """
         Parses the response received from the socket and decodes it as JSON.
@@ -59,6 +61,10 @@ class ObsidianPluginDevPythonToJS:
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON response: {e}")
             return {"error": "Invalid JSON response"}
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return {"error": str(e)}
+
 
     def send_notification(self, content="Notification", duration=4000):
         """
@@ -78,60 +84,18 @@ class ObsidianPluginDevPythonToJS:
         }
         return self._send_request(request_data)
 
+
     def get_active_note_content(self):
         """
-        Retrieves the content of the currently active note in Obsidian.
+        Retrieves the content and title of the currently active note in Obsidian.
 
-        :return: A dictionary containing the content of the active note, or an error message.
+        :return: A dictionary containing the title and content of the active note, or an error message.
         """
         request_data = {
-            "action": "get_active_note_content"
+            "action": "get_active_note"
         }
         return self._send_request(request_data)
 
-    def get_active_note_absolute_path(self):
-        """
-        Retrieves the absolute path of the currently active note in Obsidian.
-
-        :return: A dictionary containing the absolute path of the active note, or an error message.
-        """
-        request_data = {
-            "action": "get_active_note_absolute_path"
-        }
-        return self._send_request(request_data)
-
-    def get_active_note_relative_path(self):
-        """
-        Retrieves the relative path of the currently active note from the root of the vault.
-
-        :return: A dictionary containing the relative path of the active note, or an error message.
-        """
-        request_data = {
-            "action": "get_active_note_relative_path"
-        }
-        return self._send_request(request_data)
-
-    def get_active_note_title(self):
-        """
-        Retrieves the title of the currently active note in Obsidian.
-
-        :return: A dictionary containing the title of the active note, or an error message.
-        """
-        request_data = {
-            "action": "get_active_note_title"
-        }
-        return self._send_request(request_data)
-
-    def get_current_vault_absolute_path(self):
-        """
-        Retrieves the absolute path of the current vault in Obsidian.
-
-        :return: A dictionary containing the absolute path of the current vault, or an error message.
-        """
-        request_data = {
-            "action": "get_current_vault_absolute_path"
-        }
-        return self._send_request(request_data)
 
     def get_active_note_frontmatter(self):
         """
@@ -142,7 +106,67 @@ class ObsidianPluginDevPythonToJS:
         request_data = {
             "action": "get_frontmatter"
         }
+        response = self._send_request(request_data)
+        
+        # If the response contains 'frontmatter', strip the unnecessary key
+        if "frontmatter" in response:
+            return response["frontmatter"]
+        
+        return response
+
+
+    def get_vault_metadata(self):
+        """
+        Requests metadata about the vault, including titles and paths of all notes.
+
+        :return: A dictionary containing metadata about the notes in the vault, or an error message.
+        """
+        request_data = {
+            "action": "get_vault_metadata"
+        }
         return self._send_request(request_data)
+    
+    
+    def request_user_input(self, script_name, input_type, message, validation_regex=None, min_value=None, max_value=None, step=None):
+        """
+        Sends a request to display a user input pop-up in Obsidian.
+
+        :param script_name: The name of the script/plugin requesting user input.
+        :param input_type: The type of user input ('text', 'number', 'boolean', or 'date').
+        :param message: The message to display to the user.
+        :param validation_regex: A regular expression pattern to validate the user input (optional).
+        :param min_value: The minimum value for number input (optional).
+        :param max_value: The maximum value for number input (optional).
+        :param step: The step value for number input (optional).
+        :return: The response from Obsidian as a dictionary.
+        """
+        if not script_name or not input_type or not message:
+            return {"error": "Script name, input type, and message are required.", "success": False}
+
+        # Apply validation regex only for 'text' and 'number' input types
+        if input_type not in ['text', 'number']:
+            validation_regex = None
+
+        request_data = {
+            "action": "request_user_input",
+            "scriptName": script_name,
+            "inputType": input_type,
+            "message": message,
+            "validationRegex": validation_regex,
+            "minValue": min_value,
+            "maxValue": max_value,
+            "step": step
+        }
+        response = self._send_request(request_data)
+
+        if 'userInput' in response:
+            response['success'] = True
+        else:
+            response['success'] = False
+            response['error'] = "User cancelled the input."
+
+        return response
+
 
     def send_custom_request(self, action, **kwargs):
         """

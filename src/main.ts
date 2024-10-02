@@ -10,7 +10,6 @@ import PythonBridgeSettingTab from './PythonBridgeSettingTab';
 import UserInputModal from './UserInputModal';
 
 
-
 interface PythonBridgeSettings {
     pythonScriptsFolder: string;
     socketPath: string;
@@ -93,7 +92,8 @@ export default class ObsidianPythonBridge extends Plugin {
         }
 
         this.server = net.createServer((connection) => {
-            connection.on('data', async (data) => {
+            connection.on('data', async (data) => { // Get more explicit logs on data received via the socket
+                console.log('Received data:', data.toString());
                 try {
                     const request = JSON.parse(data.toString());
 
@@ -138,7 +138,7 @@ export default class ObsidianPythonBridge extends Plugin {
                             request.maxValue,
                             request.step
                         );
-                        connection.write(JSON.stringify({ userInput }));
+                        connection.write(JSON.stringify(userInput));
 
                     } else {
                         // Handle unknown actions
@@ -181,12 +181,11 @@ export default class ObsidianPythonBridge extends Plugin {
     async requestUserInput(scriptName: string, inputType: string, message: string, validationRegex?: string, minValue?: number, maxValue?: number, step?: number): Promise<any> {
         return new Promise((resolve) => {
             const onSubmit = (input: any) => {
-                resolve(input);
+                resolve({ inputValue: input, successStatus: true });
             };
             new UserInputModal(this.app, scriptName, inputType, message, onSubmit, validationRegex, minValue, maxValue, step).open();
         });
     }
-    
     
     // Function to get the active note's file
     getActiveNote(): TFile | null {

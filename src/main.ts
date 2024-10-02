@@ -58,12 +58,16 @@ function convertFrontmatterValue(value: any): any {
 export default class ObsidianPythonBridge extends Plugin {
     settings!: PythonBridgeSettings;
     server: net.Server | null = null;
+    initialSocketPath: string = ''; // Adding the initialSocketPath property
 
     async onload() {
         console.log('Loading the Obsidian Python Bridge plugin');
 
         // Load settings
         await this.loadSettings();
+
+        // Store initial socket path
+        this.initialSocketPath = this.settings.socketPath;
 
         // Add a settings tab
         this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
@@ -296,6 +300,10 @@ export default class ObsidianPythonBridge extends Plugin {
 
     // Function to run a Python script
     async runPythonScript(scriptPath: string) {
+        // Check if socket path has changed and show a warning message if this is the case
+        if (this.settings.socketPath !== this.initialSocketPath) {
+            new Notice("⚠️ Warning: The socket path has been changed. Please restart Obsidian to avoid malfunctions during script execution.");
+        }
         console.log(`Running Python script: ${scriptPath}`);
 
         // If the option to disable Python cache is enabled in settings

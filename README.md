@@ -64,9 +64,6 @@ This feature opens up a wide range of possibilities, from collecting user data d
 Here’s a quick example to demonstrate how you can use this feature:
 
 ```python
-import sys
-import os
-
 # Import the Python-Obsidian bridge module
 from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS
 
@@ -92,6 +89,7 @@ Feel free to expand this example or adjust it to fit your needs. This feature is
 ## Example of basic usage:
 
 ```python
+# Import the Python-Obsidian bridge module
 from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS
 
 # Create an instance of the class

@@ -1,3 +1,5 @@
+**IMPORTANT NOTE 🚨 (October 2024): WE NEED DEVELOPERS, EVEN JUST A LITTLE HELP! THE PROJECT WILL PROGRESS VERY SLOWLY IF NO ONE WHO KNOWS A LITTLE TYPESCRIPT HELPS US OUT ON ONE OR MORE ISSUES!**
+
 # 🐍 Obsidian Python Bridge Plugin
 
 ## **💥 Develop [Obsidian plugins](https://obsidian.md/plugins) in [Python](https://www.python.org/)!**

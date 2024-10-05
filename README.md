@@ -187,7 +187,7 @@ I’m not an expert in **JavaScript** or **TypeScript**, but I’m learning and 
 
 ## ⭐ Check out my other plugins
 
-Feel free to check out my other plugins for Obsidian on my GitHub, like the **Better Auto Linker** or the **Interactive Progress Bar Plugin**. As always, they’re **a bit rough** around the edges, but **they work**, and that’s what matters in the end, right? 😅
+Feel free to check out my other plugins for Obsidian on my GitHub, like the **[Better Auto Linker](https://github.com/mathe00/obsidian-better-auto-linker-plugin)** or the **[Interactive Progress Bar Plugin](https://github.com/mathe00/obsidian-progress-bar-plugin)**. As always, they’re **a bit rough** around the edges, but **they work**, and that’s what matters in the end, right? 😅
 
 ## License
 

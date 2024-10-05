@@ -140,6 +140,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 - 📱 **Mobile Support (Future)**: There are long-term plans to potentially support mobile devices, though implementing this feature will be quite challenging.
 - ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
 - 📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
+- 🎨 **Creation of a new logo**: Create a logo that's a mix of Obsidian's and Python's.
 
 ## 🛠️ Installation
 

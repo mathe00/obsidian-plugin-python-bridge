@@ -110,7 +110,30 @@ export default class ObsidianPythonBridge extends Plugin {
                     const content = contentMatch ? contentMatch[1].trim() : '';
 
                     // Handle different actions based on the extracted action string
-                    if (action === 'get_active_note_content') {
+                    if (action === 'get_all_note_paths') {
+                        try {
+                            const allNotePaths = this.getAllNotePaths();
+                    
+                            // Send the paths 10 at a time
+                            for (let i = 0; i < allNotePaths.length; i += 10) {
+                                const chunk = allNotePaths.slice(i, i + 10).join('||'); // Join 10 paths with '||' separator
+                                connection.write(`---BEGIN-get_all_note_paths-BEGIN---\n${chunk}\n---END-get_all_note_paths-END---`);
+                            }
+                    
+                            // Indicate end of transmission
+                            connection.write(`---BEGIN-get_all_note_paths-END---\nEND\n---END-get_all_note_paths-END---`);
+                        } catch (error) {
+                            console.error('Error fetching all note paths:', error);
+                    
+                            // Check if the error has a message property
+                            if (error instanceof Error) {
+                                connection.write(`---BEGIN-get_all_note_paths-ERROR---\n${error.message}\n---END-get_all_note_paths-ERROR---`);
+                            } else {
+                                connection.write(`---BEGIN-get_all_note_paths-ERROR---\nUnknown error occurred\n---END-get_all_note_paths-ERROR---`);
+                            }
+                        }
+
+                    } else if (action === 'get_active_note_content') {
                         const noteContent = await this.getActiveNoteContent();
                         connection.write(`---BEGIN-get_active_note_content-BEGIN---\n${noteContent}\n---END-get_active_note_content-END---`);
 
@@ -198,6 +221,12 @@ export default class ObsidianPythonBridge extends Plugin {
         );
     }
 
+    // Function to get the paths of all notes in the vault
+    getAllNotePaths(): string[] {
+        const files = this.app.vault.getFiles();
+        const notePaths = files.map(file => file.path); // Extract paths of all files
+        return notePaths;
+    }
 
     // Function to request user input via a modal
     async requestUserInput(scriptName: string, inputType: string, message: string, validationRegex?: string, minValue?: number, maxValue?: number, step?: number): Promise<any> {
@@ -208,7 +237,6 @@ export default class ObsidianPythonBridge extends Plugin {
             new UserInputModal(this.app, scriptName, inputType, message, onSubmit, validationRegex, minValue, maxValue, step).open();
         });
     }
-    
     
     // Function to get the active note's file
     getActiveNote(): TFile | null {

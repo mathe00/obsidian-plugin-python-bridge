@@ -95,61 +95,82 @@ export default class ObsidianPythonBridge extends Plugin {
         this.server = net.createServer((connection) => {
             connection.on('data', async (data) => {
                 try {
-                    const request = JSON.parse(data.toString());
+                    // Convert the received data to a string
+                    const requestString = data.toString();
+                    
+                    // Extract action by finding the content between "---BEGIN-" and "-BEGIN---"
+                    const actionMatch = requestString.match(/---BEGIN-(.*?)-BEGIN---/);
+                    if (!actionMatch) {
+                        throw new Error('Invalid request format: Missing action');
+                    }
+                    const action = actionMatch[1];
 
-                    // Handle different actions from Python requests
-                    if (request.action === 'get_active_note_content') {
-                        const content = await this.getActiveNoteContent();
-                        connection.write(JSON.stringify({ content }));
+                    // Extract the content part by finding the section between the action blocks
+                    const contentMatch = requestString.match(/---BEGIN-.*?-BEGIN---\n([\s\S]*?)\n---END-.*?-END---/);
+                    const content = contentMatch ? contentMatch[1].trim() : '';
 
-                    } else if (request.action === 'get_active_note_absolute_path') {
+                    // Handle different actions based on the extracted action string
+                    if (action === 'get_active_note_content') {
+                        const noteContent = await this.getActiveNoteContent();
+                        connection.write(`---BEGIN-get_active_note_content-BEGIN---\n${noteContent}\n---END-get_active_note_content-END---`);
+
+                    } else if (action === 'get_active_note_absolute_path') {
                         const absolutePath = this.getActiveNoteAbsolutePath();
-                        connection.write(JSON.stringify({ absolutePath }));
+                        connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\n${absolutePath}\n---END-get_active_note_absolute_path-END---`);
 
-                    } else if (request.action === 'get_active_note_relative_path') {
+                    } else if (action === 'get_active_note_relative_path') {
                         const relativePath = this.getActiveNoteRelativePath();
-                        connection.write(JSON.stringify({ relativePath }));
+                        connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\n${relativePath}\n---END-get_active_note_relative_path-END---`);
 
-                    } else if (request.action === 'get_active_note_title') {
+                    } else if (action === 'get_active_note_title') {
                         const title = this.getActiveNoteTitle();
-                        connection.write(JSON.stringify({ title }));
+                        connection.write(`---BEGIN-get_active_note_title-BEGIN---\n${title}\n---END-get_active_note_title-END---`);
 
-                    } else if (request.action === 'get_current_vault_absolute_path') {
+                    } else if (action === 'get_current_vault_absolute_path') {
                         const vaultPath = this.getCurrentVaultAbsolutePath();
-                        connection.write(JSON.stringify({ vaultPath }));
+                        connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\n${vaultPath}\n---END-get_current_vault_absolute_path-END---`);
 
-                    } else if (request.action === 'show_notification') {
-                        new Notice(request.text_for_notif);
-                        connection.write(JSON.stringify({ status: 'notification sent' }));
+                    } else if (action === 'show_notification') {
+                        new Notice(content); // Show the notification with the extracted content
+                        connection.write(`---BEGIN-show_notification-BEGIN---\nnotification sent\n---END-show_notification-END---`);
 
-                    } else if (request.action === 'get_frontmatter') {
+                    } else if (action === 'get_frontmatter') {
                         // Get the frontmatter of the active note
                         const frontmatterData = await this.getActiveNoteFrontmatter();
-                        connection.write(JSON.stringify(frontmatterData));
-                    
-                    } else if (request.action === 'request_user_input') {
-                        // Request user input
+                        connection.write(`---BEGIN-get_frontmatter-BEGIN---\n${JSON.stringify(frontmatterData)}\n---END-get_frontmatter-END---`);
+
+                    } else if (action === 'request_user_input') {
+                        // Parse additional parameters for user input from the content
+                        const [scriptName, inputType, message, validationRegex, minValueStr, maxValueStr, stepStr] = content.split('||');
+
+                        // Convert strings to numbers for parameters that are expected to be numbers
+                        const minValue = Number(minValueStr);
+                        const maxValue = Number(maxValueStr);
+                        const step = Number(stepStr);
+                        
+                        // Request user input with the correct types
                         const userInput = await this.requestUserInput(
-                            request.scriptName,
-                            request.inputType,
-                            request.message,
-                            request.validationRegex,
-                            request.minValue,
-                            request.maxValue,
-                            request.step
+                            scriptName,
+                            inputType,
+                            message,
+                            validationRegex,
+                            minValue,   // Now a number
+                            maxValue,   // Now a number
+                            step        // Now a number
                         );
-                        connection.write(JSON.stringify({ userInput }));
+                        
+                        connection.write(`---BEGIN-request_user_input-BEGIN---\n${userInput}\n---END-request_user_input-END---`);
 
                     } else {
                         // Handle unknown actions
-                        connection.write(JSON.stringify({ error: 'Unknown action' }));
+                        connection.write(`---BEGIN-error-BEGIN---\nUnknown action\n---END-error-END---`);
                     }
 
                 } catch (error) {
                     console.error('Error handling socket data:', error);
-                    connection.write(JSON.stringify({ error: 'Invalid request format' }));
+                    connection.write(`---BEGIN-error-BEGIN---\nInvalid request format\n---END-error-END---`);
                 } finally {
-                    connection.end();
+                    connection.end(); // End the connection after processing
                 }
             });
 
@@ -176,6 +197,7 @@ export default class ObsidianPythonBridge extends Plugin {
             })
         );
     }
+
 
     // Function to request user input via a modal
     async requestUserInput(scriptName: string, inputType: string, message: string, validationRegex?: string, minValue?: number, maxValue?: number, step?: number): Promise<any> {
@@ -304,17 +326,28 @@ export default class ObsidianPythonBridge extends Plugin {
         const process = spawn('python3', pythonArgs);
 
         process.stdout.on('data', (data) => {
-            console.log(`Output from Python script: ${data.toString()}`);
+            const dataStr = data.toString();
+            console.log(`Output from Python script: ${dataStr}`);
+        
             try {
-                const message = JSON.parse(data.toString());
-                if (message.action === 'show_notification' && message.text) {
-                    new Notice(message.text);
+                // We now expect the output in plain text format with markers for actions
+                const actionBeginTag = '---BEGIN-show_notification-BEGIN---';
+                const actionEndTag = '---END-show_notification-END---';
+        
+                // Check if the output contains the show_notification action
+                if (dataStr.includes(actionBeginTag) && dataStr.includes(actionEndTag)) {
+                    // Extract the notification text between the tags
+                    const notificationText = dataStr.split(actionBeginTag)[1].split(actionEndTag)[0].trim();
+        
+                    // Show the notification in Obsidian
+                    new Notice(notificationText);
+                } else {
+                    console.log('Received non-notification output:', dataStr);
                 }
             } catch (error) {
-                console.error('Error parsing JSON message from Python script:', error);
-                console.log('Received non-JSON output:', data.toString());
+                console.error('Error processing message from Python script:', error);
             }
-        });
+        });        
 
         process.stderr.on('data', (data) => {
             console.error(`Error from Python script: ${data}`);

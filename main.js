@@ -5991,10 +5991,10 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                         new obsidian.Notice(content); // Show the notification with the extracted content
                         connection.write(`---BEGIN-show_notification-BEGIN---\nnotification sent\n---END-show_notification-END---`);
                     }
-                    else if (action === 'get_frontmatter') {
+                    else if (action === 'get_active_note_frontmatter') {
                         // Get the frontmatter of the active note
                         const frontmatterData = yield this.getActiveNoteFrontmatter();
-                        connection.write(`---BEGIN-get_frontmatter-BEGIN---\n${JSON.stringify(frontmatterData)}\n---END-get_frontmatter-END---`);
+                        connection.write(`---BEGIN-get_active_note_frontmatter-BEGIN---\n${JSON.stringify(frontmatterData)}\n---END-get_active_note_frontmatter-END---`);
                     }
                     else if (action === 'request_user_input') {
                         // Parse additional parameters for user input from the content

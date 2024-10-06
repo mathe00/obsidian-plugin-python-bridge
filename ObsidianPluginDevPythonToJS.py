@@ -139,7 +139,7 @@ class ObsidianPluginDevPythonToJS:
             return {"error": f"An unexpected error occurred: {str(e)}"}
 
 
-    def send_notification(self, content="Notification", duration=4000):
+    def show_notification(self, content="Notification", duration=4000):
         """
         Sends a request to display a notification in Obsidian.
         """
@@ -161,7 +161,7 @@ class ObsidianPluginDevPythonToJS:
         """
         Retrieves the frontmatter of the currently active note in Obsidian.
         """
-        response = self._send_request("get_frontmatter")
+        response = self._send_request("get_active_note_frontmatter")
         
         if "content" in response:
             return response["content"]

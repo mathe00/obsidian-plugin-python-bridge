@@ -196,6 +196,14 @@ class ObsidianPluginDevPythonToJS:
     def send_custom_request(self, action, content=""):
         """
         Sends a custom request to Obsidian with a specified action and optional content.
+        
+        WARNING: This function allows you to send arbitrary requests to Obsidian, which could lead to 
+        unexpected behavior or errors if the action or content is not correctly handled. Use with caution 
+        and ensure you understand the structure of requests expected by the Obsidian API.
+
+        :param action: The action to be performed (required).
+        :param content: Optional content for the request.
+        :return: The response from Obsidian, or an error message if the request is invalid.
         """
         if not action:
             return {"error": "Action must be specified for a custom request."}

@@ -244,20 +244,18 @@ class ObsidianPluginDevPythonToJS:
         This function sends a request to the Obsidian plugin to obtain the absolute file path
         of the note currently being edited or viewed.
 
-        :return: A string representing the absolute path of the active note, or None if the path is null.
+        :return: A string representing the absolute path of the active note.
                 Returns a dictionary with an error message if the request fails.
         """
         # Send the request to Obsidian to get the active note's absolute path
         response = self._send_request("get_active_note_absolute_path")
 
-        # If the response contains 'success: true', return the absolute path
-        if "success: true" in response.get("content", ""):
-            return response.get("content")
-        # If the response contains 'success: false', return None
-        elif "success: false" in response.get("content", ""):
-            return None
-        # If there is an error or unexpected response, return an error message
-        return {"error": "Failed to retrieve active note absolute path."}
+        # If the response contains 'content', return the absolute path
+        if 'content' in response:
+            return response['content']
+        # If the response is invalid or an error occurred, return an error message
+        else:
+            return {"error": "Failed to retrieve active note absolute path."}
 
 
     def get_active_note_relative_path(self):
@@ -267,20 +265,18 @@ class ObsidianPluginDevPythonToJS:
         This function sends a request to the Obsidian plugin to obtain the path of the active note
         relative to the root of the vault.
 
-        :return: A string representing the relative path of the active note, or None if the path is null.
+        :return: A string representing the relative path of the active note.
                 Returns a dictionary with an error message if the request fails.
         """
         # Send the request to Obsidian to get the active note's relative path
         response = self._send_request("get_active_note_relative_path")
 
-        # If the response contains 'success: true', return the relative path
-        if "success: true" in response.get("content", ""):
-            return response.get("content")
-        # If the response contains 'success: false', return None
-        elif "success: false" in response.get("content", ""):
-            return None
-        # If there is an error or unexpected response, return an error message
-        return {"error": "Failed to retrieve active note relative path."}
+        # If the response contains 'content', return the relative path
+        if 'content' in response:
+            return response['content']
+        # If the response is invalid or an error occurred, return an error message
+        else:
+            return {"error": "Failed to retrieve active note relative path."}
 
 
     def get_active_note_title(self):

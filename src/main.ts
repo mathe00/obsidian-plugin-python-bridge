@@ -159,14 +159,13 @@ export default class ObsidianPythonBridge extends Plugin {
 
                     } else if (action === 'show_notification') {
                         try {
-                            new Notice(content); // Show the notification with the extracted content
+                            this.showNotification(content); // Appelle la fonction showNotification avec le contenu extrait
                             connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: true||error: \n---END-show_notification-END---`);
                         } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error'; // Handle unknown error types
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error'; // Gérer les erreurs inconnues
                             console.error('Failed to show notification:', errorMessage);
                             connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-show_notification-END---`);
                         }
-
 
                     } else if (action === 'get_active_note_frontmatter') {
                         // Get the frontmatter of the active note
@@ -355,51 +354,50 @@ export default class ObsidianPythonBridge extends Plugin {
         }
     }
 
+    showNotification(notificationText: string) {
+        new Notice(notificationText); // Affiche la notification avec le texte reçu
+    }
+    
+
     // Function to run a Python script
     async runPythonScript(scriptPath: string) {
-        // Check if socket path has changed and show a warning message if this is the case
         if (this.settings.socketPath !== this.initialSocketPath) {
             new Notice("⚠️ Warning: The socket path has been changed. Please restart Obsidian to avoid malfunctions during script execution.");
         }
         console.log(`Running Python script: ${scriptPath}`);
-
-        // If the option to disable Python cache is enabled in settings
+    
         const pythonArgs = this.settings.disablePyCache ? ['-B', scriptPath] : [scriptPath];
-
         const process = spawn('python3', pythonArgs);
-
+    
         process.stdout.on('data', (data) => {
             const dataStr = data.toString();
             console.log(`Output from Python script: ${dataStr}`);
-        
+    
             try {
-                // We now expect the output in plain text format with markers for actions
+                // Si le script Python renvoie une notification
                 const actionBeginTag = '---BEGIN-show_notification-BEGIN---';
                 const actionEndTag = '---END-show_notification-END---';
-        
-                // Check if the output contains the show_notification action
+    
                 if (dataStr.includes(actionBeginTag) && dataStr.includes(actionEndTag)) {
-                    // Extract the notification text between the tags
                     const notificationText = dataStr.split(actionBeginTag)[1].split(actionEndTag)[0].trim();
-        
-                    // Show the notification in Obsidian
-                    new Notice(notificationText);
+                    this.showNotification(notificationText); // Appelle la fonction dédiée
                 } else {
                     console.log('Received non-notification output:', dataStr);
                 }
             } catch (error) {
                 console.error('Error processing message from Python script:', error);
             }
-        });        
-
+        });
+    
         process.stderr.on('data', (data) => {
             console.error(`Error from Python script: ${data}`);
         });
-
+    
         process.on('close', (code) => {
             console.log(`Python script finished with exit code ${code}`);
         });
     }
+    
 
 
     // Function to choose a Python script and run it

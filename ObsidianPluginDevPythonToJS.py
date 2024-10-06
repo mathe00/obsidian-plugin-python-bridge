@@ -168,13 +168,6 @@ class ObsidianPluginDevPythonToJS:
         return response
 
 
-    def get_vault_metadata(self):
-        """
-        Requests metadata about the vault, including titles and paths of all notes.
-        """
-        return self._send_request("get_vault_metadata")
-    
-    
     def request_user_input(self, script_name, input_type, message, validation_regex=None, min_value=None, max_value=None, step=None):
         """
         Sends a request to display a user input pop-up in Obsidian.

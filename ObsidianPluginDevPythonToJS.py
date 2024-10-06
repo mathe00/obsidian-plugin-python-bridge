@@ -153,8 +153,29 @@ class ObsidianPluginDevPythonToJS:
     def get_active_note_content(self):
         """
         Retrieves the content of the currently active note in Obsidian.
+
+        :return: The note content as a string if valid, or None if the content is null or empty.
+                Returns an error if the response dictionary contains multiple keys or is malformed.
         """
-        return self._send_request("get_active_note_content")
+        response = self._send_request("get_active_note_content")
+
+        # Case when response is null or empty dictionary
+        if not response or response == "null" or response == {}:
+            return None
+
+        # Case when response is a dictionary with multiple keys
+        if isinstance(response, dict):
+            if len(response) > 1:
+                return {"error": "Response contains unexpected keys."}
+            # Case when response contains the 'content' key
+            if "content" in response:
+                return response["content"]
+
+        # Case when response is a string
+        if isinstance(response, str):
+            return response
+
+        return {"error": "Invalid response format."}
 
 
     def get_active_note_frontmatter(self):

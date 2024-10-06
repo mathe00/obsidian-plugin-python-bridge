@@ -160,12 +160,18 @@ class ObsidianPluginDevPythonToJS:
     def get_active_note_frontmatter(self):
         """
         Retrieves the frontmatter of the currently active note in Obsidian.
+        
+        :return: A dictionary containing the YAML frontmatter of the active note.
+                Returns None if the frontmatter is null, not a dictionary, or if the response
+                doesn't contain the 'frontmatter' key.
         """
         response = self._send_request("get_active_note_frontmatter")
         
-        if "content" in response:
-            return response["content"]
-        return response
+        # Check if the response contains valid frontmatter
+        if isinstance(response, dict) and "frontmatter" in response and isinstance(response["frontmatter"], dict):
+            return response["frontmatter"]
+        
+        return None  # Return None if the conditions are not met
 
 
     def request_user_input(self, script_name, input_type, message, validation_regex=None, min_value=None, max_value=None, step=None):

@@ -141,13 +141,27 @@ class ObsidianPluginDevPythonToJS:
 
     def show_notification(self, content="Notification", duration=4000):
         """
-        Sends a request to display a notification in Obsidian.
+        Sends a request to display a notification in Obsidian and returns a dictionary
+        with success status and any potential error message.
         """
         if not content:
-            return {"error": "Notification content cannot be empty."}
+            return {"success": False, "error": "Notification content cannot be empty."}
+
+        response = self._send_request("show_notification", content)
+
+        # Parse the response to check for success or error
+        response_content = response.get("content", "")
         
-        # Sending notification with text content (ignoring `duration` since it's not handled in plain text mode)
-        return self._send_request("show_notification", content)
+        if "success: true" in response_content:
+            return {"success": True, "error": ""}
+        elif "success: false" in response_content:
+            # Ensure there is an error message after the "||error: " separator
+            if "||error: " in response_content:
+                error_message = response_content.split("||error: ")[1].strip()
+                return {"success": False, "error": error_message or "Unknown error"}
+            return {"success": False, "error": "Unexpected error format"}
+        
+        return {"success": False, "error": "Unexpected response format"}
 
 
     def get_active_note_content(self):

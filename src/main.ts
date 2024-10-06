@@ -158,8 +158,15 @@ export default class ObsidianPythonBridge extends Plugin {
                         connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\n${vaultPath}\n---END-get_current_vault_absolute_path-END---`);
 
                     } else if (action === 'show_notification') {
-                        new Notice(content); // Show the notification with the extracted content
-                        connection.write(`---BEGIN-show_notification-BEGIN---\nnotification sent\n---END-show_notification-END---`);
+                        try {
+                            new Notice(content); // Show the notification with the extracted content
+                            connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: true||error: \n---END-show_notification-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error'; // Handle unknown error types
+                            console.error('Failed to show notification:', errorMessage);
+                            connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-show_notification-END---`);
+                        }
+
 
                     } else if (action === 'get_active_note_frontmatter') {
                         // Get the frontmatter of the active note

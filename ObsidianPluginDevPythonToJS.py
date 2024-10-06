@@ -168,28 +168,20 @@ class ObsidianPluginDevPythonToJS:
         """
         Retrieves the content of the currently active note in Obsidian.
 
-        :return: The note content as a string if valid, or None if the content is null or empty.
-                Returns an error if the response dictionary contains multiple keys or is malformed.
+        :return: The content of the active note if successful, or an error message if it fails.
         """
+        # Send a request to get the active note content
         response = self._send_request("get_active_note_content")
 
-        # Case when response is null or empty dictionary
-        if not response or response == "null" or response == {}:
-            return None
-
-        # Case when response is a dictionary with multiple keys
-        if isinstance(response, dict):
-            if len(response) > 1:
-                return {"error": "Response contains unexpected keys."}
-            # Case when response contains the 'content' key
-            if "content" in response:
-                return response["content"]
-
-        # Case when response is a string
-        if isinstance(response, str):
-            return response
-
-        return {"error": "Invalid response format."}
+        # If the response contains 'success: true', return the content
+        if "success: true" in response.get("content", ""):
+            return response.get("content")
+        # If the response contains 'success: false', return the error message
+        elif "success: false" in response.get("content", ""):
+            error_message = response["content"].split("||error: ")[1].strip() if "||error: " in response["content"] else "Unknown error"
+            return {"error": f"Failed to retrieve note content: {error_message}"}
+        # Return an error if the format is unexpected
+        return {"error": "Unexpected response format."}
 
 
     def get_active_note_frontmatter(self):
@@ -243,3 +235,93 @@ class ObsidianPluginDevPythonToJS:
             return {"error": "Action must be specified for a custom request."}
 
         return self._send_request(action, content)
+
+
+    def get_active_note_absolute_path(self):
+        """
+        Retrieves the absolute path of the currently active note in Obsidian.
+
+        This function sends a request to the Obsidian plugin to obtain the absolute file path
+        of the note currently being edited or viewed.
+
+        :return: A string representing the absolute path of the active note, or None if the path is null.
+                Returns a dictionary with an error message if the request fails.
+        """
+        # Send the request to Obsidian to get the active note's absolute path
+        response = self._send_request("get_active_note_absolute_path")
+
+        # If the response contains 'success: true', return the absolute path
+        if "success: true" in response.get("content", ""):
+            return response.get("content")
+        # If the response contains 'success: false', return None
+        elif "success: false" in response.get("content", ""):
+            return None
+        # If there is an error or unexpected response, return an error message
+        return {"error": "Failed to retrieve active note absolute path."}
+
+
+    def get_active_note_relative_path(self):
+        """
+        Retrieves the relative path of the currently active note in Obsidian.
+
+        This function sends a request to the Obsidian plugin to obtain the path of the active note
+        relative to the root of the vault.
+
+        :return: A string representing the relative path of the active note, or None if the path is null.
+                Returns a dictionary with an error message if the request fails.
+        """
+        # Send the request to Obsidian to get the active note's relative path
+        response = self._send_request("get_active_note_relative_path")
+
+        # If the response contains 'success: true', return the relative path
+        if "success: true" in response.get("content", ""):
+            return response.get("content")
+        # If the response contains 'success: false', return None
+        elif "success: false" in response.get("content", ""):
+            return None
+        # If there is an error or unexpected response, return an error message
+        return {"error": "Failed to retrieve active note relative path."}
+
+
+    def get_active_note_title(self):
+        """
+        Retrieves the title of the currently active note in Obsidian.
+
+        This function sends a request to the Obsidian plugin to obtain the title of the active note,
+        which is typically the name of the file without the extension.
+
+        :return: A string representing the title of the active note, or None if the title is null.
+                Returns a dictionary with an error message if the request fails.
+        """
+        # Send the request to Obsidian to get the active note's title
+        response = self._send_request("get_active_note_title")
+
+        # If the response contains 'success: true', return the title of the active note
+        if "success: true" in response.get("content", ""):
+            return response.get("content")
+        # If the response contains 'success: false', return None
+        elif "success: false" in response.get("content", ""):
+            return None
+        # If there is an error or unexpected response, return an error message
+        return {"error": "Failed to retrieve active note title."}
+
+
+    def get_current_vault_absolute_path(self):
+        """
+        Retrieves the absolute path of the current vault in Obsidian.
+
+        This function sends a request to the Obsidian plugin to obtain the absolute path of the vault
+        that is currently open. The vault path is the root directory of all notes.
+
+        :return: A string representing the absolute path of the current vault.
+                Returns a dictionary with an error message if the request fails.
+        """
+        # Send the request to Obsidian to get the current vault's absolute path
+        response = self._send_request("get_current_vault_absolute_path")
+
+        # If the response contains 'content', return the absolute path of the vault
+        if 'content' in response:
+            return response['content']
+        # If the response is invalid or an error occurred, return an error message
+        else:
+            return {"error": "Failed to retrieve current vault absolute path."}

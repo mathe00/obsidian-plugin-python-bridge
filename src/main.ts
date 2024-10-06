@@ -138,24 +138,54 @@ export default class ObsidianPythonBridge extends Plugin {
                         }
 
                     } else if (action === 'get_active_note_content') {
-                        const noteContent = await this.getActiveNoteContent();
-                        connection.write(`---BEGIN-get_active_note_content-BEGIN---\n${noteContent}\n---END-get_active_note_content-END---`);
-
+                        try {
+                            const noteContent = await this.getActiveNoteContent();
+                            connection.write(`---BEGIN-get_active_note_content-BEGIN---\n${noteContent}\n---END-get_active_note_content-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to get active note content:', errorMessage);
+                            connection.write(`---BEGIN-get_active_note_content-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_content-END---`);
+                        }
+                    
                     } else if (action === 'get_active_note_absolute_path') {
-                        const absolutePath = this.getActiveNoteAbsolutePath();
-                        connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\n${absolutePath}\n---END-get_active_note_absolute_path-END---`);
-
+                        try {
+                            const absolutePath = this.getActiveNoteAbsolutePath();
+                            connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\n${absolutePath}\n---END-get_active_note_absolute_path-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to get active note absolute path:', errorMessage);
+                            connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_absolute_path-END---`);
+                        }
+                    
                     } else if (action === 'get_active_note_relative_path') {
-                        const relativePath = this.getActiveNoteRelativePath();
-                        connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\n${relativePath}\n---END-get_active_note_relative_path-END---`);
-
+                        try {
+                            const relativePath = this.getActiveNoteRelativePath();
+                            connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\n${relativePath}\n---END-get_active_note_relative_path-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to get active note relative path:', errorMessage);
+                            connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_relative_path-END---`);
+                        }
+                    
                     } else if (action === 'get_active_note_title') {
-                        const title = this.getActiveNoteTitle();
-                        connection.write(`---BEGIN-get_active_note_title-BEGIN---\n${title}\n---END-get_active_note_title-END---`);
-
+                        try {
+                            const title = this.getActiveNoteTitle();
+                            connection.write(`---BEGIN-get_active_note_title-BEGIN---\n${title}\n---END-get_active_note_title-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to get active note title:', errorMessage);
+                            connection.write(`---BEGIN-get_active_note_title-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_title-END---`);
+                        }
+                    
                     } else if (action === 'get_current_vault_absolute_path') {
-                        const vaultPath = this.getCurrentVaultAbsolutePath();
-                        connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\n${vaultPath}\n---END-get_current_vault_absolute_path-END---`);
+                        try {
+                            const vaultPath = this.getCurrentVaultAbsolutePath();
+                            connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\n${vaultPath}\n---END-get_current_vault_absolute_path-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to get current vault absolute path:', errorMessage);
+                            connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_current_vault_absolute_path-END---`);
+                        }                  
 
                     } else if (action === 'show_notification') {
                         try {

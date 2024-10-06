@@ -325,3 +325,26 @@ class ObsidianPluginDevPythonToJS:
         # If the response is invalid or an error occurred, return an error message
         else:
             return {"error": "Failed to retrieve current vault absolute path."}
+
+
+    def get_all_note_titles(self):
+        """
+        Retrieves the titles of all notes in the vault.
+
+        This function calls `get_all_note_paths()` to get all the note paths and extracts the titles from them 
+        (i.e., the filenames without extensions).
+
+        :return: A list of note titles if successful, or an error message if it fails.
+        """
+        # Call get_all_note_paths to retrieve all the paths of the notes
+        note_paths = self.get_all_note_paths()
+
+        # Check if the response contains an error
+        if isinstance(note_paths, dict) and 'error' in note_paths:
+            return note_paths  # Return the error message
+
+        # Extract note titles by removing the directory path and '.md' extension from each note path
+        note_titles = [os.path.splitext(os.path.basename(note_path))[0] for note_path in note_paths]
+
+        # Return the list of note titles directly
+        return note_titles

@@ -69,6 +69,76 @@ class ObsidianPluginDevPythonToJS:
             return {"error": str(e)}
 
 
+    def get_all_note_paths(self, absolute=False):
+        """
+        Retrieves all note paths from the vault, in chunks of 10 paths at a time.
+        
+        By default, the paths returned are relative to the vault root. If `absolute=True` is passed, the paths will
+        be converted to absolute paths by prepending the vault's absolute path to each note's relative path.
+
+        For example:
+        If a note's relative path is '01-DAILY-NOTES/2024-10-06.md', and the vault's absolute path is 
+        '/home/user/YourVault', the absolute path will be: '/home/user/YourVault/01-DAILY-NOTES/2024-10-06.md'.
+
+        :param absolute: Boolean (optional). If True, returns absolute paths instead of relative ones. Default is False.
+        :return: A list containing the paths of all notes in the vault, either relative or absolute based on the `absolute` flag.
+        """
+        try:
+            # Create a Unix socket for communication with the Obsidian plugin
+            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as client_socket:
+                # Connect to the socket at the specified path
+                client_socket.connect(self.socket_path)
+                
+                # Send the request for retrieving all note paths
+                request_data = "---BEGIN-get_all_note_paths-BEGIN---\n\n---END-get_all_note_paths-END---"
+                client_socket.sendall(request_data.encode())
+                
+                all_note_paths = []  # Initialize an empty list to store all note paths
+                
+                while True:
+                    # Receive and decode the response from the socket
+                    response = client_socket.recv(4096).decode()
+                    
+                    if '---BEGIN-get_all_note_paths-END---' in response:
+                        # End of transmission indicated by 'END'
+                        if 'END' in response:
+                            break
+                    elif '---BEGIN-get_all_note_paths-BEGIN---' in response:
+                        # Extract the chunk of paths between the BEGIN and END markers
+                        paths_chunk = response.split('---BEGIN-get_all_note_paths-BEGIN---\n')[1].split('\n---END-get_all_note_paths-END---')[0]
+                        
+                        # Split the chunk into individual note paths, separated by '||'
+                        note_paths = paths_chunk.split('||')
+                        
+                        # Extend the main list with the current chunk of note paths
+                        all_note_paths.extend(note_paths)
+                    elif '---BEGIN-get_all_note_paths-ERROR---' in response:
+                        # If an error message is returned by the plugin, extract and return it
+                        error_message = response.split('---BEGIN-get_all_note_paths-ERROR---\n')[1].split('\n---END-get_all_note_paths-ERROR---')[0]
+                        return {"error": f"Failed to retrieve note paths: {error_message}"}
+
+            # If the user requested absolute paths, retrieve the absolute path of the vault and prepend it to each note path
+            if absolute:
+                # Get the vault's absolute path using the available method
+                vault_absolute_path = self._send_request("get_current_vault_absolute_path")["content"]
+                
+                # Ensure there is a trailing slash in the vault path to avoid duplication
+                vault_absolute_path = vault_absolute_path.rstrip('/') + '/'
+                
+                # Prepend the vault's absolute path to each relative note path
+                all_note_paths = [os.path.join(vault_absolute_path, note_path).replace("//", "/") for note_path in all_note_paths]
+
+            # Return the complete list of note paths (either relative or absolute)
+            return all_note_paths
+
+        except (socket.error, socket.timeout) as socket_error:
+            # Handle socket communication issues and return an error
+            return {"error": f"Socket communication failed: {socket_error}"}
+        except Exception as e:
+            # Catch any other exceptions and return an error message
+            return {"error": f"An unexpected error occurred: {str(e)}"}
+
+
     def send_notification(self, content="Notification", duration=4000):
         """
         Sends a request to display a notification in Obsidian.

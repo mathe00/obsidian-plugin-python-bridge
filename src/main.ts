@@ -196,6 +196,18 @@ export default class ObsidianPythonBridge extends Plugin {
                             console.error('Failed to show notification:', errorMessage);
                             connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-show_notification-END---`);
                         }
+                    
+                    } else if (action === 'modify_note_content') {
+                        const [notePath, newContent] = content.split('||');
+
+                        try {
+                            await this.modifyNoteContent(notePath, newContent);
+                            connection.write(`---BEGIN-modify_note_content-BEGIN---\nsuccess: true||error: \n---END-modify_note_content-END---`);
+                        } catch (err) {
+                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
+                            console.error('Failed to modify note content:', errorMessage);
+                            connection.write(`---BEGIN-modify_note_content-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-modify_note_content-END---`);
+                    }
 
                     } else if (action === 'get_active_note_frontmatter') {
                         // Get the frontmatter of the active note
@@ -360,6 +372,28 @@ export default class ObsidianPythonBridge extends Plugin {
             return vaultPath;
         } else {
             return null; // If the adapter is not a FileSystemAdapter (e.g., in a non-file system vault)
+        }
+    }
+
+    // Function to modify the content of a note at a specified path.
+    async modifyNoteContent(notePath: string, content: string): Promise<void> {
+        // Get the absolute path of the vault
+        const vaultPath = this.getCurrentVaultAbsolutePath();
+        if (!vaultPath) {
+            throw new Error('Unable to retrieve the vault path.');
+        }
+
+        // Calculate relative path from vault path
+        const relativePath = notePath.replace(`${vaultPath}/`, '');
+        
+        // Use relative path to get file
+        const file = this.app.vault.getAbstractFileByPath(relativePath);
+        if (file instanceof TFile) {
+            await this.app.vault.modify(file, content);
+            console.log(`Content modified for the note at path: "${relativePath}"`); // Log success
+        } else {
+            console.log(`File at path "${relativePath}" not found.`); // Show message in console
+            throw new Error(`File at path "${relativePath}" not found.`);
         }
     }
 

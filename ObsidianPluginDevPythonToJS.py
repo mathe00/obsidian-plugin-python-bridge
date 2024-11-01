@@ -1,5 +1,9 @@
 import socket
 import os
+import yaml
+import copy
+import re
+from datetime import datetime
 
 SOCKET_PATH = "/tmp/obsidian-python.sock"  # Put your socket path here for the moment
 
@@ -197,13 +201,172 @@ class ObsidianPluginDevPythonToJS:
         # Check if the response contains valid frontmatter
         if isinstance(response, dict) and "frontmatter" in response and isinstance(response["frontmatter"], dict):
             return response["frontmatter"]
-        
+        print(f"debug response = {response}")
         return None  # Return None if the conditions are not met
+
+
+    def modify_note_content(self, file_path, content):
+        """
+        Sends a content modification request to the Obsidian plugin.
+
+        :param file_path: The path to the note file to be modified (str).
+        :param content: The new content to write to the note (str).
+        :return: A dictionary indicating success or failure (dict).
+        """
+        response = self._send_request("modify_note_content", f"{file_path}||{content}")
+        if response.get("content") and "success: true" in response["content"]:
+            return {'success': True}
+        return {'success': False, 'error': response.get("error", "Unknown error in modify_note_content")}
+
+
+    def manage_properties_key(self, file_path, action, key=None, new_key=None, use_vault_modify=True):
+        """
+        Manage YAML keys in the frontmatter.
+
+        :param file_path: The path to the note file (str).
+        :param action: The action to perform on the key (str). Options are 'add', 'remove', 'rename'.
+        :param key: The key to manage (str).
+        :param new_key: The new key name if renaming (str, optional).
+        :param use_vault_modify: Flag to determine if modification should use vault method (bool, optional). Default is True.
+        :return: A dictionary indicating success or failure (dict).
+        """
+        if not os.path.isfile(file_path) or not file_path.endswith(".md"):
+            return {'success': False, 'error': "Invalid file path or file type. Ensure it's a .md file."}
+        
+        try:
+            with open(file_path, 'r') as file:
+                content = file.read()
+
+            yaml_frontmatter = yaml.safe_load(content.split('---')[1]) or {}
+
+            if action == 'add':
+                if key in yaml_frontmatter:
+                    return {'success': False, 'error': f"Key '{key}' already exists."}
+                yaml_frontmatter[key] = None
+            elif action == 'remove':
+                if key not in yaml_frontmatter:
+                    return {'success': False, 'error': f"Key '{key}' not found."}
+                del yaml_frontmatter[key]
+            elif action == 'rename':
+                if key not in yaml_frontmatter:
+                    return {'success': False, 'error': f"Key '{key}' not found."}
+                if new_key in yaml_frontmatter:
+                    return {'success': False, 'error': f"Key '{new_key}' already exists."}
+                yaml_frontmatter[new_key] = yaml_frontmatter.pop(key)
+            else:
+                return {'success': False, 'error': "Invalid action specified."}
+
+            updated_content = '---\n' + yaml.dump(yaml_frontmatter) + '---\n' + content.split('---', 2)[2]
+            if use_vault_modify:
+                return self.modify_note_content(file_path, updated_content)
+            else:
+                with open(file_path, 'w') as file:
+                    file.write(updated_content)
+            return {'success': True}
+
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
+
+
+    def manage_properties_value(self, file_path, key, action, value=None, new_value=None, index=None, use_vault_modify=True):
+        """
+        Manage values within a YAML key in the frontmatter.
+
+        :param file_path: The path to the note file (str).
+        :param key: The key in the frontmatter to manage (str).
+        :param action: The action to perform on the key's value (str). Options are 'add', 'remove', 'update'.
+        :param value: The value to be added or removed (varies, optional).
+        :param new_value: The new value to replace the current value (varies, optional).
+        :param index: The index in the list if updating/removing (int, optional).
+        :param use_vault_modify: Flag to determine if modification should use vault method (bool, optional). Default is True.
+        :return: A dictionary indicating success or failure (dict).
+        """
+        def is_valid_date(date_str):
+            try:
+                datetime.strptime(date_str, '%Y-%m-%d')
+                return True
+            except ValueError:
+                return False
+        
+        if not os.path.isfile(file_path) or not file_path.endswith(".md"):
+            return {'success': False, 'error': "Invalid file path or file type. Ensure it's a .md file."}
+        
+        try:
+            with open(file_path, 'r') as file:
+                content = file.read()
+
+            yaml_frontmatter = yaml.safe_load(content.split('---')[1]) or {}
+
+            if key not in yaml_frontmatter:
+                return {'success': False, 'error': f"Key '{key}' not found in frontmatter."}
+
+            current_value = yaml_frontmatter[key]
+
+            if action == 'add':
+                if isinstance(current_value, list):
+                    if any(v in current_value for v in value):
+                        return {'success': False, 'error': "One or more values already exist in the list."}
+                    if not isinstance(value, list):
+                        return {'success': False, 'error': f"Expected list for '{key}', got {type(value).__name__}."}
+                    current_value.extend(value)
+                elif current_value is None:
+                    yaml_frontmatter[key] = value
+                else:
+                    return {'success': False, 'error': "Add operation only allowed for list or empty key values."}
+
+            elif action == 'remove':
+                if isinstance(current_value, list):
+                    try:
+                        current_value.remove(value)
+                    except ValueError:
+                        return {'success': False, 'error': f"Value '{value}' not found in list '{key}'."}
+                else:
+                    return {'success': False, 'error': "Remove operation only allowed for list values."}
+
+            elif action == 'update':
+                if key == 'ladatedujour' and not is_valid_date(new_value):
+                    return {'success': False, 'error': "Invalid date format. Use YYYY-MM-DD."}
+
+                if isinstance(current_value, list):
+                    if index is not None and 0 <= index < len(current_value):
+                        current_value[index] = new_value
+                    elif value in current_value:
+                        idx = current_value.index(value)
+                        current_value[idx] = new_value
+                    else:
+                        return {'success': False, 'error': f"Value '{value}' not found in list '{key}'."}
+                elif current_value == value:
+                    yaml_frontmatter[key] = new_value
+                else:
+                    return {'success': False, 'error': "Current value doesn't match provided value for update."}
+
+            else:
+                return {'success': False, 'error': "Invalid action specified."}
+
+            updated_content = '---\n' + yaml.dump(yaml_frontmatter) + '---\n' + content.split('---', 2)[2]
+            if use_vault_modify:
+                return self.modify_note_content(file_path, updated_content)
+            else:
+                with open(file_path, 'w') as file:
+                    file.write(updated_content)
+            return {'success': True}
+
+        except Exception as e:
+            return {'success': False, 'error': str(e)}
 
 
     def request_user_input(self, script_name, input_type, message, validation_regex=None, min_value=None, max_value=None, step=None):
         """
         Sends a request to display a user input pop-up in Obsidian.
+
+        :param script_name: The name of the script requesting input (str).
+        :param input_type: The type of input expected (str).
+        :param message: The message to display in the input pop-up (str).
+        :param validation_regex: Optional regex for input validation (str, optional).
+        :param min_value: Minimum value for numeric inputs (varies, optional).
+        :param max_value: Maximum value for numeric inputs (varies, optional).
+        :param step: Step size for numeric inputs (varies, optional).
+        :return: A dictionary containing user input if successful, or an error message (dict).
         """
         if not script_name or not input_type or not message:
             return {"error": "Script name, input type, and message are required.", "success": False}
@@ -217,24 +380,6 @@ class ObsidianPluginDevPythonToJS:
             return {"userInput": response['content'], "success": True}
         else:
             return {"success": False, "error": "User cancelled the input."}
-
-
-    def send_custom_request(self, action, content=""):
-        """
-        Sends a custom request to Obsidian with a specified action and optional content.
-        
-        WARNING: This function allows you to send arbitrary requests to Obsidian, which could lead to 
-        unexpected behavior or errors if the action or content is not correctly handled. Use with caution 
-        and ensure you understand the structure of requests expected by the Obsidian API.
-
-        :param action: The action to be performed (required).
-        :param content: Optional content for the request.
-        :return: The response from Obsidian, or an error message if the request is invalid.
-        """
-        if not action:
-            return {"error": "Action must be specified for a custom request."}
-
-        return self._send_request(action, content)
 
 
     def get_active_note_absolute_path(self):
@@ -344,3 +489,21 @@ class ObsidianPluginDevPythonToJS:
 
         # Return the list of note titles directly
         return note_titles
+
+
+    def send_custom_request(self, action, content=""):
+        """
+        Sends a custom request to Obsidian with a specified action and optional content.
+        
+        WARNING: This function allows you to send arbitrary requests to Obsidian, which could lead to 
+        unexpected behavior or errors if the action or content is not correctly handled. Use with caution 
+        and ensure you understand the structure of requests expected by the Obsidian API.
+
+        :param action: The action to be performed (required).
+        :param content: Optional content for the request.
+        :return: The response from Obsidian, or an error message if the request is invalid.
+        """
+        if not action:
+            return {"error": "Action must be specified for a custom request."}
+
+        return self._send_request(action, content)

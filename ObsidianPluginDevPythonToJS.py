@@ -5,7 +5,10 @@ import copy
 import re
 from datetime import datetime
 
-SOCKET_PATH = "/tmp/obsidian-python.sock"  # Put your socket path here for the moment
+# The default socket path, but it's better to specify the right socket path in your own scripts directly to avoid conflicts
+# or errors (specifying the path of the socket with for example :
+# obsidian = ObsidianPluginDevPythonToJS(socket_path="/tmp/my-special-obsidian-socket-path.sock"))
+DEFAULT_SOCKET_PATH = "/tmp/obsidian-python.sock"  
 
 class ObsidianPluginDevPythonToJS:
     """
@@ -14,7 +17,7 @@ class ObsidianPluginDevPythonToJS:
     retrieving active note content, frontmatter, and more.
     """
 
-    def __init__(self, socket_path=SOCKET_PATH):
+    def __init__(self, socket_path=DEFAULT_SOCKET_PATH):
         """
         Initialize the plugin with the Unix socket path.
         """

@@ -234,7 +234,7 @@ class ScriptSelectionModal extends obsidian.SuggestModal {
     }
 }
 
-const DEFAULT_PORT = 27123; // Default HTTP port
+const DEFAULT_PORT = 27123;
 const DEFAULT_SETTINGS = {
     pythonScriptsFolder: "",
     httpPort: DEFAULT_PORT,
@@ -244,8 +244,8 @@ const DEFAULT_SETTINGS = {
 class ObsidianPythonBridge extends obsidian.Plugin {
     constructor() {
         super(...arguments);
-        this.server = null; // Changed from net.Server to http.Server
-        this.initialHttpPort = 0; // Track initial port for restart notice
+        this.server = null;
+        this.initialHttpPort = 0;
     }
     onload() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -254,23 +254,22 @@ class ObsidianPythonBridge extends obsidian.Plugin {
             this.initialHttpPort = this.settings.httpPort;
             this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
             this.addCommands();
-            this.startHttpServer(); // Renamed function
+            this.startHttpServer();
             this.registerEvent(this.app.workspace.on("quit", () => {
-                this.stopHttpServer(); // Renamed function
+                this.stopHttpServer();
             }));
             console.log("Obsidian Python Bridge plugin loaded.");
         });
     }
     onunload() {
         console.log("Unloading Obsidian Python Bridge plugin...");
-        this.stopHttpServer(); // Renamed function
+        this.stopHttpServer();
         console.log("Obsidian Python Bridge plugin unloaded.");
     }
     // --- Settings Management ---
     loadSettings() {
         return __awaiter(this, void 0, void 0, function* () {
             this.settings = Object.assign({}, DEFAULT_SETTINGS, yield this.loadData());
-            // Ensure port is a number
             if (typeof this.settings.httpPort !== "number") {
                 console.warn(`Invalid httpPort loaded (${this.settings.httpPort}), resetting to default ${DEFAULT_PORT}`);
                 this.settings.httpPort = DEFAULT_PORT;
@@ -280,13 +279,12 @@ class ObsidianPythonBridge extends obsidian.Plugin {
     saveSettings() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.saveData(this.settings);
-            // Check if port changed and restart server if needed
             if (this.server && this.settings.httpPort !== this.initialHttpPort) {
                 console.log(`HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`);
                 new obsidian.Notice(`Python Bridge: HTTP port changed to ${this.settings.httpPort}. Restarting server...`, 3000);
                 this.stopHttpServer();
                 this.startHttpServer();
-                this.initialHttpPort = this.settings.httpPort; // Update tracked port
+                this.initialHttpPort = this.settings.httpPort;
             }
         });
     }
@@ -320,7 +318,7 @@ class ObsidianPythonBridge extends obsidian.Plugin {
     }
     startHttpServer() {
         console.log("Attempting to start HTTP server...");
-        this.stopHttpServer(); // Ensure clean state
+        this.stopHttpServer();
         if (!this.settings.httpPort ||
             typeof this.settings.httpPort !== "number" ||
             this.settings.httpPort <= 0 ||
@@ -334,7 +332,6 @@ class ObsidianPythonBridge extends obsidian.Plugin {
             const { method, url } = req;
             const remoteAddress = req.socket.remoteAddress || "unknown";
             console.log(`HTTP Request received: ${method} ${url} from ${remoteAddress}`);
-            // Basic routing and method check
             if (url !== "/" || method !== "POST") {
                 console.log(`Ignoring request: Invalid method/path (${method} ${url})`);
                 res.writeHead(404, { "Content-Type": "application/json" });
@@ -344,16 +341,15 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                 }));
                 return;
             }
-            // Check Content-Type
             if (req.headers["content-type"] !== "application/json") {
                 console.log(`Ignoring request: Invalid Content-Type (${req.headers['content-type']})`);
-                res.writeHead(415, { "Content-Type": "application/json" }); // Unsupported Media Type
+                res.writeHead(415, { "Content-Type": "application/json" });
                 res.end(JSON.stringify({ status: "error", error: "Invalid Content-Type: application/json required" }));
                 return;
             }
             let body = "";
             req.on("data", (chunk) => {
-                body += chunk.toString(); // Collect request body
+                body += chunk.toString();
             });
             req.on("end", () => __awaiter(this, void 0, void 0, function* () {
                 let request;
@@ -361,14 +357,13 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                 try {
                     console.log(`Attempting to parse JSON request body: ${body}`);
                     request = JSON.parse(body);
-                    // Basic validation of parsed request
                     if (!request ||
                         typeof request !== "object" ||
                         typeof request.action !== "string") {
                         throw new Error("Invalid JSON request structure. 'action' field is missing or invalid.");
                     }
                     console.log(`Handling action: ${request.action}`);
-                    response = yield this.handleAction(request); // Process the action
+                    response = yield this.handleAction(request);
                     console.log(`Action ${request.action} handled, sending response:`, response);
                 }
                 catch (error) {
@@ -379,7 +374,6 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                         error: `Failed to process request: ${errorMessage}`,
                     };
                 }
-                // Send the response back
                 const responseJson = JSON.stringify(response);
                 res.writeHead(response.status === "success" ? 200 : 500, {
                     "Content-Type": "application/json",
@@ -406,13 +400,11 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                 console.error("HTTP server error:", err);
             }
             new obsidian.Notice(`Python Bridge: ${errorMsg}`, 10000);
-            this.server = null; // Ensure server is marked as stopped
+            this.server = null;
         });
         try {
-            // Listen only on localhost for security
             this.server.listen(this.settings.httpPort, "127.0.0.1", () => {
                 console.log(`HTTP server listening on http://127.0.0.1:${this.settings.httpPort}`);
-                // No chmod needed for HTTP ports
             });
         }
         catch (listenErr) {
@@ -422,38 +414,38 @@ class ObsidianPythonBridge extends obsidian.Plugin {
             this.server = null;
         }
     }
-    // handleAction remains largely the same, as it deals with application logic, not transport
+    // --- Action Handler ---
     handleAction(request) {
         return __awaiter(this, void 0, void 0, function* () {
             const { action, payload } = request;
             console.log(`Executing action: ${action} with payload:`, payload);
             try {
                 switch (action) {
+                    // --- Existing Actions ---
                     case "get_all_note_paths":
-                        const paths = this.getAllNotePaths();
-                        return { status: "success", data: paths };
+                        return { status: "success", data: this.getAllNotePaths() };
                     case "get_active_note_content":
-                        const content = yield this.getActiveNoteContent();
-                        return content !== null
-                            ? { status: "success", data: content }
+                        const activeContent = yield this.getActiveNoteContent();
+                        return activeContent !== null
+                            ? { status: "success", data: activeContent }
                             : { status: "error", error: "No active Markdown note found." };
                     case "get_active_note_relative_path":
-                        const relativePath = this.getActiveNoteRelativePath();
-                        return relativePath !== null
-                            ? { status: "success", data: relativePath }
+                        const activeRelativePath = this.getActiveNoteRelativePath();
+                        return activeRelativePath !== null
+                            ? { status: "success", data: activeRelativePath }
                             : { status: "error", error: "No active Markdown note found." };
                     case "get_active_note_absolute_path":
-                        const absolutePath = this.getActiveNoteAbsolutePath();
-                        return absolutePath !== null
-                            ? { status: "success", data: absolutePath }
+                        const activeAbsolutePath = this.getActiveNoteAbsolutePath();
+                        return activeAbsolutePath !== null
+                            ? { status: "success", data: activeAbsolutePath }
                             : {
                                 status: "error",
                                 error: "No active note or vault path unavailable.",
                             };
                     case "get_active_note_title":
-                        const title = this.getActiveNoteTitle();
-                        return title !== null
-                            ? { status: "success", data: title }
+                        const activeTitle = this.getActiveNoteTitle();
+                        return activeTitle !== null
+                            ? { status: "success", data: activeTitle }
                             : { status: "error", error: "No active Markdown note found." };
                     case "get_current_vault_absolute_path":
                         const vaultPath = this.getCurrentVaultAbsolutePath();
@@ -464,29 +456,19 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                                 error: "Could not determine vault absolute path.",
                             };
                     case "get_active_note_frontmatter":
-                        const frontmatter = yield this.getActiveNoteFrontmatter();
-                        return { status: "success", data: frontmatter }; // null is a valid success case
+                        const activeFrontmatter = yield this.getActiveNoteFrontmatter();
+                        return { status: "success", data: activeFrontmatter };
                     case "show_notification":
                         if (typeof (payload === null || payload === void 0 ? void 0 : payload.content) !== "string") {
-                            return {
-                                status: "error",
-                                error: "Invalid payload: 'content' (string) required.",
-                            };
+                            return { status: "error", error: "Invalid payload: 'content' (string) required." };
                         }
                         const duration = typeof (payload === null || payload === void 0 ? void 0 : payload.duration) === "number" ? payload.duration : 4000;
-                        console.log(`Showing notification: "${payload.content}", duration: ${duration}`);
                         this.showNotification(payload.content, duration);
-                        console.log("Notification shown.");
                         return { status: "success", data: null };
                     case "modify_note_content":
-                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.filePath) !== "string" ||
-                            typeof (payload === null || payload === void 0 ? void 0 : payload.content) !== "string") {
-                            return {
-                                status: "error",
-                                error: "Invalid payload: 'filePath' and 'content' (strings) required.",
-                            };
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.filePath) !== "string" || typeof (payload === null || payload === void 0 ? void 0 : payload.content) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'filePath' and 'content' (strings) required." };
                         }
-                        // modifyNoteContent now needs to handle potential errors better
                         try {
                             yield this.modifyNoteContent(payload.filePath, payload.content);
                             return { status: "success", data: null };
@@ -497,28 +479,81 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                             return { status: "error", error: `Failed to modify note: ${errorMsg}` };
                         }
                     case "request_user_input":
-                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.scriptName) !== "string" ||
-                            typeof (payload === null || payload === void 0 ? void 0 : payload.inputType) !== "string" ||
-                            typeof (payload === null || payload === void 0 ? void 0 : payload.message) !== "string") {
-                            return {
-                                status: "error",
-                                error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
-                            };
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.scriptName) !== "string" || typeof (payload === null || payload === void 0 ? void 0 : payload.inputType) !== "string" || typeof (payload === null || payload === void 0 ? void 0 : payload.message) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required." };
                         }
                         const userInput = yield this.requestUserInput(payload.scriptName, payload.inputType, payload.message, payload.validationRegex, payload.minValue, payload.maxValue, payload.step);
-                        // Check if user cancelled (modal resolves with null)
                         if (userInput === null) {
                             console.log("User cancelled input modal.");
                             return { status: "error", error: "User cancelled input." };
                         }
                         return { status: "success", data: userInput };
+                    // --- NEW Actions ---
+                    case "get_note_content":
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.path) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+                        }
+                        try {
+                            const content = yield this.getNoteContentByPath(payload.path);
+                            return { status: "success", data: content };
+                        }
+                        catch (error) {
+                            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+                        }
+                    case "get_note_frontmatter":
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.path) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+                        }
+                        try {
+                            const frontmatter = yield this.getNoteFrontmatterByPath(payload.path);
+                            return { status: "success", data: frontmatter };
+                        }
+                        catch (error) {
+                            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+                        }
+                    case "get_selected_text":
+                        try {
+                            const selectedText = this.getSelectedText();
+                            return { status: "success", data: selectedText };
+                        }
+                        catch (error) {
+                            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+                        }
+                    case "replace_selected_text":
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.replacement) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'replacement' (string) required." };
+                        }
+                        try {
+                            this.replaceSelectedText(payload.replacement);
+                            return { status: "success", data: null };
+                        }
+                        catch (error) {
+                            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+                        }
+                    case "open_note":
+                        if (typeof (payload === null || payload === void 0 ? void 0 : payload.path) !== "string") {
+                            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+                        }
+                        const newLeaf = typeof (payload === null || payload === void 0 ? void 0 : payload.new_leaf) === 'boolean' ? payload.new_leaf : false;
+                        try {
+                            yield this.openNote(payload.path, newLeaf);
+                            return { status: "success", data: null };
+                        }
+                        catch (error) {
+                            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+                        }
+                    // --- Default ---
                     default:
+                        // Handle the test connection ping gracefully but log it
+                        if (action === "_test_connection_ping") {
+                            console.log("Received test connection ping from client.");
+                            return { status: "error", error: `Unknown action: ${action}` }; // Expected error for test
+                        }
                         console.warn(`Received unknown action: ${action}`);
                         return { status: "error", error: `Unknown action: ${action}` };
                 }
             }
             catch (error) {
-                // Catch errors from the specific action handlers (e.g., file system errors)
                 const errorMessage = error instanceof Error ? error.message : String(error);
                 console.error(`Error executing action "${action}":`, errorMessage);
                 return {
@@ -528,12 +563,11 @@ class ObsidianPythonBridge extends obsidian.Plugin {
             }
         });
     }
-    // --- Obsidian Interaction Helpers (Unchanged) ---
+    // --- Obsidian Interaction Helpers ---
+    // Helpers for ACTIVE note
     getActiveNoteFile() {
         const activeLeaf = this.app.workspace.activeLeaf;
-        return (activeLeaf === null || activeLeaf === void 0 ? void 0 : activeLeaf.view) instanceof obsidian.MarkdownView
-            ? activeLeaf.view.file
-            : null;
+        return (activeLeaf === null || activeLeaf === void 0 ? void 0 : activeLeaf.view) instanceof obsidian.MarkdownView ? activeLeaf.view.file : null;
     }
     getActiveNoteContent() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -550,17 +584,12 @@ class ObsidianPythonBridge extends obsidian.Plugin {
         const vaultPath = this.getCurrentVaultAbsolutePath();
         if (!file || !vaultPath)
             return null;
-        // Ensure vaultPath doesn't have trailing slash for cleaner joining
         const cleanVaultPath = vaultPath.replace(/[\\/]$/, "");
         return path__namespace.join(cleanVaultPath, file.path);
     }
     getActiveNoteTitle() {
         var _a, _b;
         return (_b = (_a = this.getActiveNoteFile()) === null || _a === void 0 ? void 0 : _a.basename) !== null && _b !== void 0 ? _b : null;
-    }
-    getCurrentVaultAbsolutePath() {
-        const adapter = this.app.vault.adapter;
-        return adapter instanceof obsidian.FileSystemAdapter ? adapter.getBasePath() : null;
     }
     getActiveNoteFrontmatter() {
         var _a;
@@ -569,9 +598,13 @@ class ObsidianPythonBridge extends obsidian.Plugin {
             if (!file)
                 return null;
             const metadata = this.app.metadataCache.getFileCache(file);
-            // Return Obsidian's parsed frontmatter directly, or null if none
             return (_a = metadata === null || metadata === void 0 ? void 0 : metadata.frontmatter) !== null && _a !== void 0 ? _a : null;
         });
+    }
+    // General Helpers
+    getCurrentVaultAbsolutePath() {
+        const adapter = this.app.vault.adapter;
+        return adapter instanceof obsidian.FileSystemAdapter ? adapter.getBasePath() : null;
     }
     showNotification(message, duration = 4000) {
         new obsidian.Notice(message, duration);
@@ -580,23 +613,19 @@ class ObsidianPythonBridge extends obsidian.Plugin {
         return __awaiter(this, void 0, void 0, function* () {
             const vaultPath = this.getCurrentVaultAbsolutePath();
             if (!vaultPath) {
-                throw new Error("Cannot modify note: Vault path is unavailable (non-filesystem adapter?).");
+                throw new Error("Cannot modify note: Vault path is unavailable.");
             }
-            // Ensure input path is absolute
             if (!path__namespace.isAbsolute(absoluteFilePath)) {
                 throw new Error(`Cannot modify note: Provided path is not absolute: ${absoluteFilePath}`);
             }
-            // Calculate relative path carefully
             const relativePath = path__namespace.relative(vaultPath, absoluteFilePath);
-            // Prevent path traversal attempts (e.g., ../../..)
             if (relativePath.startsWith("..") || path__namespace.isAbsolute(relativePath)) {
                 throw new Error(`Cannot modify note: Path is outside the current vault: ${absoluteFilePath}`);
             }
-            // Normalize to forward slashes for Obsidian API
             const normalizedPath = relativePath.replace(/\\/g, "/");
             const file = this.app.vault.getAbstractFileByPath(normalizedPath);
             if (!(file instanceof obsidian.TFile)) {
-                throw new Error(`Cannot modify note: File not found in vault at normalized path: ${normalizedPath} (derived from ${absoluteFilePath})`);
+                throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
             }
             console.log(`Attempting to modify note via Vault API: ${normalizedPath}`);
             yield this.app.vault.modify(file, newContent);
@@ -606,14 +635,104 @@ class ObsidianPythonBridge extends obsidian.Plugin {
     requestUserInput(scriptName, inputType, message, validationRegex, minValue, maxValue, step) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
-                const modal = new UserInputModal(this.app, scriptName, inputType, message, (input) => resolve(input), // Resolve with input or null on cancel
-                validationRegex, minValue, maxValue, step);
+                const modal = new UserInputModal(this.app, scriptName, inputType, message, (input) => resolve(input), validationRegex, minValue, maxValue, step);
                 modal.open();
             });
         });
     }
     getAllNotePaths() {
         return this.app.vault.getMarkdownFiles().map((f) => f.path);
+    }
+    // --- NEW Interaction Helpers ---
+    /**
+     * Retrieves the full content of a note specified by its vault-relative path.
+     * @param relativePath The vault-relative path to the note (e.g., "Folder/My Note.md").
+     * @returns The content of the note.
+     * @throws Error if the file is not found or is not a Markdown file.
+     */
+    getNoteContentByPath(relativePath) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const file = this.app.vault.getAbstractFileByPath(relativePath);
+            if (!(file instanceof obsidian.TFile)) {
+                throw new Error(`File not found or is not a file at path: ${relativePath}`);
+            }
+            // Optional: Check if it's a markdown file specifically?
+            // if (file.extension !== 'md') {
+            //   throw new Error(`File is not a Markdown file: ${relativePath}`);
+            // }
+            return this.app.vault.read(file);
+        });
+    }
+    /**
+     * Retrieves the parsed frontmatter of a note specified by its vault-relative path.
+     * @param relativePath The vault-relative path to the note.
+     * @returns The parsed frontmatter object, or null if no frontmatter exists.
+     * @throws Error if the file is not found.
+     */
+    getNoteFrontmatterByPath(relativePath) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function* () {
+            // Using getFileCache requires a TFile, getCache works directly with path
+            const metadata = this.app.metadataCache.getCache(relativePath);
+            if (!metadata) {
+                // Check if the file exists at all to give a better error
+                const fileExists = !!this.app.vault.getAbstractFileByPath(relativePath);
+                if (!fileExists) {
+                    throw new Error(`File not found at path: ${relativePath}`);
+                }
+                // File exists but no metadata cache (rare, maybe not markdown?)
+                console.warn(`No metadata cache found for existing file: ${relativePath}`);
+                return null; // Or throw a more specific error if desired
+            }
+            return (_a = metadata.frontmatter) !== null && _a !== void 0 ? _a : null;
+        });
+    }
+    /**
+     * Gets the currently selected text in the active Markdown editor.
+     * @returns The selected text.
+     * @throws Error if no Markdown view is active or no text is selected.
+     */
+    getSelectedText() {
+        const view = this.app.workspace.getActiveViewOfType(obsidian.MarkdownView);
+        if (!view) {
+            throw new Error("No active Markdown view found.");
+        }
+        const editor = view.editor;
+        const selection = editor.getSelection();
+        // if (!selection) { // Return empty string if nothing is selected, common behavior
+        //   throw new Error("No text is currently selected.");
+        // }
+        return selection;
+    }
+    /**
+     * Replaces the currently selected text in the active Markdown editor.
+     * If no text is selected, inserts the text at the cursor position.
+     * @param replacement The text to insert or replace the selection with.
+     * @throws Error if no Markdown view is active.
+     */
+    replaceSelectedText(replacement) {
+        const view = this.app.workspace.getActiveViewOfType(obsidian.MarkdownView);
+        if (!view) {
+            throw new Error("No active Markdown view found to replace selection in.");
+        }
+        const editor = view.editor;
+        editor.replaceSelection(replacement);
+    }
+    /**
+     * Opens a note in the Obsidian workspace.
+     * @param relativePath The vault-relative path of the note to open.
+     * @param newLeaf If true, opens the note in a new leaf (tab/split). Defaults to false.
+     * @throws Error if the file cannot be opened (e.g., not found).
+     */
+    openNote(relativePath, newLeaf = false) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`Requesting to open note: ${relativePath} (newLeaf: ${newLeaf})`);
+            // Use openLinkText - it handles finding the file and opening it.
+            // It throws an error internally if the link cannot be resolved.
+            // The empty string "" for sourcePath is usually sufficient for vault paths.
+            yield this.app.workspace.openLinkText(relativePath, "", newLeaf);
+            console.log(`Successfully requested to open ${relativePath}`);
+        });
     }
     // --- Python Script Execution ---
     getScriptsFolderPath() {
@@ -636,10 +755,8 @@ class ObsidianPythonBridge extends obsidian.Plugin {
     runPythonScript(scriptPath) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
-            // Check if port changed since load (less critical now, but good practice)
             if (this.settings.httpPort !== this.initialHttpPort) {
-                new obsidian.Notice(`⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Scripts might target the old port until Obsidian restarts or settings are saved again.`, 8000);
-                // Optionally force restart server here if desired, but saving settings already does
+                new obsidian.Notice(`⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Scripts might target the old port.`, 8000);
             }
             if (!fs__namespace.existsSync(scriptPath)) {
                 new obsidian.Notice(`Python script not found: ${scriptPath}`);
@@ -647,43 +764,35 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                 return;
             }
             console.log(`Running Python script: ${scriptPath}`);
-            const pythonExecutable = "python3"; // Consider making this configurable
+            const pythonExecutable = "python3";
             const pythonArgs = this.settings.disablePyCache
                 ? ["-B", scriptPath]
                 : [scriptPath];
             const scriptName = path__namespace.basename(scriptPath);
             try {
-                // Pass HTTP port via environment variable
                 const env = Object.assign(Object.assign({}, process.env), { OBSIDIAN_HTTP_PORT: String(this.settings.httpPort) });
-                const pythonProcess = child_process.spawn(pythonExecutable, pythonArgs, {
-                    env,
-                });
+                const pythonProcess = child_process.spawn(pythonExecutable, pythonArgs, { env });
                 (_a = pythonProcess.stdout) === null || _a === void 0 ? void 0 : _a.on("data", (data) => {
                     console.log(`[Output ${scriptName}]:\n${data.toString().trim()}`);
-                    // Optionally show output in a notice? Could be noisy.
-                    // new Notice(`Output from ${scriptName}:\n${data.toString().trim()}`, 5000);
                 });
                 (_b = pythonProcess.stderr) === null || _b === void 0 ? void 0 : _b.on("data", (data) => {
                     const errorMsg = data.toString().trim();
                     console.error(`[Error ${scriptName}]:\n${errorMsg}`);
-                    // Show stderr output prominently as it likely indicates script errors
                     new obsidian.Notice(`Error in ${scriptName}:\n${errorMsg}`, 10000);
                 });
                 pythonProcess.on("close", (code) => {
                     const exitMsg = `${scriptName} finished with exit code ${code !== null && code !== void 0 ? code : "unknown"}.`;
                     console.log(exitMsg);
                     if (code !== 0) {
-                        new obsidian.Notice(exitMsg, 5000); // Notify if script exited with an error code
+                        new obsidian.Notice(exitMsg, 5000);
                     }
                 });
                 pythonProcess.on("error", (err) => {
-                    // Errors spawning the process itself
                     console.error(`Failed starting ${scriptName}:`, err.message);
                     new obsidian.Notice(`Failed to start ${scriptName}: ${err.message}`);
                 });
             }
             catch (error) {
-                // Catch errors in the spawn call itself (e.g., executable not found)
                 const errorMsg = error instanceof Error ? error.message : String(error);
                 console.error(`Error spawning ${scriptName}:`, errorMsg);
                 new obsidian.Notice(`Error running ${scriptName}: ${errorMsg}`);
@@ -693,15 +802,14 @@ class ObsidianPythonBridge extends obsidian.Plugin {
     chooseAndRunPythonScript() {
         return __awaiter(this, void 0, void 0, function* () {
             const scriptsFolder = this.getScriptsFolderPath();
-            if (!scriptsFolder) { // Already checks existence in getScriptsFolderPath
-                new obsidian.Notice("Python scripts folder not found or invalid. Check plugin settings.");
+            if (!scriptsFolder) {
+                new obsidian.Notice("Python scripts folder not found or invalid. Check settings.");
                 return;
             }
             let pythonFiles;
             try {
-                pythonFiles = fs__namespace
-                    .readdirSync(scriptsFolder)
-                    .filter((f) => f.endsWith(".py") && !f.startsWith(".")); // Ignore hidden files
+                pythonFiles = fs__namespace.readdirSync(scriptsFolder)
+                    .filter((f) => f.endsWith(".py") && !f.startsWith("."));
             }
             catch (err) {
                 const errorMsg = err instanceof Error ? err.message : String(err);
@@ -731,13 +839,12 @@ class ObsidianPythonBridge extends obsidian.Plugin {
         return __awaiter(this, void 0, void 0, function* () {
             const scriptsFolder = this.getScriptsFolderPath();
             if (!scriptsFolder) {
-                new obsidian.Notice("Python scripts folder not found or invalid. Check plugin settings.");
+                new obsidian.Notice("Python scripts folder not found or invalid. Check settings.");
                 return;
             }
             let pythonFiles;
             try {
-                pythonFiles = fs__namespace
-                    .readdirSync(scriptsFolder)
+                pythonFiles = fs__namespace.readdirSync(scriptsFolder)
                     .filter((f) => f.endsWith(".py") && !f.startsWith("."));
             }
             catch (err) {
@@ -751,16 +858,13 @@ class ObsidianPythonBridge extends obsidian.Plugin {
                 return;
             }
             new obsidian.Notice(`Running ${pythonFiles.length} Python script(s)...`);
-            pythonFiles.forEach((file) => {
+            pythonFiles.forEach(file => {
                 const scriptPath = path__namespace.join(scriptsFolder, file);
-                // Run scripts sequentially with a small delay? Or concurrently?
-                // Running concurrently might overwhelm the server or Obsidian API if many scripts run
-                // Let's run them concurrently for now, as before.
-                this.runPythonScript(scriptPath); // Run without await for concurrency
+                this.runPythonScript(scriptPath);
             });
         });
     }
 } // End of class ObsidianPythonBridge
 
 module.exports = ObsidianPythonBridge;
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7In0=
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OzsifQ==

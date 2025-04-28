@@ -4,16 +4,20 @@ import {
   Notice,
   Plugin,
   TFile,
+  TAbstractFile, // Import TAbstractFile
   MarkdownView,
   FileSystemAdapter,
   PluginSettingTab,
-  Setting, // Import Setting here
+  Setting,
+  Editor, // Import Editor
+  PaneType, // Import PaneType for openLinkText
+  OpenViewState, // Import OpenViewState for openLinkText
 } from "obsidian";
 import { spawn, ChildProcess } from "child_process";
 import * as fs from "fs";
-import * as http from "http"; // Use http instead of net
+import * as http from "http";
 import * as path from "path";
-import * as os from "os"; // Needed for default port logic maybe
+import * as os from "os";
 
 // Import other components
 import PythonBridgeSettingTab from "./PythonBridgeSettingTab";
@@ -23,15 +27,15 @@ import ScriptSelectionModal from "./ScriptSelectionModal";
 // --- Interfaces ---
 interface PythonBridgeSettings {
   pythonScriptsFolder: string;
-  httpPort: number; // Changed from socketPath to httpPort
+  httpPort: number;
   disablePyCache: boolean;
 }
 
-const DEFAULT_PORT = 27123; // Default HTTP port
+const DEFAULT_PORT = 27123;
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
   pythonScriptsFolder: "",
-  httpPort: DEFAULT_PORT, // Use port number
+  httpPort: DEFAULT_PORT,
   disablePyCache: true,
 };
 
@@ -49,8 +53,8 @@ interface JsonRequest {
 // --- Main Plugin Class ---
 export default class ObsidianPythonBridge extends Plugin {
   settings!: PythonBridgeSettings;
-  server: http.Server | null = null; // Changed from net.Server to http.Server
-  initialHttpPort: number = 0; // Track initial port for restart notice
+  server: http.Server | null = null;
+  initialHttpPort: number = 0;
 
   async onload() {
     console.log("Loading Obsidian Python Bridge plugin...");
@@ -59,11 +63,11 @@ export default class ObsidianPythonBridge extends Plugin {
 
     this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
     this.addCommands();
-    this.startHttpServer(); // Renamed function
+    this.startHttpServer();
 
     this.registerEvent(
       this.app.workspace.on("quit", () => {
-        this.stopHttpServer(); // Renamed function
+        this.stopHttpServer();
       }),
     );
     console.log("Obsidian Python Bridge plugin loaded.");
@@ -71,7 +75,7 @@ export default class ObsidianPythonBridge extends Plugin {
 
   onunload() {
     console.log("Unloading Obsidian Python Bridge plugin...");
-    this.stopHttpServer(); // Renamed function
+    this.stopHttpServer();
     console.log("Obsidian Python Bridge plugin unloaded.");
   }
 
@@ -82,7 +86,6 @@ export default class ObsidianPythonBridge extends Plugin {
       DEFAULT_SETTINGS,
       await this.loadData(),
     );
-    // Ensure port is a number
     if (typeof this.settings.httpPort !== "number") {
       console.warn(
         `Invalid httpPort loaded (${this.settings.httpPort}), resetting to default ${DEFAULT_PORT}`,
@@ -93,7 +96,6 @@ export default class ObsidianPythonBridge extends Plugin {
 
   async saveSettings() {
     await this.saveData(this.settings);
-    // Check if port changed and restart server if needed
     if (this.server && this.settings.httpPort !== this.initialHttpPort) {
       console.log(
         `HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`,
@@ -104,7 +106,7 @@ export default class ObsidianPythonBridge extends Plugin {
       );
       this.stopHttpServer();
       this.startHttpServer();
-      this.initialHttpPort = this.settings.httpPort; // Update tracked port
+      this.initialHttpPort = this.settings.httpPort;
     }
   }
 
@@ -140,7 +142,7 @@ export default class ObsidianPythonBridge extends Plugin {
 
   startHttpServer() {
     console.log("Attempting to start HTTP server...");
-    this.stopHttpServer(); // Ensure clean state
+    this.stopHttpServer();
 
     if (
       !this.settings.httpPort ||
@@ -163,7 +165,6 @@ export default class ObsidianPythonBridge extends Plugin {
           `HTTP Request received: ${method} ${url} from ${remoteAddress}`,
         );
 
-        // Basic routing and method check
         if (url !== "/" || method !== "POST") {
           console.log(`Ignoring request: Invalid method/path (${method} ${url})`);
           res.writeHead(404, { "Content-Type": "application/json" });
@@ -176,18 +177,16 @@ export default class ObsidianPythonBridge extends Plugin {
           return;
         }
 
-        // Check Content-Type
         if (req.headers["content-type"] !== "application/json") {
            console.log(`Ignoring request: Invalid Content-Type (${req.headers['content-type']})`);
-           res.writeHead(415, { "Content-Type": "application/json" }); // Unsupported Media Type
+           res.writeHead(415, { "Content-Type": "application/json" });
            res.end(JSON.stringify({ status: "error", error: "Invalid Content-Type: application/json required" }));
            return;
         }
 
-
         let body = "";
         req.on("data", (chunk) => {
-          body += chunk.toString(); // Collect request body
+          body += chunk.toString();
         });
 
         req.on("end", async () => {
@@ -198,7 +197,6 @@ export default class ObsidianPythonBridge extends Plugin {
             console.log(`Attempting to parse JSON request body: ${body}`);
             request = JSON.parse(body);
 
-            // Basic validation of parsed request
             if (
               !request ||
               typeof request !== "object" ||
@@ -208,7 +206,7 @@ export default class ObsidianPythonBridge extends Plugin {
             }
 
             console.log(`Handling action: ${request.action}`);
-            response = await this.handleAction(request); // Process the action
+            response = await this.handleAction(request);
             console.log(
               `Action ${request.action} handled, sending response:`,
               response,
@@ -223,9 +221,8 @@ export default class ObsidianPythonBridge extends Plugin {
             };
           }
 
-          // Send the response back
           const responseJson = JSON.stringify(response);
-          res.writeHead(response.status === "success" ? 200 : 500, { // Use 500 for server-side errors during processing
+          res.writeHead(response.status === "success" ? 200 : 500, {
             "Content-Type": "application/json",
             "Content-Length": Buffer.byteLength(responseJson),
           });
@@ -252,16 +249,14 @@ export default class ObsidianPythonBridge extends Plugin {
         console.error("HTTP server error:", err);
       }
       new Notice(`Python Bridge: ${errorMsg}`, 10000);
-      this.server = null; // Ensure server is marked as stopped
+      this.server = null;
     });
 
     try {
-      // Listen only on localhost for security
       this.server.listen(this.settings.httpPort, "127.0.0.1", () => {
         console.log(
           `HTTP server listening on http://127.0.0.1:${this.settings.httpPort}`,
         );
-        // No chmod needed for HTTP ports
       });
     } catch (listenErr) {
       const errorMsg =
@@ -274,42 +269,42 @@ export default class ObsidianPythonBridge extends Plugin {
     }
   }
 
-  // handleAction remains largely the same, as it deals with application logic, not transport
+  // --- Action Handler ---
   async handleAction(request: JsonRequest): Promise<JsonResponse> {
     const { action, payload } = request;
     console.log(`Executing action: ${action} with payload:`, payload);
 
     try {
       switch (action) {
+        // --- Existing Actions ---
         case "get_all_note_paths":
-          const paths = this.getAllNotePaths();
-          return { status: "success", data: paths };
+          return { status: "success", data: this.getAllNotePaths() };
 
         case "get_active_note_content":
-          const content = await this.getActiveNoteContent();
-          return content !== null
-            ? { status: "success", data: content }
+          const activeContent = await this.getActiveNoteContent();
+          return activeContent !== null
+            ? { status: "success", data: activeContent }
             : { status: "error", error: "No active Markdown note found." };
 
         case "get_active_note_relative_path":
-          const relativePath = this.getActiveNoteRelativePath();
-          return relativePath !== null
-            ? { status: "success", data: relativePath }
+          const activeRelativePath = this.getActiveNoteRelativePath();
+          return activeRelativePath !== null
+            ? { status: "success", data: activeRelativePath }
             : { status: "error", error: "No active Markdown note found." };
 
         case "get_active_note_absolute_path":
-          const absolutePath = this.getActiveNoteAbsolutePath();
-          return absolutePath !== null
-            ? { status: "success", data: absolutePath }
+          const activeAbsolutePath = this.getActiveNoteAbsolutePath();
+          return activeAbsolutePath !== null
+            ? { status: "success", data: activeAbsolutePath }
             : {
                 status: "error",
                 error: "No active note or vault path unavailable.",
               };
 
         case "get_active_note_title":
-          const title = this.getActiveNoteTitle();
-          return title !== null
-            ? { status: "success", data: title }
+          const activeTitle = this.getActiveNoteTitle();
+          return activeTitle !== null
+            ? { status: "success", data: activeTitle }
             : { status: "error", error: "No active Markdown note found." };
 
         case "get_current_vault_absolute_path":
@@ -322,37 +317,21 @@ export default class ObsidianPythonBridge extends Plugin {
               };
 
         case "get_active_note_frontmatter":
-          const frontmatter = await this.getActiveNoteFrontmatter();
-          return { status: "success", data: frontmatter }; // null is a valid success case
+          const activeFrontmatter = await this.getActiveNoteFrontmatter();
+          return { status: "success", data: activeFrontmatter };
 
         case "show_notification":
           if (typeof payload?.content !== "string") {
-            return {
-              status: "error",
-              error: "Invalid payload: 'content' (string) required.",
-            };
+            return { status: "error", error: "Invalid payload: 'content' (string) required." };
           }
-          const duration =
-            typeof payload?.duration === "number" ? payload.duration : 4000;
-          console.log(
-            `Showing notification: "${payload.content}", duration: ${duration}`,
-          );
+          const duration = typeof payload?.duration === "number" ? payload.duration : 4000;
           this.showNotification(payload.content, duration);
-          console.log("Notification shown.");
           return { status: "success", data: null };
 
         case "modify_note_content":
-          if (
-            typeof payload?.filePath !== "string" ||
-            typeof payload?.content !== "string"
-          ) {
-            return {
-              status: "error",
-              error:
-                "Invalid payload: 'filePath' and 'content' (strings) required.",
-            };
+          if (typeof payload?.filePath !== "string" || typeof payload?.content !== "string") {
+            return { status: "error", error: "Invalid payload: 'filePath' and 'content' (strings) required." };
           }
-          // modifyNoteContent now needs to handle potential errors better
           try {
               await this.modifyNoteContent(payload.filePath, payload.content);
               return { status: "success", data: null };
@@ -362,44 +341,87 @@ export default class ObsidianPythonBridge extends Plugin {
               return { status: "error", error: `Failed to modify note: ${errorMsg}` };
           }
 
-
         case "request_user_input":
-          if (
-            typeof payload?.scriptName !== "string" ||
-            typeof payload?.inputType !== "string" ||
-            typeof payload?.message !== "string"
-          ) {
-            return {
-              status: "error",
-              error:
-                "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
-            };
+          if (typeof payload?.scriptName !== "string" || typeof payload?.inputType !== "string" || typeof payload?.message !== "string") {
+            return { status: "error", error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required." };
           }
           const userInput = await this.requestUserInput(
-            payload.scriptName,
-            payload.inputType,
-            payload.message,
-            payload.validationRegex,
-            payload.minValue,
-            payload.maxValue,
-            payload.step,
+            payload.scriptName, payload.inputType, payload.message,
+            payload.validationRegex, payload.minValue, payload.maxValue, payload.step
           );
-          // Check if user cancelled (modal resolves with null)
           if (userInput === null) {
              console.log("User cancelled input modal.");
              return { status: "error", error: "User cancelled input." };
           }
           return { status: "success", data: userInput };
 
+        // --- NEW Actions ---
 
+        case "get_note_content":
+          if (typeof payload?.path !== "string") {
+            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+          }
+          try {
+            const content = await this.getNoteContentByPath(payload.path);
+            return { status: "success", data: content };
+          } catch (error) {
+            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+          }
+
+        case "get_note_frontmatter":
+          if (typeof payload?.path !== "string") {
+            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+          }
+          try {
+            const frontmatter = await this.getNoteFrontmatterByPath(payload.path);
+            return { status: "success", data: frontmatter };
+          } catch (error) {
+            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+          }
+
+        case "get_selected_text":
+          try {
+            const selectedText = this.getSelectedText();
+            return { status: "success", data: selectedText };
+          } catch (error) {
+            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+          }
+
+        case "replace_selected_text":
+          if (typeof payload?.replacement !== "string") {
+            return { status: "error", error: "Invalid payload: 'replacement' (string) required." };
+          }
+          try {
+            this.replaceSelectedText(payload.replacement);
+            return { status: "success", data: null };
+          } catch (error) {
+            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+          }
+
+        case "open_note":
+          if (typeof payload?.path !== "string") {
+            return { status: "error", error: "Invalid payload: 'path' (string) required." };
+          }
+          const newLeaf = typeof payload?.new_leaf === 'boolean' ? payload.new_leaf : false;
+          try {
+            await this.openNote(payload.path, newLeaf);
+            return { status: "success", data: null };
+          } catch (error) {
+            return { status: "error", error: error instanceof Error ? error.message : String(error) };
+          }
+
+        // --- Default ---
         default:
+          // Handle the test connection ping gracefully but log it
+          if (action === "_test_connection_ping") {
+              console.log("Received test connection ping from client.");
+              return { status: "error", error: `Unknown action: ${action}` }; // Expected error for test
+          }
           console.warn(`Received unknown action: ${action}`);
           return { status: "error", error: `Unknown action: ${action}` };
       }
     } catch (error) {
-      // Catch errors from the specific action handlers (e.g., file system errors)
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
       console.error(`Error executing action "${action}":`, errorMessage);
       return {
         status: "error",
@@ -408,12 +430,12 @@ export default class ObsidianPythonBridge extends Plugin {
     }
   }
 
-  // --- Obsidian Interaction Helpers (Unchanged) ---
+  // --- Obsidian Interaction Helpers ---
+
+  // Helpers for ACTIVE note
   getActiveNoteFile(): TFile | null {
     const activeLeaf = this.app.workspace.activeLeaf;
-    return activeLeaf?.view instanceof MarkdownView
-      ? activeLeaf.view.file
-      : null;
+    return activeLeaf?.view instanceof MarkdownView ? activeLeaf.view.file : null;
   }
 
   async getActiveNoteContent(): Promise<string | null> {
@@ -429,7 +451,6 @@ export default class ObsidianPythonBridge extends Plugin {
     const file = this.getActiveNoteFile();
     const vaultPath = this.getCurrentVaultAbsolutePath();
     if (!file || !vaultPath) return null;
-    // Ensure vaultPath doesn't have trailing slash for cleaner joining
     const cleanVaultPath = vaultPath.replace(/[\\/]$/, "");
     return path.join(cleanVaultPath, file.path);
   }
@@ -438,55 +459,39 @@ export default class ObsidianPythonBridge extends Plugin {
     return this.getActiveNoteFile()?.basename ?? null;
   }
 
-  getCurrentVaultAbsolutePath(): string | null {
-    const adapter = this.app.vault.adapter;
-    return adapter instanceof FileSystemAdapter ? adapter.getBasePath() : null;
-  }
-
   async getActiveNoteFrontmatter(): Promise<Record<string, any> | null> {
     const file = this.getActiveNoteFile();
     if (!file) return null;
     const metadata = this.app.metadataCache.getFileCache(file);
-    // Return Obsidian's parsed frontmatter directly, or null if none
     return metadata?.frontmatter ?? null;
+  }
+
+  // General Helpers
+  getCurrentVaultAbsolutePath(): string | null {
+    const adapter = this.app.vault.adapter;
+    return adapter instanceof FileSystemAdapter ? adapter.getBasePath() : null;
   }
 
   showNotification(message: string, duration: number = 4000) {
     new Notice(message, duration);
   }
 
-  async modifyNoteContent(
-    absoluteFilePath: string,
-    newContent: string,
-  ): Promise<void> {
+  async modifyNoteContent(absoluteFilePath: string, newContent: string): Promise<void> {
     const vaultPath = this.getCurrentVaultAbsolutePath();
     if (!vaultPath) {
-      throw new Error(
-        "Cannot modify note: Vault path is unavailable (non-filesystem adapter?).",
-      );
+      throw new Error("Cannot modify note: Vault path is unavailable.");
     }
-
-    // Ensure input path is absolute
     if (!path.isAbsolute(absoluteFilePath)) {
         throw new Error(`Cannot modify note: Provided path is not absolute: ${absoluteFilePath}`);
     }
-
-    // Calculate relative path carefully
     const relativePath = path.relative(vaultPath, absoluteFilePath);
-
-    // Prevent path traversal attempts (e.g., ../../..)
     if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
         throw new Error(`Cannot modify note: Path is outside the current vault: ${absoluteFilePath}`);
     }
-
-    // Normalize to forward slashes for Obsidian API
     const normalizedPath = relativePath.replace(/\\/g, "/");
-
     const file = this.app.vault.getAbstractFileByPath(normalizedPath);
     if (!(file instanceof TFile)) {
-      throw new Error(
-        `Cannot modify note: File not found in vault at normalized path: ${normalizedPath} (derived from ${absoluteFilePath})`,
-      );
+      throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
     }
     console.log(`Attempting to modify note via Vault API: ${normalizedPath}`);
     await this.app.vault.modify(file, newContent);
@@ -494,25 +499,14 @@ export default class ObsidianPythonBridge extends Plugin {
   }
 
   async requestUserInput(
-    scriptName: string,
-    inputType: string,
-    message: string,
-    validationRegex?: string,
-    minValue?: number,
-    maxValue?: number,
-    step?: number,
-  ): Promise<any> { // Returns null if cancelled
+    scriptName: string, inputType: string, message: string,
+    validationRegex?: string, minValue?: number, maxValue?: number, step?: number
+  ): Promise<any> {
     return new Promise((resolve) => {
       const modal = new UserInputModal(
-        this.app,
-        scriptName,
-        inputType,
-        message,
-        (input) => resolve(input), // Resolve with input or null on cancel
-        validationRegex,
-        minValue,
-        maxValue,
-        step,
+        this.app, scriptName, inputType, message,
+        (input) => resolve(input),
+        validationRegex, minValue, maxValue, step
       );
       modal.open();
     });
@@ -521,6 +515,97 @@ export default class ObsidianPythonBridge extends Plugin {
   getAllNotePaths(): string[] {
     return this.app.vault.getMarkdownFiles().map((f) => f.path);
   }
+
+  // --- NEW Interaction Helpers ---
+
+  /**
+   * Retrieves the full content of a note specified by its vault-relative path.
+   * @param relativePath The vault-relative path to the note (e.g., "Folder/My Note.md").
+   * @returns The content of the note.
+   * @throws Error if the file is not found or is not a Markdown file.
+   */
+  async getNoteContentByPath(relativePath: string): Promise<string> {
+    const file = this.app.vault.getAbstractFileByPath(relativePath);
+    if (!(file instanceof TFile)) {
+      throw new Error(`File not found or is not a file at path: ${relativePath}`);
+    }
+    // Optional: Check if it's a markdown file specifically?
+    // if (file.extension !== 'md') {
+    //   throw new Error(`File is not a Markdown file: ${relativePath}`);
+    // }
+    return this.app.vault.read(file);
+  }
+
+  /**
+   * Retrieves the parsed frontmatter of a note specified by its vault-relative path.
+   * @param relativePath The vault-relative path to the note.
+   * @returns The parsed frontmatter object, or null if no frontmatter exists.
+   * @throws Error if the file is not found.
+   */
+  async getNoteFrontmatterByPath(relativePath: string): Promise<Record<string, any> | null> {
+    // Using getFileCache requires a TFile, getCache works directly with path
+    const metadata = this.app.metadataCache.getCache(relativePath);
+    if (!metadata) {
+        // Check if the file exists at all to give a better error
+        const fileExists = !!this.app.vault.getAbstractFileByPath(relativePath);
+        if (!fileExists) {
+            throw new Error(`File not found at path: ${relativePath}`);
+        }
+        // File exists but no metadata cache (rare, maybe not markdown?)
+        console.warn(`No metadata cache found for existing file: ${relativePath}`);
+        return null; // Or throw a more specific error if desired
+    }
+    return metadata.frontmatter ?? null;
+  }
+
+  /**
+   * Gets the currently selected text in the active Markdown editor.
+   * @returns The selected text.
+   * @throws Error if no Markdown view is active or no text is selected.
+   */
+  getSelectedText(): string {
+    const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+    if (!view) {
+      throw new Error("No active Markdown view found.");
+    }
+    const editor = view.editor;
+    const selection = editor.getSelection();
+    // if (!selection) { // Return empty string if nothing is selected, common behavior
+    //   throw new Error("No text is currently selected.");
+    // }
+    return selection;
+  }
+
+  /**
+   * Replaces the currently selected text in the active Markdown editor.
+   * If no text is selected, inserts the text at the cursor position.
+   * @param replacement The text to insert or replace the selection with.
+   * @throws Error if no Markdown view is active.
+   */
+  replaceSelectedText(replacement: string): void {
+    const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+    if (!view) {
+      throw new Error("No active Markdown view found to replace selection in.");
+    }
+    const editor = view.editor;
+    editor.replaceSelection(replacement);
+  }
+
+  /**
+   * Opens a note in the Obsidian workspace.
+   * @param relativePath The vault-relative path of the note to open.
+   * @param newLeaf If true, opens the note in a new leaf (tab/split). Defaults to false.
+   * @throws Error if the file cannot be opened (e.g., not found).
+   */
+  async openNote(relativePath: string, newLeaf: boolean = false): Promise<void> {
+    console.log(`Requesting to open note: ${relativePath} (newLeaf: ${newLeaf})`);
+    // Use openLinkText - it handles finding the file and opening it.
+    // It throws an error internally if the link cannot be resolved.
+    // The empty string "" for sourcePath is usually sufficient for vault paths.
+    await this.app.workspace.openLinkText(relativePath, "", newLeaf);
+    console.log(`Successfully requested to open ${relativePath}`);
+  }
+
 
   // --- Python Script Execution ---
   getScriptsFolderPath(): string {
@@ -541,13 +626,11 @@ export default class ObsidianPythonBridge extends Plugin {
   }
 
   async runPythonScript(scriptPath: string) {
-    // Check if port changed since load (less critical now, but good practice)
     if (this.settings.httpPort !== this.initialHttpPort) {
       new Notice(
-        `⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Scripts might target the old port until Obsidian restarts or settings are saved again.`,
+        `⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Scripts might target the old port.`,
         8000,
       );
-      // Optionally force restart server here if desired, but saving settings already does
     }
 
     if (!fs.existsSync(scriptPath)) {
@@ -557,54 +640,43 @@ export default class ObsidianPythonBridge extends Plugin {
     }
 
     console.log(`Running Python script: ${scriptPath}`);
-    const pythonExecutable = "python3"; // Consider making this configurable
+    const pythonExecutable = "python3";
     const pythonArgs = this.settings.disablePyCache
       ? ["-B", scriptPath]
       : [scriptPath];
     const scriptName = path.basename(scriptPath);
 
     try {
-      // Pass HTTP port via environment variable
       const env = {
         ...process.env,
         OBSIDIAN_HTTP_PORT: String(this.settings.httpPort),
       };
-      const pythonProcess: ChildProcess = spawn(pythonExecutable, pythonArgs, {
-        env,
-      });
+      const pythonProcess: ChildProcess = spawn(pythonExecutable, pythonArgs, { env });
 
       pythonProcess.stdout?.on("data", (data: Buffer) => {
         console.log(`[Output ${scriptName}]:\n${data.toString().trim()}`);
-        // Optionally show output in a notice? Could be noisy.
-        // new Notice(`Output from ${scriptName}:\n${data.toString().trim()}`, 5000);
       });
 
       pythonProcess.stderr?.on("data", (data: Buffer) => {
         const errorMsg = data.toString().trim();
         console.error(`[Error ${scriptName}]:\n${errorMsg}`);
-        // Show stderr output prominently as it likely indicates script errors
         new Notice(`Error in ${scriptName}:\n${errorMsg}`, 10000);
       });
 
       pythonProcess.on("close", (code: number | null) => {
-        const exitMsg = `${scriptName} finished with exit code ${
-          code ?? "unknown"
-        }.`;
+        const exitMsg = `${scriptName} finished with exit code ${code ?? "unknown"}.`;
         console.log(exitMsg);
         if (code !== 0) {
-          new Notice(exitMsg, 5000); // Notify if script exited with an error code
+          new Notice(exitMsg, 5000);
         }
       });
 
       pythonProcess.on("error", (err: Error) => {
-        // Errors spawning the process itself
         console.error(`Failed starting ${scriptName}:`, err.message);
         new Notice(`Failed to start ${scriptName}: ${err.message}`);
       });
     } catch (error) {
-      // Catch errors in the spawn call itself (e.g., executable not found)
-      const errorMsg =
-        error instanceof Error ? error.message : String(error);
+      const errorMsg = error instanceof Error ? error.message : String(error);
       console.error(`Error spawning ${scriptName}:`, errorMsg);
       new Notice(`Error running ${scriptName}: ${errorMsg}`);
     }
@@ -612,18 +684,15 @@ export default class ObsidianPythonBridge extends Plugin {
 
   async chooseAndRunPythonScript() {
     const scriptsFolder = this.getScriptsFolderPath();
-    if (!scriptsFolder) { // Already checks existence in getScriptsFolderPath
-      new Notice(
-        "Python scripts folder not found or invalid. Check plugin settings.",
-      );
+    if (!scriptsFolder) {
+      new Notice("Python scripts folder not found or invalid. Check settings.");
       return;
     }
 
     let pythonFiles: string[];
     try {
-      pythonFiles = fs
-        .readdirSync(scriptsFolder)
-        .filter((f) => f.endsWith(".py") && !f.startsWith(".")); // Ignore hidden files
+      pythonFiles = fs.readdirSync(scriptsFolder)
+        .filter((f) => f.endsWith(".py") && !f.startsWith("."));
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : String(err);
       new Notice(`Error reading scripts folder: ${errorMsg}`);
@@ -653,16 +722,13 @@ export default class ObsidianPythonBridge extends Plugin {
   async runAllPythonScripts() {
     const scriptsFolder = this.getScriptsFolderPath();
     if (!scriptsFolder) {
-      new Notice(
-        "Python scripts folder not found or invalid. Check plugin settings.",
-      );
+      new Notice("Python scripts folder not found or invalid. Check settings.");
       return;
     }
 
     let pythonFiles: string[];
     try {
-      pythonFiles = fs
-        .readdirSync(scriptsFolder)
+      pythonFiles = fs.readdirSync(scriptsFolder)
         .filter((f) => f.endsWith(".py") && !f.startsWith("."));
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : String(err);
@@ -677,12 +743,9 @@ export default class ObsidianPythonBridge extends Plugin {
     }
 
     new Notice(`Running ${pythonFiles.length} Python script(s)...`);
-    pythonFiles.forEach((file) => {
-      const scriptPath = path.join(scriptsFolder, file);
-      // Run scripts sequentially with a small delay? Or concurrently?
-      // Running concurrently might overwhelm the server or Obsidian API if many scripts run
-      // Let's run them concurrently for now, as before.
-      this.runPythonScript(scriptPath); // Run without await for concurrency
+    pythonFiles.forEach(file => {
+        const scriptPath = path.join(scriptsFolder, file);
+        this.runPythonScript(scriptPath);
     });
   }
 } // End of class ObsidianPythonBridge

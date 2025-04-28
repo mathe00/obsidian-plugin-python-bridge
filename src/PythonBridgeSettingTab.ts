@@ -1,7 +1,8 @@
+// --- src/PythonBridgeSettingTab.ts ---
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import ObsidianPythonBridge from './main';
+import ObsidianPythonBridge from './main'; // Adjust path as needed
 
-// Plugin settings
+// Plugin settings tab
 export default class PythonBridgeSettingTab extends PluginSettingTab {
     plugin: ObsidianPythonBridge;
 
@@ -14,8 +15,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         const { containerEl } = this;
 
         containerEl.empty();
-        containerEl.createEl('h2', { text: 'Obsidian Python Bridge Plugin Settings' });
+        containerEl.createEl('h2', { text: 'Obsidian Python Bridge Settings' });
 
+        // Setting for Python Scripts Folder
         new Setting(containerEl)
             .setName('Python Scripts Folder')
             .setDesc('Path to the folder containing your Python scripts (absolute or relative to the vault).')
@@ -24,28 +26,41 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     .setPlaceholder('/path/to/your/scripts or ./scripts-python')
                     .setValue(this.plugin.settings.pythonScriptsFolder)
                     .onChange(async (value) => {
-                        this.plugin.settings.pythonScriptsFolder = value;
+                        this.plugin.settings.pythonScriptsFolder = value.trim(); // Trim whitespace
                         await this.plugin.saveSettings();
                     })
             );
 
+        // Setting for HTTP Server Port
         new Setting(containerEl)
-            .setName('Unix Socket Path')
-            .setDesc('Path to the Unix socket file (default: /tmp/obsidian-python.sock).')
+            .setName('HTTP Server Port')
+            .setDesc('Port for the local HTTP server (1024-65535). Requires restart or settings save to apply.')
             .addText((text) =>
                 text
-                    .setPlaceholder('/tmp/obsidian-python.sock')
-                    .setValue(this.plugin.settings.socketPath)
+                    .setPlaceholder(String(27123)) // Default port placeholder
+                    .setValue(String(this.plugin.settings.httpPort)) // Store as number, display as string
                     .onChange(async (value) => {
-                        this.plugin.settings.socketPath = value;
-                        await this.plugin.saveSettings();
+                        const port = parseInt(value, 10);
+                        if (!isNaN(port) && port > 1023 && port <= 65535) {
+                            this.plugin.settings.httpPort = port;
+                            await this.plugin.saveSettings();
+                            // Optionally add visual feedback for valid input
+                            text.inputEl.style.borderColor = ""; // Reset border
+                        } else {
+                            // Optionally add visual feedback for invalid input
+                            text.inputEl.style.borderColor = "red";
+                            // Do not save invalid port
+                            console.warn(`Invalid port entered: ${value}. Must be between 1024 and 65535.`);
+                            // Optionally show a notice, but might be annoying during typing
+                            // new Notice("Invalid port number. Please enter a value between 1024 and 65535.");
+                        }
                     })
             );
 
-        // New option to disable Python cache (__pycache__)
+        // Setting to disable Python cache (__pycache__)
         new Setting(containerEl)
             .setName('Disable Python Cache (__pycache__)')
-            .setDesc('Disable the generation of __pycache__ files when running Python scripts.')
+            .setDesc('Run Python with the "-B" flag to prevent writing .pyc files.')
             .addToggle((toggle) =>
                 toggle
                     .setValue(this.plugin.settings.disablePyCache)
@@ -54,5 +69,18 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     })
             );
+
+        // Optional: Add a button to test connection? (More complex)
+        // new Setting(containerEl)
+        //     .setName('Test Connection')
+        //     .setDesc('Attempt to connect to the running server.')
+        //     .addButton(button => button
+        //         .setButtonText('Test')
+        //         .onClick(async () => {
+        //             // Logic to send a test request (e.g., a 'ping' action)
+        //             // Would likely require adding a 'ping' action to handleAction
+        //             // and calling it from the Python client library's test method.
+        //             new Notice('Test functionality not yet implemented.');
+        //         }));
     }
 }

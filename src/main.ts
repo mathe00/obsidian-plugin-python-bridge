@@ -1,602 +1,688 @@
-import { App, Notice, Plugin, PluginSettingTab, Setting, TFile, MarkdownView, SuggestModal, FileSystemAdapter, Modal } from 'obsidian';
-import { spawn } from 'child_process';
-import * as fs from 'fs';
-import * as net from 'net'; // Use the net module for Unix sockets
-import * as path from 'path'; // Import the path module to manipulate paths
-import moment from 'moment'; // Use moment.js to handle dates
+// --- src/main.ts ---
+import {
+  App,
+  Notice,
+  Plugin,
+  TFile,
+  MarkdownView,
+  FileSystemAdapter,
+  PluginSettingTab,
+  Setting, // Import Setting here
+} from "obsidian";
+import { spawn, ChildProcess } from "child_process";
+import * as fs from "fs";
+import * as http from "http"; // Use http instead of net
+import * as path from "path";
+import * as os from "os"; // Needed for default port logic maybe
 
-// Import of other .ts files
-import PythonBridgeSettingTab from './PythonBridgeSettingTab';
-import UserInputModal from './UserInputModal';
+// Import other components
+import PythonBridgeSettingTab from "./PythonBridgeSettingTab";
+import UserInputModal from "./UserInputModal";
+import ScriptSelectionModal from "./ScriptSelectionModal";
 
-
-
+// --- Interfaces ---
 interface PythonBridgeSettings {
-    pythonScriptsFolder: string;
-    socketPath: string;
-    disablePyCache: boolean;  // New option to disable Python cache
+  pythonScriptsFolder: string;
+  httpPort: number; // Changed from socketPath to httpPort
+  disablePyCache: boolean;
 }
 
+const DEFAULT_PORT = 27123; // Default HTTP port
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
-    pythonScriptsFolder: '',
-    socketPath: '/tmp/obsidian-python.sock',
-    disablePyCache: true  // Disable Python cache by default
+  pythonScriptsFolder: "",
+  httpPort: DEFAULT_PORT, // Use port number
+  disablePyCache: true,
 };
 
-
-// Function to detect the type of value and convert it
-function convertFrontmatterValue(value: any): any {
-    if (Array.isArray(value)) {
-        // If it's a list, keep the list as is
-        return value.map(v => convertFrontmatterValue(v)); // Recursive conversion for lists
-    } else if (typeof value === 'string') {
-        // If it's a string, try to detect if it's a date or datetime
-        if (moment(value, moment.ISO_8601, true).isValid()) {
-            if (value.length === 10) {
-                // If the string length is 10, it's a date without time
-                return value; // Format date "YYYY-MM-DD"
-            } else {
-                // Otherwise, it's a datetime with time
-                return value; // Format datetime "YYYY-MM-DDTHH:mm:ss"
-            }
-        } else {
-            return value; // Otherwise, it's plain text
-        }
-    } else if (typeof value === 'boolean') {
-        // If it's a boolean (checkbox)
-        return value;
-    } else if (typeof value === 'number') {
-        // If it's a number
-        return value;
-    } else {
-        return value; // In all other cases, keep the value as is
-    }
+interface JsonResponse {
+  status: "success" | "error";
+  data?: any;
+  error?: string;
 }
 
+interface JsonRequest {
+  action: string;
+  payload?: any;
+}
 
+// --- Main Plugin Class ---
 export default class ObsidianPythonBridge extends Plugin {
-    settings!: PythonBridgeSettings;
-    server: net.Server | null = null;
-    initialSocketPath: string = ''; // Adding the initialSocketPath property
+  settings!: PythonBridgeSettings;
+  server: http.Server | null = null; // Changed from net.Server to http.Server
+  initialHttpPort: number = 0; // Track initial port for restart notice
 
-    async onload() {
-        console.log('Loading the Obsidian Python Bridge plugin');
+  async onload() {
+    console.log("Loading Obsidian Python Bridge plugin...");
+    await this.loadSettings();
+    this.initialHttpPort = this.settings.httpPort;
 
-        // Load settings
-        await this.loadSettings();
+    this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
+    this.addCommands();
+    this.startHttpServer(); // Renamed function
 
-        // Store initial socket path
-        this.initialSocketPath = this.settings.socketPath;
+    this.registerEvent(
+      this.app.workspace.on("quit", () => {
+        this.stopHttpServer(); // Renamed function
+      }),
+    );
+    console.log("Obsidian Python Bridge plugin loaded.");
+  }
 
-        // Add a settings tab
-        this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
+  onunload() {
+    console.log("Unloading Obsidian Python Bridge plugin...");
+    this.stopHttpServer(); // Renamed function
+    console.log("Obsidian Python Bridge plugin unloaded.");
+  }
 
-        // Add a command to run a specific Python script
-        this.addCommand({
-            id: 'run-specific-python-script',
-            name: 'Run a specific Python script',
-            callback: () => this.chooseAndRunPythonScript(),
-        });
+  // --- Settings Management ---
+  async loadSettings() {
+    this.settings = Object.assign(
+      {},
+      DEFAULT_SETTINGS,
+      await this.loadData(),
+    );
+    // Ensure port is a number
+    if (typeof this.settings.httpPort !== "number") {
+      console.warn(
+        `Invalid httpPort loaded (${this.settings.httpPort}), resetting to default ${DEFAULT_PORT}`,
+      );
+      this.settings.httpPort = DEFAULT_PORT;
+    }
+  }
 
-        // Add a command to run all Python scripts
-        this.addCommand({
-            id: 'run-all-python-scripts',
-            name: 'Run all Python scripts',
-            callback: () => this.runAllPythonScripts(),
-        });
+  async saveSettings() {
+    await this.saveData(this.settings);
+    // Check if port changed and restart server if needed
+    if (this.server && this.settings.httpPort !== this.initialHttpPort) {
+      console.log(
+        `HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`,
+      );
+      new Notice(
+        `Python Bridge: HTTP port changed to ${this.settings.httpPort}. Restarting server...`,
+        3000,
+      );
+      this.stopHttpServer();
+      this.startHttpServer();
+      this.initialHttpPort = this.settings.httpPort; // Update tracked port
+    }
+  }
 
-        // Start the Unix Socket server
-        this.startUnixSocketServer();
+  // --- Command Registration ---
+  addCommands() {
+    this.addCommand({
+      id: "run-specific-python-script",
+      name: "Run a specific Python script",
+      callback: () => this.chooseAndRunPythonScript(),
+    });
+
+    this.addCommand({
+      id: "run-all-python-scripts",
+      name: "Run all Python scripts",
+      callback: () => this.runAllPythonScripts(),
+    });
+  }
+
+  // --- HTTP Server Management ---
+  stopHttpServer() {
+    if (this.server) {
+      console.log("Stopping HTTP server...");
+      this.server.close((err) => {
+        if (err) {
+          console.error("Error closing HTTP server:", err);
+        } else {
+          console.log("HTTP server stopped.");
+        }
+        this.server = null;
+      });
+    }
+  }
+
+  startHttpServer() {
+    console.log("Attempting to start HTTP server...");
+    this.stopHttpServer(); // Ensure clean state
+
+    if (
+      !this.settings.httpPort ||
+      typeof this.settings.httpPort !== "number" ||
+      this.settings.httpPort <= 0 ||
+      this.settings.httpPort > 65535
+    ) {
+      const errorMsg = `Invalid HTTP port configured: ${this.settings.httpPort}. Server not started.`;
+      console.error(errorMsg);
+      new Notice(`Python Bridge: ${errorMsg}`);
+      return;
     }
 
-    // Unix Socket server to receive requests from Python
-    startUnixSocketServer() {
-        if (fs.existsSync(this.settings.socketPath)) {
-            fs.unlinkSync(this.settings.socketPath); // Remove the old socket if present
-        }
-
-        this.server = net.createServer((connection) => {
-            connection.on('data', async (data) => {
-                try {
-                    // Convert the received data to a string
-                    const requestString = data.toString();
-                    
-                    // Extract action by finding the content between "---BEGIN-" and "-BEGIN---"
-                    const actionMatch = requestString.match(/---BEGIN-(.*?)-BEGIN---/);
-                    if (!actionMatch) {
-                        throw new Error('Invalid request format: Missing action');
-                    }
-                    const action = actionMatch[1];
-
-                    // Extract the content part by finding the section between the action blocks
-                    const contentMatch = requestString.match(/---BEGIN-.*?-BEGIN---\n([\s\S]*?)\n---END-.*?-END---/);
-                    const content = contentMatch ? contentMatch[1].trim() : '';
-
-                    // Handle different actions based on the extracted action string
-                    if (action === 'get_all_note_paths') {
-                        try {
-                            const allNotePaths = this.getAllNotePaths();
-                    
-                            // Send the paths 10 at a time
-                            for (let i = 0; i < allNotePaths.length; i += 10) {
-                                const chunk = allNotePaths.slice(i, i + 10).join('||'); // Join 10 paths with '||' separator
-                                connection.write(`---BEGIN-get_all_note_paths-BEGIN---\n${chunk}\n---END-get_all_note_paths-END---`);
-                            }
-                    
-                            // Indicate end of transmission
-                            connection.write(`---BEGIN-get_all_note_paths-END---\nEND\n---END-get_all_note_paths-END---`);
-                        } catch (error) {
-                            console.error('Error fetching all note paths:', error);
-                    
-                            // Check if the error has a message property
-                            if (error instanceof Error) {
-                                connection.write(`---BEGIN-get_all_note_paths-ERROR---\n${error.message}\n---END-get_all_note_paths-ERROR---`);
-                            } else {
-                                connection.write(`---BEGIN-get_all_note_paths-ERROR---\nUnknown error occurred\n---END-get_all_note_paths-ERROR---`);
-                            }
-                        }
-
-                    } else if (action === 'get_active_note_content') {
-                        try {
-                            const noteContent = await this.getActiveNoteContent();
-                            connection.write(`---BEGIN-get_active_note_content-BEGIN---\n${noteContent}\n---END-get_active_note_content-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to get active note content:', errorMessage);
-                            connection.write(`---BEGIN-get_active_note_content-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_content-END---`);
-                        }
-                    
-                    } else if (action === 'get_active_note_absolute_path') {
-                        try {
-                            const absolutePath = this.getActiveNoteAbsolutePath();
-                            connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\n${absolutePath}\n---END-get_active_note_absolute_path-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to get active note absolute path:', errorMessage);
-                            connection.write(`---BEGIN-get_active_note_absolute_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_absolute_path-END---`);
-                        }
-                    
-                    } else if (action === 'get_active_note_relative_path') {
-                        try {
-                            const relativePath = this.getActiveNoteRelativePath();
-                            connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\n${relativePath}\n---END-get_active_note_relative_path-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to get active note relative path:', errorMessage);
-                            connection.write(`---BEGIN-get_active_note_relative_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_relative_path-END---`);
-                        }
-                    
-                    } else if (action === 'get_active_note_title') {
-                        try {
-                            const title = this.getActiveNoteTitle();
-                            connection.write(`---BEGIN-get_active_note_title-BEGIN---\n${title}\n---END-get_active_note_title-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to get active note title:', errorMessage);
-                            connection.write(`---BEGIN-get_active_note_title-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_active_note_title-END---`);
-                        }
-                    
-                    } else if (action === 'get_current_vault_absolute_path') {
-                        try {
-                            const vaultPath = this.getCurrentVaultAbsolutePath();
-                            connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\n${vaultPath}\n---END-get_current_vault_absolute_path-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to get current vault absolute path:', errorMessage);
-                            connection.write(`---BEGIN-get_current_vault_absolute_path-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-get_current_vault_absolute_path-END---`);
-                        }                  
-
-                    } else if (action === 'show_notification') {
-                        try {
-                            this.showNotification(content); // Appelle la fonction showNotification avec le contenu extrait
-                            connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: true||error: \n---END-show_notification-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error'; // Gérer les erreurs inconnues
-                            console.error('Failed to show notification:', errorMessage);
-                            connection.write(`---BEGIN-show_notification-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-show_notification-END---`);
-                        }
-                    
-                    } else if (action === 'modify_note_content') {
-                        const [notePath, newContent] = content.split('||');
-
-                        try {
-                            await this.modifyNoteContent(notePath, newContent);
-                            connection.write(`---BEGIN-modify_note_content-BEGIN---\nsuccess: true||error: \n---END-modify_note_content-END---`);
-                        } catch (err) {
-                            const errorMessage = (err instanceof Error) ? err.message : 'Unknown error';
-                            console.error('Failed to modify note content:', errorMessage);
-                            connection.write(`---BEGIN-modify_note_content-BEGIN---\nsuccess: false||error: ${errorMessage}\n---END-modify_note_content-END---`);
-                    }
-
-                    } else if (action === 'get_active_note_frontmatter') {
-                        // Get the frontmatter of the active note
-                        const frontmatterData = await this.getActiveNoteFrontmatter();
-                        connection.write(`---BEGIN-get_active_note_frontmatter-BEGIN---\n${JSON.stringify(frontmatterData)}\n---END-get_active_note_frontmatter-END---`);
-
-                    } else if (action === 'request_user_input') {
-                        // Parse additional parameters for user input from the content
-                        const [scriptName, inputType, message, validationRegex, minValueStr, maxValueStr, stepStr] = content.split('||');
-
-                        // Convert strings to numbers for parameters that are expected to be numbers
-                        const minValue = Number(minValueStr);
-                        const maxValue = Number(maxValueStr);
-                        const step = Number(stepStr);
-                        
-                        // Request user input with the correct types
-                        const userInput = await this.requestUserInput(
-                            scriptName,
-                            inputType,
-                            message,
-                            validationRegex,
-                            minValue,   // Now a number
-                            maxValue,   // Now a number
-                            step        // Now a number
-                        );
-                        
-                        connection.write(`---BEGIN-request_user_input-BEGIN---\n${userInput}\n---END-request_user_input-END---`);
-
-                    } else {
-                        // Handle unknown actions
-                        connection.write(`---BEGIN-error-BEGIN---\nUnknown action\n---END-error-END---`);
-                    }
-
-                } catch (error) {
-                    console.error('Error handling socket data:', error);
-                    connection.write(`---BEGIN-error-BEGIN---\nInvalid request format\n---END-error-END---`);
-                } finally {
-                    connection.end(); // End the connection after processing
-                }
-            });
-
-            connection.on('error', (err) => {
-                console.error('Socket error:', err);
-            });
-        });
-
-        this.server.listen(this.settings.socketPath, () => {
-            console.log(`Unix Socket server running at ${this.settings.socketPath}`);
-        });
-
-        // Ensure the socket is removed when the plugin is unloaded
-        this.registerEvent(
-            this.app.workspace.on('quit', () => {
-                if (this.server) {
-                    this.server.close(() => {
-                        console.log('Socket server stopped');
-                        if (fs.existsSync(this.settings.socketPath)) {
-                            fs.unlinkSync(this.settings.socketPath);
-                        }
-                    });
-                }
-            })
+    this.server = http.createServer(
+      async (req: http.IncomingMessage, res: http.ServerResponse) => {
+        const { method, url } = req;
+        const remoteAddress =
+          req.socket.remoteAddress || "unknown";
+        console.log(
+          `HTTP Request received: ${method} ${url} from ${remoteAddress}`,
         );
-    }
 
-    // Function to get the paths of all notes in the vault
-    getAllNotePaths(): string[] {
-        const files = this.app.vault.getFiles();
-        const notePaths = files.map(file => file.path); // Extract paths of all files
-        return notePaths;
-    }
+        // Basic routing and method check
+        if (url !== "/" || method !== "POST") {
+          console.log(`Ignoring request: Invalid method/path (${method} ${url})`);
+          res.writeHead(404, { "Content-Type": "application/json" });
+          res.end(
+            JSON.stringify({
+              status: "error",
+              error: "Not Found: Please POST to /",
+            }),
+          );
+          return;
+        }
 
-    // Function to request user input via a modal
-    async requestUserInput(scriptName: string, inputType: string, message: string, validationRegex?: string, minValue?: number, maxValue?: number, step?: number): Promise<any> {
-        return new Promise((resolve) => {
-            const onSubmit = (input: any) => {
-                resolve(input);
+        // Check Content-Type
+        if (req.headers["content-type"] !== "application/json") {
+           console.log(`Ignoring request: Invalid Content-Type (${req.headers['content-type']})`);
+           res.writeHead(415, { "Content-Type": "application/json" }); // Unsupported Media Type
+           res.end(JSON.stringify({ status: "error", error: "Invalid Content-Type: application/json required" }));
+           return;
+        }
+
+
+        let body = "";
+        req.on("data", (chunk) => {
+          body += chunk.toString(); // Collect request body
+        });
+
+        req.on("end", async () => {
+          let request: JsonRequest;
+          let response: JsonResponse;
+
+          try {
+            console.log(`Attempting to parse JSON request body: ${body}`);
+            request = JSON.parse(body);
+
+            // Basic validation of parsed request
+            if (
+              !request ||
+              typeof request !== "object" ||
+              typeof request.action !== "string"
+            ) {
+              throw new Error("Invalid JSON request structure. 'action' field is missing or invalid.");
+            }
+
+            console.log(`Handling action: ${request.action}`);
+            response = await this.handleAction(request); // Process the action
+            console.log(
+              `Action ${request.action} handled, sending response:`,
+              response,
+            );
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error ? error.message : String(error);
+            console.error("Error processing request:", errorMessage);
+            response = {
+              status: "error",
+              error: `Failed to process request: ${errorMessage}`,
             };
-            new UserInputModal(this.app, scriptName, inputType, message, onSubmit, validationRegex, minValue, maxValue, step).open();
+          }
+
+          // Send the response back
+          const responseJson = JSON.stringify(response);
+          res.writeHead(response.status === "success" ? 200 : 500, { // Use 500 for server-side errors during processing
+            "Content-Type": "application/json",
+            "Content-Length": Buffer.byteLength(responseJson),
+          });
+          res.end(responseJson);
+          console.log("HTTP Response sent.");
         });
-    }
-    
-    // Function to get the active note's file
-    getActiveNote(): TFile | null {
-        const activeLeaf = this.app.workspace.activeLeaf;
-        if (!activeLeaf || !(activeLeaf.view instanceof MarkdownView)) {
-            return null;
-        }
-        return activeLeaf.view.file;
-    }
 
-    // Function to retrieve the content of the current active note
-    async getActiveNoteContent(): Promise<string | null> {
-        const activeNote = this.getActiveNote();
-        if (!activeNote) {
-            console.error('No active note found');
-            return null;
-        }
-
-        const content = await this.app.vault.read(activeNote);
-        return content;
-    }
-
-    // Function to retrieve the absolute path of the current active note
-    getActiveNoteRelativePath(): string | null {
-        const activeNote = this.getActiveNote();
-        if (!activeNote) {
-            console.error('No active note found');
-            return null;
-        }
-
-        const absolutePath = activeNote.path;
-        return absolutePath;
-    }
-
-    // Function to retrieve the absolute path of the current active note
-    getActiveNoteAbsolutePath(): string | null {
-        const activeNote = this.getActiveNote();
-        if (!activeNote) {
-            console.error('No active note found');
-            return null;
-        }
-
-        // Retrieve the vault's absolute path
-        const vaultPath = this.getCurrentVaultAbsolutePath();
-        if (!vaultPath) {
-            console.error('Unable to retrieve the vault path');
-            return null;
-        }
-
-        // Retrieve the note's relative path
-        const relativeNotePath = this.getActiveNoteRelativePath();
-        if (!relativeNotePath) {
-            console.error('Unable to retrieve the relative note path');
-            return null;
-        }
-
-        // Construct and return the absolute path by combining the vault path and the note's relative path
-        const absoluteNotePath = `${vaultPath}/${relativeNotePath}`;
-        return absoluteNotePath;
-    }
-
-    // Function to retrieve the title of the current active note
-    getActiveNoteTitle(): string | null {
-        const activeNote = this.getActiveNote();
-        if (!activeNote) {
-            console.error('No active note found');
-            return null;
-        }
-
-        const title = activeNote.basename;
-        return title;
-    }
-
-    // Function to retrieve the absolute path of the current vault
-    getCurrentVaultAbsolutePath(): string | null {
-        const adapter = this.app.vault.adapter;
-
-        // Ensure the adapter is a FileSystemAdapter (which gives access to the local file system)
-        if (adapter instanceof FileSystemAdapter) {
-            const vaultPath = adapter.getBasePath(); // Correct method for FileSystemAdapter
-            return vaultPath;
-        } else {
-            return null; // If the adapter is not a FileSystemAdapter (e.g., in a non-file system vault)
-        }
-    }
-
-    // Function to modify the content of a note at a specified path.
-    async modifyNoteContent(notePath: string, content: string): Promise<void> {
-        // Get the absolute path of the vault
-        const vaultPath = this.getCurrentVaultAbsolutePath();
-        if (!vaultPath) {
-            throw new Error('Unable to retrieve the vault path.');
-        }
-
-        // Calculate relative path from vault path
-        const relativePath = notePath.replace(`${vaultPath}/`, '');
-        
-        // Use relative path to get file
-        const file = this.app.vault.getAbstractFileByPath(relativePath);
-        if (file instanceof TFile) {
-            await this.app.vault.modify(file, content);
-            console.log(`Content modified for the note at path: "${relativePath}"`); // Log success
-        } else {
-            console.log(`File at path "${relativePath}" not found.`); // Show message in console
-            throw new Error(`File at path "${relativePath}" not found.`);
-        }
-    }
-
-    // Function to retrieve the active note's Frontmatter and convert the values
-    async getActiveNoteFrontmatter(): Promise<any> {
-        const activeNote = this.getActiveNote();
-        if (!activeNote) {
-            return { error: 'No active note found' };
-    }
-        const cache = this.app.metadataCache.getFileCache(activeNote);
-        if (cache && cache.frontmatter) {
-            // Convert each frontmatter value
-            const convertedFrontmatter = Object.keys(cache.frontmatter).reduce((result, key) => {
-                // Use the ! operator to tell TypeScript that cache.frontmatter[key] is not undefined
-                result[key] = convertFrontmatterValue(cache.frontmatter![key]);
-                return result;
-            }, {} as Record<string, any>);
-
-            return { frontmatter: convertedFrontmatter };
-        } else {
-            return null;
-        }
-    }
-
-    showNotification(notificationText: string) {
-        new Notice(notificationText); // Affiche la notification avec le texte reçu
-    }
-    
-
-    // Function to run a Python script
-    async runPythonScript(scriptPath: string) {
-        if (this.settings.socketPath !== this.initialSocketPath) {
-            new Notice("⚠️ Warning: The socket path has been changed. Please restart Obsidian to avoid malfunctions during script execution.");
-        }
-        console.log(`Running Python script: ${scriptPath}`);
-    
-        const pythonArgs = this.settings.disablePyCache ? ['-B', scriptPath] : [scriptPath];
-        const process = spawn('python3', pythonArgs);
-    
-        process.stdout.on('data', (data) => {
-            const dataStr = data.toString();
-            console.log(`Output from Python script: ${dataStr}`);
-    
-            try {
-                // Si le script Python renvoie une notification
-                const actionBeginTag = '---BEGIN-show_notification-BEGIN---';
-                const actionEndTag = '---END-show_notification-END---';
-    
-                if (dataStr.includes(actionBeginTag) && dataStr.includes(actionEndTag)) {
-                    const notificationText = dataStr.split(actionBeginTag)[1].split(actionEndTag)[0].trim();
-                    this.showNotification(notificationText); // Appelle la fonction dédiée
-                } else {
-                    console.log('Received non-notification output:', dataStr);
-                }
-            } catch (error) {
-                console.error('Error processing message from Python script:', error);
-            }
+        req.on("error", (err) => {
+          console.error("Error reading request stream:", err.message);
+           if (!res.writableEnded) {
+               res.writeHead(500, { "Content-Type": "application/json" });
+               res.end(JSON.stringify({ status: "error", error: "Error reading request data" }));
+           }
         });
-    
-        process.stderr.on('data', (data) => {
-            console.error(`Error from Python script: ${data}`);
-        });
-    
-        process.on('close', (code) => {
-            console.log(`Python script finished with exit code ${code}`);
-        });
+      },
+    );
+
+    this.server.on("error", (err: NodeJS.ErrnoException) => {
+      let errorMsg = `HTTP server error: ${err.message}`;
+      if (err.code === "EADDRINUSE") {
+        errorMsg = `Port ${this.settings.httpPort} is already in use. Please choose another port in settings or close the other application.`;
+        console.error(errorMsg);
+      } else {
+        console.error("HTTP server error:", err);
+      }
+      new Notice(`Python Bridge: ${errorMsg}`, 10000);
+      this.server = null; // Ensure server is marked as stopped
+    });
+
+    try {
+      // Listen only on localhost for security
+      this.server.listen(this.settings.httpPort, "127.0.0.1", () => {
+        console.log(
+          `HTTP server listening on http://127.0.0.1:${this.settings.httpPort}`,
+        );
+        // No chmod needed for HTTP ports
+      });
+    } catch (listenErr) {
+      const errorMsg =
+        listenErr instanceof Error ? listenErr.message : String(listenErr);
+      console.error("Failed to listen on HTTP port:", errorMsg);
+      new Notice(
+        `Python Bridge: Failed to start server on port ${this.settings.httpPort}. ${errorMsg}`,
+      );
+      this.server = null;
     }
-    
+  }
+
+  // handleAction remains largely the same, as it deals with application logic, not transport
+  async handleAction(request: JsonRequest): Promise<JsonResponse> {
+    const { action, payload } = request;
+    console.log(`Executing action: ${action} with payload:`, payload);
+
+    try {
+      switch (action) {
+        case "get_all_note_paths":
+          const paths = this.getAllNotePaths();
+          return { status: "success", data: paths };
+
+        case "get_active_note_content":
+          const content = await this.getActiveNoteContent();
+          return content !== null
+            ? { status: "success", data: content }
+            : { status: "error", error: "No active Markdown note found." };
+
+        case "get_active_note_relative_path":
+          const relativePath = this.getActiveNoteRelativePath();
+          return relativePath !== null
+            ? { status: "success", data: relativePath }
+            : { status: "error", error: "No active Markdown note found." };
+
+        case "get_active_note_absolute_path":
+          const absolutePath = this.getActiveNoteAbsolutePath();
+          return absolutePath !== null
+            ? { status: "success", data: absolutePath }
+            : {
+                status: "error",
+                error: "No active note or vault path unavailable.",
+              };
+
+        case "get_active_note_title":
+          const title = this.getActiveNoteTitle();
+          return title !== null
+            ? { status: "success", data: title }
+            : { status: "error", error: "No active Markdown note found." };
+
+        case "get_current_vault_absolute_path":
+          const vaultPath = this.getCurrentVaultAbsolutePath();
+          return vaultPath !== null
+            ? { status: "success", data: vaultPath }
+            : {
+                status: "error",
+                error: "Could not determine vault absolute path.",
+              };
+
+        case "get_active_note_frontmatter":
+          const frontmatter = await this.getActiveNoteFrontmatter();
+          return { status: "success", data: frontmatter }; // null is a valid success case
+
+        case "show_notification":
+          if (typeof payload?.content !== "string") {
+            return {
+              status: "error",
+              error: "Invalid payload: 'content' (string) required.",
+            };
+          }
+          const duration =
+            typeof payload?.duration === "number" ? payload.duration : 4000;
+          console.log(
+            `Showing notification: "${payload.content}", duration: ${duration}`,
+          );
+          this.showNotification(payload.content, duration);
+          console.log("Notification shown.");
+          return { status: "success", data: null };
+
+        case "modify_note_content":
+          if (
+            typeof payload?.filePath !== "string" ||
+            typeof payload?.content !== "string"
+          ) {
+            return {
+              status: "error",
+              error:
+                "Invalid payload: 'filePath' and 'content' (strings) required.",
+            };
+          }
+          // modifyNoteContent now needs to handle potential errors better
+          try {
+              await this.modifyNoteContent(payload.filePath, payload.content);
+              return { status: "success", data: null };
+          } catch (modifyError) {
+              const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
+              console.error(`Error in modifyNoteContent for ${payload.filePath}: ${errorMsg}`);
+              return { status: "error", error: `Failed to modify note: ${errorMsg}` };
+          }
 
 
-    // Function to choose a Python script and run it
-    async chooseAndRunPythonScript() {
-        const scriptsFolder = this.getScriptsFolderPath();
+        case "request_user_input":
+          if (
+            typeof payload?.scriptName !== "string" ||
+            typeof payload?.inputType !== "string" ||
+            typeof payload?.message !== "string"
+          ) {
+            return {
+              status: "error",
+              error:
+                "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
+            };
+          }
+          const userInput = await this.requestUserInput(
+            payload.scriptName,
+            payload.inputType,
+            payload.message,
+            payload.validationRegex,
+            payload.minValue,
+            payload.maxValue,
+            payload.step,
+          );
+          // Check if user cancelled (modal resolves with null)
+          if (userInput === null) {
+             console.log("User cancelled input modal.");
+             return { status: "error", error: "User cancelled input." };
+          }
+          return { status: "success", data: userInput };
 
-        if (!scriptsFolder || !fs.existsSync(scriptsFolder)) {
-            new Notice('Please specify a valid folder for Python scripts in the plugin settings.');
-            console.log('Invalid or non-existent Python scripts folder.');
-            return;
+
+        default:
+          console.warn(`Received unknown action: ${action}`);
+          return { status: "error", error: `Unknown action: ${action}` };
+      }
+    } catch (error) {
+      // Catch errors from the specific action handlers (e.g., file system errors)
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      console.error(`Error executing action "${action}":`, errorMessage);
+      return {
+        status: "error",
+        error: `Failed to execute action "${action}": ${errorMessage}`,
+      };
+    }
+  }
+
+  // --- Obsidian Interaction Helpers (Unchanged) ---
+  getActiveNoteFile(): TFile | null {
+    const activeLeaf = this.app.workspace.activeLeaf;
+    return activeLeaf?.view instanceof MarkdownView
+      ? activeLeaf.view.file
+      : null;
+  }
+
+  async getActiveNoteContent(): Promise<string | null> {
+    const file = this.getActiveNoteFile();
+    return file ? this.app.vault.read(file) : null;
+  }
+
+  getActiveNoteRelativePath(): string | null {
+    return this.getActiveNoteFile()?.path ?? null;
+  }
+
+  getActiveNoteAbsolutePath(): string | null {
+    const file = this.getActiveNoteFile();
+    const vaultPath = this.getCurrentVaultAbsolutePath();
+    if (!file || !vaultPath) return null;
+    // Ensure vaultPath doesn't have trailing slash for cleaner joining
+    const cleanVaultPath = vaultPath.replace(/[\\/]$/, "");
+    return path.join(cleanVaultPath, file.path);
+  }
+
+  getActiveNoteTitle(): string | null {
+    return this.getActiveNoteFile()?.basename ?? null;
+  }
+
+  getCurrentVaultAbsolutePath(): string | null {
+    const adapter = this.app.vault.adapter;
+    return adapter instanceof FileSystemAdapter ? adapter.getBasePath() : null;
+  }
+
+  async getActiveNoteFrontmatter(): Promise<Record<string, any> | null> {
+    const file = this.getActiveNoteFile();
+    if (!file) return null;
+    const metadata = this.app.metadataCache.getFileCache(file);
+    // Return Obsidian's parsed frontmatter directly, or null if none
+    return metadata?.frontmatter ?? null;
+  }
+
+  showNotification(message: string, duration: number = 4000) {
+    new Notice(message, duration);
+  }
+
+  async modifyNoteContent(
+    absoluteFilePath: string,
+    newContent: string,
+  ): Promise<void> {
+    const vaultPath = this.getCurrentVaultAbsolutePath();
+    if (!vaultPath) {
+      throw new Error(
+        "Cannot modify note: Vault path is unavailable (non-filesystem adapter?).",
+      );
+    }
+
+    // Ensure input path is absolute
+    if (!path.isAbsolute(absoluteFilePath)) {
+        throw new Error(`Cannot modify note: Provided path is not absolute: ${absoluteFilePath}`);
+    }
+
+    // Calculate relative path carefully
+    const relativePath = path.relative(vaultPath, absoluteFilePath);
+
+    // Prevent path traversal attempts (e.g., ../../..)
+    if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+        throw new Error(`Cannot modify note: Path is outside the current vault: ${absoluteFilePath}`);
+    }
+
+    // Normalize to forward slashes for Obsidian API
+    const normalizedPath = relativePath.replace(/\\/g, "/");
+
+    const file = this.app.vault.getAbstractFileByPath(normalizedPath);
+    if (!(file instanceof TFile)) {
+      throw new Error(
+        `Cannot modify note: File not found in vault at normalized path: ${normalizedPath} (derived from ${absoluteFilePath})`,
+      );
+    }
+    console.log(`Attempting to modify note via Vault API: ${normalizedPath}`);
+    await this.app.vault.modify(file, newContent);
+    console.log(`Note modified successfully: ${normalizedPath}`);
+  }
+
+  async requestUserInput(
+    scriptName: string,
+    inputType: string,
+    message: string,
+    validationRegex?: string,
+    minValue?: number,
+    maxValue?: number,
+    step?: number,
+  ): Promise<any> { // Returns null if cancelled
+    return new Promise((resolve) => {
+      const modal = new UserInputModal(
+        this.app,
+        scriptName,
+        inputType,
+        message,
+        (input) => resolve(input), // Resolve with input or null on cancel
+        validationRegex,
+        minValue,
+        maxValue,
+        step,
+      );
+      modal.open();
+    });
+  }
+
+  getAllNotePaths(): string[] {
+    return this.app.vault.getMarkdownFiles().map((f) => f.path);
+  }
+
+  // --- Python Script Execution ---
+  getScriptsFolderPath(): string {
+    const { pythonScriptsFolder } = this.settings;
+    if (!pythonScriptsFolder) return "";
+
+    if (path.isAbsolute(pythonScriptsFolder)) {
+      return fs.existsSync(pythonScriptsFolder) ? pythonScriptsFolder : "";
+    } else {
+      const vaultPath = this.getCurrentVaultAbsolutePath();
+      if (!vaultPath) {
+        console.error("Cannot resolve relative script path: Vault path unavailable.");
+        return "";
+      }
+      const resolvedPath = path.join(vaultPath, pythonScriptsFolder);
+      return fs.existsSync(resolvedPath) ? resolvedPath : "";
+    }
+  }
+
+  async runPythonScript(scriptPath: string) {
+    // Check if port changed since load (less critical now, but good practice)
+    if (this.settings.httpPort !== this.initialHttpPort) {
+      new Notice(
+        `⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Scripts might target the old port until Obsidian restarts or settings are saved again.`,
+        8000,
+      );
+      // Optionally force restart server here if desired, but saving settings already does
+    }
+
+    if (!fs.existsSync(scriptPath)) {
+      new Notice(`Python script not found: ${scriptPath}`);
+      console.error(`Python script not found: ${scriptPath}`);
+      return;
+    }
+
+    console.log(`Running Python script: ${scriptPath}`);
+    const pythonExecutable = "python3"; // Consider making this configurable
+    const pythonArgs = this.settings.disablePyCache
+      ? ["-B", scriptPath]
+      : [scriptPath];
+    const scriptName = path.basename(scriptPath);
+
+    try {
+      // Pass HTTP port via environment variable
+      const env = {
+        ...process.env,
+        OBSIDIAN_HTTP_PORT: String(this.settings.httpPort),
+      };
+      const pythonProcess: ChildProcess = spawn(pythonExecutable, pythonArgs, {
+        env,
+      });
+
+      pythonProcess.stdout?.on("data", (data: Buffer) => {
+        console.log(`[Output ${scriptName}]:\n${data.toString().trim()}`);
+        // Optionally show output in a notice? Could be noisy.
+        // new Notice(`Output from ${scriptName}:\n${data.toString().trim()}`, 5000);
+      });
+
+      pythonProcess.stderr?.on("data", (data: Buffer) => {
+        const errorMsg = data.toString().trim();
+        console.error(`[Error ${scriptName}]:\n${errorMsg}`);
+        // Show stderr output prominently as it likely indicates script errors
+        new Notice(`Error in ${scriptName}:\n${errorMsg}`, 10000);
+      });
+
+      pythonProcess.on("close", (code: number | null) => {
+        const exitMsg = `${scriptName} finished with exit code ${
+          code ?? "unknown"
+        }.`;
+        console.log(exitMsg);
+        if (code !== 0) {
+          new Notice(exitMsg, 5000); // Notify if script exited with an error code
         }
+      });
 
-        const pythonFiles = fs.readdirSync(scriptsFolder).filter((file) => file.endsWith('.py'));
+      pythonProcess.on("error", (err: Error) => {
+        // Errors spawning the process itself
+        console.error(`Failed starting ${scriptName}:`, err.message);
+        new Notice(`Failed to start ${scriptName}: ${err.message}`);
+      });
+    } catch (error) {
+      // Catch errors in the spawn call itself (e.g., executable not found)
+      const errorMsg =
+        error instanceof Error ? error.message : String(error);
+      console.error(`Error spawning ${scriptName}:`, errorMsg);
+      new Notice(`Error running ${scriptName}: ${errorMsg}`);
+    }
+  }
 
-        if (pythonFiles.length === 0) {
-            new Notice('No Python scripts found in the specified folder.');
-            console.log('No Python files found in the specified folder.');
-            return;
-        }
-
-        const scriptChoices = pythonFiles.map((file) => ({
-            label: file,
-            value: path.join(scriptsFolder, file),
-        }));
-
-        // Use a modal to allow the user to choose the script
-        new ScriptSelectionModal(this.app, scriptChoices, (selectedScript) => {
-            if (selectedScript) {
-                this.runPythonScript(selectedScript);
-            } else {
-                new Notice('No script selected.');
-            }
-        }).open();
+  async chooseAndRunPythonScript() {
+    const scriptsFolder = this.getScriptsFolderPath();
+    if (!scriptsFolder) { // Already checks existence in getScriptsFolderPath
+      new Notice(
+        "Python scripts folder not found or invalid. Check plugin settings.",
+      );
+      return;
     }
 
-    // Function to run all Python scripts in the specified folder
-    async runAllPythonScripts() {
-        const scriptsFolder = this.getScriptsFolderPath();
-
-        if (!scriptsFolder || !fs.existsSync(scriptsFolder)) {
-            new Notice('Please specify a valid folder for Python scripts in the plugin settings.');
-            console.log('Invalid or non-existent Python scripts folder.');
-            return;
-        }
-
-        const pythonFiles = fs.readdirSync(scriptsFolder).filter((file) => file.endsWith('.py'));
-
-        if (pythonFiles.length === 0) {
-            new Notice('No Python scripts found in the specified folder.');
-            console.log('No Python files found in the specified folder.');
-            return;
-        }
-
-        for (const file of pythonFiles) {
-            const scriptPath = path.join(scriptsFolder, file);
-            await this.runPythonScript(scriptPath);
-        }
+    let pythonFiles: string[];
+    try {
+      pythonFiles = fs
+        .readdirSync(scriptsFolder)
+        .filter((f) => f.endsWith(".py") && !f.startsWith(".")); // Ignore hidden files
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      new Notice(`Error reading scripts folder: ${errorMsg}`);
+      console.error(`Error reading scripts folder ${scriptsFolder}:`, err);
+      return;
     }
 
-    // Get the path to the Python scripts folder
-    getScriptsFolderPath(): string {
-        const { pythonScriptsFolder } = this.settings;
-
-        if (!pythonScriptsFolder) {
-            return '';
-        }
-
-        if (path.isAbsolute(pythonScriptsFolder)) {
-            return pythonScriptsFolder;
-        } else {
-            const adapter = this.app.vault.adapter;
-            let basePath: string;
-
-            if (adapter instanceof FileSystemAdapter) {
-                basePath = adapter.getBasePath();
-            } else {
-                // Handle other types of adapters if necessary
-                new Notice('Cannot determine base path for non-filesystem vault.');
-                console.log('Vault adapter is not a FileSystemAdapter.');
-                return '';
-            }
-
-            return path.join(basePath, pythonScriptsFolder);
-        }
+    if (pythonFiles.length === 0) {
+      new Notice("No Python scripts (.py) found in the specified folder.");
+      return;
     }
 
-    onunload() {
-        console.log('Unloading the Obsidian Python Bridge plugin');
-        if (this.server) {
-            this.server.close(() => {
-                console.log('Socket server stopped');
-                if (fs.existsSync(this.settings.socketPath)) {
-                    fs.unlinkSync(this.settings.socketPath);
-                }
-            });
-        }
+    const scriptChoices = pythonFiles.map((f) => ({
+      label: f,
+      value: path.join(scriptsFolder, f),
+    }));
+
+    new ScriptSelectionModal(this.app, scriptChoices, (selectedPath) => {
+      if (selectedPath) {
+        this.runPythonScript(selectedPath);
+      } else {
+        console.log("Script selection cancelled.");
+      }
+    }).open();
+  }
+
+  async runAllPythonScripts() {
+    const scriptsFolder = this.getScriptsFolderPath();
+    if (!scriptsFolder) {
+      new Notice(
+        "Python scripts folder not found or invalid. Check plugin settings.",
+      );
+      return;
     }
 
-    async loadSettings() {
-        this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    let pythonFiles: string[];
+    try {
+      pythonFiles = fs
+        .readdirSync(scriptsFolder)
+        .filter((f) => f.endsWith(".py") && !f.startsWith("."));
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      new Notice(`Error reading scripts folder: ${errorMsg}`);
+      console.error(`Error reading scripts folder ${scriptsFolder}:`, err);
+      return;
     }
 
-    async saveSettings() {
-        await this.saveData(this.settings);
-    }
-}
-
-
-// Modal class for selecting a Python script from the list
-class ScriptSelectionModal extends SuggestModal<string> {
-    scriptChoices: { label: string; value: string }[];
-    onChoose: (result: string | null) => void;
-
-    constructor(app: App, scriptChoices: { label: string; value: string }[], onChoose: (result: string | null) => void) {
-        super(app);
-        this.scriptChoices = scriptChoices;
-        this.onChoose = onChoose;
+    if (pythonFiles.length === 0) {
+      new Notice("No Python scripts (.py) found in the specified folder.");
+      return;
     }
 
-    getSuggestions(query: string): string[] {
-        return this.scriptChoices
-            .filter((choice) => choice.label.toLowerCase().includes(query.toLowerCase()))
-            .map((choice) => choice.label);
-    }
-
-    renderSuggestion(value: string, el: HTMLElement) {
-        el.createEl('div', { text: value });
-    }
-
-    onChooseSuggestion(item: string, evt: MouseEvent | KeyboardEvent) {
-        const selected = this.scriptChoices.find(choice => choice.label === item);
-        if (selected) {
-            this.onChoose(selected.value);
-        } else {
-            this.onChoose(null);
-        }
-    }
-}
+    new Notice(`Running ${pythonFiles.length} Python script(s)...`);
+    pythonFiles.forEach((file) => {
+      const scriptPath = path.join(scriptsFolder, file);
+      // Run scripts sequentially with a small delay? Or concurrently?
+      // Running concurrently might overwhelm the server or Obsidian API if many scripts run
+      // Let's run them concurrently for now, as before.
+      this.runPythonScript(scriptPath); // Run without await for concurrency
+    });
+  }
+} // End of class ObsidianPythonBridge

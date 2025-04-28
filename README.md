@@ -1,6 +1,5 @@
 # 🐍 Obsidian Python Bridge Plugin
 
-<!-- Replace logo.png with the actual path to your logo -->
 <p align="center">
   <img src="logo.png" alt="Obsidian Python Bridge Logo" width="150">
 </p>
@@ -194,6 +193,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
     - Since the plugin has **not yet been submitted** to the Obsidian community plugins directory, you will need to enable it manually in **Settings** > **Community plugins**.
     - **Set up the script path & port**:
       In the plugin settings, configure the **path to the folder** where your Python scripts will be located and ensure the **HTTP Port** is set correctly (default is `27123`).
+      **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (either by setting the `OBSIDIAN_HTTP_PORT` environment variable or by passing the `http_port` argument when creating the `ObsidianPluginDevPythonToJS` instance).
     - **Download the Python library** `ObsidianPluginDevPythonToJS.py`:
       To use pre-made functions and avoid rewriting complex communication code, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts** (or another directory included in your Python path).
     - **Install Python Dependency**: Your Python scripts using this library now require the `requests` package. Install it using pip:
@@ -223,7 +223,7 @@ Feel free to check out my other plugins for Obsidian on my GitHub, like the **[B
 
 ## License
 
-I've chosen the **MIT License** for this project because I believe in **freedom and open-source**.
+I've chosen the [MIT License](https://choosealicense.com/licenses/mit/) for this project because I believe in **freedom and open-source**.
 If anyone has opinions on other licenses, feel free to share! I've been creating repos for about a week, so I’m still figuring things out as I go along. 😊
 
 And yes, **JavaScript** is great too—let's not forget about it, even though this project is all about **Python**! 😄

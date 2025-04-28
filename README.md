@@ -1,29 +1,34 @@
-**IMPORTANT NOTE 🚨 (December 2024): WE NEED DEVELOPERS, EVEN JUST A LITTLE HELP! THE PROJECT WILL PROGRESS VERY SLOWLY IF NO ONE WHO KNOWS A LITTLE TYPESCRIPT HELPS US OUT ON ONE OR MORE ISSUES!**
-
 # 🐍 Obsidian Python Bridge Plugin
+
+<!-- Replace logo.png with the actual path to your logo -->
+<p align="center">
+  <img src="logo.png" alt="Obsidian Python Bridge Logo" width="150">
+</p>
 
 ## **💥 Develop [Obsidian plugins](https://obsidian.md/plugins) in [Python](https://www.python.org/)!**
 
 Yes, you read that right! With this plugin, you can **develop plugins for Obsidian using Python**. 🎉 This is likely the **first plugin** that lets you directly integrate **Python scripts** into Obsidian to interact with your notes, retrieve metadata, display notifications, and so much more!
 
-> Ever needed to build plugins for Obsidian but felt like JavaScript wasn’t your cup of tea?  
+> Ever needed to build plugins for Obsidian but felt like JavaScript wasn’t your cup of tea?
 > With **Obsidian Python Bridge**, you can now use your favorite language, **Python**, to create plugins for Obsidian. 🙌
 
 ## Description
 
 💻 Developing **Obsidian plugins** without diving into **JavaScript**? Yes, that’s possible with **Obsidian Python Bridge**. This plugin is designed specifically to **execute Python scripts** within Obsidian, and it comes with a **built-in Python library** to make your life easier.
 
+**Cross-Platform Compatibility (Windows, macOS, Linux):** As of **2025-04-28**, the plugin uses a local HTTP server (listening only on `127.0.0.1` for security) instead of Unix sockets for communication. This makes the bridge **fully compatible with Windows, macOS, and Linux**!
+
 Some might think this plugin doesn’t add much compared to running **external Python scripts**, but that’s far from true. There are several key advantages:
 
 #### What's easier with this plugin compared to external Python scripts:
 
-- **Editing the current note**:  
+- **Editing the current note**:
   Without the plugin, you'd need to manually copy the path of the open `.md` file, then run your script in a terminal, pasting the path. This process is tedious and far from user-friendly.
-  
-- **Detecting actions like note creation or deletion**:  
+
+- **Detecting actions like note creation or deletion**:
   Yes, you can achieve this with an external Python script, but it requires constant monitoring, which adds complexity and clutters your code. With this plugin, such actions are handled more seamlessly.
 
-- **Retrieving frontmatter content as a clean dictionary**:  
+- **Retrieving frontmatter content as a clean dictionary**:
   While possible with pure Python, parsing YAML and organizing the data properly takes time and lines of code. With this plugin, it's done in **a single line**. 🙌
 
 In short, while some tasks are technically feasible without this plugin, they’re cumbersome, and this plugin makes them **much simpler and more user-friendly**.
@@ -39,13 +44,13 @@ In short, while some tasks are technically feasible without this plugin, they’
 - **Send native Obsidian notifications**:
   Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
 
-- **Add custom settings for Python scripts**:  
+- **Add custom settings for Python scripts**:
   Soon, you’ll be able to include custom **settings for your Python scripts** directly in Obsidian’s settings panel, just like any other plugin. This was impossible before without this plugin.
 
 - **And much more**:
   Many other features will be implemented over time, allowing deeper integration between Python and Obsidian.
 
-Thanks to the **Python library** I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖
+Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library now requires the `requests` package: `pip install requests`).
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of ChatGPT** (shoutout to **ChatGPT 4o** and **ChatGPT o1-preview** 😉). So, the code might be a bit rough around the edges, but it **works**. That’s all that matters, right?
 
@@ -67,13 +72,28 @@ Here’s a quick example to demonstrate how you can use this feature:
 
 ```python
 # Import the Python-Obsidian bridge module
-from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS
+# Make sure 'requests' is installed: pip install requests
+from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
 
-# Request text input from the user
-response = obsidian.request_user_input(script_name="Text Input",  input_type="text", message="Please enter your name:")
+try:
+    # Create an instance of the class (uses default/env port)
+    obsidian = ObsidianPluginDevPythonToJS()
 
-# Send a notification with the user's input
-obsidian.send_notification(content=f"Hello {response['userInput']}!")
+    # Request text input from the user
+    response = obsidian.request_user_input(
+        script_name="Text Input Example",
+        input_type="text",
+        message="Please enter your name:"
+    )
+
+    # Send a notification with the user's input
+    obsidian.show_notification(content=f"Hello {response}!")
+
+except ObsidianCommError as e:
+    print(f"Error communicating with Obsidian: {e}")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
 ```
 
 In this example, the script opens a **modal dialog** in Obsidian where the user can enter a note title. After the user submits their input, a notification pops up displaying the entered text.
@@ -92,37 +112,45 @@ Feel free to expand this example or adjust it to fit your needs. This feature is
 
 ```python
 # Import the Python-Obsidian bridge module
-from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS
+# Make sure 'requests' is installed: pip install requests
+from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
+import sys
 
-# Create an instance of the class
-obsidian = ObsidianPluginDevPythonToJS()
+try:
+    # Create an instance of the class (uses default/env port)
+    obsidian = ObsidianPluginDevPythonToJS()
 
-# Test sending a notification
-response = obsidian.send_notification(content="Test notification: send_notification function", duration=5000)
+    # Test sending a notification
+    obsidian.show_notification(content="Test notification: show_notification function", duration=5000)
 
-# Test retrieving the content of the active note
-note_data = obsidian.get_active_note_content()
-obsidian.send_notification(content=f"Note content: {note_data['content'][:50]}...", duration=5000)  # Show the first 50 characters of the content
+    # Test retrieving the content of the active note
+    note_content = obsidian.get_active_note_content()
+    obsidian.show_notification(content=f"Note content: {note_content[:50]}...", duration=5000)  # Show the first 50 characters
 
-# Rretrieving the absolute path of the active note
-absolute_path = obsidian.get_active_note_absolute_path()
-obsidian.send_notification(content=f"Absolute path of the note: {absolute_path.get('absolutePath', 'Error retrieving')}", duration=5000)
+    # Retrieving the absolute path of the active note
+    absolute_path = obsidian.get_active_note_absolute_path()
+    obsidian.show_notification(content=f"Absolute path: {absolute_path}", duration=5000)
 
-# Retrieving the relative path of the active note
-relative_path = obsidian.get_active_note_relative_path()
-obsidian.send_notification(content=f"Relative path of the note: {relative_path.get('relativePath', 'Error retrieving')}", duration=5000)
+    # Retrieving the relative path of the active note
+    relative_path = obsidian.get_active_note_relative_path()
+    obsidian.show_notification(content=f"Relative path: {relative_path}", duration=5000)
 
-# Retrieving the title of the active note
-title = obsidian.get_active_note_title()
-obsidian.send_notification(content=f"Title of the active note: {title.get('title', 'Error retrieving')}", duration=5000)
+    # Retrieving the title of the active note
+    title = obsidian.get_active_note_title()
+    obsidian.show_notification(content=f"Title: {title}", duration=5000)
 
-# Retrieving the absolute path of the current vault
-vault_path = obsidian.get_current_vault_absolute_path()
-obsidian.send_notification(content=f"Absolute path of the vault: {vault_path.get('vaultPath', 'Error retrieving')}", duration=5000)
+    # Retrieving the absolute path of the current vault
+    vault_path = obsidian.get_current_vault_absolute_path()
+    obsidian.show_notification(content=f"Vault path: {vault_path}", duration=5000)
 
-# Retrieving the frontmatter of the active note
-frontmatter = obsidian.get_active_note_frontmatter()
-obsidian.send_notification(content=f"Frontmatter: {frontmatter}", duration=5000)
+    # Retrieving the frontmatter of the active note
+    frontmatter = obsidian.get_active_note_frontmatter()
+    obsidian.show_notification(content=f"Frontmatter: {frontmatter}", duration=5000)
+
+except ObsidianCommError as e:
+    print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
+except Exception as e:
+    print(f"An unexpected error occurred: {e}", file=sys.stderr)
 
 ```
 
@@ -134,47 +162,51 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ## 🚀 Future Features (roadmap)
 
-- 🌐 **HTTP support for Windows**: Unix sockets don’t work on **Windows**, but **HTTP support** is in the works to enable seamless interaction on this platform.
 - 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
 - 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 - 📱 **Mobile Support (Future)**: There are long-term plans to potentially support mobile devices, though implementing this feature will be quite challenging.
 - ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
 - 📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
-- 🎨 **Creation of a new logo**: Create a logo that's a mix of Obsidian's and Python's.
 
 ## 🛠️ Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/mathe00/obsidian-plugin-python-bridge.git
-   ```
-2. **Navigate into the project folder**:
-   ```bash
-   cd obsidian-plugin-python-bridge/
-   ```
-3. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-4. **Build the project**:
-   ```bash
-   npm run build
-   ```
-   This will generate the `main.js` file.
-5. **Follow these steps**:
-   - **Create a folder** under `<your-vault>/.obsidian/plugins/obsidian-python-bridge/`.
-   - **Place the generated `main.js` and `manifest.json` files** into this folder.
-   - **Restart Obsidian**.
-   - Since the plugin has **not yet been submitted** to the Obsidian community plugins directory, you will need to enable it manually in **Settings** > **Community plugins**.
-   - **Set up the script path**:  
-     In the plugin settings, configure the **path to the folder** where your Python scripts will be located.
-   - **Download the Python library** `ObsidianPluginDevPythonToJS.py`:  
-     To use pre-made functions and avoid rewriting complex JSON code, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts**. This will help **simplify** your scripts and make them more readable.
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/mathe00/obsidian-plugin-python-bridge.git
+    ```
+2.  **Navigate into the project folder**:
+    ```bash
+    cd obsidian-plugin-python-bridge/
+    ```
+3.  **Install dependencies** (for the plugin itself):
+    ```bash
+    npm install
+    ```
+4.  **Build the project**:
+    ```bash
+    npm run build
+    ```
+    This will generate the `main.js` file.
+5.  **Follow these steps**:
+    - **Create a folder** under `<your-vault>/.obsidian/plugins/obsidian-python-bridge/`.
+    - **Place the generated `main.js` and `manifest.json` files** into this folder.
+    - **Restart Obsidian**.
+    - Since the plugin has **not yet been submitted** to the Obsidian community plugins directory, you will need to enable it manually in **Settings** > **Community plugins**.
+    - **Set up the script path & port**:
+      In the plugin settings, configure the **path to the folder** where your Python scripts will be located and ensure the **HTTP Port** is set correctly (default is `27123`).
+    - **Download the Python library** `ObsidianPluginDevPythonToJS.py`:
+      To use pre-made functions and avoid rewriting complex communication code, **download the `ObsidianPluginDevPythonToJS.py` file** from this repository and place it in **the same directory as your Python scripts** (or another directory included in your Python path).
+    - **Install Python Dependency**: Your Python scripts using this library now require the `requests` package. Install it using pip:
+      ```bash
+      pip install requests
+      # or
+      python3 -m pip install requests
+      ```
 
 ## ⭐ Show Your Support
 
-If you find this plugin useful or interesting, feel free to give it a **star** on GitHub!  
-Or if you’d rather not, you can also drop by and say **hello** or provide feedback through **issues**.  
+If you find this plugin useful or interesting, feel free to give it a **star** on GitHub!
+Or if you’d rather not, you can also drop by and say **hello** or provide feedback through **issues**.
 I’m open to all kinds of feedback, advice, and encouragements! 😊
 
 ## 🛠️ Contributing
@@ -191,7 +223,7 @@ Feel free to check out my other plugins for Obsidian on my GitHub, like the **[B
 
 ## License
 
-I've chosen the **MIT License** for this project because I believe in **freedom and open-source**.  
+I've chosen the **MIT License** for this project because I believe in **freedom and open-source**.
 If anyone has opinions on other licenses, feel free to share! I've been creating repos for about a week, so I’m still figuring things out as I go along. 😊
 
 And yes, **JavaScript** is great too—let's not forget about it, even though this project is all about **Python**! 😄

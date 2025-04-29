@@ -252,8 +252,8 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 -   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
--   <!-- Removed: ⚙️ Python Script Settings Integration -->
 -   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
+-   💖 **Support Section (Consideration)**: Consider adding an optional section to the README in the future where users who appreciate the plugin can find ways to support the author (me!), acknowledging the time invested in its development.
 
 <a id="installation"></a>
 ## 🛠️ Installation

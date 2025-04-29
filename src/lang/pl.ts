@@ -72,4 +72,5 @@ export default {
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Odśwież definicje ustawień skryptów Python",
 	SETTINGS_SECURITY_WARNING_TITLE: "Ostrzeżenie dotyczące bezpieczeństwa",
 	SETTINGS_SECURITY_WARNING_TEXT: "Uruchamianie dowolnych skryptów Python może być ryzykowne. Upewnij się, że ufasz źródłu każdego uruchamianego skryptu, ponieważ mogą one uzyskać dostęp do Twojego systemu i danych. Autor wtyczki i autorzy skryptów nie ponoszą odpowiedzialności za utratę danych ani problemy z bezpieczeństwem spowodowane przez skrypty, które zdecydujesz się uruchomić. Uruchamiaj skrypty na własne ryzyko.",
+	SETTINGS_LANGUAGE_TITLE: "Język Wtyczki",
 };

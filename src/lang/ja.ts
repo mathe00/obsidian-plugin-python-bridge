@@ -72,4 +72,5 @@ export default {
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Python スクリプト設定定義を更新",
 	SETTINGS_SECURITY_WARNING_TITLE: "セキュリティ警告",
 	SETTINGS_SECURITY_WARNING_TEXT: "任意の Python スクリプトの実行にはリスクが伴う可能性があります。実行するスクリプトのソースを信頼できることを確認してください。スクリプトはシステムやデータにアクセスする可能性があります。プラグインの作者およびスクリプトの作者は、ユーザーが実行を選択したスクリプトによって引き起こされたデータの損失やセキュリティの問題について責任を負いません。自己責任でスクリプトを実行してください。",
+	SETTINGS_LANGUAGE_TITLE: "プラグイン言語",
 };

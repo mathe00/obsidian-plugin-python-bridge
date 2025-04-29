@@ -70,4 +70,5 @@ export default {
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "刷新 Python 脚本设置定义",
 	SETTINGS_SECURITY_WARNING_TITLE: "安全警告",
 	SETTINGS_SECURITY_WARNING_TEXT: "执行任意 Python 脚本可能存在风险。请确保您信任所运行脚本的来源，因为它们可以访问您的系统和数据。插件作者和脚本作者对您选择执行的脚本造成的任何数据丢失或安全问题概不负责。运行脚本需自担风险。",
+	SETTINGS_LANGUAGE_TITLE: "插件语言",
 };

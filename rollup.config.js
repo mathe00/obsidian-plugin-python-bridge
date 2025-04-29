@@ -11,7 +11,7 @@ module.exports = {
     dir: '.',
     format: 'cjs',
     sourcemap: 'inline',
-    exports: 'default',
+    exports: 'auto',
   },
   external: ['obsidian'],
   plugins: [

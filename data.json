@@ -2,5 +2,52 @@
   "pythonScriptsFolder": "SCRIPTS-PYTHON/",
   "httpPort": 27125,
   "disablePyCache": true,
-  "pluginLanguage": "auto"
+  "pluginLanguage": "auto",
+  "scriptSettingsDefinitions": {
+    "ObsidianPluginDevPythonToJS.py": [],
+    "test.py": [
+      {
+        "key": "user_name",
+        "type": "text",
+        "label": "User Name",
+        "description": "Enter the name to greet.",
+        "default": "World"
+      },
+      {
+        "key": "enable_greeting",
+        "type": "toggle",
+        "label": "Enable Greeting",
+        "description": "If enabled, the script will show a greeting notification.",
+        "default": true
+      },
+      {
+        "key": "greeting_type",
+        "type": "dropdown",
+        "label": "Greeting Type",
+        "description": "Choose the type of greeting.",
+        "default": "standard",
+        "options": [
+          "standard",
+          "formal",
+          "casual"
+        ]
+      },
+      {
+        "key": "repeat_count",
+        "type": "number",
+        "label": "Repeat Count",
+        "description": "How many times to repeat the greeting (in logs).",
+        "default": 1,
+        "min": 1,
+        "max": 5
+      }
+    ]
+  },
+  "scriptSettingsValues": {
+    "test.py": {
+      "user_name": "Michou",
+      "greeting_type": "casual",
+      "repeat_count": 9
+    }
+  }
 }

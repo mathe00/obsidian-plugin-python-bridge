@@ -13,6 +13,7 @@ import json
 import sys
 import traceback
 from typing import Any, Dict, List, Optional, Union
+import argparse # Needed for CLI argument parsing
 
 # --- Dependencies ---
 # Attempt to import requests, required for HTTP communication
@@ -52,6 +53,83 @@ DEFAULT_HTTP_PORT = 27123
 # Scripts using this library can override this in the constructor.
 HTTP_PORT = int(os.environ.get("OBSIDIAN_HTTP_PORT", DEFAULT_HTTP_PORT))
 
+# --- Global variable to store settings definitions ---
+# This will be populated by the user script calling define_settings
+_script_settings_definitions: List[Dict[str, Any]] = []
+
+# --- Function for user scripts to define their settings ---
+def define_settings(settings_list: List[Dict[str, Any]]):
+    """
+    Registers the settings definitions for the current script.
+
+    This function should be called once at the beginning of the user script.
+    The provided list should conform to the expected JSON structure.
+
+    Args:
+        settings_list (List[Dict[str, Any]]): A list of dictionaries,
+            each defining a setting. Expected keys per dictionary:
+            - key (str): Unique identifier for the setting.
+            - type (str): UI control type ('text', 'textarea', 'number',
+                          'toggle', 'dropdown', 'slider').
+            - label (str): Display name in Obsidian settings.
+            - description (str): Help text shown below the setting.
+            - default (Any): Default value.
+            - options (Optional[List[str]]): List of choices for 'dropdown'.
+            - min (Optional[Union[int, float]]): Min value for 'number'/'slider'.
+            - max (Optional[Union[int, float]]): Max value for 'number'/'slider'.
+            - step (Optional[Union[int, float]]): Step value for 'number'/'slider'.
+    """
+    global _script_settings_definitions
+    # Basic validation could be added here if desired
+    _script_settings_definitions = settings_list
+    # print(f"DEBUG: Settings definitions registered: {_script_settings_definitions}") # Optional debug
+
+# --- Internal function to handle CLI arguments ---
+def _handle_cli_args():
+    """
+    Checks for specific command-line arguments like --get-settings-json.
+
+    If --get-settings-json is found, prints the registered settings definitions
+    as JSON to stdout and exits the script immediately.
+
+    This should be called early in the user script, after define_settings.
+    """
+    # Use ArgumentParser for robust argument handling
+    parser = argparse.ArgumentParser(description="Obsidian Python Bridge Script Runner Helper")
+    parser.add_argument(
+        '--get-settings-json',
+        action='store_true',
+        help='If passed, print script settings definitions as JSON and exit.'
+    )
+    # Parse only known args defined above, ignore others that might be passed
+    # This prevents errors if Obsidian or the user passes other args accidentally
+    args, _ = parser.parse_known_args()
+
+    if args.get_settings_json:
+        # print("DEBUG: --get-settings-json flag detected.", file=sys.stderr) # Optional debug
+        try:
+            # Use the globally stored definitions populated by define_settings
+            json_output = json.dumps(_script_settings_definitions) # No indent for production
+            print(json_output) # Print JSON to stdout
+            sys.exit(0) # Exit successfully, preventing rest of script execution
+        except TypeError as e:
+            # Error during JSON serialization (e.g., non-serializable default value)
+            error_msg = {
+                "status": "error",
+                "error": f"Failed to serialize settings definitions to JSON: {e}. Check default values.",
+                "definitions": _script_settings_definitions # Include definitions for debugging
+            }
+            print(json.dumps(error_msg), file=sys.stderr)
+            sys.exit(1) # Exit with error
+        except Exception as e:
+            # Catch other unexpected errors during JSON dump or exit
+            error_msg = {
+                "status": "error",
+                "error": f"Unexpected error during settings JSON export: {e}"
+            }
+            print(json.dumps(error_msg), file=sys.stderr)
+            sys.exit(1) # Exit with error
+
 # --- Custom Exception ---
 class ObsidianCommError(Exception):
     """
@@ -73,7 +151,8 @@ class ObsidianPluginDevPythonToJS:
 
     Handles communication over HTTP with JSON payloads.
     Provides methods for common Obsidian interactions like notifications,
-    accessing note content/metadata, and managing frontmatter properties.
+    accessing note content/metadata, managing frontmatter properties,
+    and retrieving script-specific settings.
     """
 
     def __init__(self, http_port: int = HTTP_PORT, connect_timeout: float = 2.0, request_timeout: float = 10.0):
@@ -103,6 +182,16 @@ class ObsidianPluginDevPythonToJS:
         self.request_timeout = request_timeout
         # Use a requests Session for potential performance benefits (connection pooling)
         self.session = requests.Session()
+
+        # --- Read script relative path from environment variable ---
+        # This is crucial for the get_script_settings method.
+        self.script_relative_path: Optional[str] = os.environ.get("OBSIDIAN_SCRIPT_RELATIVE_PATH")
+        if not self.script_relative_path:
+             # Log a warning but don't prevent initialization.
+             # Only get_script_settings will fail later if called.
+             print("WARNING: OBSIDIAN_SCRIPT_RELATIVE_PATH environment variable not set. "
+                   "The get_script_settings() method will not work.", file=sys.stderr)
+
         print(f"Initializing Obsidian client for URL: {self.base_url}")
         # Perform a quick connection test on initialization to fail early
         self._test_connection()
@@ -254,6 +343,44 @@ class ObsidianPluginDevPythonToJS:
 
     # --- Public API Methods ---
 
+    # --- NEW: Get Script Settings ---
+    def get_script_settings(self) -> Dict[str, Any]:
+        """
+        Retrieves the current values of the settings defined by this script,
+        as configured by the user in the Obsidian Python Bridge settings tab.
+
+        Reads the script's relative path from the OBSIDIAN_SCRIPT_RELATIVE_PATH
+        environment variable set by the plugin when launching the script.
+
+        Returns:
+            Dict[str, Any]: A dictionary where keys are the setting 'key's
+                            and values are the current setting values. Returns
+                            an empty dictionary if no settings are defined,
+                            no values are set, or the script path couldn't be determined.
+
+        Raises:
+            ObsidianCommError: If the request fails, Obsidian reports an error,
+                               or the script path environment variable is missing.
+        """
+        if not self.script_relative_path:
+            raise ObsidianCommError(
+                "Cannot get script settings: OBSIDIAN_SCRIPT_RELATIVE_PATH environment variable is missing. "
+                "Ensure the script is run via the Obsidian plugin.",
+                action="get_script_settings"
+            )
+
+        payload = {"scriptPath": self.script_relative_path}
+        settings_values = self._send_receive("get_script_settings", payload)
+
+        # Ensure the received data is a dictionary, even if empty
+        if not isinstance(settings_values, dict):
+            print(f"WARNING: get_script_settings received non-dict data from plugin: {type(settings_values)}. Returning empty dict.", file=sys.stderr)
+            return {}
+
+        return settings_values
+
+    # --- Existing Methods ---
+
     def show_notification(self, content: str, duration: int = 4000) -> None:
         """
         Displays a notification message within the Obsidian interface.
@@ -315,6 +442,10 @@ class ObsidianPluginDevPythonToJS:
         if not os.path.isabs(file_path):
              raise ValueError(f"file_path must be absolute. Received: '{file_path}'")
         payload = {"filePath": file_path, "content": content}
+        # NOTE: This uses the DEPRECATED action name in the plugin.
+        # Should ideally use "modify_note_content_by_path" with a relative path.
+        # For now, keeping it as is for backward compatibility, but the plugin
+        # side handles the absolute path conversion.
         self._send_receive("modify_note_content", payload)
         print(f"Note modification request sent for: {file_path}")
 
@@ -334,10 +465,11 @@ class ObsidianPluginDevPythonToJS:
 
         Args:
             script_name (str): Name of your script (shown in the modal title).
-            input_type (str): Type of input field ('text', 'number', 'range', 'boolean'/'checkbox', 'date').
+            input_type (str): Type of input field ('text', 'textarea', 'number', 'range',
+                              'boolean'/'checkbox', 'date').
             message (str): The prompt message displayed to the user.
             validation_regex (Optional[str]): Regex pattern for 'text' input validation.
-            min_value, max_value, step: Optional parameters for 'number' or 'range'.
+            min_value, max_value, step: Optional parameters for 'number', 'range', 'slider'.
             **kwargs: Additional parameters for future input types.
 
         Returns:
@@ -453,8 +585,6 @@ class ObsidianPluginDevPythonToJS:
         note_paths = self.get_all_note_paths(absolute=False)
         note_titles = [os.path.splitext(os.path.basename(p))[0] for p in note_paths]
         return note_titles
-
-    # --- NEW Public API Methods ---
 
     def get_note_content(self, path: str) -> str:
         """
@@ -590,19 +720,25 @@ class ObsidianPluginDevPythonToJS:
             # --- YAML Frontmatter Parsing ---
             parts = content.split('---', 2)
             if len(parts) < 3 or not parts[0].strip() == "": # Basic check for YAML block at the start
-                 return {'success': False, 'error': "Could not find valid YAML frontmatter block (---) at the start of the file."}
+                 # If no frontmatter, treat as empty for 'add', error otherwise
+                 if action == 'add':
+                     frontmatter = {}
+                     main_content = content # Use the whole content
+                     print("DEBUG: No frontmatter found, creating new one for 'add'.")
+                 else:
+                     return {'success': False, 'error': "Could not find valid YAML frontmatter block (---) at the start of the file."}
+            else:
+                yaml_content_str = parts[1]
+                main_content = parts[2] # The rest of the note content
 
-            yaml_content_str = parts[1]
-            main_content = parts[2] # The rest of the note content
-
-            # Parse the YAML string
-            try:
-                # Use safe_load to avoid arbitrary code execution
-                frontmatter = yaml.safe_load(yaml_content_str) or {} # Treat empty/null YAML as empty dict
-                if not isinstance(frontmatter, dict):
-                     return {'success': False, 'error': "Frontmatter exists but is not a valid YAML dictionary."}
-            except yaml.YAMLError as e:
-                 return {'success': False, 'error': f"Failed to parse YAML frontmatter: {e}"}
+                # Parse the YAML string
+                try:
+                    # Use safe_load to avoid arbitrary code execution
+                    frontmatter = yaml.safe_load(yaml_content_str) or {} # Treat empty/null YAML as empty dict
+                    if not isinstance(frontmatter, dict):
+                         return {'success': False, 'error': "Frontmatter exists but is not a valid YAML dictionary."}
+                except yaml.YAMLError as e:
+                     return {'success': False, 'error': f"Failed to parse YAML frontmatter: {e}"}
 
             # --- Perform Action ---
             original_frontmatter = frontmatter.copy() # Keep a copy for comparison if needed
@@ -634,16 +770,24 @@ class ObsidianPluginDevPythonToJS:
             # --- Reconstruct Content and Save ---
             # Only proceed if frontmatter actually changed
             if frontmatter != original_frontmatter:
-                try:
-                    # Dump the modified frontmatter back to a YAML string
-                    # allow_unicode=True preserves non-ASCII characters
-                    # sort_keys=False preserves original key order as much as possible
-                    updated_yaml_str = yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)
-                except yaml.YAMLError as e:
-                     return {'success': False, 'error': f"Failed to serialize updated YAML frontmatter: {e}"}
+                # If the frontmatter is now empty, don't write the '---' block
+                if not frontmatter:
+                    updated_full_content = main_content.lstrip() # Remove leading newline if any
+                else:
+                    try:
+                        # Dump the modified frontmatter back to a YAML string
+                        # allow_unicode=True preserves non-ASCII characters
+                        # sort_keys=False preserves original key order as much as possible
+                        # default_flow_style=False ensures block style for readability
+                        updated_yaml_str = yaml.dump(frontmatter, allow_unicode=True, sort_keys=False, default_flow_style=False)
+                    except yaml.YAMLError as e:
+                         return {'success': False, 'error': f"Failed to serialize updated YAML frontmatter: {e}"}
 
-                # Reconstruct the full file content
-                updated_full_content = f"---\n{updated_yaml_str}---\n{main_content}"
+                    # Reconstruct the full file content
+                    # Ensure newline after closing '---' if main_content exists
+                    separator = "\n" if main_content else ""
+                    updated_full_content = f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
+
 
                 # --- Save based on use_vault_modify flag ---
                 if use_vault_modify:
@@ -716,30 +860,37 @@ class ObsidianPluginDevPythonToJS:
              return {'success': False, 'error': "'key' argument is required."}
         if action not in ['add', 'remove', 'update']:
             return {'success': False, 'error': f"Invalid action '{action}'. Must be 'add', 'remove', or 'update'."}
-        if action in ['add', 'remove'] and value is None:
-             # Allow adding/removing None explicitly if desired, but maybe warn?
-             # For now, require a non-None value for add/remove clarity.
-             return {'success': False, 'error': f"'value' argument is required for action '{action}'."}
-        if action == 'update' and new_value is None:
-             # Allow setting a key to None via update
-             pass # new_value can be None for update
-             # return {'success': False, 'error': "'new_value' argument is required for action 'update'."}
+        # Allow adding/removing None explicitly if desired.
+        # if action in ['add', 'remove'] and value is None:
+        #      return {'success': False, 'error': f"'value' argument is required for action '{action}'."}
+        # Allow setting a key to None via update
+        # if action == 'update' and new_value is None:
+        #      pass # new_value can be None for update
 
         try:
             # --- Read File and Parse YAML ---
             with open(file_path, 'r', encoding='utf-8') as file:
                 content = file.read()
             parts = content.split('---', 2)
-            if len(parts) < 3 or not parts[0].strip() == "":
-                 return {'success': False, 'error': "Could not find valid YAML frontmatter block."}
-            yaml_content_str = parts[1]
-            main_content = parts[2]
-            try:
-                frontmatter = yaml.safe_load(yaml_content_str) or {}
-                if not isinstance(frontmatter, dict):
-                     return {'success': False, 'error': "Frontmatter is not a valid YAML dictionary."}
-            except yaml.YAMLError as e:
-                 return {'success': False, 'error': f"Failed to parse YAML frontmatter: {e}"}
+            main_content = content # Default if no frontmatter
+            frontmatter = {}      # Default if no frontmatter
+
+            if len(parts) >= 3 and parts[0].strip() == "":
+                yaml_content_str = parts[1]
+                main_content = parts[2]
+                try:
+                    loaded_fm = yaml.safe_load(yaml_content_str)
+                    if isinstance(loaded_fm, dict):
+                        frontmatter = loaded_fm
+                    elif loaded_fm is not None: # Frontmatter exists but isn't a dict
+                         return {'success': False, 'error': "Frontmatter exists but is not a valid YAML dictionary."}
+                    # If loaded_fm is None (e.g., '--- ---'), treat as empty dict {}
+                except yaml.YAMLError as e:
+                     return {'success': False, 'error': f"Failed to parse YAML frontmatter: {e}"}
+            elif action != 'add':
+                 # No frontmatter found, and action is not 'add'
+                 return {'success': False, 'error': f"Key '{key}' not found (no frontmatter) for action '{action}'."}
+
 
             # Check if the target key exists before proceeding (except for 'add')
             if key not in frontmatter and action != 'add':
@@ -751,6 +902,7 @@ class ObsidianPluginDevPythonToJS:
             if action == 'add':
                 # If key doesn't exist, create it with the value
                 if key not in frontmatter:
+                    # If value is a list, add as list; otherwise, add as scalar
                     frontmatter[key] = value
                     print(f"DEBUG: Key '{key}' not found, created with provided value.")
                 # If key exists and is a list, add to it
@@ -769,43 +921,58 @@ class ObsidianPluginDevPythonToJS:
                      print(f"DEBUG: Set value for null key '{key}'.")
                 # If key exists and is not a list or null, it's an error
                 else:
-                    return {'success': False, 'error': f"Cannot add value: Key '{key}' exists but is not a list or null (type: {type(frontmatter[key]).__name__})."}
+                    return {'success': False, 'error': f"Cannot add value: Key '{key}' exists but is not a list or null (type: {type(frontmatter[key]).__name__}). Use 'update' to change scalar values."}
 
             elif action == 'remove':
-                current_value = frontmatter.get(key) # Use .get() for safety
-                if isinstance(current_value, list):
-                    try:
-                        # Remove all occurrences? Or just the first? PyYAML list.remove is first.
-                        while value in current_value: # Remove all occurrences
-                             current_value.remove(value)
-                        # current_value.remove(value) # Original: Removes first occurrence only
-                        print(f"DEBUG: Removed value '{value}' from list key '{key}'.")
-                        # If list becomes empty, maybe remove the key? Optional behavior.
-                        # if not current_value: del frontmatter[key]
-                    except ValueError:
-                        # Value not found in the list (only happens if remove first is used)
-                        return {'success': False, 'error': f"Value '{value}' not found in the list for key '{key}'."}
+                current_value_at_key = frontmatter.get(key) # Use .get() for safety
+                if isinstance(current_value_at_key, list):
+                    items_to_remove = value if isinstance(value, list) else [value]
+                    original_length = len(current_value_at_key)
+                    # Remove all occurrences of each item specified
+                    new_list = [item for item in current_value_at_key if item not in items_to_remove]
+
+                    if len(new_list) == original_length:
+                         return {'success': False, 'error': f"Value(s) '{items_to_remove}' not found in the list for key '{key}'."}
+
+                    frontmatter[key] = new_list
+                    print(f"DEBUG: Removed value(s) '{items_to_remove}' from list key '{key}'.")
+                    # Optional: Remove key if list becomes empty
+                    # if not frontmatter[key]:
+                    #     del frontmatter[key]
+                    #     print(f"DEBUG: List for key '{key}' became empty, removed key.")
+
+                elif current_value_at_key == value:
+                     # Allow removing a scalar value if it matches exactly
+                     # This effectively sets the key to None or removes it? Let's remove it.
+                     del frontmatter[key]
+                     print(f"DEBUG: Removed scalar key '{key}' because its value matched '{value}'.")
                 else:
-                    # Cannot remove from a non-list
-                    return {'success': False, 'error': f"Cannot remove value: Key '{key}' is not a list."}
+                    # Cannot remove from a non-list if value doesn't match
+                    return {'success': False, 'error': f"Cannot remove value: Key '{key}' is not a list, and its value ('{current_value_at_key}') does not match the value to remove ('{value}')."}
 
             elif action == 'update':
-                 current_value = frontmatter.get(key)
-                 if isinstance(current_value, list):
+                 current_value_at_key = frontmatter.get(key)
+                 if isinstance(current_value_at_key, list):
                     if index is not None:
                         # Update by index
                         try:
-                            if not isinstance(index, int) or index < 0 or index >= len(current_value):
+                            # Allow negative indices
+                            if not isinstance(index, int):
+                                raise TypeError("Index must be an integer.")
+                            # Check bounds after potential negative index resolution
+                            if not (-len(current_value_at_key) <= index < len(current_value_at_key)):
                                  raise IndexError # Raise explicitly for unified handling below
-                            current_value[index] = new_value
+                            current_value_at_key[index] = new_value
                             print(f"DEBUG: Updated index {index} of list key '{key}'.")
                         except IndexError:
-                            return {'success': False, 'error': f"Index {index} is out of bounds for list key '{key}' (length {len(current_value)})."}
+                            return {'success': False, 'error': f"Index {index} is out of bounds for list key '{key}' (length {len(current_value_at_key)})."}
+                        except TypeError as e:
+                             return {'success': False, 'error': str(e)}
                     elif value is not None:
                         # Update by finding old value (first occurrence)
                         try:
-                            idx_to_update = current_value.index(value) # Find first occurrence
-                            current_value[idx_to_update] = new_value
+                            idx_to_update = current_value_at_key.index(value) # Find first occurrence
+                            current_value_at_key[idx_to_update] = new_value
                             print(f"DEBUG: Updated first occurrence of '{value}' in list key '{key}'.")
                         except ValueError:
                             return {'success': False, 'error': f"Value '{value}' to update not found in list key '{key}'."}
@@ -814,18 +981,24 @@ class ObsidianPluginDevPythonToJS:
                         return {'success': False, 'error': "For list update, provide either 'index' or the old 'value' to replace."}
                  else:
                     # Update scalar value - just overwrite
-                    # Optional: Add check `if current_value == value:` if needed for safety
+                    # Optional: Add check `if current_value_at_key == value:` if needed for safety
                     frontmatter[key] = new_value
                     print(f"DEBUG: Updated scalar key '{key}'.")
 
             # --- Reconstruct Content and Save (if changed) ---
             if frontmatter != original_frontmatter:
-                try:
-                    updated_yaml_str = yaml.dump(frontmatter, allow_unicode=True, sort_keys=False)
-                except yaml.YAMLError as e:
-                     return {'success': False, 'error': f"Failed to serialize updated YAML: {e}"}
+                 # If the frontmatter is now empty, don't write the '---' block
+                if not frontmatter:
+                    updated_full_content = main_content.lstrip() # Remove leading newline if any
+                else:
+                    try:
+                        updated_yaml_str = yaml.dump(frontmatter, allow_unicode=True, sort_keys=False, default_flow_style=False)
+                    except yaml.YAMLError as e:
+                         return {'success': False, 'error': f"Failed to serialize updated YAML: {e}"}
 
-                updated_full_content = f"---\n{updated_yaml_str}---\n{main_content}"
+                    separator = "\n" if main_content else ""
+                    updated_full_content = f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
+
 
                 if use_vault_modify:
                     print(f"DEBUG: Saving via Obsidian API (HTTP) for {file_path}")
@@ -854,3 +1027,4 @@ class ObsidianPluginDevPythonToJS:
             # Catch any other unexpected errors during the process
             print(f"ERROR: Unexpected error in manage_properties_value: {e}\n{traceback.format_exc()}", file=sys.stderr)
             return {'success': False, 'error': f"An unexpected error occurred: {e}"}
+

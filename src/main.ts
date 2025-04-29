@@ -26,22 +26,46 @@ import PythonBridgeSettingTab from "./PythonBridgeSettingTab";
 import UserInputModal from "./UserInputModal";
 import { loadTranslations, t } from "./lang/translations"; // Import the loader AND the function t
 import ScriptSelectionModal from "./ScriptSelectionModal";
+import { DEFAULT_PORT, SETTINGS_DISCOVERY_TIMEOUT } from "./constants";
 
 // --- Interfaces ---
+
+// Type for dropdown options
+type DropdownOption = string | { value: string; display: string };
+
+interface ScriptSettingDefinition {
+	key: string;
+	type: "text" | "textarea" | "number" | "toggle" | "dropdown" | "slider";
+	label: string;
+	description: string;
+	default: any;
+	// --- MODIFIED: Use the new DropdownOption type ---
+	options?: DropdownOption[];
+	min?: number;
+	max?: number;
+	step?: number;
+}
+
 interface PythonBridgeSettings {
 	pythonScriptsFolder: string;
 	httpPort: number;
 	disablePyCache: boolean;
-  pluginLanguage: string; // Added setting for language override
+	pluginLanguage: string; // Added setting for language override
+	// --- NEW: Script Settings Storage ---
+	/** Cache of settings definitions discovered from Python scripts. Key: relative script path */
+	scriptSettingsDefinitions: Record<string, ScriptSettingDefinition[]>;
+	/** User-configured values for script settings. Key: relative script path, Value: { settingKey: value } */
+	scriptSettingsValues: Record<string, Record<string, any>>;
 }
-
-const DEFAULT_PORT = 27123;
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	pythonScriptsFolder: "",
 	httpPort: DEFAULT_PORT,
 	disablePyCache: true,
-  pluginLanguage: 'auto', // Default to automatic detection
+	pluginLanguage: 'auto', // Default to automatic detection
+	// --- NEW: Initialize script settings storage ---
+	scriptSettingsDefinitions: {},
+	scriptSettingsValues: {},
 };
 
 interface JsonResponse {
@@ -60,6 +84,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	settings!: PythonBridgeSettings;
 	server: http.Server | null = null;
 	initialHttpPort: number = 0; // Store the port used at server start
+	// --- NEW: Store the detected Python executable ---
+	pythonExecutable: string | null = null;
 
 	// --- Logging Helpers ---
 	logDebug(message: string, ...optionalParams: any[]) {
@@ -86,9 +112,27 @@ export default class ObsidianPythonBridge extends Plugin {
 		this.initialHttpPort = this.settings.httpPort; // Store initial port
 
 		this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
-		this.addCommands();
-		this.startHttpServer(); // Start server after loading settings
-		this.checkPythonEnvironment(); // Perform environment check on load
+		this.addCommands(); // Add commands (including the new refresh command)
+
+		// --- MODIFIED: Perform environment check BEFORE starting server or discovering settings ---
+		const envCheckOk = await this.checkPythonEnvironment();
+
+		if (envCheckOk) {
+			this.startHttpServer(); // Start server only if Python env is okay
+
+			// --- NEW: Discover script settings after finding Python and scripts folder ---
+			const scriptsFolder = this.getScriptsFolderPath();
+			if (scriptsFolder && this.pythonExecutable) {
+				// Run discovery asynchronously, don't block loading
+				this.updateScriptSettingsCache(scriptsFolder).catch((err) => {
+					this.logError("Initial script settings discovery failed:", err);
+				});
+			} else {
+				this.logWarn("Skipping initial script settings discovery: Python executable or scripts folder not found.");
+			}
+		} else {
+			this.logWarn("Skipping server start and settings discovery due to Python environment issues.");
+		}
 
 		// Register cleanup on quit
 		this.registerEvent(
@@ -113,12 +157,16 @@ export default class ObsidianPythonBridge extends Plugin {
 			DEFAULT_SETTINGS,
 			await this.loadData(),
 		);
+		// --- NEW: Ensure new settings fields exist ---
+		this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
+		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
+
 		// Validate loaded port
 		if (
 			typeof this.settings.httpPort !== "number" ||
 			!Number.isInteger(this.settings.httpPort) ||
-			this.settings.httpPort <= 0 ||
-			this.settings.httpPort > 65535
+			// Allow port 0 for dynamic assignment
+			(this.settings.httpPort !== 0 && (this.settings.httpPort <= 0 || this.settings.httpPort > 65535))
 		) {
 			this.logWarn(
 				`Invalid httpPort loaded (${this.settings.httpPort}), resetting to default ${DEFAULT_PORT}`,
@@ -130,7 +178,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	async saveSettings() {
 		await this.saveData(this.settings);
 		// Check if the port setting has actually changed since the server started
-		if (this.server && this.settings.httpPort !== this.initialHttpPort) {
+		if (this.server && this.settings.httpPort !== 0 && this.settings.httpPort !== this.initialHttpPort) {
 			this.logInfo(
 				`HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`,
 			);
@@ -143,39 +191,59 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.startHttpServer(); // Restart server with the new port
 			// Update initialHttpPort only after successful restart
 			if (this.server) {
-				this.initialHttpPort = this.settings.httpPort;
+				// If port 0 was used, initialHttpPort is updated in startHttpServer callback
+				if (this.settings.httpPort !== 0) {
+					this.initialHttpPort = this.settings.httpPort;
+				}
 			}
 		}
+		// Note: Settings discovery update on folder change is handled in the settings tab itself.
 	}
 
 	// --- Environment Check ---
 
 	/**
 	 * Checks if Python is accessible and the 'requests' library is installed.
+	 * Stores the found executable in `this.pythonExecutable`.
 	 * Shows persistent notifications if issues are found.
+	 * @returns {Promise<boolean>} True if environment is OK, false otherwise.
 	 */
-	async checkPythonEnvironment(): Promise<void> {
+	async checkPythonEnvironment(): Promise<boolean> { // Modified return type
 		this.logInfo("Checking Python environment...");
+		this.pythonExecutable = null; // Reset before check
 
 		const pythonCmd = await this.findPythonExecutable();
 
 		if (!pythonCmd) {
 			this.logError("Python executable not found during environment check.");
 			this.showPythonMissingNotification();
-			return;
+			return false; // Indicate failure
 		}
 
 		this.logInfo(`Found Python executable: ${pythonCmd}`);
+		this.pythonExecutable = pythonCmd; // Store the found command
 
+		// Check for 'requests'
 		const requestsInstalled = await this.checkPythonModule(pythonCmd, "requests");
-
 		if (!requestsInstalled) {
 			this.logError(`Python module 'requests' not found using ${pythonCmd}.`);
 			this.showRequestsMissingNotification(pythonCmd);
-			return;
+			return false; // Indicate failure
 		}
 
-		this.logInfo("'requests' module found. Python environment seems OK.");
+		// Check for 'PyYAML' (optional, only warn)
+		const yamlInstalled = await this.checkPythonModule(pythonCmd, "yaml");
+		if (!yamlInstalled) {
+			this.logWarn(`Optional Python module 'PyYAML' not found using ${pythonCmd}. Frontmatter property management features will not work.`);
+			// Don't show a persistent notice for optional dependencies
+			// this.showYamlMissingNotification(pythonCmd); // Could add this if desired
+		} else {
+			this.logInfo("'PyYAML' module found.");
+		}
+
+
+		this.logInfo("Python environment check completed.");
+		return true; // Indicate success (even if optional PyYAML is missing)
 	}
 
 	/**
@@ -206,7 +274,6 @@ export default class ObsidianPythonBridge extends Plugin {
 				});
 				return cmd; // Command worked
 			} catch (error) {
-				// Corrected typo: error.me -> error.message
 				this.logDebug(`Command '${cmd}' not found or failed version check: ${error instanceof Error ? error.message : String(error)}`);
 			}
 		}
@@ -216,7 +283,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	/**
 	 * Checks if a Python module can be imported using a specific Python command.
 	 * @param pythonCmd The Python command to use (e.g., 'python3', 'py').
-	 * @param moduleName The name of the module to check (e.g., 'requests').
+	 * @param moduleName The name of the module to check (e.g., 'requests', 'yaml').
 	 * @returns True if the module can be imported, false otherwise.
 	 */
 	async checkPythonModule(pythonCmd: string, moduleName: string): Promise<boolean> {
@@ -272,8 +339,6 @@ export default class ObsidianPythonBridge extends Plugin {
 		// Delay notice slightly to ensure Obsidian UI is ready
 		setTimeout(() => {
 			// Use translation for the notice, inserting the pythonCmd
-			// Note: The placeholder {pythonCmd} in the translation string needs manual replacement for now.
-			// A more advanced i18n library would handle this automatically.
 			const desc = t("NOTICE_REQUESTS_MISSING_DESC_SUFFIX").replace("{pythonCmd}", pythonCmd);
 			new Notice(`${t("NOTICE_REQUESTS_MISSING_TITLE")}\n${t("NOTICE_REQUESTS_MISSING_DESC_PREFIX")} ${pythonCmd}.${desc}`, 0); // Persistent notice
 		}, 500); // Delay by 500ms (adjust if needed)
@@ -294,6 +359,35 @@ export default class ObsidianPythonBridge extends Plugin {
 			// Use translation for command name
 			name: t("CMD_RUN_ALL_SCRIPTS_NAME"),
 			callback: () => this.runAllPythonScripts(),
+		});
+
+		// --- NEW: Command to refresh script settings ---
+		this.addCommand({
+			id: "refresh-script-settings",
+			name: t("CMD_REFRESH_SCRIPT_SETTINGS_NAME"), // Add this key to translation files
+			callback: async () => {
+				const scriptsFolder = this.getScriptsFolderPath();
+				if (!scriptsFolder) {
+					new Notice(t("NOTICE_SCRIPTS_FOLDER_INVALID"), 5000);
+					return;
+				}
+				if (!this.pythonExecutable) {
+					new Notice(t("NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH"), 5000); // Add key
+					await this.checkPythonEnvironment(); // Re-check env
+					if (!this.pythonExecutable) return; // Still missing
+				}
+				new Notice(t("NOTICE_REFRESHING_SCRIPT_SETTINGS")); // Add key
+				try {
+					await this.updateScriptSettingsCache(scriptsFolder);
+					new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS")); // Add key
+					// Optional: Force redraw settings tab if open?
+					// This might require more complex logic to find the specific tab instance.
+					// For now, the user might need to reopen settings to see immediate changes.
+				} catch (error) {
+					this.logError("Manual script settings refresh failed:", error);
+					new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED")); // Add key
+				}
+			},
 		});
 	}
 
@@ -323,10 +417,10 @@ export default class ObsidianPythonBridge extends Plugin {
 
 		// Validate port before attempting to create server
 		if (
-			!this.settings.httpPort ||
+			!this.settings.httpPort && this.settings.httpPort !== 0 || // Allow 0
 			typeof this.settings.httpPort !== "number" ||
 			!Number.isInteger(this.settings.httpPort) ||
-			this.settings.httpPort <= 0 ||
+			this.settings.httpPort < 0 || // Allow 0
 			this.settings.httpPort > 65535
 		) {
 			// Use translation for the notice
@@ -498,7 +592,7 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.server.listen(this.settings.httpPort, "127.0.0.1", () => {
 				// Get the actual port the server is listening on (useful if port 0 was used)
 				const address = this.server?.address() as AddressInfo;
-				const actualPort = address?.port || this.settings.httpPort;
+				const actualPort = address?.port || this.settings.httpPort; // Fallback just in case
 				this.logInfo(
 					`HTTP server listening on http://127.0.0.1:${actualPort}`,
 				);
@@ -507,9 +601,11 @@ export default class ObsidianPythonBridge extends Plugin {
 					this.logInfo(
 						`Server assigned dynamic port: ${actualPort}. Updating settings.`,
 					);
-					this.settings.httpPort = actualPort;
+					// Don't save settings here, let Python script read the env var with actual port
+					// But DO update initialHttpPort for mismatch checks
 					this.initialHttpPort = actualPort;
-					this.saveSettings(); // Save the dynamically assigned port
+					// Optionally update the setting in memory for display, but don't save
+					// this.settings.httpPort = actualPort;
 				} else {
 					this.initialHttpPort = this.settings.httpPort; // Confirm the port being used
 				}
@@ -809,6 +905,35 @@ export default class ObsidianPythonBridge extends Plugin {
 					// Return success to indicate the server is reachable and processing requests
 					return { status: "success", data: "pong" };
 
+				// --- NEW: Script Settings Action ---
+				case "get_script_settings":
+					if (typeof payload?.scriptPath !== "string") {
+						return {
+							status: "error",
+							error: "Invalid payload: 'scriptPath' (relative path string) required.",
+						};
+					}
+					const relativePath = normalizePath(payload.scriptPath);
+					this.logDebug(`Requesting settings for script: ${relativePath}`);
+
+					// Get definitions from cache
+					const definitions = this.settings.scriptSettingsDefinitions[relativePath] || [];
+					// Get stored values
+					const storedValues = this.settings.scriptSettingsValues[relativePath] || {};
+
+					// Merge stored values with defaults from definitions
+					const finalValues: Record<string, any> = {};
+					for (const def of definitions) {
+						// Use stored value if it exists, otherwise use default
+						finalValues[def.key] = storedValues.hasOwnProperty(def.key)
+							? storedValues[def.key]
+							: def.default;
+					}
+
+					this.logDebug(`Returning settings for ${relativePath}:`, finalValues);
+					return { status: "success", data: finalValues };
+
+
 				// --- Default ---
 				default:
 					this.logWarn(`Received unknown action: ${action}`);
@@ -990,7 +1115,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		return this.app.vault.getMarkdownFiles().map((f) => f.path);
 	}
 
-	// --- NEW Interaction Helpers ---
+	// --- NEW Interaction Helpers --- (Keep existing ones)
 
 	/**
 	 * Retrieves the full content of a note specified by its vault-relative path.
@@ -1113,7 +1238,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		}
 	}
 
-	// --- Python Script Execution ---
+	// --- Python Script Execution & Settings Discovery ---
 
 	/**
 	 * Resolves the absolute path to the Python scripts folder based on settings.
@@ -1173,195 +1298,379 @@ export default class ObsidianPythonBridge extends Plugin {
 	}
 
 	/**
-	 * Executes a Python script, attempting multiple common Python commands.
-	 * Handles finding the executable, setting environment variables, and logging output/errors.
+	 * Executes a Python script to retrieve its settings definitions JSON.
+	 * @param scriptAbsolutePath Absolute path to the Python script.
+	 * @returns A promise resolving to the parsed settings definitions array, or null on error/non-compliance.
+	 */
+	async discover_script_settings(scriptAbsolutePath: string): Promise<ScriptSettingDefinition[] | null> {
+		const scriptName = path.basename(scriptAbsolutePath);
+		// Log discovery start at DEBUG level unless verbose logging is needed
+		this.logDebug(`Discovering settings for script: ${scriptName}`);
+
+		if (!this.pythonExecutable) {
+			// Log as WARN because this prevents discovery
+			this.logWarn(`Cannot discover settings for ${scriptName}: Python executable not found.`);
+			return null;
+		}
+
+		const discoveryTimeoutMs = SETTINGS_DISCOVERY_TIMEOUT; // Use constant
+
+		return new Promise((resolve) => {
+			const args = [scriptAbsolutePath, "--get-settings-json"];
+			this.logDebug(`Running discovery command: ${this.pythonExecutable} ${args.join(" ")}`);
+
+			const scriptDir = path.dirname(scriptAbsolutePath);
+			const currentPYTHONPATH = process.env.PYTHONPATH;
+			const newPYTHONPATH = currentPYTHONPATH
+				? `${scriptDir}${path.delimiter}${currentPYTHONPATH}`
+				: scriptDir;
+			const env = {
+				...process.env,
+				PYTHONPATH: newPYTHONPATH
+			};
+
+			const pythonProcess = spawn(this.pythonExecutable!, args, {
+				timeout: discoveryTimeoutMs,
+				cwd: scriptDir,
+				env: env
+			});
+
+			let stdoutData = "";
+			let stderrData = "";
+
+			pythonProcess.stdout?.on("data", (data) => {
+				stdoutData += data.toString();
+			});
+
+			pythonProcess.stderr?.on("data", (data) => {
+				stderrData += data.toString();
+			});
+
+			pythonProcess.on("error", (error) => {
+				// Log as WARN - failure to start the process is significant
+				this.logWarn(`Failed to start settings discovery for ${scriptName}: ${error.message}`);
+				resolve(null);
+			});
+
+			pythonProcess.on("close", (code, signal) => {
+				if (signal === 'SIGTERM' || (pythonProcess.killed && signal === null)) {
+					// Log as WARN - timeout is an issue
+					this.logWarn(`Settings discovery for ${scriptName} timed out after ${discoveryTimeoutMs}ms.`);
+					resolve(null);
+					return;
+				}
+
+				// --- Check Exit Code FIRST ---
+				if (code !== 0) {
+					// Log as WARN - non-zero exit usually indicates an error in the script
+					// or that it doesn't handle the --get-settings-json argument.
+					this.logWarn(`Settings discovery process for ${scriptName} failed with exit code ${code}.`);
+					// Log stderr as WARN only if there was an error exit code
+					if (stderrData.trim()) {
+						this.logWarn(`Stderr from ${scriptName} discovery: ${stderrData.trim()}`);
+					}
+					resolve(null); // Resolve with null on non-zero exit code
+					return;
+				}
+
+				// --- Process stdout ONLY if exit code is 0 ---
+				try {
+					// Trim stdout before parsing
+					const trimmedStdout = stdoutData.trim();
+					this.logDebug(`Raw settings JSON from ${scriptName}: ${trimmedStdout}`);
+
+					// Handle empty output specifically - means script exited cleanly but provided no settings
+					if (!trimmedStdout) {
+						this.logDebug(`Script ${scriptName} provided no settings output (empty stdout). Assuming no settings.`);
+						resolve([]); // Resolve with an empty array, indicating success but no settings
+						return;
+					}
+
+					// Attempt to parse non-empty output
+					const definitions = JSON.parse(trimmedStdout);
+
+					if (!Array.isArray(definitions)) {
+						// This IS an error case - script exited 0 but gave invalid JSON structure
+						this.logError(`Parsed settings definitions from ${scriptName} is not an array. Output: ${trimmedStdout}`);
+						resolve(null); // Indicate failure due to invalid format
+						return;
+					}
+
+					// Optional: Add more validation for each definition object structure here
+
+					// Success!
+					this.logInfo(`Successfully discovered ${definitions.length} settings for ${scriptName}.`);
+					resolve(definitions as ScriptSettingDefinition[]);
+
+				} catch (error) {
+					// --- Catch JSON PARSE errors specifically ---
+					// Log as DEBUG because this is expected for scripts not outputting JSON
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					this.logDebug(`Could not parse settings JSON from ${scriptName}: ${errorMsg}. This is expected for scripts without settings.`);
+					// Log the problematic stdout only at debug level
+					this.logDebug(`Stdout from ${scriptName} that failed parsing was: ${stdoutData.trim()}`);
+					resolve(null); // Resolve with null as discovery failed for this script due to parsing error
+				}
+			});
+		});
+	}
+
+	/**
+	 * Scans the scripts folder, discovers settings for each script, and updates the cache.
+	 * @param scriptsFolder Absolute path to the Python scripts folder.
+	 */
+	async updateScriptSettingsCache(scriptsFolder: string): Promise<void> {
+		this.logInfo("Updating script settings definitions cache...");
+		if (!this.pythonExecutable) {
+			this.logError("Cannot update script settings cache: Python executable not found.");
+			return;
+		}
+		if (!scriptsFolder || !fs.existsSync(scriptsFolder)) {
+			this.logWarn("Cannot update script settings cache: Scripts folder path is invalid or not found.");
+			// Clear existing definitions if folder is invalid? Or keep them? Keeping seems safer.
+			// this.settings.scriptSettingsDefinitions = {};
+			// await this.saveSettings();
+			return;
+		}
+
+		let pythonFiles: string[];
+		try {
+			pythonFiles = fs.readdirSync(scriptsFolder)
+				.filter(f => f.toLowerCase().endsWith(".py") && !f.startsWith("."));
+		} catch (err) {
+			this.logError(`Error reading scripts folder for settings discovery ${scriptsFolder}:`, err);
+			return;
+		}
+
+		const newDefinitions: Record<string, ScriptSettingDefinition[]> = {};
+		let changesMade = false;
+		const currentDefinitionKeys = new Set<string>(); // Track keys present in this scan
+
+		for (const file of pythonFiles) {
+			const scriptAbsolutePath = path.join(scriptsFolder, file);
+			// Use normalizePath on the relative path to ensure consistent keys (e.g., slashes)
+			const relativePath = normalizePath(path.relative(scriptsFolder, scriptAbsolutePath));
+			currentDefinitionKeys.add(relativePath); // Add to set of current scripts
+
+			try {
+				const definitions = await this.discover_script_settings(scriptAbsolutePath);
+
+				if (definitions !== null) {
+					// Store definitions if discovery was successful
+					newDefinitions[relativePath] = definitions;
+					// Check if definitions changed compared to cache
+					if (JSON.stringify(definitions) !== JSON.stringify(this.settings.scriptSettingsDefinitions[relativePath])) {
+						changesMade = true;
+						this.logDebug(`Definitions updated for ${relativePath}`);
+					}
+				} else {
+					// Discovery failed, keep existing definition in cache if it exists
+					if (this.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)) {
+						newDefinitions[relativePath] = this.settings.scriptSettingsDefinitions[relativePath];
+						this.logWarn(`Failed to discover settings for ${relativePath}, keeping cached version.`);
+					} else {
+						this.logWarn(`Failed to discover settings for ${relativePath}, no cached version available.`);
+					}
+				}
+			} catch (error) {
+				this.logError(`Unexpected error during settings discovery for ${file}:`, error);
+				// Keep existing definition on unexpected error too
+				if (this.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)) {
+					newDefinitions[relativePath] = this.settings.scriptSettingsDefinitions[relativePath];
+				}
+			}
+		}
+
+		// Check for scripts removed from the folder by comparing current keys with cached keys
+		const cachedPaths = Object.keys(this.settings.scriptSettingsDefinitions);
+		for (const cachedPath of cachedPaths) {
+			if (!currentDefinitionKeys.has(cachedPath)) {
+				changesMade = true; // Definitions were removed
+				this.logInfo(`Script ${cachedPath} removed, clearing its settings definitions.`);
+				// Also clear corresponding values? Yes, makes sense.
+				if (this.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
+					delete this.settings.scriptSettingsValues[cachedPath];
+					this.logDebug(`Cleared stored values for removed script ${cachedPath}.`);
+				}
+			}
+		}
+		// Check if number of scripts with definitions changed
+		if (cachedPaths.length !== currentDefinitionKeys.size) {
+			changesMade = true;
+		}
+
+
+		if (changesMade) {
+			this.logInfo("Script settings definitions cache updated.");
+			this.settings.scriptSettingsDefinitions = newDefinitions;
+			// Save settings (includes definitions and potentially cleared values)
+			await this.saveSettings();
+		} else {
+			this.logInfo("Script settings definitions cache is up to date.");
+		}
+	}
+
+
+	/**
+	 * Executes a Python script using the detected executable.
+	 * Handles setting environment variables, logging output/errors.
 	 * @param scriptPath Absolute path to the Python script.
 	 */
 	async runPythonScript(scriptPath: string) {
+		// --- Check for Python executable ---
+		if (!this.pythonExecutable) {
+			this.logError(`Cannot run script ${path.basename(scriptPath)}: Python executable not found.`);
+			new Notice(t("NOTICE_PYTHON_EXEC_MISSING_FOR_RUN")); // Add key
+			// Attempt to re-check environment
+			const envOk = await this.checkPythonEnvironment();
+			if (!envOk || !this.pythonExecutable) {
+				return; // Stop if still not found
+			}
+			// If found now, continue execution
+			this.logInfo("Python executable found after re-check, proceeding with script execution.");
+		}
+		const pythonCmd = this.pythonExecutable; // Use the stored executable
+
 		// Check if port has changed since server start - potential mismatch
-		if (this.server && this.settings.httpPort !== this.initialHttpPort) {
-			// Use translation for the notice
+		// Use initialHttpPort which reflects the actual listening port (even if dynamic)
+		if (this.server && this.settings.httpPort !== 0 && this.settings.httpPort !== this.initialHttpPort) {
 			new Notice(
 				`${t("NOTICE_PORT_MISMATCH_WARNING_PREFIX")}${this.initialHttpPort} ${t("NOTICE_PORT_MISMATCH_WARNING_MIDDLE")} ${this.settings.httpPort}${t("NOTICE_PORT_MISMATCH_WARNING_SUFFIX")}`,
 				8000,
 			);
 			this.logWarn(
-				`HTTP Port mismatch detected (${this.initialHttpPort} vs ${this.settings.httpPort}) when running script ${path.basename(scriptPath)}.`,
+				`HTTP Port mismatch detected (Server on ${this.initialHttpPort}, Setting is ${this.settings.httpPort}) when running script ${path.basename(scriptPath)}.`,
 			);
 		}
 
 		// Validate script path existence
 		try {
 			if (!fs.existsSync(scriptPath) || !fs.statSync(scriptPath).isFile()) {
-				// Use translation for the notice
 				new Notice(`${t("NOTICE_SCRIPT_NOT_FOUND_PREFIX")} ${path.basename(scriptPath)}`);
 				this.logError(`Python script not found or is not a file: ${scriptPath}`);
 				return;
 			}
 		} catch (error) {
-			// Use translation for the notice
 			new Notice(`${t("NOTICE_SCRIPT_ACCESS_ERROR_PREFIX")} ${path.basename(scriptPath)}`);
 			this.logError(`Error accessing script file ${scriptPath}:`, error);
 			return;
 		}
 
-		this.logInfo(`Attempting to run Python script: ${scriptPath}`);
-		// Use translation for the notice
+		this.logInfo(`Attempting to run Python script: ${scriptPath} using ${pythonCmd}`);
 		new Notice(`${t("NOTICE_RUNNING_SCRIPT_PREFIX")} ${path.basename(scriptPath)}`);
+
+		// --- Calculate Relative Path ---
+		const scriptsFolder = this.getScriptsFolderPath();
+		let relativePath = "";
+		if (scriptsFolder && scriptPath.startsWith(scriptsFolder)) {
+			// Ensure consistent separators for reliable key lookup later
+			relativePath = normalizePath(path.relative(scriptsFolder, scriptPath));
+			this.logDebug(`Calculated relative path for env var: ${relativePath}`);
+		} else {
+			this.logWarn(`Could not determine relative path for script ${scriptPath} relative to folder ${scriptsFolder}. Script settings might not be retrievable.`);
+		}
+
 
 		// Prepare environment variables for the Python script
 		const env = {
 			...process.env, // Inherit existing environment variables
-			OBSIDIAN_HTTP_PORT: this.settings.httpPort.toString(),
+			OBSIDIAN_HTTP_PORT: this.initialHttpPort.toString(), // Use the ACTUAL port the server is listening on
 			OBSIDIAN_BRIDGE_ACTIVE: "true", // Flag indicating the bridge is active
+			// --- NEW: Pass relative path ---
+			...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }),
 			...(this.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }), // Attempt to redirect __pycache__ if disabled
 		};
 		this.logDebug(
-			`Setting OBSIDIAN_HTTP_PORT=${this.settings.httpPort} for script.`,
+			`Setting OBSIDIAN_HTTP_PORT=${this.initialHttpPort} for script.`, // Log the actual port used
 		);
+		if (relativePath) {
+			this.logDebug(`Setting OBSIDIAN_SCRIPT_RELATIVE_PATH=${relativePath}`);
+		}
 		if (this.settings.disablePyCache) {
 			this.logDebug(`Attempting to disable __pycache__ creation.`);
 		}
 
-		// Determine the command sequence based on the OS
-		const isWindows = process.platform === "win32";
-		const pythonCommands = isWindows
-			? ["py", "python3", "python"] // Windows: Prefer py launcher, then python3, then python
-			: ["python3", "python"]; // Other OS: Prefer python3, then python
+		// Determine Python arguments
 		const pythonArgsBase = this.settings.disablePyCache ? ["-B"] : []; // Add -B flag if disabling pycache
+		const fullArgs = [...pythonArgsBase, scriptPath]; // Combine base args (-B) with script path
 
-		this.logDebug(
-			`Platform: ${process.platform}. Python command sequence: ${pythonCommands.join(", ")}`,
-		);
-
-		// Function to attempt execution with a specific command
-		const executePythonScript = (
-			cmd: string,
-			args: string[],
-			options: SpawnOptionsWithoutStdio,
-		): Promise<number | null> => {
-			return new Promise((resolve, reject) => {
-				this.logDebug(`Attempting to execute: ${cmd} ${args.join(" ")}`);
-				const pythonProcess = spawn(cmd, args, options);
-
+		// --- Execute using the stored pythonCmd ---
+		try {
+			await new Promise<void>((resolve, reject) => {
+				this.logDebug(`Executing: ${pythonCmd} ${fullArgs.join(" ")}`);
+				const pythonProcess = spawn(pythonCmd, fullArgs, {
+          env,
+          cwd: path.dirname(scriptPath)
+        });
+        
 				let stderrOutput = "";
 				pythonProcess.stderr?.on("data", (data) => {
 					const msg = data.toString();
 					stderrOutput += msg;
+					// Log stderr immediately for better debugging context
 					console.error(
 						`[stderr ${path.basename(scriptPath)}]: ${msg.trim()}`,
 					);
-					this.logError(
+					this.logError( // Also log via plugin logger
 						`[stderr ${path.basename(scriptPath)}]: ${msg.trim()}`,
 					);
 				});
 
 				pythonProcess.stdout?.on("data", (data) => {
 					const msg = data.toString();
+					// Log stdout immediately
 					console.log(
 						`[stdout ${path.basename(scriptPath)}]: ${msg.trim()}`,
 					);
-					this.logDebug(
+					this.logDebug( // Also log via plugin logger
 						`[stdout ${path.basename(scriptPath)}]: ${msg.trim()}`,
 					);
 				});
 
 				pythonProcess.on("error", (error) => {
 					this.logError(
-						`Failed to start script with command "${cmd}": ${error.message}`,
+						`Failed to start script with command "${pythonCmd}": ${error.message}`,
 					);
-					// If error is ENOENT (command not found), reject to try next command
-					if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-						reject(error); // Indicate command not found
-					} else {
-						// For other spawn errors, report and resolve with a generic error code
-						// Use translation for the notice
-						new Notice(
-							`${t("NOTICE_SCRIPT_ERROR_RUNNING_PREFIX")} ${path.basename(scriptPath)} ${t("NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE")} ${cmd}: ${error.message}`,
-						);
-						resolve(1); // Indicate failure with a generic error code
-					}
+					new Notice(
+						`${t("NOTICE_SCRIPT_ERROR_RUNNING_PREFIX")} ${path.basename(scriptPath)} ${t("NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE")} ${pythonCmd}: ${error.message}`,
+					);
+					reject(error); // Reject the promise on spawn error
 				});
 
 				pythonProcess.on("close", (code) => {
 					this.logDebug(
-						`${path.basename(scriptPath)} (using ${cmd}) finished with exit code ${code}.`,
+						`${path.basename(scriptPath)} (using ${pythonCmd}) finished with exit code ${code}.`,
 					);
-					if (isWindows && code === 9009) {
-						// Exit code 9009 on Windows often means command not found / MS Store alias hit
-						this.logError(
-							`Command "${cmd}" likely not found or hit Windows Store alias (exit code 9009).`,
-						);
-						reject(
-							new Error(
-								`Command "${cmd}" not found (exit code 9009)`,
-							),
-						); // Indicate command not found
-					} else if (code !== 0 && code !== null) {
-						// Check code is not null before showing notice
-						// Use translation for the notice
+					if (code !== 0 && code !== null) {
 						new Notice(
 							`${path.basename(scriptPath)} ${t("NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE")} ${code}. ${t("NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX")}`,
 							5000,
 						);
-						// Log captured stderr for context if script failed
+						// Stderr already logged line-by-line, but log summary if useful
 						if (stderrOutput.trim()) {
 							this.logError(
 								`[Error Summary ${path.basename(scriptPath)}]: ${stderrOutput.trim()}`,
 							);
 						}
-						resolve(code); // Resolve with the actual non-zero exit code
+						reject(new Error(`Script exited with non-zero code: ${code}`));
 					} else {
-						resolve(code); // Success (exit code 0 or null if process exited before code assigned)
+						resolve(); // Success (exit code 0 or null)
 					}
 				});
 			});
-		};
-
-		// Try executing with the commands in sequence
-		let finalExitCode: number | null = null;
-		let executedSuccessfully = false;
-
-		for (const cmd of pythonCommands) {
-			try {
-				const fullArgs = [...pythonArgsBase, scriptPath]; // Combine base args (-B) with script path
-				finalExitCode = await executePythonScript(cmd, fullArgs, {
-					env,
-					// cwd: path.dirname(scriptPath) // Optional: Set working directory? Usually not needed.
-				});
-				executedSuccessfully = true; // If promise resolves, command was found and launched
-				this.logInfo(
-					`Successfully launched script with command: ${cmd}`,
-				);
-				break; // Stop trying commands if one was successfully launched
-			} catch (error: any) {
-				// This catch block is primarily for ENOENT or code 9009, indicating command not found
-				this.logDebug(
-					`Command "${cmd}" failed to start: ${error.message}. Trying next command.`,
-				);
-			}
-		}
-
-		// Report final status
-		if (!executedSuccessfully) {
-			// Use translation for the notice
-			const errorMsg = `${t("NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX")} ${pythonCommands.join(", ")}. ${t("NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX")}`;
-			this.logError(errorMsg);
-			new Notice(errorMsg, 10000);
-		} else if (finalExitCode !== 0 && finalExitCode !== null) {
-			// Error notice already shown inside executePythonScript
-			this.logWarn(
-				`Script ${path.basename(scriptPath)} execution completed with non-zero exit code: ${finalExitCode}`,
-			);
-		} else {
-			// Exit code 0 or null (successful exit)
+			// If promise resolved successfully
 			this.logInfo(
 				`Script ${path.basename(scriptPath)} execution completed successfully.`,
 			);
-			// Optional: Show success notice only if needed/configured
-			// new Notice(`${path.basename(scriptPath)} finished successfully.`);
+		} catch (error) {
+			// Catch rejection from the promise (spawn error or non-zero exit)
+			this.logWarn(
+				`Script ${path.basename(scriptPath)} execution failed or exited with error: ${error instanceof Error ? error.message : String(error)}`,
+			);
+			// Notices are already shown inside the promise callbacks/rejections
 		}
 	}
+
 
 	/**
 	 * Opens a modal for the user to select a Python script from the configured folder, then runs it.
@@ -1411,6 +1720,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		new ScriptSelectionModal(this.app, scriptChoices, (selectedPath) => {
 			if (selectedPath) {
 				this.logDebug(`User selected script: ${selectedPath}`);
+				// Don't await runPythonScript here, let it run in the background
 				this.runPythonScript(selectedPath);
 			} else {
 				this.logDebug("Script selection cancelled by user.");
@@ -1463,10 +1773,10 @@ export default class ObsidianPythonBridge extends Plugin {
 
 		// Run scripts sequentially using a loop
 		for (const file of pythonFiles) {
-			const scriptPath = normalizePath(path.join(scriptsFolder, file));
+			// Use Node's path.join directly
+			const scriptPath = path.join(scriptsFolder, file);
 			this.logInfo(`Running next script in batch: ${file}`);
 			// Use await here to ensure scripts run one after another
-			// Note: runPythonScript itself is async due to the Promise inside executePythonScript
 			await this.runPythonScript(scriptPath);
 			// Optional: Add a small delay between scripts if needed
 			// await new Promise(resolve => setTimeout(resolve, 100));

@@ -1,14 +1,14 @@
 // --- src/lang/translations.ts ---
 import { Notice } from "obsidian";
 import * as moment from "moment";
-import ObsidianPythonBridge from "../main"; // Import the main plugin class type
+import type ObsidianPythonBridge from "../main"; // Use import type
 
 // Import language files
 import en from "./en";
 import fr from "./fr";
 import es from "./es";
 import de from "./de";
-import zh from "./zh";
+import zh from "./zh"; // Assumed Simplified Chinese
 import ar from "./ar";
 import pt from "./pt";
 import ru from "./ru";
@@ -19,6 +19,26 @@ import it from "./it";
 import tr from "./tr";
 import id from "./id";
 import pl from "./pl";
+import bn from "./bn";
+import ur from "./ur";
+import vi from "./vi";
+import th from "./th";
+import fil from "./fil";
+import fa from "./fa";
+import ms from "./ms";
+import nl from "./nl";
+import uk from "./uk";
+import el from "./el";
+import sv from "./sv"; // Represents Scandinavian for now
+import fi from "./fi";
+import hu from "./hu";
+import ro from "./ro";
+import cs from "./cs";
+import sw from "./sw";
+import ha from "./ha";
+import yo from "./yo";
+import ig from "./ig";
+import zht from "./zht"; // Assumed Traditional Chinese
 
 // Define the structure of the translation object
 interface TranslationSet {
@@ -117,18 +137,46 @@ export function t(key: string): string {
 }
 
 /**
- * Returns a dictionary of available language codes mapped to their display names.
- * Includes the 'auto' option.
- * @returns Record<string, string>
+ * Returns a record of available languages, mapping the language code
+ * to its native name (or English name if native is unavailable/unsuitable).
  */
 export function getAvailableLanguages(): Record<string, string> {
-	const available: Record<string, string> = { 'auto': languageDisplayNames['auto'] };
-	for (const code in translations) {
-		if (languageDisplayNames[code]) {
-			available[code] = languageDisplayNames[code];
-		} else {
-			available[code] = code; // Fallback to code if display name is missing
-		}
-	}
-	return available;
+	// Add new languages here with their native names
+	return {
+		en: "English",
+		fr: "Français",
+		es: "Español",
+		de: "Deutsch",
+		zh: "简体中文", // Simplified Chinese
+		ar: "العربية",
+		pt: "Português", // Assumed Brazilian/Generic
+		ru: "Русский",
+		ja: "日本語",
+		hi: "हिन्दी",
+		ko: "한국어",
+		it: "Italiano",
+		tr: "Türkçe",
+		id: "Bahasa Indonesia",
+		pl: "Polski",
+		bn: "বাংলা", // Bengali
+		ur: "اردو", // Urdu
+		vi: "Tiếng Việt", // Vietnamese
+		th: "ไทย", // Thai
+		fil: "Filipino", // Filipino (Tagalog)
+		fa: "فارسی", // Persian (Farsi)
+		ms: "Bahasa Melayu", // Malay
+		nl: "Nederlands", // Dutch
+		uk: "Українська", // Ukrainian
+		el: "Ελληνικά", // Greek
+		sv: "Svenska", // Swedish (Represents Scandinavian)
+		fi: "Suomi", // Finnish
+		hu: "Magyar", // Hungarian
+		ro: "Română", // Romanian
+		cs: "Čeština", // Czech
+		sw: "Kiswahili", // Swahili
+		ha: "Hausa", // Hausa
+		yo: "Yorùbá", // Yoruba
+		ig: "Igbo", // Igbo
+		zht: "繁體中文", // Traditional Chinese
+	};
 }

@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Échec du rafraîchissement des définitions de paramètres des scripts. Vérifiez les logs.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Impossible d'exécuter le script : Exécutable Python introuvable. Vérifiez l'installation et le PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Rafraîchir les définitions des paramètres des scripts Python",
+	SETTINGS_SECURITY_WARNING_TITLE: "Avertissement de Sécurité",
+	SETTINGS_SECURITY_WARNING_TEXT: "L'exécution de scripts Python arbitraires peut être risquée. Assurez-vous de faire confiance à la source de tout script que vous exécutez, car ils peuvent accéder à votre système et à vos données. L'auteur du plugin et les auteurs des scripts ne sont pas responsables des pertes de données ou des problèmes de sécurité causés par les scripts que vous choisissez d'exécuter. Exécutez les scripts à vos propres risques.",
 };

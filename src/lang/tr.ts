@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Betik ayar tanımları yenilenemedi. Ayrıntılar için günlüklere bakın.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Betik çalıştırılamıyor: Python yürütülebilir dosyası bulunamadı. Lütfen kurulumu ve PATH'i kontrol edin.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Python betik ayar tanımlarını yenile",
+	SETTINGS_SECURITY_WARNING_TITLE: "Güvenlik Uyarısı",
+	SETTINGS_SECURITY_WARNING_TEXT: "Rastgele Python betikleri çalıştırmak riskli olabilir. Çalıştırdığınız betiklerin kaynağına güvendiğinizden emin olun, çünkü sisteminize ve verilerinize erişebilirler. Eklenti yazarı ve betik yazarları, çalıştırmayı seçtiğiniz betiklerin neden olduğu veri kaybı veya güvenlik sorunlarından sorumlu değildir. Betikleri kendi sorumluluğunuzda çalıştırın.",
 };

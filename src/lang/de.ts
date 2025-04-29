@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Fehler beim Aktualisieren der Skripteinstellungsdefinitionen. Überprüfen Sie die Protokolle.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Skript kann nicht ausgeführt werden: Python-Ausführungsdatei nicht gefunden. Überprüfen Sie die Installation und den PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Python-Skripteinstellungsdefinitionen aktualisieren",
+	SETTINGS_SECURITY_WARNING_TITLE: "Sicherheitswarnung",
+	SETTINGS_SECURITY_WARNING_TEXT: "Das Ausführen beliebiger Python-Skripte kann riskant sein. Stellen Sie sicher, dass Sie der Quelle jedes Skripts vertrauen, das Sie ausführen, da diese auf Ihr System und Ihre Daten zugreifen können. Der Autor des Plugins und die Autoren der Skripte sind nicht verantwortlich für Datenverluste oder Sicherheitsprobleme, die durch von Ihnen ausgeführte Skripte verursacht werden. Führen Sie Skripte auf eigenes Risiko aus.",
 };

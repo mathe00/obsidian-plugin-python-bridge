@@ -20,6 +20,19 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
+		// --- NEW: Security Warning ---
+		// Use Obsidian's callout styling for native look and feel
+		const warningContainer = containerEl.createDiv({
+			cls: 'callout python-bridge-security-warning', // Add our class + standard callout class
+			attr: { 'data-callout': 'warning' } // Use warning style
+		});
+		warningContainer.createEl('strong', { text: t('SETTINGS_SECURITY_WARNING_TITLE') }); // Bold title (translatable)
+		warningContainer.createEl('br'); // Line break
+		warningContainer.appendText(t('SETTINGS_SECURITY_WARNING_TEXT')); // Main warning text (translatable)
+		// Add some space below the warning
+		warningContainer.style.marginBottom = '1.5em';
+		// --- End Security Warning ---
+
 		// --- General Plugin Settings ---
 		containerEl.createEl("h2", { text: t("SETTINGS_TAB_TITLE") });
 

@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Gagal menyegarkan definisi pengaturan skrip. Periksa log untuk detail.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Tidak dapat menjalankan skrip: Eksekusi Python tidak ditemukan. Periksa instalasi dan PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Segarkan definisi pengaturan skrip Python",
+	SETTINGS_SECURITY_WARNING_TITLE: "Peringatan Keamanan",
+	SETTINGS_SECURITY_WARNING_TEXT: "Menjalankan skrip Python sembarangan bisa berisiko. Pastikan Anda mempercayai sumber skrip apa pun yang Anda jalankan, karena skrip tersebut dapat mengakses sistem dan data Anda. Penulis plugin dan penulis skrip tidak bertanggung jawab atas kehilangan data atau masalah keamanan apa pun yang disebabkan oleh skrip yang Anda pilih untuk dijalankan. Jalankan skrip dengan risiko Anda sendiri.",
 };

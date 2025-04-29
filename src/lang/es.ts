@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Error al actualizar las definiciones de configuración de scripts. Revisa los logs.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "No se puede ejecutar el script: Ejecutable de Python no encontrado. Revisa la instalación y el PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Actualizar definiciones de configuración de scripts de Python",
+	SETTINGS_SECURITY_WARNING_TITLE: "Advertencia de Seguridad",
+	SETTINGS_SECURITY_WARNING_TEXT: "Ejecutar scripts de Python arbitrarios puede ser arriesgado. Asegúrate de confiar en la fuente de cualquier script que ejecutes, ya que pueden acceder a tu sistema y datos. El autor del plugin y los autores de los scripts no son responsables de ninguna pérdida de datos o problemas de seguridad causados por los scripts que elijas ejecutar. Ejecuta los scripts bajo tu propio riesgo.",
 };

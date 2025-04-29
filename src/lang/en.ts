@@ -73,4 +73,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Failed to refresh script settings definitions. Check logs for details.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Cannot run script: Python executable not found. Please check installation and PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Refresh Python script settings definitions",
+	SETTINGS_SECURITY_WARNING_TITLE: "Security Warning",
+	SETTINGS_SECURITY_WARNING_TEXT: "Executing arbitrary Python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.",
 };

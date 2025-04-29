@@ -70,4 +70,6 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Nie udało się odświeżyć definicji ustawień skryptów. Sprawdź logi, aby uzyskać szczegóły.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Nie można uruchomić skryptu: Nie znaleziono pliku wykonywalnego Python. Sprawdź instalację i PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Odśwież definicje ustawień skryptów Python",
+	SETTINGS_SECURITY_WARNING_TITLE: "Ostrzeżenie dotyczące bezpieczeństwa",
+	SETTINGS_SECURITY_WARNING_TEXT: "Uruchamianie dowolnych skryptów Python może być ryzykowne. Upewnij się, że ufasz źródłu każdego uruchamianego skryptu, ponieważ mogą one uzyskać dostęp do Twojego systemu i danych. Autor wtyczki i autorzy skryptów nie ponoszą odpowiedzialności za utratę danych ani problemy z bezpieczeństwem spowodowane przez skrypty, które zdecydujesz się uruchomić. Uruchamiaj skrypty na własne ryzyko.",
 };

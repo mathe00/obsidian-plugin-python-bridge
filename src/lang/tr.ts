@@ -73,4 +73,5 @@ export default {
 	SETTINGS_SECURITY_WARNING_TITLE: "Güvenlik Uyarısı",
 	SETTINGS_SECURITY_WARNING_TEXT: "Rastgele Python betikleri çalıştırmak riskli olabilir. Çalıştırdığınız betiklerin kaynağına güvendiğinizden emin olun, çünkü sisteminize ve verilerinize erişebilirler. Eklenti yazarı ve betik yazarları, çalıştırmayı seçtiğiniz betiklerin neden olduğu veri kaybı veya güvenlik sorunlarından sorumlu değildir. Betikleri kendi sorumluluğunuzda çalıştırın.",
 	SETTINGS_LANGUAGE_TITLE: "Eklenti Dili",
+	SETTINGS_LANGUAGE_DESC: "Python Bridge eklenti arayüzü için görüntüleme dilini seçin. 'Otomatik', Obsidian'ın dil ayarını takip eder.",
 };

@@ -73,4 +73,5 @@ export default {
 	SETTINGS_SECURITY_WARNING_TITLE: "보안 경고",
 	SETTINGS_SECURITY_WARNING_TEXT: "임의의 Python 스크립트를 실행하는 것은 위험할 수 있습니다. 실행하는 스크립트의 출처를 신뢰할 수 있는지 확인하십시오. 스크립트는 시스템과 데이터에 접근할 수 있습니다. 플러그인 작성자와 스크립트 작성자는 사용자가 실행하기로 선택한 스크립트로 인해 발생하는 데이터 손실이나 보안 문제에 대해 책임을 지지 않습니다. 자신의 책임 하에 스크립트를 실행하십시오.",
 	SETTINGS_LANGUAGE_TITLE: "플러그인 언어",
+	SETTINGS_LANGUAGE_DESC: "Python Bridge 플러그인 인터페이스의 표시 언어를 선택하십시오. '자동'은 Obsidian의 언어 설정을 따릅니다.",
 };

@@ -76,4 +76,5 @@ export default {
 	SETTINGS_SECURITY_WARNING_TITLE: "Security Warning",
 	SETTINGS_SECURITY_WARNING_TEXT: "Executing arbitrary Python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.",
 	SETTINGS_LANGUAGE_TITLE: "Plugin Language",
+	SETTINGS_LANGUAGE_DESC: "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",
 };

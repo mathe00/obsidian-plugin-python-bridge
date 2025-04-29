@@ -32,6 +32,7 @@ interface PythonBridgeSettings {
 	pythonScriptsFolder: string;
 	httpPort: number;
 	disablePyCache: boolean;
+  pluginLanguage: string; // Added setting for language override
 }
 
 const DEFAULT_PORT = 27123;
@@ -40,6 +41,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	pythonScriptsFolder: "",
 	httpPort: DEFAULT_PORT,
 	disablePyCache: true,
+  pluginLanguage: 'auto', // Default to automatic detection
 };
 
 interface JsonResponse {
@@ -80,7 +82,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	async onload() {
 		this.logInfo("Loading Obsidian Python Bridge plugin...");
 		await this.loadSettings();
-		loadTranslations(); // Load translations based on locale
+		loadTranslations(this); // Load translations, passing the plugin instance
 		this.initialHttpPort = this.settings.httpPort; // Store initial port
 
 		this.addSettingTab(new PythonBridgeSettingTab(this.app, this));

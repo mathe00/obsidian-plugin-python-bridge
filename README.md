@@ -184,10 +184,7 @@ _handle_cli_args() # Handles discovery request from Obsidian
 
 The **Obsidian Python Bridge** plugin will automatically **discover** these definitions and **display them in its settings tab** under a section for your script. Users can then configure these settings directly in the Obsidian interface, just like any other plugin!
 
-![image](https://github.com/user-attachments/assets/11111111-1111-1111-1111-111111111111) <!-- Placeholder - Replace with actual screenshot -->
-*(Screenshot showing script settings in the Obsidian UI)*
-
-Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for full details!
+Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PythonClientLibrary.md) for full details!
 
 <a id="basic-usage"></a>
 ## Example of basic usage

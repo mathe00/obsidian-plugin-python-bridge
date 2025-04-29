@@ -11,6 +11,25 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 > Ever needed to build plugins for Obsidian but felt like JavaScript wasn’t your cup of tea?
 > With **Obsidian Python Bridge**, you can now use your favorite language, **Python**, to create plugins for Obsidian. 🙌
 
+---
+
+**Table of Contents**
+
+-   [Description](#description)
+-   [🌍 Internationalization](#internationalization)
+-   [Why this plugin? 🤔](#why-this-plugin)
+    -   [New Feature: Graphical `input()` in Obsidian via Modals! 🚀](#graphical-input-feature)
+-   [Example of basic usage](#basic-usage)
+-   [🚀 Future Features (roadmap)](#roadmap)
+-   [🛠️ Installation](#installation)
+-   [⭐ Show Your Support](#support)
+-   [🛠️ Contributing](#contributing)
+-   [⭐ Check out my other plugins](#other-plugins)
+-   [License](#license)
+
+---
+
+<a id="description"></a>
 ## Description
 
 💻 Developing **Obsidian plugins** without diving into **JavaScript**? Yes, that’s possible with **Obsidian Python Bridge**. This plugin is designed specifically to **execute Python scripts** within Obsidian, and it comes with a **built-in Python library** to make your life easier.
@@ -53,6 +72,7 @@ Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've develop
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of AI assistants** (shoutout to **ChatGPT 4o**, **ChatGPT o1-preview**, and **Gemini 2.5 Pro** 😉). So, the code might be a bit rough around the edges, but it **works**. That’s all that matters, right?
 
+<a id="internationalization"></a>
 ## 🌍 Internationalization
 
 This plugin aims to be accessible globally! The user interface (settings, commands, notices) is available in multiple languages.
@@ -78,6 +98,7 @@ This plugin aims to be accessible globally! The user interface (settings, comman
 
 *(Want to contribute translations for another language? Feel free to open an issue or pull request!)*
 
+<a id="why-this-plugin"></a>
 ## Why this plugin? 🤔
 
 I get it. Why add a layer between **Python** and **Obsidian** when everything can already be done in **JavaScript**?
@@ -86,6 +107,7 @@ Because, honestly, I **prefer Python**. And if I can write code faster and more 
 
 **Obsidian Python Bridge** was created for people like me who prefer coding in **Python** and want to do things **quickly and effectively** in Obsidian. Sure, there are probably more "clean" or "optimized" ways to do this, but as long as it **works** and I understand what I’m doing, I’m happy. 😎
 
+<a id="graphical-input-feature"></a>
 ### **New Feature: Graphical `input()` in Obsidian via Modals!** 🚀
 
 As of **October 2, 2024**, the **Obsidian Python Bridge** plugin now allows you to create **graphical input modals** in Obsidian! This feature is similar to Python’s native `input()` function but integrated into the Obsidian interface. Instead of inputting data through the terminal, you can now prompt users with **interactive pop-ups** directly inside Obsidian.
@@ -136,7 +158,8 @@ As you can see, it’s incredibly easy to set up and integrate into your Obsidia
 
 Feel free to expand this example or adjust it to fit your needs. This feature is ideal for collecting user input, manipulating notes based on input, or even customizing workflows within your vault.
 
-## Example of basic usage:
+<a id="basic-usage"></a>
+## Example of basic usage
 
 ```python
 # Import the Python-Obsidian bridge module
@@ -190,6 +213,7 @@ And here's a screenshot showing the results of the above code executed in the Ob
 
 In just a **few lines**, you can interact with your Obsidian vault, display notifications, and manipulate note metadata effectively and easily.
 
+<a id="roadmap"></a>
 ## 🚀 Future Features (roadmap)
 
 -   🌍 **More Languages**: Add support for even more languages (contributions welcome!).
@@ -199,6 +223,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 -   ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
 -   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
 
+<a id="installation"></a>
 ## 🛠️ Installation
 
 ### Prerequisites
@@ -250,12 +275,14 @@ Before installing the plugin, please ensure you have the following installed on 
     -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
     -   **Crucially, place this `.py` file inside the Python scripts folder you configured in step 6.** This allows your scripts in that folder to easily `import ObsidianPluginDevPythonToJS`.
 
+<a id="support"></a>
 ## ⭐ Show Your Support
 
 If you find this plugin useful or interesting, feel free to give it a **star** on GitHub!
 Or if you’d rather not, you can also drop by and say **hello** or provide feedback through **issues**.
 I’m open to all kinds of feedback, advice, and encouragements! 😊
 
+<a id="contributing"></a>
 ## 🛠️ Contributing
 
 If you’re a **developer** and you see ways to improve this plugin, I’m open to suggestions. I’m also always happy to welcome contributions!
@@ -264,10 +291,12 @@ As for me, as long as it works in **Python**, I’m satisfied. But if you see ho
 
 I’m not an expert in **JavaScript** or **TypeScript**, but I’m learning and doing my best with the help of **AI assistants**. If you think this project is an odd mix of languages, I get it. But for me, it’s a way to **create quickly** and **understand what I’m doing**.
 
+<a id="other-plugins"></a>
 ## ⭐ Check out my other plugins
 
 Feel free to check out my other plugins for Obsidian on my GitHub, like the **[Better Auto Linker](https://github.com/mathe00/obsidian-better-auto-linker-plugin)** or the **[Interactive Progress Bar Plugin](https://github.com/mathe00/obsidian-progress-bar-plugin)**. As always, they’re **a bit rough** around the edges, but **they work**, and that’s what matters in the end, right? 😅
 
+<a id="license"></a>
 ## License
 
 I've chosen the [MIT License](https://choosealicense.com/licenses/mit/) for this project because I believe in **freedom and open-source**.

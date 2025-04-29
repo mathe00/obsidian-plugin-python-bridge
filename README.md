@@ -67,7 +67,7 @@ In short, while some tasks are technically feasible without this plugin, they’
 
 Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library now requires the `requests` package, and `PyYAML` for frontmatter property management). **For easy importing, simply place the `ObsidianPluginDevPythonToJS.py` file in the same folder as your own Python scripts.**
 
-👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md).**
+👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PythonClientLibrary.md).**
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of AI assistants** (shoutout to **ChatGPT 4o**, **ChatGPT o1-preview**, and **Gemini 2.5 Pro** 😉). So, the code might be a bit rough around the edges, but it **works**. That’s all that matters, right?
 
@@ -83,7 +83,7 @@ This plugin aims to be accessible globally! The user interface (settings, comman
     *   🇫🇷 French (fr)
     *   🇪🇸 Spanish (es)
     *   🇩🇪 German (de)
-    *   🇨🇳 Chinese (zh)
+    *   🇨🇳 Chinese - Simplified (zh)
     *   🇸🇦 Arabic (ar)
     *   🇧🇷/🇵🇹 Portuguese (pt)
     *   🇷🇺 Russian (ru)
@@ -94,8 +94,28 @@ This plugin aims to be accessible globally! The user interface (settings, comman
     *   🇹🇷 Turkish (tr)
     *   🇮🇩 Indonesian (id)
     *   🇵🇱 Polish (pl)
+    *   🇮🇳 Bengali (bn)
+    *   🇵🇰/🇮🇳 Urdu (ur)
+    *   🇻🇳 Vietnamese (vi)
+    *   🇹🇭 Thai (th)
+    *   🇵🇭 Filipino (fil)
+    *   🇮🇷/🇦🇫/🇹🇯 Persian (Farsi) (fa)
+    *   🇲🇾/🇧🇳/🇸🇬 Malay (ms)
+    *   🇳🇱/🇧🇪 Dutch (nl)
+    *   🇺🇦 Ukrainian (uk)
+    *   🇬🇷 Greek (el)
+    *   🇸🇪 Swedish (sv) *(representing Scandinavian)*
+    *   🇫🇮 Finnish (fi)
+    *   🇭🇺 Hungarian (hu)
+    *   🇷🇴 Romanian (ro)
+    *   🇨🇿 Czech (cs)
+    *   🌍 Swahili (sw)
+    *   🌍 Hausa (ha)
+    *   🇳🇬 Yoruba (yo)
+    *   🇳🇬 Igbo (ig)
+    *   🇹🇼/🇭🇰 Chinese - Traditional (zht)
 
-*(Want to contribute translations for another language? Feel free to open an issue or pull request!)*
+*(Phew! That's quite a list. If your language is *still* missing, feel free to open an issue or pull request, but I think we've covered a good chunk of the planet now! 😄)*
 
 <a id="why-this-plugin"></a>
 ## Why this plugin? 🤔
@@ -189,7 +209,7 @@ Your script can then easily fetch the current values set by the user using the `
 <a id="basic-usage"></a>
 ## Example of basic usage
 
-This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for examples using modals and settings.
+This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PythonClientLibrary.md) for examples using modals and settings.
 
 ```python
 # Import the Python-Obsidian bridge module
@@ -248,7 +268,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 <a id="roadmap"></a>
 ## 🚀 Future Features (roadmap)
 
--   🌍 **More Languages**: Add support for even more languages (contributions welcome!).
+-   <!-- Removed: 🌍 More Languages -->
 -   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**

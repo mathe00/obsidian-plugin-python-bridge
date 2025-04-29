@@ -78,7 +78,7 @@ This plugin aims to be accessible globally! The user interface (settings, comman
 
 *   **Automatic Detection:** By default, the plugin will try to match Obsidian's configured language.
 *   **Manual Override:** You can select your preferred language for the plugin directly in the settings tab, regardless of Obsidian's language setting.
-*   **Supported Languages:**
+*   **Supported Languages (+30):**
     *   🇬🇧/🇺🇸 English (en)
     *   🇫🇷 French (fr)
     *   🇪🇸 Spanish (es)

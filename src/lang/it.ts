@@ -1,0 +1,57 @@
+// --- src/lang/it.ts ---
+// Italian translations
+export default {
+	// Settings Tab
+	SETTINGS_TAB_TITLE: "Impostazioni Obsidian Python Bridge",
+	SETTINGS_FOLDER_TITLE: "Cartella Script Python",
+	SETTINGS_FOLDER_DESC:
+		"Percorso della cartella contenente i tuoi script Python (assoluto o relativo al vault).",
+	SETTINGS_FOLDER_PLACEHOLDER: "/percorso/ai/tuoi/script o ./scripts-python",
+	SETTINGS_PORT_TITLE: "Porta Server HTTP",
+	SETTINGS_PORT_DESC:
+		"Porta per il server HTTP locale (1024-65535). Richiede il riavvio o il salvataggio delle impostazioni per applicare.",
+	SETTINGS_CACHE_TITLE: "Disabilita Cache Python (__pycache__)",
+	SETTINGS_CACHE_DESC:
+		'Esegue Python con il flag "-B" per prevenire la scrittura di file .pyc.',
+
+	// main.ts Notices
+	NOTICE_PLUGIN_NAME: "Python Bridge",
+	NOTICE_PORT_CHANGED_PREFIX: "Porta HTTP cambiata a",
+	NOTICE_PORT_CHANGED_SUFFIX: "Riavvio del server...",
+	NOTICE_PYTHON_MISSING_TITLE: "Errore Python Bridge:",
+	NOTICE_PYTHON_MISSING_DESC: "Eseguibile Python non trovato nel PATH.\nInstalla Python e assicurati che sia aggiunto alla variabile d'ambiente PATH del tuo sistema affinché il plugin possa eseguire gli script.\nLe funzionalità del plugin che richiedono Python non saranno disponibili.",
+	NOTICE_REQUESTS_MISSING_TITLE: "Errore Python Bridge:",
+	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "La libreria Python richiesta 'requests' non è installata per",
+	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\nInstallala eseguendo:\n{pythonCmd} -m pip install requests\nLe funzionalità del plugin che richiedono Python non saranno disponibili finché non verrà installata.",
+	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Porta HTTP configurata non valida:",
+	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Server non avviato. Configura una porta valida (1-65535) nelle impostazioni.",
+	NOTICE_PORT_IN_USE_PREFIX: "La porta",
+	NOTICE_PORT_IN_USE_SUFFIX: "è già in uso. Scegli un'altra porta nelle impostazioni o chiudi l'altra applicazione che la sta usando. Server non avviato.",
+	NOTICE_SERVER_START_FAILED_PREFIX: "Impossibile avviare il server sulla porta",
+	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Porta HTTP cambiata (",
+	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
+	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Lo script potrebbe puntare alla vecchia porta se è già in esecuzione o è stato avviato esternamente.",
+	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Script Python non trovato o non è un file:",
+	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Errore di accesso al file dello script:",
+	NOTICE_RUNNING_SCRIPT_PREFIX: "Esecuzione script Python:",
+	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Errore durante l'esecuzione di",
+	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "con",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "fallito con codice di uscita",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Controlla i log della console.",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Impossibile trovare un eseguibile Python valido. Tentativi:",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Assicurati che Python sia installato e accessibile tramite il PATH di sistema (o il launcher 'py' su Windows).",
+	NOTICE_SCRIPTS_FOLDER_INVALID: "Cartella degli script Python non trovata o non valida. Controlla le impostazioni del plugin.",
+	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Errore durante la lettura della cartella degli script:",
+	NOTICE_NO_SCRIPTS_FOUND: "Nessuno script Python (.py) trovato nella cartella configurata.",
+	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Esecuzione di",
+	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "script Python...",
+	NOTICE_INPUT_VALIDATION_FAILED: "L'input non corrisponde al formato richiesto.",
+
+	// main.ts Commands
+	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Esegui uno script Python specifico",
+	CMD_RUN_ALL_SCRIPTS_NAME: "Esegui tutti gli script Python nella cartella",
+
+	// UserInputModal
+	MODAL_USER_INPUT_SUBMIT_BUTTON: "Invia",
+};

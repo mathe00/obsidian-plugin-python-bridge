@@ -1,0 +1,57 @@
+// --- src/lang/tr.ts ---
+// Turkish translations
+export default {
+	// Settings Tab
+	SETTINGS_TAB_TITLE: "Obsidian Python Bridge Ayarları",
+	SETTINGS_FOLDER_TITLE: "Python Betikleri Klasörü",
+	SETTINGS_FOLDER_DESC:
+		"Python betiklerinizi içeren klasörün yolu (mutlak veya kasaya göreceli).",
+	SETTINGS_FOLDER_PLACEHOLDER: "/komut/dosyalarınızın/yolu veya ./scripts-python",
+	SETTINGS_PORT_TITLE: "HTTP Sunucu Portu",
+	SETTINGS_PORT_DESC:
+		"Yerel HTTP sunucusu için port (1024-65535). Uygulamak için yeniden başlatma veya ayarları kaydetme gerekir.",
+	SETTINGS_CACHE_TITLE: "Python Önbelleğini Devre Dışı Bırak (__pycache__)",
+	SETTINGS_CACHE_DESC:
+		'".pyc" dosyalarının yazılmasını önlemek için Python\'u "-B" bayrağıyla çalıştırın.',
+
+	// main.ts Notices
+	NOTICE_PLUGIN_NAME: "Python Bridge",
+	NOTICE_PORT_CHANGED_PREFIX: "HTTP portu şuna değiştirildi:",
+	NOTICE_PORT_CHANGED_SUFFIX: "Sunucu yeniden başlatılıyor...",
+	NOTICE_PYTHON_MISSING_TITLE: "Python Bridge Hatası:",
+	NOTICE_PYTHON_MISSING_DESC: "PATH içinde Python yürütülebilir dosyası bulunamadı.\nLütfen Python'u yükleyin ve eklentinin betikleri çalıştırabilmesi için sisteminizin PATH ortam değişkenine eklendiğinden emin olun.\nPython gerektiren eklenti özellikleri kullanılamayacaktır.",
+	NOTICE_REQUESTS_MISSING_TITLE: "Python Bridge Hatası:",
+	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Gerekli Python kütüphanesi 'requests' şunun için kurulu değil:",
+	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\nLütfen şunu çalıştırarak kurun:\n{pythonCmd} -m pip install requests\nKurulana kadar Python gerektiren eklenti özellikleri kullanılamayacaktır.",
+	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Geçersiz HTTP portu yapılandırıldı:",
+	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Sunucu başlatılmadı. Lütfen ayarlarda geçerli bir port (1-65535) yapılandırın.",
+	NOTICE_PORT_IN_USE_PREFIX: "Port",
+	NOTICE_PORT_IN_USE_SUFFIX: "zaten kullanılıyor. Lütfen ayarlarda başka bir port seçin veya onu kullanan diğer uygulamayı kapatın. Sunucu başlatılmadı.",
+	NOTICE_SERVER_START_FAILED_PREFIX: "Sunucuyu port üzerinde başlatma başarısız:",
+	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP Portu değişti (",
+	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
+	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Betik zaten çalışıyorsa veya harici olarak başlatıldıysa eski portu hedefleyebilir.",
+	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Python betiği bulunamadı veya bir dosya değil:",
+	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Betik dosyasına erişim hatası:",
+	NOTICE_RUNNING_SCRIPT_PREFIX: "Python betiği çalıştırılıyor:",
+	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Çalıştırma hatası:",
+	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "ile",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "çıkış koduyla başarısız oldu:",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Konsol günlüklerini kontrol edin.",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Geçerli bir Python yürütülebilir dosyası bulunamadı. Denenenler:",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Lütfen Python'un kurulu olduğundan ve sisteminizin PATH'i (veya Windows'ta 'py' başlatıcısı) aracılığıyla erişilebilir olduğundan emin olun.",
+	NOTICE_SCRIPTS_FOLDER_INVALID: "Python betikleri klasörü bulunamadı veya geçersiz. Lütfen eklenti ayarlarını kontrol edin.",
+	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Betik klasörünü okuma hatası:",
+	NOTICE_NO_SCRIPTS_FOUND: "Yapılandırılmış klasörde Python betiği (.py) bulunamadı.",
+	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "",
+	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: " Python betiği çalıştırılıyor...",
+	NOTICE_INPUT_VALIDATION_FAILED: "Girdi gerekli biçimle eşleşmiyor.",
+
+	// main.ts Commands
+	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Belirli bir Python betiğini çalıştır",
+	CMD_RUN_ALL_SCRIPTS_NAME: "Klasördeki tüm Python betiklerini çalıştır",
+
+	// UserInputModal
+	MODAL_USER_INPUT_SUBMIT_BUTTON: "Gönder",
+};

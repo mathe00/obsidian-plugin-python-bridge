@@ -24,6 +24,7 @@ import { AddressInfo } from "net";
 // Import other components
 import PythonBridgeSettingTab from "./PythonBridgeSettingTab";
 import UserInputModal from "./UserInputModal";
+import { loadTranslations, t } from "./lang/translations"; // Import the loader AND the function t
 import ScriptSelectionModal from "./ScriptSelectionModal";
 
 // --- Interfaces ---
@@ -79,6 +80,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	async onload() {
 		this.logInfo("Loading Obsidian Python Bridge plugin...");
 		await this.loadSettings();
+		loadTranslations(); // Load translations based on locale
 		this.initialHttpPort = this.settings.httpPort; // Store initial port
 
 		this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
@@ -130,8 +132,9 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.logInfo(
 				`HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`,
 			);
+			// Use translation for the notice
 			new Notice(
-				`Python Bridge: HTTP port changed to ${this.settings.httpPort}. Restarting server...`,
+				`${t("NOTICE_PLUGIN_NAME")}: ${t("NOTICE_PORT_CHANGED_PREFIX")} ${this.settings.httpPort}. ${t("NOTICE_PORT_CHANGED_SUFFIX")}`,
 				3000,
 			);
 			this.stopHttpServer();
@@ -192,10 +195,10 @@ export default class ObsidianPythonBridge extends Plugin {
 							reject(new Error(`Command ${cmd} resulted in exit code 9009 (MS Store alias?)`));
 						} else if (code === 0) {
 							resolve(); // Success
-            } else {
-              // Reject if the --version command failed for this specific 'cmd'
-              reject(new Error(`Command ${cmd} --version exited with code ${code}`));
-          }
+						} else {
+							// Reject if the --version command failed for this specific 'cmd'
+							reject(new Error(`Command ${cmd} --version exited with code ${code}`));
+						}
 
 					});
 				});
@@ -208,79 +211,86 @@ export default class ObsidianPythonBridge extends Plugin {
 		return null; // Return null if no command was found after checking all options
 	} // <-- Closing brace for findPythonExecutable
 
-  /**
-   * Checks if a Python module can be imported using a specific Python command.
-   * @param pythonCmd The Python command to use (e.g., 'python3', 'py').
-   * @param moduleName The name of the module to check (e.g., 'requests').
-   * @returns True if the module can be imported, false otherwise.
-   */
-  async checkPythonModule(pythonCmd: string, moduleName: string): Promise<boolean> {
-    this.logDebug(`Checking import of module '${moduleName}' using command '${pythonCmd}'...`);
-    try {
-        await new Promise<void>((resolve, reject) => {
-            // Use spawn, similar to findPythonExecutable and runPythonScript
-            const process = spawn(pythonCmd, ['-c', `import ${moduleName}`]);
+	/**
+	 * Checks if a Python module can be imported using a specific Python command.
+	 * @param pythonCmd The Python command to use (e.g., 'python3', 'py').
+	 * @param moduleName The name of the module to check (e.g., 'requests').
+	 * @returns True if the module can be imported, false otherwise.
+	 */
+	async checkPythonModule(pythonCmd: string, moduleName: string): Promise<boolean> {
+		this.logDebug(`Checking import of module '${moduleName}' using command '${pythonCmd}'...`);
+		try {
+			await new Promise<void>((resolve, reject) => {
+				// Use spawn, similar to findPythonExecutable and runPythonScript
+				const process = spawn(pythonCmd, ['-c', `import ${moduleName}`]);
 
-            let stderrOutput = '';
-            process.stderr?.on('data', (data) => {
-                stderrOutput += data.toString();
-            });
+				let stderrOutput = '';
+				process.stderr?.on('data', (data) => {
+					stderrOutput += data.toString();
+				});
 
-            process.on('error', (error) => {
-                // Handles errors like command not found *if* findPythonExecutable somehow failed
-                this.logWarn(`Spawn error during module check for '${moduleName}' using '${pythonCmd}': ${error.message}`);
-                reject(error);
-            });
+				process.on('error', (error) => {
+					// Handles errors like command not found *if* findPythonExecutable somehow failed
+					this.logWarn(`Spawn error during module check for '${moduleName}' using '${pythonCmd}': ${error.message}`);
+					reject(error);
+				});
 
-            process.on('close', (code) => {
-                if (code === 0) {
-                    this.logDebug(`Module '${moduleName}' imported successfully using '${pythonCmd}'.`);
-                    resolve(); // Success
-                } else {
-                    // Log the failure and reject
-                    this.logWarn(`Failed to import module '${moduleName}' using '${pythonCmd}'. Exit code: ${code}.`);
-                    if (stderrOutput.trim()) {
-                        this.logWarn(`Stderr from failed import: ${stderrOutput.trim()}`);
-                    }
-                    reject(new Error(`Module '${moduleName}' import failed with exit code ${code}`));
-                }
-            });
-        });
-        return true; // Promise resolved, import successful
-    } catch (error) {
-        // This catch block now handles the rejection from the promise
-        this.logDebug(`Module check failed for '${moduleName}' using '${pythonCmd}': ${error instanceof Error ? error.message : String(error)}`);
-        return false; // Promise rejected, import failed
-    }
-  } // <-- Closing brace for checkPythonModule
+				process.on('close', (code) => {
+					if (code === 0) {
+						this.logDebug(`Module '${moduleName}' imported successfully using '${pythonCmd}'.`);
+						resolve(); // Success
+					} else {
+						// Log the failure and reject
+						this.logWarn(`Failed to import module '${moduleName}' using '${pythonCmd}'. Exit code: ${code}.`);
+						if (stderrOutput.trim()) {
+							this.logWarn(`Stderr from failed import: ${stderrOutput.trim()}`);
+						}
+						reject(new Error(`Module '${moduleName}' import failed with exit code ${code}`));
+					}
+				});
+			});
+			return true; // Promise resolved, import successful
+		} catch (error) {
+			// This catch block now handles the rejection from the promise
+			this.logDebug(`Module check failed for '${moduleName}' using '${pythonCmd}': ${error instanceof Error ? error.message : String(error)}`);
+			return false; // Promise rejected, import failed
+		}
+	} // <-- Closing brace for checkPythonModule
 
 
-  showPythonMissingNotification(): void {
-    // Delay notice slightly to ensure Obsidian UI is ready
-    setTimeout(() => {
-        new Notice("Python Bridge Error:\nPython executable not found in PATH.\nPlease install Python and ensure it's added to your system's PATH environment variable for the plugin to run scripts.\nPlugin features requiring Python will be unavailable.", 0); // Persistent notice
-    }, 500); // Delay by 500ms (adjust if needed)
-  }
+	showPythonMissingNotification(): void {
+		// Delay notice slightly to ensure Obsidian UI is ready
+		setTimeout(() => {
+			// Use translation for the notice
+			new Notice(`${t("NOTICE_PYTHON_MISSING_TITLE")}\n${t("NOTICE_PYTHON_MISSING_DESC")}`, 0); // Persistent notice
+		}, 500); // Delay by 500ms (adjust if needed)
+	}
 
-  showRequestsMissingNotification(pythonCmd: string): void {
-    // Delay notice slightly to ensure Obsidian UI is ready
-    setTimeout(() => {
-        new Notice(`Python Bridge Error:\nThe required Python library 'requests' is not installed for ${pythonCmd}.\nPlease install it by running:\n${pythonCmd} -m pip install requests\nPlugin features requiring Python will be unavailable until installed.`, 0); // Persistent notice
-    }, 500); // Delay by 500ms (adjust if needed)
-  }
+	showRequestsMissingNotification(pythonCmd: string): void {
+		// Delay notice slightly to ensure Obsidian UI is ready
+		setTimeout(() => {
+			// Use translation for the notice, inserting the pythonCmd
+			// Note: The placeholder {pythonCmd} in the translation string needs manual replacement for now.
+			// A more advanced i18n library would handle this automatically.
+			const desc = t("NOTICE_REQUESTS_MISSING_DESC_SUFFIX").replace("{pythonCmd}", pythonCmd);
+			new Notice(`${t("NOTICE_REQUESTS_MISSING_TITLE")}\n${t("NOTICE_REQUESTS_MISSING_DESC_PREFIX")} ${pythonCmd}.${desc}`, 0); // Persistent notice
+		}, 500); // Delay by 500ms (adjust if needed)
+	}
 
 
 	// --- Command Registration ---
 	addCommands() {
 		this.addCommand({
 			id: "run-specific-python-script",
-			name: "Run a specific Python script",
+			// Use translation for command name
+			name: t("CMD_RUN_SPECIFIC_SCRIPT_NAME"),
 			callback: () => this.chooseAndRunPythonScript(),
 		});
 
 		this.addCommand({
 			id: "run-all-python-scripts",
-			name: "Run all Python scripts in folder",
+			// Use translation for command name
+			name: t("CMD_RUN_ALL_SCRIPTS_NAME"),
 			callback: () => this.runAllPythonScripts(),
 		});
 	}
@@ -317,9 +327,10 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.settings.httpPort <= 0 ||
 			this.settings.httpPort > 65535
 		) {
-			const errorMsg = `Invalid HTTP port configured: ${this.settings.httpPort}. Server not started. Please configure a valid port (1-65535) in settings.`;
+			// Use translation for the notice
+			const errorMsg = `${t("NOTICE_INVALID_PORT_CONFIG_PREFIX")} ${this.settings.httpPort}. ${t("NOTICE_INVALID_PORT_CONFIG_SUFFIX")}`;
 			this.logError(errorMsg);
-			new Notice(`Python Bridge: ${errorMsg}`, 7000);
+			new Notice(`${t("NOTICE_PLUGIN_NAME")}: ${errorMsg}`, 7000);
 			return;
 		}
 
@@ -351,8 +362,8 @@ export default class ObsidianPythonBridge extends Plugin {
 							status: "error",
 							error:
 								method !== "POST" || url !== "/"
-									? "Not Found: Please POST to /"
-									: "Forbidden: Access only allowed from localhost",
+									? "Not Found: Please POST to /" // Standard HTTP messages, usually not translated
+									: "Forbidden: Access only allowed from localhost", // Standard HTTP messages
 						}),
 					);
 					return;
@@ -367,7 +378,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					res.end(
 						JSON.stringify({
 							status: "error",
-							error: "Invalid Content-Type: application/json required",
+							error: "Invalid Content-Type: application/json required", // Technical error message
 						}),
 					);
 					return;
@@ -397,7 +408,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							!request.action // Ensure action is not empty
 						) {
 							throw new Error(
-								"Invalid JSON request structure. 'action' (non-empty string) is required.",
+								"Invalid JSON request structure. 'action' (non-empty string) is required.", // Technical error
 							);
 						}
 
@@ -418,7 +429,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error instanceof SyntaxError ? 400 : 500; // 400 Bad Request for JSON parse errors
 						response = {
 							status: "error",
-							error: `Failed to process request: ${errorMessage}`,
+							error: `Failed to process request: ${errorMessage}`, // Technical error
 						};
 						// Ensure response is sent even on error during processing
 						if (!res.writableEnded) {
@@ -458,7 +469,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						res.end(
 							JSON.stringify({
 								status: "error",
-								error: "Error reading request data",
+								error: "Error reading request data", // Technical error
 							}),
 						);
 					}
@@ -467,14 +478,17 @@ export default class ObsidianPythonBridge extends Plugin {
 		);
 
 		this.server.on("error", (err: NodeJS.ErrnoException) => {
-			let errorMsg = `HTTP server error: ${err.message}`;
+			let errorMsg = `HTTP server error: ${err.message}`; // Keep technical part
 			if (err.code === "EADDRINUSE") {
-				errorMsg = `Port ${this.settings.httpPort} is already in use. Please choose another port in settings or close the other application using it. Server not started.`;
+				// Use translation for the user-facing part
+				errorMsg = `${t("NOTICE_PORT_IN_USE_PREFIX")} ${this.settings.httpPort} ${t("NOTICE_PORT_IN_USE_SUFFIX")}`;
 				this.logError(errorMsg);
 			} else {
 				this.logError("Unhandled HTTP server error:", err);
+				// Keep generic error message for unknown errors
+				errorMsg = `HTTP server error: ${err.message}`;
 			}
-			new Notice(`Python Bridge: ${errorMsg}`, 10000);
+			new Notice(`${t("NOTICE_PLUGIN_NAME")}: ${errorMsg}`, 10000);
 			this.server = null; // Ensure server is marked as null on error
 		});
 
@@ -504,8 +518,9 @@ export default class ObsidianPythonBridge extends Plugin {
 					? listenErr.message
 					: String(listenErr);
 			this.logError("Failed to listen on HTTP port:", errorMsg);
+			// Use translation for the notice
 			new Notice(
-				`Python Bridge: Failed to start server on port ${this.settings.httpPort}. ${errorMsg}`,
+				`${t("NOTICE_PLUGIN_NAME")}: ${t("NOTICE_SERVER_START_FAILED_PREFIX")} ${this.settings.httpPort}${t("NOTICE_SERVER_START_FAILED_SUFFIX")} ${errorMsg}`,
 				7000,
 			);
 			this.server = null; // Ensure server is marked as null on listen error
@@ -529,7 +544,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						? { status: "success", data: activeContent }
 						: {
 								status: "error",
-								error: "No active Markdown note found.",
+								error: "No active Markdown note found.", // Technical error
 							};
 
 				case "get_active_note_relative_path":
@@ -538,7 +553,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						? { status: "success", data: activeRelativePath }
 						: {
 								status: "error",
-								error: "No active Markdown note found.",
+								error: "No active Markdown note found.", // Technical error
 							};
 
 				case "get_active_note_absolute_path":
@@ -547,7 +562,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						? { status: "success", data: activeAbsolutePath }
 						: {
 								status: "error",
-								error: "No active note or vault path unavailable.",
+								error: "No active note or vault path unavailable.", // Technical error
 							};
 
 				case "get_active_note_title":
@@ -556,7 +571,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						? { status: "success", data: activeTitle }
 						: {
 								status: "error",
-								error: "No active Markdown note found.",
+								error: "No active Markdown note found.", // Technical error
 							};
 
 				case "get_current_vault_absolute_path":
@@ -565,7 +580,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						? { status: "success", data: vaultPath }
 						: {
 								status: "error",
-								error: "Could not determine vault absolute path.",
+								error: "Could not determine vault absolute path.", // Technical error
 							};
 
 				case "get_active_note_frontmatter":
@@ -577,7 +592,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					if (typeof payload?.path !== "string") {
 						return {
 							status: "error",
-							error: "Invalid payload: 'path' (string) required.",
+							error: "Invalid payload: 'path' (string) required.", // Technical error
 						};
 					}
 					try {
@@ -591,7 +606,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error:
 								error instanceof Error
 									? error.message
-									: String(error),
+									: String(error), // Technical error
 						};
 					}
 
@@ -599,7 +614,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					if (typeof payload?.path !== "string") {
 						return {
 							status: "error",
-							error: "Invalid payload: 'path' (string) required.",
+							error: "Invalid payload: 'path' (string) required.", // Technical error
 						};
 					}
 					try {
@@ -612,7 +627,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error:
 								error instanceof Error
 									? error.message
-									: String(error),
+									: String(error), // Technical error
 						};
 					}
 
@@ -627,7 +642,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error:
 								error instanceof Error
 									? error.message
-									: String(error),
+									: String(error), // Technical error
 						};
 					}
 
@@ -635,7 +650,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					if (typeof payload?.replacement !== "string") {
 						return {
 							status: "error",
-							error: "Invalid payload: 'replacement' (string) required.",
+							error: "Invalid payload: 'replacement' (string) required.", // Technical error
 						};
 					}
 					try {
@@ -647,7 +662,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error:
 								error instanceof Error
 									? error.message
-									: String(error),
+									: String(error), // Technical error
 						};
 					}
 
@@ -661,7 +676,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					) {
 						return {
 							status: "error",
-							error: "Invalid payload: 'filePath' (absolute path string) and 'content' (string) required.",
+							error: "Invalid payload: 'filePath' (absolute path string) and 'content' (string) required.", // Technical error
 						};
 					}
 					try {
@@ -680,7 +695,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						);
 						return {
 							status: "error",
-							error: `Failed to modify note: ${errorMsg}`,
+							error: `Failed to modify note: ${errorMsg}`, // Technical error
 						};
 					}
 
@@ -691,7 +706,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					) {
 						return {
 							status: "error",
-							error: "Invalid payload: 'path' (relative vault path string) and 'content' (string) required.",
+							error: "Invalid payload: 'path' (relative vault path string) and 'content' (string) required.", // Technical error
 						};
 					}
 					try {
@@ -710,7 +725,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						);
 						return {
 							status: "error",
-							error: `Failed to modify note: ${errorMsg}`,
+							error: `Failed to modify note: ${errorMsg}`, // Technical error
 						};
 					}
 
@@ -718,7 +733,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					if (typeof payload?.path !== "string") {
 						return {
 							status: "error",
-							error: "Invalid payload: 'path' (relative vault path string) required.",
+							error: "Invalid payload: 'path' (relative vault path string) required.", // Technical error
 						};
 					}
 					const newLeaf =
@@ -734,7 +749,7 @@ export default class ObsidianPythonBridge extends Plugin {
 							error:
 								error instanceof Error
 									? error.message
-									: String(error),
+									: String(error), // Technical error
 						};
 					}
 
@@ -743,13 +758,14 @@ export default class ObsidianPythonBridge extends Plugin {
 					if (typeof payload?.content !== "string") {
 						return {
 							status: "error",
-							error: "Invalid payload: 'content' (string) required.",
+							error: "Invalid payload: 'content' (string) required.", // Technical error
 						};
 					}
 					const duration =
 						typeof payload?.duration === "number"
 							? payload.duration
 							: 4000;
+					// Note: Notifications sent from Python are not translated here.
 					this.showNotification(payload.content, duration);
 					return { status: "success", data: null };
 
@@ -761,7 +777,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					) {
 						return {
 							status: "error",
-							error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
+							error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.", // Technical error
 						};
 					}
 					const userInput = await this.requestUserInput(
@@ -777,7 +793,7 @@ export default class ObsidianPythonBridge extends Plugin {
 						this.logDebug("User cancelled input modal.");
 						return {
 							status: "error",
-							error: "User cancelled input.",
+							error: "User cancelled input.", // Technical error (from user action)
 						};
 					}
 					return { status: "success", data: userInput };
@@ -796,7 +812,7 @@ export default class ObsidianPythonBridge extends Plugin {
 					this.logWarn(`Received unknown action: ${action}`);
 					return {
 						status: "error",
-						error: `Unknown action: ${action}`,
+						error: `Unknown action: ${action}`, // Technical error
 					};
 			}
 		} catch (error) {
@@ -809,7 +825,7 @@ export default class ObsidianPythonBridge extends Plugin {
 			}
 			return {
 				status: "error",
-				error: `Failed to execute action "${action}": ${errorMessage}`,
+				error: `Failed to execute action "${action}": ${errorMessage}`, // Technical error
 			};
 		}
 	}
@@ -864,6 +880,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	}
 
 	showNotification(message: string, duration: number = 4000) {
+		// This is the generic function used by the 'show_notification' action from Python.
+		// We don't translate 'message' here as it comes directly from the Python script.
 		new Notice(message, duration);
 	}
 
@@ -878,11 +896,11 @@ export default class ObsidianPythonBridge extends Plugin {
 	): Promise<void> {
 		const vaultPath = this.getCurrentVaultAbsolutePath();
 		if (!vaultPath) {
-			throw new Error("Cannot modify note: Vault path is unavailable.");
+			throw new Error("Cannot modify note: Vault path is unavailable."); // Technical error
 		}
 		if (!path.isAbsolute(absoluteFilePath)) {
 			throw new Error(
-				`Cannot modify note: Provided path is not absolute: ${absoluteFilePath}`,
+				`Cannot modify note: Provided path is not absolute: ${absoluteFilePath}`, // Technical error
 			);
 		}
 		// Normalize both paths before comparing
@@ -892,7 +910,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		// Check if the file path starts with the vault path
 		if (!normalizedFilePath.startsWith(normalizedVaultPath)) {
 			throw new Error(
-				`Cannot modify note: Path is outside the current vault: ${absoluteFilePath}`,
+				`Cannot modify note: Path is outside the current vault: ${absoluteFilePath}`, // Technical error
 			);
 		}
 
@@ -919,7 +937,7 @@ export default class ObsidianPythonBridge extends Plugin {
 
 		if (!(file instanceof TFile)) {
 			throw new Error(
-				`Cannot modify note: File not found in vault at path: ${normalizedPath}`,
+				`Cannot modify note: File not found in vault at path: ${normalizedPath}`, // Technical error
 			);
 		}
 
@@ -935,7 +953,7 @@ export default class ObsidianPythonBridge extends Plugin {
 				error,
 			);
 			throw new Error(
-				`Vault API failed to modify ${normalizedPath}: ${error instanceof Error ? error.message : String(error)}`,
+				`Vault API failed to modify ${normalizedPath}: ${error instanceof Error ? error.message : String(error)}`, // Technical error
 			);
 		}
 	}
@@ -950,6 +968,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		step?: number,
 	): Promise<any> {
 		return new Promise((resolve) => {
+			// Note: scriptName and message come from Python, not translated here.
 			const modal = new UserInputModal(
 				this.app,
 				scriptName,
@@ -982,7 +1001,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		const file = this.app.vault.getAbstractFileByPath(normalizedPath);
 		if (!(file instanceof TFile)) {
 			throw new Error(
-				`File not found or is not a file at path: ${normalizedPath}`,
+				`File not found or is not a file at path: ${normalizedPath}`, // Technical error
 			);
 		}
 		return this.app.vault.cachedRead(file); // Use cachedRead
@@ -1027,12 +1046,12 @@ export default class ObsidianPythonBridge extends Plugin {
 	getSelectedText(): string {
 		const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 		if (!view) {
-			throw new Error("No active Markdown view found.");
+			throw new Error("No active Markdown view found."); // Technical error
 		}
 		// Ensure editor exists before accessing it
 		const editor = view.editor;
 		if (!editor) {
-			throw new Error("Active Markdown view does not have an editor instance.");
+			throw new Error("Active Markdown view does not have an editor instance."); // Technical error
 		}
 		return editor.getSelection(); // Returns "" if no selection
 	}
@@ -1047,12 +1066,12 @@ export default class ObsidianPythonBridge extends Plugin {
 		const view = this.app.workspace.getActiveViewOfType(MarkdownView);
 		if (!view) {
 			throw new Error(
-				"No active Markdown view found to replace selection in.",
+				"No active Markdown view found to replace selection in.", // Technical error
 			);
 		}
 		const editor = view.editor;
 		if (!editor) {
-			throw new Error("Active Markdown view does not have an editor instance.");
+			throw new Error("Active Markdown view does not have an editor instance."); // Technical error
 		}
 		editor.replaceSelection(replacement);
 	}
@@ -1087,7 +1106,7 @@ export default class ObsidianPythonBridge extends Plugin {
 			);
 			// Rethrow a more specific error or the original one
 			throw new Error(
-				`Could not open note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
+				`Could not open note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`, // Technical error
 			);
 		}
 	}
@@ -1159,8 +1178,9 @@ export default class ObsidianPythonBridge extends Plugin {
 	async runPythonScript(scriptPath: string) {
 		// Check if port has changed since server start - potential mismatch
 		if (this.server && this.settings.httpPort !== this.initialHttpPort) {
+			// Use translation for the notice
 			new Notice(
-				`⚠️ Python Bridge: HTTP Port changed (${this.initialHttpPort} -> ${this.settings.httpPort}). Script might target the old port if already running or launched externally.`,
+				`${t("NOTICE_PORT_MISMATCH_WARNING_PREFIX")}${this.initialHttpPort} ${t("NOTICE_PORT_MISMATCH_WARNING_MIDDLE")} ${this.settings.httpPort}${t("NOTICE_PORT_MISMATCH_WARNING_SUFFIX")}`,
 				8000,
 			);
 			this.logWarn(
@@ -1171,18 +1191,21 @@ export default class ObsidianPythonBridge extends Plugin {
 		// Validate script path existence
 		try {
 			if (!fs.existsSync(scriptPath) || !fs.statSync(scriptPath).isFile()) {
-				new Notice(`Python script not found or is not a file: ${path.basename(scriptPath)}`);
+				// Use translation for the notice
+				new Notice(`${t("NOTICE_SCRIPT_NOT_FOUND_PREFIX")} ${path.basename(scriptPath)}`);
 				this.logError(`Python script not found or is not a file: ${scriptPath}`);
 				return;
 			}
 		} catch (error) {
-			new Notice(`Error accessing script file: ${path.basename(scriptPath)}`);
+			// Use translation for the notice
+			new Notice(`${t("NOTICE_SCRIPT_ACCESS_ERROR_PREFIX")} ${path.basename(scriptPath)}`);
 			this.logError(`Error accessing script file ${scriptPath}:`, error);
 			return;
 		}
 
 		this.logInfo(`Attempting to run Python script: ${scriptPath}`);
-		new Notice(`Running Python script: ${path.basename(scriptPath)}`);
+		// Use translation for the notice
+		new Notice(`${t("NOTICE_RUNNING_SCRIPT_PREFIX")} ${path.basename(scriptPath)}`);
 
 		// Prepare environment variables for the Python script
 		const env = {
@@ -1250,8 +1273,9 @@ export default class ObsidianPythonBridge extends Plugin {
 						reject(error); // Indicate command not found
 					} else {
 						// For other spawn errors, report and resolve with a generic error code
+						// Use translation for the notice
 						new Notice(
-							`Error running ${path.basename(scriptPath)} with ${cmd}: ${error.message}`,
+							`${t("NOTICE_SCRIPT_ERROR_RUNNING_PREFIX")} ${path.basename(scriptPath)} ${t("NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE")} ${cmd}: ${error.message}`,
 						);
 						resolve(1); // Indicate failure with a generic error code
 					}
@@ -1273,8 +1297,9 @@ export default class ObsidianPythonBridge extends Plugin {
 						); // Indicate command not found
 					} else if (code !== 0 && code !== null) {
 						// Check code is not null before showing notice
+						// Use translation for the notice
 						new Notice(
-							`${path.basename(scriptPath)} failed with exit code ${code}. Check console logs.`,
+							`${path.basename(scriptPath)} ${t("NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE")} ${code}. ${t("NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX")}`,
 							5000,
 						);
 						// Log captured stderr for context if script failed
@@ -1317,7 +1342,8 @@ export default class ObsidianPythonBridge extends Plugin {
 
 		// Report final status
 		if (!executedSuccessfully) {
-			const errorMsg = `Could not find a valid Python executable. Tried: ${pythonCommands.join(", ")}. Please ensure Python is installed and accessible via your system's PATH (or the 'py' launcher on Windows).`;
+			// Use translation for the notice
+			const errorMsg = `${t("NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX")} ${pythonCommands.join(", ")}. ${t("NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX")}`;
 			this.logError(errorMsg);
 			new Notice(errorMsg, 10000);
 		} else if (finalExitCode !== 0 && finalExitCode !== null) {
@@ -1341,10 +1367,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	async chooseAndRunPythonScript() {
 		const scriptsFolder = this.getScriptsFolderPath();
 		if (!scriptsFolder) {
-			new Notice(
-				"Python scripts folder not found or invalid. Please check plugin settings.",
-				5000,
-			);
+			// Use translation for the notice
+			new Notice(t("NOTICE_SCRIPTS_FOLDER_INVALID"), 5000);
 			return;
 		}
 
@@ -1358,7 +1382,8 @@ export default class ObsidianPythonBridge extends Plugin {
 				); // Case-insensitive check, ignore hidden
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : String(err);
-			new Notice(`Error reading scripts folder: ${errorMsg}`);
+			// Use translation for the notice
+			new Notice(`${t("NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX")} ${errorMsg}`);
 			this.logError(
 				`Error reading scripts folder ${scriptsFolder}:`,
 				err,
@@ -1367,10 +1392,8 @@ export default class ObsidianPythonBridge extends Plugin {
 		}
 
 		if (pythonFiles.length === 0) {
-			new Notice(
-				"No Python scripts (.py) found in the configured folder.",
-				5000,
-			);
+			// Use translation for the notice
+			new Notice(t("NOTICE_NO_SCRIPTS_FOUND"), 5000);
 			return;
 		}
 
@@ -1382,6 +1405,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		// Sort choices alphabetically by label for better usability
 		scriptChoices.sort((a, b) => a.label.localeCompare(b.label));
 
+		// Note: ScriptSelectionModal placeholder needs translation if used.
 		new ScriptSelectionModal(this.app, scriptChoices, (selectedPath) => {
 			if (selectedPath) {
 				this.logDebug(`User selected script: ${selectedPath}`);
@@ -1398,10 +1422,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	async runAllPythonScripts() {
 		const scriptsFolder = this.getScriptsFolderPath();
 		if (!scriptsFolder) {
-			new Notice(
-				"Python scripts folder not found or invalid. Please check plugin settings.",
-				5000,
-			);
+			// Use translation for the notice
+			new Notice(t("NOTICE_SCRIPTS_FOLDER_INVALID"), 5000);
 			return;
 		}
 
@@ -1415,7 +1437,8 @@ export default class ObsidianPythonBridge extends Plugin {
 				);
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : String(err);
-			new Notice(`Error reading scripts folder: ${errorMsg}`);
+			// Use translation for the notice
+			new Notice(`${t("NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX")} ${errorMsg}`);
 			this.logError(
 				`Error reading scripts folder ${scriptsFolder}:`,
 				err,
@@ -1424,17 +1447,16 @@ export default class ObsidianPythonBridge extends Plugin {
 		}
 
 		if (pythonFiles.length === 0) {
-			new Notice(
-				"No Python scripts (.py) found in the configured folder.",
-				5000,
-			);
+			// Use translation for the notice
+			new Notice(t("NOTICE_NO_SCRIPTS_FOUND"), 5000);
 			return;
 		}
 
 		// Sort files alphabetically before running
 		pythonFiles.sort((a, b) => a.localeCompare(b));
 
-		new Notice(`Running ${pythonFiles.length} Python script(s)...`);
+		// Use translation for the notice
+		new Notice(`${t("NOTICE_RUNNING_ALL_SCRIPTS_PREFIX")} ${pythonFiles.length} ${t("NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX")}`);
 		this.logInfo(`Starting batch run of ${pythonFiles.length} scripts...`);
 
 		// Run scripts sequentially using a loop

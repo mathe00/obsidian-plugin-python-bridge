@@ -1,0 +1,57 @@
+// --- src/lang/pl.ts ---
+// Polish translations
+export default {
+	// Settings Tab
+	SETTINGS_TAB_TITLE: "Ustawienia Obsidian Python Bridge",
+	SETTINGS_FOLDER_TITLE: "Folder skryptów Python",
+	SETTINGS_FOLDER_DESC:
+		"Ścieżka do folderu zawierającego skrypty Python (bezwzględna lub względna do przechowalni).",
+	SETTINGS_FOLDER_PLACEHOLDER: "/ścieżka/do/twoich/skryptów lub ./scripts-python",
+	SETTINGS_PORT_TITLE: "Port serwera HTTP",
+	SETTINGS_PORT_DESC:
+		"Port dla lokalnego serwera HTTP (1024-65535). Wymaga ponownego uruchomienia lub zapisania ustawień, aby zastosować.",
+	SETTINGS_CACHE_TITLE: "Wyłącz pamięć podręczną Pythona (__pycache__)",
+	SETTINGS_CACHE_DESC:
+		'Uruchamia Pythona z flagą "-B", aby zapobiec zapisywaniu plików .pyc.',
+
+	// main.ts Notices
+	NOTICE_PLUGIN_NAME: "Python Bridge",
+	NOTICE_PORT_CHANGED_PREFIX: "Port HTTP zmieniony na",
+	NOTICE_PORT_CHANGED_SUFFIX: "Ponowne uruchamianie serwera...",
+	NOTICE_PYTHON_MISSING_TITLE: "Błąd Python Bridge:",
+	NOTICE_PYTHON_MISSING_DESC: "Nie znaleziono pliku wykonywalnego Pythona w PATH.\nZainstaluj Pythona i upewnij się, że jest dodany do zmiennej środowiskowej PATH systemu, aby wtyczka mogła uruchamiać skrypty.\nFunkcje wtyczki wymagające Pythona będą niedostępne.",
+	NOTICE_REQUESTS_MISSING_TITLE: "Błąd Python Bridge:",
+	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Wymagana biblioteka Python 'requests' nie jest zainstalowana dla",
+	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\nZainstaluj ją, uruchamiając:\n{pythonCmd} -m pip install requests\nFunkcje wtyczki wymagające Pythona będą niedostępne do czasu instalacji.",
+	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Skonfigurowano nieprawidłowy port HTTP:",
+	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Serwer nie został uruchomiony. Skonfiguruj prawidłowy port (1-65535) w ustawieniach.",
+	NOTICE_PORT_IN_USE_PREFIX: "Port",
+	NOTICE_PORT_IN_USE_SUFFIX: "jest już używany. Wybierz inny port w ustawieniach lub zamknij inną aplikację, która go używa. Serwer nie został uruchomiony.",
+	NOTICE_SERVER_START_FAILED_PREFIX: "Nie udało się uruchomić serwera na porcie",
+	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Port HTTP zmieniony (",
+	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
+	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skrypt może celować w stary port, jeśli jest już uruchomiony lub został uruchomiony zewnętrznie.",
+	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Nie znaleziono skryptu Python lub nie jest to plik:",
+	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Błąd dostępu do pliku skryptu:",
+	NOTICE_RUNNING_SCRIPT_PREFIX: "Uruchamianie skryptu Python:",
+	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Błąd podczas uruchamiania",
+	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "za pomocą",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "zakończył się niepowodzeniem z kodem wyjścia",
+	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Sprawdź logi konsoli.",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Nie można znaleźć prawidłowego pliku wykonywalnego Pythona. Próbowano:",
+	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Upewnij się, że Python jest zainstalowany i dostępny za pośrednictwem PATH systemu (lub launchera 'py' w systemie Windows).",
+	NOTICE_SCRIPTS_FOLDER_INVALID: "Nie znaleziono folderu skryptów Python lub jest on nieprawidłowy. Sprawdź ustawienia wtyczki.",
+	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Błąd odczytu folderu skryptów:",
+	NOTICE_NO_SCRIPTS_FOUND: "Nie znaleziono skryptów Python (.py) w skonfigurowanym folderze.",
+	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Uruchamianie",
+	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "skryptów Python...",
+	NOTICE_INPUT_VALIDATION_FAILED: "Wprowadzone dane nie pasują do wymaganego formatu.",
+
+	// main.ts Commands
+	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Uruchom określony skrypt Python",
+	CMD_RUN_ALL_SCRIPTS_NAME: "Uruchom wszystkie skrypty Python w folderze",
+
+	// UserInputModal
+	MODAL_USER_INPUT_SUBMIT_BUTTON: "Wyślij",
+};

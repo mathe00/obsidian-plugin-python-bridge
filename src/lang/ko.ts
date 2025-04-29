@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "폴더의 모든 Python 스크립트 실행",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "실행할 Python 스크립트를 선택하세요...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "제출",
 };

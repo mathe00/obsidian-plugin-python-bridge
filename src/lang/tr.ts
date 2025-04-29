@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "Klasördeki tüm Python betiklerini çalıştır",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Çalıştırmak için bir Python betiği seçin...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "Gönder",
 };

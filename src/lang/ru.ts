@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "Запустить все скрипты Python в папке",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Выберите скрипт Python для запуска...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "Отправить",
 };

@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "フォルダ内のすべての Python スクリプトを実行",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "実行する Python スクリプトを選択してください...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "送信",
 };

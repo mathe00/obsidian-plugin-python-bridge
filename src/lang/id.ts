@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "Jalankan semua skrip Python di folder",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Pilih skrip Python untuk dijalankan...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "Kirim",
 };

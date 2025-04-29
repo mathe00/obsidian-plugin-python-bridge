@@ -51,5 +51,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "运行文件夹中的所有 Python 脚本",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "请选择要运行的 Python 脚本...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "提交",
 };

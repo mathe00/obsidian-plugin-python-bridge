@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "Esegui tutti gli script Python nella cartella",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Seleziona uno script Python da eseguire...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "Invia",
 };

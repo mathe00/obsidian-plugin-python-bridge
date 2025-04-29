@@ -56,5 +56,6 @@ export default {
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "Submit",
 
 	// ScriptSelectionModal (Placeholder - if needed later)
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Select a Python script to run...",
 	// MODAL_SELECT_SCRIPT_PLACEHOLDER: "Select a Python script to run...",
 };

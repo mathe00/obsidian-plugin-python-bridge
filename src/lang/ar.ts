@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "تشغيل جميع سكربتات بايثون في المجلد",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "اختر سكربت بايثون لتشغيله...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "إرسال",
 };

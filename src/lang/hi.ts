@@ -53,5 +53,6 @@ export default {
 	CMD_RUN_ALL_SCRIPTS_NAME: "फ़ोल्डर में सभी पाइथन स्क्रिप्ट चलाएँ",
 
 	// UserInputModal
+	MODAL_SELECT_SCRIPT_PLACEHOLDER: "चलाने के लिए एक पाइथन स्क्रिप्ट चुनें...",
 	MODAL_USER_INPUT_SUBMIT_BUTTON: "प्रस्तुत करें",
 };

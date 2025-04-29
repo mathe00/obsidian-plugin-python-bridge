@@ -100,3 +100,6 @@ cython_debug/
 
 # Obsidian specific vault data (if vault is accidentally nested)
 .obsidian/
+
+# Personal data of plugin settings
+data.json

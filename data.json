@@ -1,0 +1,5 @@
+{
+  "pythonScriptsFolder": "SCRIPTS-PYTHON/",
+  "httpPort": 27125,
+  "disablePyCache": true
+}

@@ -21,37 +21,62 @@ Some might think this plugin doesn’t add much compared to running **external P
 
 #### What's easier with this plugin compared to external Python scripts:
 
-- **Editing the current note**:
-  Without the plugin, you'd need to manually copy the path of the open `.md` file, then run your script in a terminal, pasting the path. This process is tedious and far from user-friendly.
+-   **Editing the current note**:
+    Without the plugin, you'd need to manually copy the path of the open `.md` file, then run your script in a terminal, pasting the path. This process is tedious and far from user-friendly.
 
-- **Detecting actions like note creation or deletion**:
-  Yes, you can achieve this with an external Python script, but it requires constant monitoring, which adds complexity and clutters your code. With this plugin, such actions are handled more seamlessly.
+-   **Detecting actions like note creation or deletion**:
+    Yes, you can achieve this with an external Python script, but it requires constant monitoring, which adds complexity and clutters your code. With this plugin, such actions are handled more seamlessly.
 
-- **Retrieving frontmatter content as a clean dictionary**:
-  While possible with pure Python, parsing YAML and organizing the data properly takes time and lines of code. With this plugin, it's done in **a single line**. 🙌
+-   **Retrieving frontmatter content as a clean dictionary**:
+    While possible with pure Python, parsing YAML and organizing the data properly takes time and lines of code. With this plugin, it's done in **a single line**. 🙌
 
 In short, while some tasks are technically feasible without this plugin, they’re cumbersome, and this plugin makes them **much simpler and more user-friendly**.
 
 ### What external Python scripts **cannot** do, but this plugin can:
 
-- **Open pop-ups for user inputs** (GUI input equivalent to `input()` in Python):
-  You can now create **modal dialogs** in Obsidian to collect data from the user directly within the interface.
+-   **Open pop-ups for user inputs** (GUI input equivalent to `input()` in Python):
+    You can now create **modal dialogs** in Obsidian to collect data from the user directly within the interface.
 
-- **Detect Obsidian-specific actions**:
-  You can respond to user interactions with elements in Obsidian's UI, such as clicks on graphical components or specific actions within the vault.
+-   **Detect Obsidian-specific actions**:
+    You can respond to user interactions with elements in Obsidian's UI, such as clicks on graphical components or specific actions within the vault.
 
-- **Send native Obsidian notifications**:
-  Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
+-   **Send native Obsidian notifications**:
+    Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
 
-- **Add custom settings for Python scripts**:
-  Soon, you’ll be able to include custom **settings for your Python scripts** directly in Obsidian’s settings panel, just like any other plugin. This was impossible before without this plugin.
+-   **Add custom settings for Python scripts**:
+    Soon, you’ll be able to include custom **settings for your Python scripts** directly in Obsidian’s settings panel, just like any other plugin. This was impossible before without this plugin.
 
-- **And much more**:
-  Many other features will be implemented over time, allowing deeper integration between Python and Obsidian.
+-   **And much more**:
+    Many other features will be implemented over time, allowing deeper integration between Python and Obsidian.
 
 Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library now requires the `requests` package). **For easy importing, simply place the `ObsidianPluginDevPythonToJS.py` file in the same folder as your own Python scripts.**
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of AI assistants** (shoutout to **ChatGPT 4o**, **ChatGPT o1-preview**, and **Gemini 2.5 Pro** 😉). So, the code might be a bit rough around the edges, but it **works**. That’s all that matters, right?
+
+## 🌍 Internationalization
+
+This plugin aims to be accessible globally! The user interface (settings, commands, notices) is available in multiple languages.
+
+*   **Automatic Detection:** By default, the plugin will try to match Obsidian's configured language.
+*   **Manual Override:** You can select your preferred language for the plugin directly in the settings tab, regardless of Obsidian's language setting.
+*   **Supported Languages:**
+    *   🇬🇧/🇺🇸 English (en)
+    *   🇫🇷 French (fr)
+    *   🇪🇸 Spanish (es)
+    *   🇩🇪 German (de)
+    *   🇨🇳 Chinese (zh)
+    *   🇸🇦 Arabic (ar)
+    *   🇧🇷/🇵🇹 Portuguese (pt)
+    *   🇷🇺 Russian (ru)
+    *   🇯🇵 Japanese (ja)
+    *   🇮🇳 Hindi (hi)
+    *   🇰🇷 Korean (ko)
+    *   🇮🇹 Italian (it)
+    *   🇹🇷 Turkish (tr)
+    *   🇮🇩 Indonesian (id)
+    *   🇵🇱 Polish (pl)
+
+*(Want to contribute translations for another language? Feel free to open an issue or pull request!)*
 
 ## Why this plugin? 🤔
 
@@ -106,7 +131,6 @@ Here’s an example of what the **modal** looks like:
 
 ![image](https://github.com/user-attachments/assets/bfdbc5b4-4838-47f0-af9b-c8bd46e534ff)
 ![image](https://github.com/user-attachments/assets/5947a81d-b414-4d38-95cf-60d9dba1677f)
-
 
 As you can see, it’s incredibly easy to set up and integrate into your Obsidian workflows.
 
@@ -164,16 +188,16 @@ except Exception as e:
 And here's a screenshot showing the results of the above code executed in the Obsidian environment:
 ![image](https://github.com/user-attachments/assets/49324d1d-02d3-414f-971d-820f05cbe23f)
 
-
 In just a **few lines**, you can interact with your Obsidian vault, display notifications, and manipulate note metadata effectively and easily.
 
 ## 🚀 Future Features (roadmap)
 
-- 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
-- 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
-- 📱 **Mobile Support (Future)**: There are long-term plans to potentially support mobile devices, though implementing this feature will be quite challenging.
-- ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
-- 📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
+-   🌍 **More Languages**: Add support for even more languages (contributions welcome!).
+-   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
+-   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
+-   📱 **Mobile Support (Future)**: There are long-term plans to potentially support mobile devices, though implementing this feature will be quite challenging.
+-   ⚙️ **Python Script Settings Integration**: We aim to enhance integration by allowing Python scripts to have their own settings sections within the plugin settings. This will help achieve a more "plugin-like" experience for Python scripts in Obsidian.
+-   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
 
 ## 🛠️ Installation
 
@@ -212,18 +236,19 @@ Before installing the plugin, please ensure you have the following installed on 
     ```
     This will generate the `main.js` file needed by Obsidian.
 5.  **Install the Plugin in Obsidian**:
-    - Create a new folder named `obsidian-python-bridge` inside your vault's plugin folder: `<your-vault>/.obsidian/plugins/`.
-    - Copy the generated `main.js` file and the `manifest.json` file from the project root into the newly created `<your-vault>/.obsidian/plugins/obsidian-python-bridge/` folder.
-    - **Restart Obsidian**.
-    - Go to **Settings** > **Community plugins**, find "Python Bridge" in the list of installed plugins (you might need to disable Safe Mode if it's your first time), and **enable it**.
+    -   Create a new folder named `obsidian-python-bridge` inside your vault's plugin folder: `<your-vault>/.obsidian/plugins/`.
+    -   Copy the generated `main.js` file and the `manifest.json` file from the project root into the newly created `<your-vault>/.obsidian/plugins/obsidian-python-bridge/` folder.
+    -   **Restart Obsidian**.
+    -   Go to **Settings** > **Community plugins**, find "Python Bridge" in the list of installed plugins (you might need to disable Safe Mode if it's your first time), and **enable it**.
 6.  **Configure Plugin Settings**:
-    - In Obsidian, go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
-    - Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts.
-    - Ensure the **HTTP Port** is set correctly (default is `27123`).
-    - **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (either by setting the `OBSIDIAN_HTTP_PORT` environment variable or by passing the `http_port` argument when creating the `ObsidianPluginDevPythonToJS` instance).
+    -   In Obsidian, go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
+    -   **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
+    -   Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts.
+    -   Ensure the **HTTP Port** is set correctly (default is `27123`).
+    -   **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (either by setting the `OBSIDIAN_HTTP_PORT` environment variable or by passing the `http_port` argument when creating the `ObsidianPluginDevPythonToJS` instance).
 7.  **Place the Python Library**:
-    - Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
-    - **Crucially, place this `.py` file inside the Python scripts folder you configured in step 6.** This allows your scripts in that folder to easily `import ObsidianPluginDevPythonToJS`.
+    -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
+    -   **Crucially, place this `.py` file inside the Python scripts folder you configured in step 6.** This allows your scripts in that folder to easily `import ObsidianPluginDevPythonToJS`.
 
 ## ⭐ Show Your Support
 

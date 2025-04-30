@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "執行任意 Python 腳本可能存在風險。請確保您信任所運行腳本的來源，因為它們可以訪問您的系統和數據。插件作者和腳本作者對您選擇執行的腳本造成的任何數據丟失或安全問題概不負責。運行腳本需自擔風險。",
 	SETTINGS_LANGUAGE_TITLE: "插件語言",
 	SETTINGS_LANGUAGE_DESC: "選擇 Python Bridge 插件界面的顯示語言。「自動」將遵循 Obsidian 的語言設定。",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "效能提示：反向連結快取",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "為了在大型儲存庫中擷取反向連結（使用 get_backlinks 函數）時提高效能，請考慮安裝由 @mnaoumov 開發的「[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)」社群外掛。",
 };

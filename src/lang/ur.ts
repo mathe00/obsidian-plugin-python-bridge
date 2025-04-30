@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "من مانی Python اسکرپٹس چلانا خطرناک ہو سکتا ہے۔ یقینی بنائیں کہ آپ کسی بھی اسکرپٹ کے ماخذ پر بھروسہ کرتے ہیں جسے آپ چلاتے ہیں، کیونکہ وہ آپ کے سسٹم اور ڈیٹا تک رسائی حاصل کر سکتے ہیں۔ پلگ ان مصنف اور اسکرپٹ مصنفین آپ کے منتخب کردہ اسکرپٹس کی وجہ سے ہونے والے کسی بھی ڈیٹا کے نقصان یا سیکیورٹی کے مسائل کے ذمہ دار نہیں ہیں۔ اسکرپٹس کو اپنے خطرے پر چلائیں۔",
 	SETTINGS_LANGUAGE_TITLE: "پلگ ان زبان",
 	SETTINGS_LANGUAGE_DESC: "Python Bridge پلگ ان انٹرفیس کے لیے ڈسپلے زبان منتخب کریں۔ 'خودکار' Obsidian کی زبان کی ترتیب کی پیروی کرتا ہے۔",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "کارکردگی کا مشورہ: بیک لنک کیش",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "بڑے والٹس میں بیک لنکس حاصل کرتے وقت (get_backlinks فنکشن کا استعمال کرتے ہوئے) بہتر کارکردگی کے لیے، @mnaoumov کی طرف سے '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' کمیونٹی پلگ ان انسٹال کرنے پر غور کریں۔",
 };

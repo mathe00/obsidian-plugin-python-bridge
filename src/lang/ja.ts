@@ -74,4 +74,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "任意の Python スクリプトの実行にはリスクが伴う可能性があります。実行するスクリプトのソースを信頼できることを確認してください。スクリプトはシステムやデータにアクセスする可能性があります。プラグインの作者およびスクリプトの作者は、ユーザーが実行を選択したスクリプトによって引き起こされたデータの損失やセキュリティの問題について責任を負いません。自己責任でスクリプトを実行してください。",
 	SETTINGS_LANGUAGE_TITLE: "プラグイン言語",
 	SETTINGS_LANGUAGE_DESC: "Python Bridge プラグインインターフェースの表示言語を選択します。「自動」は Obsidian の言語設定に従います。",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "パフォーマンスのヒント：バックリンクキャッシュ",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "大きなVaultでバックリンクを取得する際（get_backlinks関数を使用）のパフォーマンスを向上させるには、@mnaoumovによるコミュニティプラグイン「[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)」のインストールを検討してください。",
 };

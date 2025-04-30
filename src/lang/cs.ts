@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Spouštění libovolných Python skriptů může být riskantní. Ujistěte se, že důvěřujete zdroji jakéhokoli skriptu, který spouštíte, protože mohou přistupovat k vašemu systému a datům. Autor pluginu a autoři skriptů nejsou zodpovědní za žádnou ztrátu dat nebo bezpečnostní problémy způsobené skripty, které se rozhodnete spustit. Spouštějte skripty na vlastní nebezpečí.",
 	SETTINGS_LANGUAGE_TITLE: "Jazyk Pluginu",
 	SETTINGS_LANGUAGE_DESC: "Zvolte jazyk zobrazení pro rozhraní pluginu Python Bridge. 'Automaticky' se řídí nastavením jazyka Obsidianu.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tip pro výkon: Mezipaměť zpětných odkazů",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Pro zlepšení výkonu při načítání zpětných odkazů (pomocí funkce get_backlinks) ve velkých trezorech zvažte instalaci komunitního pluginu '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' od @mnaoumov.",
 };

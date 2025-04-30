@@ -74,4 +74,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "قد يكون تشغيل سكربتات بايثون العشوائية محفوفًا بالمخاطر. تأكد من أنك تثق في مصدر أي سكربت تقوم بتشغيله، حيث يمكنه الوصول إلى نظامك وبياناتك. لا يتحمل مؤلف الإضافة ومؤلفو السكربتات المسؤولية عن أي فقدان للبيانات أو مشكلات أمنية ناتجة عن السكربتات التي تختار تشغيلها. قم بتشغيل السكربتات على مسؤوليتك الخاصة.",
 	SETTINGS_LANGUAGE_TITLE: "لغة الإضافة",
 	SETTINGS_LANGUAGE_DESC: "اختر لغة العرض لواجهة إضافة Python Bridge. 'تلقائي' يتبع إعداد لغة Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "نصيحة أداء: ذاكرة التخزين المؤقت للروابط الخلفية",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "لتحسين الأداء عند استرداد الروابط الخلفية (باستخدام وظيفة get_backlinks) في الخزائن الكبيرة، ضع في اعتبارك تثبيت المكون الإضافي المجتمعي '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' بواسطة @mnaoumov.",
 };

@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Ṣíṣe àwọn akosílẹ̀ Python láìsí ìṣọ́ra lè léwu. Rí i dájú pé o gbẹ́kẹ̀lé orísun akosílẹ̀ èyíkéyìí tí o bá ń ṣiṣẹ́, nítorí wọ́n lè wọlé sí ètò àti dátà rẹ. Onkọ̀wé plugin àti àwọn onkọ̀wé akosílẹ̀ kò ní ṣe ìdájọ́ fún ìpàdánù dátà tàbí àwọn ọ̀ràn ààbò tí ó bá ṣẹlẹ̀ látàrí àwọn akosílẹ̀ tí o bá yàn láti ṣiṣẹ́. Ṣiṣẹ́ àwọn akosílẹ̀ lórí ewu tìrẹ.",
 	SETTINGS_LANGUAGE_TITLE: "Èdè Plugin",
 	SETTINGS_LANGUAGE_DESC: "Yan èdè ìfihàn fún ìwojú plugin Python Bridge. 'Aifọwọyi' ń tẹ̀lé ètò èdè Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Àbá Iṣẹ́ ṣíṣe: Cache Backlink",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Fún iṣẹ́ ṣíṣe tó dára síi nígbà tí o bá ń gba àwọn backlink (lílo iṣẹ́ get_backlinks) nínú àwọn vault ńlá, ronú láti fi plugin àwùjọ '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' láti ọwọ́ @mnaoumov sínú ẹ̀rọ.",
 };

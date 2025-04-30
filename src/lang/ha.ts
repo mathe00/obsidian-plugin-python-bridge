@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Gudanar da rubutun Python na son rai na iya zama mai haɗari. Tabbatar ka amince da tushen kowane rubutun da kake gudanarwa, saboda suna iya samun damar tsarin ka da bayananka. Marubucin plugin da marubutan rubutu ba su da alhakin kowane asarar bayanai ko matsalolin tsaro da rubutun da ka zaɓa ya haifar. Gudanar da rubutu a kan haɗarinka.",
 	SETTINGS_LANGUAGE_TITLE: "Harshen Plugin",
 	SETTINGS_LANGUAGE_DESC: "Zaɓi harshen nuni don mahallin plugin na Python Bridge. 'Atomatik' yana bin saitin harshe na Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tukwici na Aiki: Ma'ajiyar Backlink",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Don ingantaccen aiki lokacin da ake dawo da backlinks (ta amfani da aikin get_backlinks) a cikin manyan vaults, yi la'akari da shigar da plugin na al'umma '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' ta @mnaoumov.",
 };

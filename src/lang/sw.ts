@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Kuendesha hati holela za Python kunaweza kuwa hatari. Hakikisha unaamini chanzo cha hati yoyote unayoendesha, kwani zinaweza kufikia mfumo na data yako. Mwandishi wa programu-jalizi na waandishi wa hati hawawajibikii upotevu wowote wa data au masuala ya usalama yanayosababishwa na hati unazochagua kutekeleza. Endesha hati kwa hatari yako mwenyewe.",
 	SETTINGS_LANGUAGE_TITLE: "Lugha ya Programu-jalizi",
 	SETTINGS_LANGUAGE_DESC: "Chagua lugha ya kuonyesha kwa kiolesura cha programu-jalizi ya Python Bridge. 'Otomatiki' hufuata mpangilio wa lugha wa Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Kidokezo cha Utendaji: Kashe ya Viungo vya Nyuma",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Kwa utendakazi ulioboreshwa wakati wa kurejesha viungo vya nyuma (kwa kutumia chaguo la kukokotoa la get_backlinks) katika kuba kubwa, zingatia kusakinisha programu-jalizi ya jumuiya ya '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' na @mnaoumov.",
 };

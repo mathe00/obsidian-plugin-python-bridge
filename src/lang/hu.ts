@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Tetszőleges Python szkriptek futtatása kockázatos lehet. Győződjön meg róla, hogy megbízik a futtatott szkript forrásában, mivel azok hozzáférhetnek a rendszeréhez és adataihoz. A bővítmény szerzője és a szkriptek szerzői nem felelősek az Ön által futtatott szkriptek által okozott adatvesztésért vagy biztonsági problémákért. Futtassa a szkripteket saját felelősségére.",
 	SETTINGS_LANGUAGE_TITLE: "Bővítmény Nyelve",
 	SETTINGS_LANGUAGE_DESC: "Válassza ki a Python Bridge bővítmény felületének megjelenítési nyelvét. Az 'Automatikus' az Obsidian nyelvi beállítását követi.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Teljesítmény Tipp: Visszahivatkozás Gyorsítótár",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "A visszahivatkozások lekérésének (a get_backlinks funkció használatával) javított teljesítményéhez nagy tárolókban fontolja meg a @mnaoumov által készített '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' közösségi bővítmény telepítését.",
 };

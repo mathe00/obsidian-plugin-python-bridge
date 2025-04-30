@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "การรันสคริปต์ Python ใดๆ อาจมีความเสี่ยง โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อถือแหล่งที่มาของสคริปต์ใดๆ ที่คุณรัน เนื่องจากสามารถเข้าถึงระบบและข้อมูลของคุณได้ ผู้เขียนปลั๊กอินและผู้เขียนสคริปต์จะไม่รับผิดชอบต่อการสูญหายของข้อมูลหรือปัญหาด้านความปลอดภัยใดๆ ที่เกิดจากสคริปต์ที่คุณเลือกที่จะรัน รันสคริปต์ด้วยความเสี่ยงของคุณเอง",
 	SETTINGS_LANGUAGE_TITLE: "ภาษาปลั๊กอิน",
 	SETTINGS_LANGUAGE_DESC: "เลือกภาษาที่แสดงสำหรับอินเทอร์เฟซปลั๊กอิน Python Bridge 'อัตโนมัติ' จะเป็นไปตามการตั้งค่าภาษาของ Obsidian",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "เคล็ดลับประสิทธิภาพ: Backlink Cache",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "เพื่อประสิทธิภาพที่ดีขึ้นในการดึงข้อมูล Backlink (โดยใช้ฟังก์ชัน get_backlinks) ใน Vault ขนาดใหญ่ ลองพิจารณาติดตั้งปลั๊กอินชุมชน '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' โดย @mnaoumov",
 };

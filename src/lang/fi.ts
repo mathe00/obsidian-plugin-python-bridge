@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Mielivaltaisten Python-skriptien suorittaminen voi olla riskialtista. Varmista, että luotat minkä tahansa suorittamasi skriptin lähteeseen, sillä ne voivat käyttää järjestelmääsi ja tietojasi. Lisäosan tekijä ja skriptien tekijät eivät ole vastuussa mistään tietojen menetyksestä tai tietoturvaongelmista, jotka johtuvat valitsemistasi skripteistä. Suorita skriptit omalla vastuullasi.",
 	SETTINGS_LANGUAGE_TITLE: "Lisäosan Kieli",
 	SETTINGS_LANGUAGE_DESC: "Valitse Python Bridge -lisäosan käyttöliittymän näyttökieli. 'Automaattinen' noudattaa Obsidianin kieliasetusta.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Suorituskykyvinkki: Palautuslinkkien välimuisti",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Parantaaksesi suorituskykyä palautuslinkkejä haettaessa (käyttäen get_backlinks-funktiota) suurissa holveissa, harkitse @mnaoumov:n kehittämän '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' -yhteisölaajennuksen asentamista.",
 };

@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "اجرای اسکریپت‌های پایتون دلخواه می‌تواند خطرناک باشد. اطمینان حاصل کنید که به منبع هر اسکریپتی که اجرا می‌کنید اعتماد دارید، زیرا آنها می‌توانند به سیستم و داده‌های شما دسترسی پیدا کنند. نویسنده افزونه و نویسندگان اسکریپت مسئولیتی در قبال از دست دادن داده‌ها یا مشکلات امنیتی ناشی از اسکریپت‌هایی که برای اجرا انتخاب می‌کنید، ندارند. اسکریپت‌ها را با مسئولیت خود اجرا کنید.",
 	SETTINGS_LANGUAGE_TITLE: "زبان افزونه",
 	SETTINGS_LANGUAGE_DESC: "زبان نمایش رابط کاربری افزونه Python Bridge را انتخاب کنید. 'خودکار' از تنظیمات زبان Obsidian پیروی می‌کند.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "نکته عملکرد: حافظه پنهان بک‌لینک",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "برای بهبود عملکرد هنگام بازیابی بک‌لینک‌ها (با استفاده از تابع get_backlinks) در والت‌های بزرگ، نصب افزونه جامعه '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' توسط @mnaoumov را در نظر بگیرید.",
 };

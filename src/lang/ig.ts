@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Ịgba edemede Python na-enweghị isi nwere ike ịdị ize ndụ. Hụ na ị tụkwasịrị obi na isi mmalite nke edemede ọ bụla ị na-agba, n'ihi na ha nwere ike ịnweta sistemụ na data gị. Onye edemede ngwa mgbakwunye na ndị edemede edemede abụghị maka mfu data ọ bụla ma ọ bụ nsogbu nchekwa nke edemede ị họọrọ ịgba kpatara. Gbaa edemede n'ihe ize ndụ nke gị.",
 	SETTINGS_LANGUAGE_TITLE: "Asụsụ Ngwa Mgbakwunye",
 	SETTINGS_LANGUAGE_DESC: "Họrọ asụsụ ngosi maka interface ngwa mgbakwunye Python Bridge. 'Akpaaka' na-agbaso ntọala asụsụ Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Ndụmọdụ Arụmọrụ: Cache Backlink",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Maka arụmọrụ ka mma mgbe ị na-eweghachite backlinks (iji ọrụ get_backlinks) na nnukwu vaults, tụlee ịwụnye ngwa mgbakwunye obodo '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' site na @mnaoumov.",
 };

@@ -64,4 +64,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Att köra godtyckliga Python-skript kan vara riskabelt. Se till att du litar på källan till alla skript du kör, eftersom de kan komma åt ditt system och dina data. Plugin-författaren och skriptförfattarna ansvarar inte för dataförlust eller säkerhetsproblem som orsakas av skript du väljer att köra. Kör skript på egen risk.",
 	SETTINGS_LANGUAGE_TITLE: "Plugin-språk",
 	SETTINGS_LANGUAGE_DESC: "Välj visningsspråk för Python Bridge-pluginets gränssnitt. 'Automatisk' följer Obsidians språkinställning.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Prestandatips: Backlink Cache",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "För förbättrad prestanda vid hämtning av bakåtlänkar (med funktionen get_backlinks) i stora valv, överväg att installera community-pluginet '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' av @mnaoumov.",
 };

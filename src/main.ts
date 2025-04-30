@@ -13,6 +13,7 @@ import {
 	PaneType,
 	OpenViewState,
 	normalizePath,
+	LinkCache,
 } from "obsidian";
 import { spawn, ChildProcess, SpawnOptionsWithoutStdio, exec } from "child_process";
 import * as fs from "fs";
@@ -1084,6 +1085,98 @@ export default class ObsidianPythonBridge extends Plugin {
 						// This catches errors from within _getEditorContext if they occur
 						return { status: "error", error: error instanceof Error ? error.message : String(error) };
 					}
+				
+				
+				case "get_backlinks":
+					// Validate payload
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					const targetPath = normalizePath(payload.path);
+					const useCacheIfAvailable = payload.use_cache_if_available ?? true; // Default to true
+					const cacheMode = payload.cache_mode === 'safe' ? 'safe' : 'fast'; // Default to 'fast'
+
+					this.logDebug(`Handling get_backlinks for: ${targetPath}, useCache: ${useCacheIfAvailable}, mode: ${cacheMode}`);
+
+					// Get the target file
+					const targetFile = this.app.vault.getAbstractFileByPath(targetPath);
+					if (!(targetFile instanceof TFile)) {
+						return { status: "error", error: `File not found at path: ${targetPath}` };
+					}
+
+					let backlinksResult: Record<string, LinkCache[]> | null = null;
+					let errorOccurred: string | null = null;
+
+					const isCachePluginEnabled = (this.app as any).plugins.enabledPlugins.has('backlink-cache');
+					const attemptCacheFeatures = useCacheIfAvailable && isCachePluginEnabled;
+					const getBacklinksFn = (this.app.metadataCache as any).getBacklinksForFile;
+
+					if (typeof getBacklinksFn !== 'function') {
+						this.logError("Native function app.metadataCache.getBacklinksForFile not found!");
+						return { status: "error", error: "Obsidian's native getBacklinksForFile function is missing." };
+					}
+
+					try {
+						if (attemptCacheFeatures && cacheMode === 'safe') {
+							if (typeof getBacklinksFn.safe === 'function') {
+								this.logDebug("Attempting to call getBacklinksForFile.safe() (provided by backlink-cache)");
+								// *** CORRECTION: Use .call() to set 'this' context ***
+								backlinksResult = await getBacklinksFn.safe.call(this.app.metadataCache, targetFile);
+								this.logDebug("Call to getBacklinksForFile.safe() completed.");
+							} else {
+								this.logWarn("Requested 'safe' mode, but getBacklinksForFile.safe function not found. Falling back to standard call.");
+								// *** CORRECTION: Use .call() to set 'this' context ***
+								backlinksResult = getBacklinksFn.call(this.app.metadataCache, targetFile);
+							}
+						} else {
+							if (attemptCacheFeatures) {
+								this.logDebug("Calling standard getBacklinksForFile (using backlink-cache 'fast' mode if active)");
+							} else {
+								this.logDebug("Calling standard getBacklinksForFile (native Obsidian implementation)");
+							}
+							// *** CORRECTION: Use .call() to set 'this' context ***
+							backlinksResult = getBacklinksFn.call(this.app.metadataCache, targetFile);
+							this.logDebug("Standard call to getBacklinksForFile completed.");
+						}
+					} catch (error) {
+						this.logError(`Error during getBacklinksForFile call (mode: ${attemptCacheFeatures ? cacheMode : 'native'}):`, error);
+						errorOccurred = `Error retrieving backlinks: ${error instanceof Error ? error.message : String(error)}`;
+					}
+
+
+					// --- Return result or error ---
+					// (Serialization logic remains the same)
+					if (errorOccurred) {
+						return { status: "error", error: errorOccurred };
+					} else if (backlinksResult !== null) {
+						this.logDebug("Raw backlinks result from API/Native:", backlinksResult);
+						const serializableBacklinks: Record<string, LinkCache[]> = {};
+						try {
+							const backlinksMap = (backlinksResult as any)?.data;
+							if (backlinksMap instanceof Map) {
+								this.logDebug(`Iterating through Map with ${backlinksMap.size} entries.`);
+								for (const [sourcePath, linkCacheArray] of backlinksMap.entries()) {
+									if (typeof sourcePath === 'string' && Array.isArray(linkCacheArray)) {
+										serializableBacklinks[sourcePath] = linkCacheArray;
+									} else {
+										this.logWarn(`Skipping invalid entry in backlinks Map: Key=${sourcePath}, Value type=${typeof linkCacheArray}`);
+									}
+								}
+							} else {
+								this.logWarn("Backlinks result did not contain the expected 'data' Map structure. Raw result:", backlinksResult);
+							}
+							this.logDebug("Serializable backlinks data prepared:", serializableBacklinks);
+							return { status: "success", data: serializableBacklinks };
+						} catch (conversionError) {
+							this.logError("Error converting backlinks result to serializable format:", conversionError);
+							return { status: "error", error: `Failed to process backlink data: ${conversionError instanceof Error ? conversionError.message : String(conversionError)}` };
+						}
+					} else {
+						this.logError(`Failed to retrieve backlinks for ${targetPath} using any method. Returning error.`);
+						return { status: "error", error: `Failed to retrieve backlinks for ${targetPath} using any method.` };
+					}
+				// End of case "get_backlinks"	
+	
 
 				// --- Default ---
 				default:

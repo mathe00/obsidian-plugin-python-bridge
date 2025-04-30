@@ -1243,3 +1243,63 @@ class ObsidianPluginDevPythonToJS:
             ObsidianCommError: If the request fails.
         """
         return self._send_receive("get_editor_context")
+
+    def get_backlinks(self, path: str, use_cache_if_available: bool = True, cache_mode: str = 'fast') -> Dict[str, List[Dict[str, Any]]]:
+        """
+        Retrieves backlinks (incoming links) for a specific note.
+
+        Optionally utilizes the 'obsidian-backlink-cache' plugin if installed
+        and enabled in Obsidian for potentially faster results, especially in
+        large vaults.
+
+        Args:
+            path (str): The vault-relative path of the note (e.g., "Folder/My Note.md").
+            use_cache_if_available (bool, optional): If True (default), attempts
+                to use the 'obsidian-backlink-cache' plugin if available. If False,
+                or if the plugin is not available, uses Obsidian's native method.
+            cache_mode (str, optional): Specifies which mode to use if the
+                'obsidian-backlink-cache' plugin is used. Must be 'fast' (default)
+                or 'safe'. 'safe' ensures all recent changes are processed but might
+                be slightly slower than 'fast'. Ignored if the cache plugin is not used.
+
+        Returns:
+            Dict[str, List[Dict[str, Any]]]: A dictionary where keys are the
+                absolute paths of the notes containing the backlinks, and values
+                are lists of link information dictionaries for each link found
+                in that source note. The structure mirrors Obsidian's LinkCache.
+                Example:
+                {
+                    '/abs/path/to/linking_note.md': [
+                        {'link': 'Target Note', 'original': '[[Target Note]]', ...},
+                        # ... other links in linking_note.md
+                    ],
+                    # ... other linking notes
+                }
+                Returns an empty dictionary if no backlinks are found.
+
+        Raises:
+            ValueError: If path is empty or cache_mode is invalid.
+            ObsidianCommError: If the request fails (e.g., note not found by Obsidian).
+        """
+        if not path:
+            raise ValueError("Path cannot be empty for get_backlinks.")
+        if cache_mode not in ['fast', 'safe']:
+            raise ValueError("cache_mode must be either 'fast' or 'safe'.")
+
+        payload = {
+            "path": path,
+            "use_cache_if_available": use_cache_if_available,
+            "cache_mode": cache_mode,
+        }
+        # The plugin side will return the structured dictionary or raise an error
+        backlinks_data = self._send_receive("get_backlinks", payload)
+
+        # Basic validation of the returned structure (optional but good practice)
+        if not isinstance(backlinks_data, dict):
+             raise ObsidianCommError(
+                 f"Received unexpected data type from get_backlinks: {type(backlinks_data)}. Expected dict.",
+                 action="get_backlinks"
+             )
+        # Further validation could check if values are lists of dicts, etc.
+
+        return backlinks_data

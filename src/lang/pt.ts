@@ -74,4 +74,6 @@ export default {
 	SETTINGS_SECURITY_WARNING_TEXT: "Executar scripts Python arbitrários pode ser arriscado. Certifique-se de confiar na fonte de qualquer script que você executar, pois eles podem acessar seu sistema e dados. O autor do plugin e os autores dos scripts não são responsáveis por qualquer perda de dados ou problemas de segurança causados pelos scripts que você escolher executar. Execute os scripts por sua conta e risco.",
 	SETTINGS_LANGUAGE_TITLE: "Idioma do Plugin",
 	SETTINGS_LANGUAGE_DESC: "Escolha o idioma de exibição para a interface do plugin Python Bridge. 'Automático' segue a configuração de idioma do Obsidian.",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Dica de Desempenho: Cache de Backlinks",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Para melhor desempenho ao recuperar backlinks (usando a função get_backlinks) em cofres grandes, considere instalar o plugin comunitário '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
 };

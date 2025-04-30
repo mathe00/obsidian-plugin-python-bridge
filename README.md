@@ -59,8 +59,9 @@ In short, while some tasks are technically feasible without this plugin, they’
 -   **⚙️ Script-Specific Settings in Obsidian UI**: Define configuration options (like API keys, toggles, dropdowns, numbers) directly within your Python script. These settings automatically appear in the Obsidian "Python Bridge" settings tab, allowing users to configure your script's behavior without editing code. Your script can then easily retrieve the user-set values. This makes your Python scripts feel like native Obsidian plugins! (See highlight below)
 -   **🚀 Graphical `input()` in Obsidian via Modals**: Create **modal dialogs** in Obsidian to collect data from the user directly within the interface, similar to Python's `input()` but graphical. (See highlight below)
 -   **🔔 Native Obsidian Notifications**: Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
--   **📝 Access/Modify Active Note & Selection**: Easily get content, frontmatter, path, or title of the currently open note, and get or replace selected text in the editor.
--   **📂 Vault Interaction**: Get the vault path, list all notes, open specific notes, read/modify any note's content or frontmatter (by path).
+-   **📝 Access/Modify Active Note & Selection**: Easily get content, frontmatter, path, or title of the currently open note, and get or replace selected text in the editor. Get basic editor context (cursor position, line count).
+-   **📂 Vault Interaction & File Management**: Get the vault path, list all notes, open specific notes, read/modify any note's content or frontmatter (by path). **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
+-   **ℹ️ Obsidian Context**: Get the current Obsidian language setting, vault name, and theme mode (light/dark).
 -   **🛡️ Environment Checks & Guidance**: Automatically checks for Python and required libraries (`requests`, `PyYAML`) on startup and provides clear notifications if something is missing.
 -   **💻 Cross-Platform**: Works reliably on Windows, macOS, and Linux thanks to HTTP communication and robust Python detection.
 -   **🌐 Internationalized Interface**: Plugin UI (settings, commands, notices) available in multiple languages.
@@ -268,8 +269,8 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 <a id="roadmap"></a>
 ## 🚀 Future Features (roadmap)
 
--   <!-- Removed: 🌍 More Languages -->
--   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more.
+-   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. *(Partially addressed: Added file management, context info)*
+-   🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
 -   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.

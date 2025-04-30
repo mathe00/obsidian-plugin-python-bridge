@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "มีการใช้งานอยู่แล้ว โปรดเลือกพอร์ตอื่นในการตั้งค่าหรือปิดแอปพลิเคชันอื่นที่ใช้งานอยู่ เซิร์ฟเวอร์ยังไม่ได้เริ่ม",
 	NOTICE_SERVER_START_FAILED_PREFIX: "ไม่สามารถเริ่มเซิร์ฟเวอร์บนพอร์ต",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "พอร์ตไม่ถูกต้อง โปรดป้อนตัวเลขระหว่าง 0 ถึง 65535",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: พอร์ต HTTP เปลี่ยนไป (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ") สคริปต์อาจกำหนดเป้าหมายไปที่พอร์ตเก่าหากกำลังทำงานอยู่แล้วหรือเปิดใช้งานจากภายนอก",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "เลือกภาษาที่แสดงสำหรับอินเทอร์เฟซปลั๊กอิน Python Bridge 'อัตโนมัติ' จะเป็นไปตามการตั้งค่าภาษาของ Obsidian",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "เคล็ดลับประสิทธิภาพ: Backlink Cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "เพื่อประสิทธิภาพที่ดีขึ้นในการดึงข้อมูล Backlink (โดยใช้ฟังก์ชัน get_backlinks) ใน Vault ขนาดใหญ่ ลองพิจารณาติดตั้งปลั๊กอินชุมชน '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' โดย @mnaoumov",
+	NOTICE_INVALID_FOLDER_PATH: "เส้นทางโฟลเดอร์ไม่ถูกต้อง โปรดเลือกโฟลเดอร์ที่ถูกต้องในการตั้งค่า",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "เส้นทางโฟลเดอร์สคริปต์ Python ที่กำหนดค่า '{path}' ไม่ถูกต้องหรือไม่พบ กำลังล้างการตั้งค่า",
+
 };

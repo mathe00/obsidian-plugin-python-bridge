@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "è già in uso. Scegli un'altra porta nelle impostazioni o chiudi l'altra applicazione che la sta usando. Server non avviato.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Impossibile avviare il server sulla porta",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Porta non valida. Inserisci un numero compreso tra 0 e 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Porta HTTP cambiata (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Lo script potrebbe puntare alla vecchia porta se è già in esecuzione o è stato avviato esternamente.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Scegli la lingua di visualizzazione per l'interfaccia del plugin Python Bridge. 'Automatico' segue l'impostazione della lingua di Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Suggerimento prestazioni: Cache Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Per prestazioni migliorate durante il recupero dei backlink (utilizzando la funzione get_backlinks) in vault di grandi dimensioni, considera l'installazione del plugin della community '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' di @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Percorso cartella non valido. Seleziona una cartella valida nelle impostazioni.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Il percorso della cartella degli script Python configurato '{path}' non è valido o non trovato. Cancellazione dell'impostazione.",
+
 };

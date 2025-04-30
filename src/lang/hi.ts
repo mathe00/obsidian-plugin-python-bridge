@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "पहले से उपयोग में है। कृपया सेटिंग्स में दूसरा पोर्ट चुनें या इसका उपयोग करने वाले अन्य एप्लिकेशन को बंद करें। सर्वर शुरू नहीं हुआ।",
 	NOTICE_SERVER_START_FAILED_PREFIX: "पोर्ट पर सर्वर शुरू करने में विफल:",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "।",
+	NOTICE_INVALID_PORT_RANGE: "अमान्य पोर्ट। कृपया 0 और 65535 के बीच एक संख्या दर्ज करें।",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ पाइथन ब्रिज: HTTP पोर्ट बदला (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")। यदि स्क्रिप्ट पहले से चल रही है या बाहरी रूप से लॉन्च की गई है तो वह पुराने पोर्ट को लक्षित कर सकती है।",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "पाइथन ब<094d>रिज प<094d>लगइन इंटरफ<0947>स क<0947> लिए प<094d>रदर<094d>शन भाषा च<0941>न<0947><0902>। 'सव<094d>चालित' ओब<094d>सिडियन की भाषा स<0947>टिंग का पालन करता ह<0948>।",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "प्रदर्शन युक्ति: बैकलिंक कैश",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "बड़े वॉल्ट में बैकलिंक्स पुनर्प्राप्त करते समय (get_backlinks फ़ंक्शन का उपयोग करके) बेहतर प्रदर्शन के लिए, @mnaoumov द्वारा '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' सामुदायिक प्लगइन स्थापित करने पर विचार करें।",
+	NOTICE_INVALID_FOLDER_PATH: "अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "कॉन्फ़िगर किया गया पाइथन स्क्रिप्ट फ़ोल्डर पथ '{path}' अमान्य है या नहीं मिला। सेटिंग साफ़ की जा रही है।",
+
 };

@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "is al in gebruik. Kies een andere poort in de instellingen of sluit de andere toepassing die deze gebruikt. Server niet gestart.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Kon server niet starten op poort",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Ongeldige poort. Voer een getal in tussen 0 en 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP-poort gewijzigd (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Script richt zich mogelijk op de oude poort als het al actief is of extern is gestart.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Kies de weergavetaal voor de Python Bridge plugin interface. 'Automatisch' volgt de taalinstelling van Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Prestatietip: Backlink Cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Voor betere prestaties bij het ophalen van backlinks (met de functie get_backlinks) in grote kluizen, overweeg de community-plug-in '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' van @mnaoumov te installeren.",
+	NOTICE_INVALID_FOLDER_PATH: "Ongeldig mappad. Selecteer een geldige map in de instellingen.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Geconfigureerd mappad voor Python-scripts '{path}' is ongeldig of niet gevonden. Instelling wissen.",
+
 };

@@ -27,6 +27,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "已被占用。请在设置中选择另一个端口或关闭使用该端口的其他应用程序。服务器未启动。",
 	NOTICE_SERVER_START_FAILED_PREFIX: "在端口上启动服务器失败",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "。",
+	NOTICE_INVALID_PORT_RANGE: "端口无效。请输入 0 到 65535 之间的数字。",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge：HTTP 端口已更改（",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "）。如果脚本已在运行或从外部启动，它可能会指向旧端口。",
@@ -74,4 +75,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "选择 Python Bridge 插件界面的显示语言。“自动”将遵循 Obsidian 的语言设置。",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "性能提示：反向链接缓存",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "为了在大型库中检索反向链接（使用 get_backlinks 函数）时提高性能，请考虑安装由 @mnaoumov 开发的“[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)”社区插件。",
+	NOTICE_INVALID_FOLDER_PATH: "文件夹路径无效。请在设置中选择一个有效的文件夹。",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "配置的 Python 脚本文件夹路径 '{path}' 无效或找不到。正在清除设置。",
+
 };

@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "port már használatban van. Kérjük, válasszon másik portot a beállításokban, vagy zárja be a portot használó másik alkalmazást. A szerver nem indult el.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Nem sikerült elindítani a szervert a(z)",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "porton.",
+	NOTICE_INVALID_PORT_RANGE: "Érvénytelen port. Kérjük, adjon meg egy számot 0 és 65535 között.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP port megváltozott (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). A szkript a régi portot célozhatja meg, ha már fut, vagy külsőleg lett elindítva.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Válassza ki a Python Bridge bővítmény felületének megjelenítési nyelvét. Az 'Automatikus' az Obsidian nyelvi beállítását követi.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Teljesítmény Tipp: Visszahivatkozás Gyorsítótár",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "A visszahivatkozások lekérésének (a get_backlinks funkció használatával) javított teljesítményéhez nagy tárolókban fontolja meg a @mnaoumov által készített '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' közösségi bővítmény telepítését.",
+	NOTICE_INVALID_FOLDER_PATH: "Érvénytelen mappa elérési út. Kérjük, válasszon érvényes mappát a beállításokban.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "A beállított Python szkriptek mappa elérési útja ('{path}') érvénytelen vagy nem található. Beállítás törlése.",
+
 };

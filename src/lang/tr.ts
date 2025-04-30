@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "zaten kullanılıyor. Lütfen ayarlarda başka bir port seçin veya onu kullanan diğer uygulamayı kapatın. Sunucu başlatılmadı.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Sunucuyu port üzerinde başlatma başarısız:",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Geçersiz bağlantı noktası. Lütfen 0 ile 65535 arasında bir sayı girin.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP Portu değişti (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Betik zaten çalışıyorsa veya harici olarak başlatıldıysa eski portu hedefleyebilir.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Python Bridge eklenti arayüzü için görüntüleme dilini seçin. 'Otomatik', Obsidian'ın dil ayarını takip eder.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Performans İpucu: Geri Bağlantı Önbelleği",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Büyük kasalarda geri bağlantıları alırken (get_backlinks işlevini kullanarak) daha iyi performans için @mnaoumov tarafından geliştirilen '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' topluluk eklentisini yüklemeyi düşünün.",
+	NOTICE_INVALID_FOLDER_PATH: "Geçersiz klasör yolu. Lütfen ayarlarda geçerli bir klasör seçin.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Yapılandırılmış Python betikleri klasör yolu '{path}' geçersiz veya bulunamadı. Ayar temizleniyor.",
+
 };

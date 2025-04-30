@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "jest już używany. Wybierz inny port w ustawieniach lub zamknij inną aplikację, która go używa. Serwer nie został uruchomiony.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Nie udało się uruchomić serwera na porcie",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Nieprawidłowy port. Wprowadź liczbę od 0 do 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Port HTTP zmieniony (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skrypt może celować w stary port, jeśli jest już uruchomiony lub został uruchomiony zewnętrznie.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Wybierz język wyświetlania interfejsu wtyczki Python Bridge. 'Automatyczny' podąża za ustawieniem języka Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Wskazówka dotycząca wydajności: Pamięć podręczna Backlinków",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Aby poprawić wydajność podczas pobierania backlinków (za pomocą funkcji get_backlinks) w dużych skarbcach, rozważ zainstalowanie wtyczki społecznościowej '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' autorstwa @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Nieprawidłowa ścieżka folderu. Wybierz prawidłowy folder w ustawieniach.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Skonfigurowana ścieżka folderu skryptów Python '{path}' jest nieprawidłowa lub nie znaleziono. Czyszczenie ustawienia.",
+
 };

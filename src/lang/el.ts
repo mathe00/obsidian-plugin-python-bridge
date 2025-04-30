@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "χρησιμοποιείται ήδη. Παρακαλώ επιλέξτε άλλη θύρα στις ρυθμίσεις ή κλείστε την άλλη εφαρμογή που τη χρησιμοποιεί. Ο διακομιστής δεν ξεκίνησε.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Αποτυχία έναρξης διακομιστή στη θύρα",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Μη έγκυρη θύρα. Εισαγάγετε έναν αριθμό μεταξύ 0 και 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Η θύρα HTTP άλλαξε (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Το script ενδέχεται να στοχεύει την παλιά θύρα εάν εκτελείται ήδη ή έχει εκκινηθεί εξωτερικά.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Επιλέξτε τη γλώσσα εμφάνισης για τη διεπαφή του plugin Python Bridge. Η επιλογή 'Αυτόματο' ακολουθεί τη ρύθμιση γλώσσας του Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Συμβουλή απόδοσης: Προσωρινή μνήμη Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Για βελτιωμένη απόδοση κατά την ανάκτηση backlinks (χρησιμοποιώντας τη συνάρτηση get_backlinks) σε μεγάλα vaults, εξετάστε το ενδεχόμενο εγκατάστασης του κοινοτικού plugin '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' από τον @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Μη έγκυρη διαδρομή φακέλου. Επιλέξτε έναν έγκυρο φάκελο στις ρυθμίσεις.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Η διαμορφωμένη διαδρομή φακέλου σεναρίων Python '{path}' είναι μη έγκυρη ή δεν βρέθηκε. Εκκαθάριση ρύθμισης.",
+
 };

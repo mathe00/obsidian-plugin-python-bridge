@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "پہلے سے استعمال میں ہے۔ براہ کرم ترتیبات میں دوسرا پورٹ منتخب کریں یا اسے استعمال کرنے والی دوسری ایپلیکیشن بند کریں۔ سرور شروع نہیں ہوا۔",
 	NOTICE_SERVER_START_FAILED_PREFIX: "پورٹ پر سرور شروع کرنے میں ناکام",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "۔",
+	NOTICE_INVALID_PORT_RANGE: "غلط پورٹ۔ براہ کرم 0 اور 65535 کے درمیان ایک نمبر درج کریں۔",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP پورٹ تبدیل ہو گیا (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")۔ اسکرپٹ پرانے پورٹ کو نشانہ بنا سکتا ہے اگر یہ پہلے سے چل رہا ہے یا بیرونی طور پر لانچ کیا گیا ہے۔",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Python Bridge پلگ ان انٹرفیس کے لیے ڈسپلے زبان منتخب کریں۔ 'خودکار' Obsidian کی زبان کی ترتیب کی پیروی کرتا ہے۔",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "کارکردگی کا مشورہ: بیک لنک کیش",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "بڑے والٹس میں بیک لنکس حاصل کرتے وقت (get_backlinks فنکشن کا استعمال کرتے ہوئے) بہتر کارکردگی کے لیے، @mnaoumov کی طرف سے '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' کمیونٹی پلگ ان انسٹال کرنے پر غور کریں۔",
+	NOTICE_INVALID_FOLDER_PATH: "غلط فولڈر کا راستہ۔ براہ کرم سیٹنگز میں ایک درست فولڈر منتخب کریں۔",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "کنفیگر شدہ پائیتھن اسکرپٹس فولڈر کا راستہ '{path}' غلط ہے یا نہیں ملا۔ سیٹنگ صاف کی جا رہی ہے۔",
+
 };

@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "est déjà utilisé. Veuillez choisir un autre port dans les réglages ou fermer l'autre application l'utilisant. Serveur non démarré.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Échec du démarrage du serveur sur le port",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Port invalide. Veuillez entrer un nombre entre 0 et 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge : Port HTTP changé (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Le script pourrait cibler l'ancien port s'il est déjà en cours d'exécution ou lancé extérieurement.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Choisissez la langue d'affichage pour l'interface du plugin Python Bridge. 'Automatique' suit le réglage de langue d'Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Conseil Performance : Cache de Backlinks",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Pour des performances améliorées lors de la récupération des backlinks (via la fonction get_backlinks) dans les grands coffres, envisagez d'installer l'extension communautaire '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Chemin de dossier invalide. Veuillez sélectionner un dossier valide dans les réglages.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Le chemin configuré pour le dossier des scripts Python '{path}' est invalide ou introuvable. Effacement du réglage.",
+
 };

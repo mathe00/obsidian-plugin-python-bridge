@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "مستخدم بالفعل. يرجى اختيار منفذ آخر في الإعدادات أو إغلاق التطبيق الآخر الذي يستخدمه. لم يتم بدء الخادم.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "فشل بدء الخادم على المنفذ",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "منفذ غير صالح. يرجى إدخال رقم بين 0 و 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ جسر بايثون: تم تغيير منفذ HTTP (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). قد يستهدف السكربت المنفذ القديم إذا كان قيد التشغيل بالفعل أو تم تشغيله خارجيًا.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "اختر لغة العرض لواجهة إضافة Python Bridge. 'تلقائي' يتبع إعداد لغة Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "نصيحة أداء: ذاكرة التخزين المؤقت للروابط الخلفية",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "لتحسين الأداء عند استرداد الروابط الخلفية (باستخدام وظيفة get_backlinks) في الخزائن الكبيرة، ضع في اعتبارك تثبيت المكون الإضافي المجتمعي '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' بواسطة @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "مسار المجلد غير صالح. يرجى تحديد مجلد صالح في الإعدادات.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "مسار مجلد سكربتات بايثون المكون '{path}' غير صالح أو غير موجود. جارٍ مسح الإعداد.",
+
 };

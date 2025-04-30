@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "ইতিমধ্যে ব্যবহৃত হচ্ছে। অনুগ্রহ করে সেটিংসে অন্য একটি পোর্ট বেছে নিন বা এটি ব্যবহার করা অন্য অ্যাপ্লিকেশনটি বন্ধ করুন। সার্ভার শুরু হয়নি।",
 	NOTICE_SERVER_START_FAILED_PREFIX: "পোর্টে সার্ভার শুরু করতে ব্যর্থ হয়েছে",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "।",
+	NOTICE_INVALID_PORT_RANGE: "অবৈধ পোর্ট। অনুগ্রহ করে 0 এবং 65535 এর মধ্যে একটি সংখ্যা লিখুন।",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ পাইথন ব্রিজ: HTTP পোর্ট পরিবর্তিত হয়েছে (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")। স্ক্রিপ্টটি পুরানো পোর্টকে লক্ষ্য করতে পারে যদি এটি ইতিমধ্যে চলছে বা বাহ্যিকভাবে চালু করা হয়েছে।",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "পাইথন ব্রিজ প্লাগইন ইন্টারফেসের জন্য প্রদর্শনের ভাষা চয়ন করুন। 'স্বয়ংক্রিয়' অবসিডিয়ানের ভাষা সেটিং অনুসরণ করে।",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "পারফরম্যান্স টিপ: ব্যাকলিঙ্ক ক্যাশে",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "বৃহৎ ভল্টে ব্যাকলিঙ্ক পুনরুদ্ধার করার সময় (get_backlinks ফাংশন ব্যবহার করে) উন্নত পারফরম্যান্সের জন্য, @mnaoumov দ্বারা তৈরি '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' কমিউনিটি প্লাগইন ইনস্টল করার কথা বিবেচনা করুন।",
+	NOTICE_INVALID_FOLDER_PATH: "অবৈধ ফোল্ডার পাথ। অনুগ্রহ করে সেটিংসে একটি বৈধ ফোল্ডার নির্বাচন করুন।",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "কনফিগার করা পাইথন স্ক্রিপ্ট ফোল্ডার পাথ '{path}' অবৈধ বা পাওয়া যায়নি। সেটিং সাফ করা হচ্ছে।",
+
 };

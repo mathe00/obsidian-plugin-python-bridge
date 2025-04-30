@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "は既に使用中です。設定で別のポートを選択するか、それを使用している他のアプリケーションを閉じてください。サーバーは起動しませんでした。",
 	NOTICE_SERVER_START_FAILED_PREFIX: "ポートでのサーバー起動に失敗しました",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "。",
+	NOTICE_INVALID_PORT_RANGE: "無効なポートです。0 から 65535 までの数字を入力してください。",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP ポートが変更されました (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")。スクリプトが既に実行中または外部から起動されている場合、古いポートを対象としている可能性があります。",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Python Bridge プラグインインターフェースの表示言語を選択します。「自動」は Obsidian の言語設定に従います。",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "パフォーマンスのヒント：バックリンクキャッシュ",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "大きなVaultでバックリンクを取得する際（get_backlinks関数を使用）のパフォーマンスを向上させるには、@mnaoumovによるコミュニティプラグイン「[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)」のインストールを検討してください。",
+	NOTICE_INVALID_FOLDER_PATH: "無効なフォルダパス。設定で有効なフォルダを選択してください。",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "設定された Python スクリプトフォルダパス '{path}' が無効か見つかりません。設定をクリアしています。",
+
 };

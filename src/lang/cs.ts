@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "je již používán. Zvolte prosím jiný port v nastavení nebo ukončete jinou aplikaci, která jej používá. Server nebyl spuštěn.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Nepodařilo se spustit server na portu",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Neplatný port. Zadejte prosím číslo mezi 0 a 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP port změněn (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skript může cílit na starý port, pokud již běží nebo byl spuštěn externě.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Zvolte jazyk zobrazení pro rozhraní pluginu Python Bridge. 'Automaticky' se řídí nastavením jazyka Obsidianu.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tip pro výkon: Mezipaměť zpětných odkazů",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Pro zlepšení výkonu při načítání zpětných odkazů (pomocí funkce get_backlinks) ve velkých trezorech zvažte instalaci komunitního pluginu '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' od @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Neplatná cesta ke složce. Vyberte prosím platnou složku v nastavení.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Nakonfigurovaná cesta ke složce skriptů Python '{path}' je neplatná nebo nebyla nalezena. Vymazání nastavení.",
+
 };

@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "ay ginagamit na. Pakiusap pumili ng ibang port sa mga setting o isara ang ibang application na gumagamit nito. Hindi nagsimula ang server.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Nabigong simulan ang server sa port",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Hindi wastong port. Mangyaring maglagay ng numero sa pagitan ng 0 at 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Nagbago ang HTTP Port (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Maaaring i-target ng script ang lumang port kung ito ay tumatakbo na o inilunsad sa labas.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Piliin ang display language para sa interface ng Python Bridge plugin. Ang 'Awtomatiko' ay sumusunod sa setting ng wika ng Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tip sa Performance: Backlink Cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Para sa pinahusay na performance kapag kumukuha ng mga backlink (gamit ang get_backlinks function) sa malalaking vault, isaalang-alang ang pag-install ng '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin ni @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Hindi wastong path ng folder. Mangyaring pumili ng wastong folder sa mga setting.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Ang naka-configure na path ng folder ng mga script ng Python '{path}' ay hindi wasto o hindi natagpuan. Kinaklaro ang setting.",
+
 };

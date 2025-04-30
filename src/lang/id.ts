@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "sudah digunakan. Harap pilih port lain di pengaturan atau tutup aplikasi lain yang menggunakannya. Server tidak dimulai.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Gagal memulai server di port",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Port tidak valid. Harap masukkan angka antara 0 dan 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Port HTTP berubah (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skrip mungkin menargetkan port lama jika sudah berjalan atau diluncurkan secara eksternal.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Pilih bahasa tampilan untuk antarmuka plugin Python Bridge. 'Otomatis' mengikuti pengaturan bahasa Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tips Performa: Cache Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Untuk peningkatan performa saat mengambil backlink (menggunakan fungsi get_backlinks) di vault besar, pertimbangkan untuk menginstal plugin komunitas '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' oleh @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Path folder tidak valid. Harap pilih folder yang valid di pengaturan.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Path folder skrip Python yang dikonfigurasi '{path}' tidak valid atau tidak ditemukan. Menghapus pengaturan.",
+
 };

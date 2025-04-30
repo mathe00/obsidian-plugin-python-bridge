@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "wà ní lílò tẹ́lẹ̀. Jọ̀wọ́ yan ibùdó mìíràn nínú ètò tàbí pa ohun èlò mìíràn tí ó ń lò ó. Máyà kò bẹ̀rẹ̀.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Ìbẹ̀rẹ̀ máyà lórí ibùdó",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "kùnà.",
+	NOTICE_INVALID_PORT_RANGE: "Ibudo ti ko tọ. Jọwọ tẹ nọmba sii laarin 0 ati 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Ibùdó HTTP ti yípadà (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Akosílẹ̀ lè máa fojú sí ibùdó àtijọ́ tí ó bá ti ń ṣiṣẹ́ tàbí tí a bá ti gbéléwọ́ láti ìta.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Yan èdè ìfihàn fún ìwojú plugin Python Bridge. 'Aifọwọyi' ń tẹ̀lé ètò èdè Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Àbá Iṣẹ́ ṣíṣe: Cache Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Fún iṣẹ́ ṣíṣe tó dára síi nígbà tí o bá ń gba àwọn backlink (lílo iṣẹ́ get_backlinks) nínú àwọn vault ńlá, ronú láti fi plugin àwùjọ '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' láti ọwọ́ @mnaoumov sínú ẹ̀rọ.",
+	NOTICE_INVALID_FOLDER_PATH: "Opopona folda ti ko tọ. Jọwọ yan folda to tọ ninu awọn eto.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Ọna folda awọn iwe afọwọkọ Python ti a tunto '{path}' ko wulo tabi ko ri. Ko eto kuro.",
+
 };

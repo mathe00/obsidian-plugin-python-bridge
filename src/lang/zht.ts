@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "已被使用。請在設定中選擇另一個端口或關閉正在使用它的其他應用程式。伺服器未啟動。",
 	NOTICE_SERVER_START_FAILED_PREFIX: "無法在端口上啟動伺服器",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "。",
+	NOTICE_INVALID_PORT_RANGE: "連接埠無效。請輸入 0 到 65535 之間的數字。",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge：HTTP 端口已更改 (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")。如果腳本已在運行或從外部啟動，它可能會指向舊端口。",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "選擇 Python Bridge 插件界面的顯示語言。「自動」將遵循 Obsidian 的語言設定。",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "效能提示：反向連結快取",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "為了在大型儲存庫中擷取反向連結（使用 get_backlinks 函數）時提高效能，請考慮安裝由 @mnaoumov 開發的「[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)」社群外掛。",
+	NOTICE_INVALID_FOLDER_PATH: "資料夾路徑無效。請在設定中選擇一個有效的資料夾。",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "設定的 Python 指令碼資料夾路徑 '{path}' 無效或找不到。正在清除設定。",
+
 };

@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "ta riga ta kasance cikin amfani. Da fatan za a zaɓi wata tasha a cikin saituna ko rufe wani aikace-aikacen da ke amfani da ita. Ba a fara sabar ba.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "An kasa fara sabar a tashar",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Tashar da ba ta da inganci. Da fatan za a shigar da lamba tsakanin 0 da 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: An canza Tashar HTTP (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Rubutun na iya nufin tsohuwar tasha idan tana gudana ko an ƙaddamar da ita daga waje.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Zaɓi harshen nuni don mahallin plugin na Python Bridge. 'Atomatik' yana bin saitin harshe na Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tukwici na Aiki: Ma'ajiyar Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Don ingantaccen aiki lokacin da ake dawo da backlinks (ta amfani da aikin get_backlinks) a cikin manyan vaults, yi la'akari da shigar da plugin na al'umma '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' ta @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Hanyar babban fayil mara inganci. Da fatan za a zaɓi babban fayil mai inganci a cikin saituna.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Hanyar babban fayil ɗin rubutun Python da aka saita '{path}' ba ta da inganci ko ba a samo ta ba. Share saitin.",
+
 };

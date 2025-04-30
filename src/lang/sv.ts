@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "används redan. Välj en annan port i inställningarna eller stäng det andra programmet som använder den. Servern startades inte.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Kunde inte starta servern på port",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Ogiltig port. Ange ett nummer mellan 0 och 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP-port ändrad (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skriptet kan rikta in sig på den gamla porten om det redan körs eller startas externt.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Välj visningsspråk för Python Bridge-pluginets gränssnitt. 'Automatisk' följer Obsidians språkinställning.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Prestandatips: Backlink Cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "För förbättrad prestanda vid hämtning av bakåtlänkar (med funktionen get_backlinks) i stora valv, överväg att installera community-pluginet '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' av @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Ogiltig mappsökväg. Välj en giltig mapp i inställningarna.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Konfigurerad sökväg för Python-skriptmapp '{path}' är ogiltig eller hittades inte. Rensar inställning.",
+
 };

@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "вже використовується. Будь ласка, виберіть інший порт у налаштуваннях або закрийте іншу програму, що його використовує. Сервер не запущено.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Не вдалося запустити сервер на порту",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Недійсний порт. Будь ласка, введіть число від 0 до 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Порт HTTP змінено (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Скрипт може націлюватися на старий порт, якщо він уже запущений або запущений ззовні.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Виберіть мову відображення для інтерфейсу плагіна Python Bridge. 'Автоматично' відповідає налаштуванню мови Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Порада щодо продуктивності: Кеш зворотних посилань",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Для покращення продуктивності під час отримання зворотних посилань (за допомогою функції get_backlinks) у великих сховищах розгляньте можливість встановлення плагіна спільноти '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' від @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Недійсний шлях до папки. Будь ласка, виберіть дійсну папку в налаштуваннях.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Налаштований шлях до папки скриптів Python '{path}' недійсний або не знайдений. Очищення налаштування.",
+
 };

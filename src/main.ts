@@ -14,6 +14,7 @@ import {
 	OpenViewState,
 	normalizePath,
 	LinkCache,
+	TFolder,
 } from "obsidian";
 import { spawn, ChildProcess, SpawnOptionsWithoutStdio, exec } from "child_process";
 import * as fs from "fs";
@@ -109,6 +110,9 @@ export default class ObsidianPythonBridge extends Plugin {
 	async onload() {
 		this.logInfo("Loading Obsidian Python Bridge plugin...");
 		await this.loadSettings();
+
+		await this.validateScriptsFolderPathSetting();
+
 		loadTranslations(this); // Load translations, passing the plugin instance
 		this.initialHttpPort = this.settings.httpPort; // Store initial port
 
@@ -122,14 +126,15 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.startHttpServer(); // Start server only if Python env is okay
 
 			// --- NEW: Discover script settings after finding Python and scripts folder ---
-			const scriptsFolder = this.getScriptsFolderPath();
+			const scriptsFolder = this.getScriptsFolderPath(); // Re-check after potential validation/clearing
 			if (scriptsFolder && this.pythonExecutable) {
 				// Run discovery asynchronously, don't block loading
 				this.updateScriptSettingsCache(scriptsFolder).catch((err) => {
 					this.logError("Initial script settings discovery failed:", err);
 				});
 			} else {
-				this.logWarn("Skipping initial script settings discovery: Python executable or scripts folder not found.");
+				// Message modifié pour être plus générique car la validation a déjà eu lieu
+				this.logWarn("Skipping initial script settings discovery: Python executable or valid scripts folder not found.");
 			}
 		} else {
 			this.logWarn("Skipping server start and settings discovery due to Python environment issues.");
@@ -166,40 +171,78 @@ export default class ObsidianPythonBridge extends Plugin {
 		if (
 			typeof this.settings.httpPort !== "number" ||
 			!Number.isInteger(this.settings.httpPort) ||
-			// Allow port 0 for dynamic assignment
-			(this.settings.httpPort !== 0 && (this.settings.httpPort <= 0 || this.settings.httpPort > 65535))
+			// --- MODIFIED: Stricter validation (0 or 1024-65535) ---
+			(this.settings.httpPort !== 0 && (this.settings.httpPort < 1024 || this.settings.httpPort > 65535))
 		) {
 			this.logWarn(
 				`Invalid httpPort loaded (${this.settings.httpPort}), resetting to default ${DEFAULT_PORT}`,
 			);
 			this.settings.httpPort = DEFAULT_PORT;
+			// No need to save here, will be saved if changed later or on unload
 		}
 	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
 		// Check if the port setting has actually changed since the server started
-		if (this.server && this.settings.httpPort !== 0 && this.settings.httpPort !== this.initialHttpPort) {
-			this.logInfo(
-				`HTTP port changed from ${this.initialHttpPort} to ${this.settings.httpPort}. Restarting server...`,
-			);
-			// Use translation for the notice
-			new Notice(
-				`${t("NOTICE_PLUGIN_NAME")}: ${t("NOTICE_PORT_CHANGED_PREFIX")} ${this.settings.httpPort}. ${t("NOTICE_PORT_CHANGED_SUFFIX")}`,
-				3000,
-			);
-			this.stopHttpServer();
-			this.startHttpServer(); // Restart server with the new port
-			// Update initialHttpPort only after successful restart
-			if (this.server) {
-				// If port 0 was used, initialHttpPort is updated in startHttpServer callback
-				if (this.settings.httpPort !== 0) {
-					this.initialHttpPort = this.settings.httpPort;
-				}
+		// Use initialHttpPort which reflects the actual listening port (even if dynamic)
+		const currentPortSetting = this.settings.httpPort;
+		// --- MODIFIED: Get current listening port if server exists ---
+		const actualListeningPort = this.server ? (this.server.address() as AddressInfo)?.port ?? this.initialHttpPort : this.initialHttpPort;
+
+		// Restart server if the *setting* changed AND it's different from the *actual* listening port
+		// This handles cases where port 0 was used and assigned dynamically.
+		if (this.server && currentPortSetting !== actualListeningPort) {
+			// Check if the new setting is valid before attempting restart
+			if (currentPortSetting === 0 || (currentPortSetting >= 1024 && currentPortSetting <= 65535)) {
+				this.logInfo(
+					`HTTP port setting changed or differs from listening port (${actualListeningPort} -> ${currentPortSetting}). Restarting server...`,
+				);
+				new Notice(
+					`${t("NOTICE_PLUGIN_NAME")}: ${t("NOTICE_PORT_CHANGED_PREFIX")} ${currentPortSetting}. ${t("NOTICE_PORT_CHANGED_SUFFIX")}`,
+					3000,
+				);
+				this.stopHttpServer();
+				this.startHttpServer(); // Restart server with the new port setting
+				// initialHttpPort will be updated in startHttpServer callback if successful
+			} else {
+				// This case should ideally not happen due to validation in settings tab, but log defensively
+				this.logError(`Attempted to save invalid port ${currentPortSetting}. Server not restarted.`);
 			}
 		}
 		// Note: Settings discovery update on folder change is handled in the settings tab itself.
 	}
+
+	// --- NEW: Validate Scripts Folder Path on Startup ---
+	/**
+	 * Checks the configured pythonScriptsFolder on startup.
+	 * If the path is set but invalid (doesn't exist or isn't a folder),
+	 * it clears the setting and notifies the user.
+	 */
+	async validateScriptsFolderPathSetting(): Promise<void> {
+		const configuredPath = this.settings.pythonScriptsFolder;
+		if (!configuredPath || !configuredPath.trim()) {
+			// Path is not set, nothing to validate
+			return;
+		}
+
+		this.logDebug(`Validating configured scripts folder path on startup: ${configuredPath}`);
+		// Use getScriptsFolderPath which already performs the necessary checks
+		const resolvedPath = this.getScriptsFolderPath(); // This uses the current setting value
+
+		if (!resolvedPath) {
+			// getScriptsFolderPath returns empty string if path is invalid or not a directory
+			this.logWarn(`Configured Python scripts folder path "${configuredPath}" is invalid or not found/directory. Clearing setting.`);
+			// Use the new translation key, replacing {path} placeholder
+			new Notice(t("NOTICE_INVALID_STARTUP_FOLDER_PATH").replace("{path}", configuredPath));
+			this.settings.pythonScriptsFolder = ""; // Clear the invalid setting
+			await this.saveSettings(); // Persist the cleared setting
+		} else {
+			this.logDebug(`Configured scripts folder path validated successfully on startup: ${resolvedPath}`);
+		}
+	}
+	// --- End Validation ---
+
 
 	// --- Environment Check ---
 

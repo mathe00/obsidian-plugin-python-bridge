@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "wird bereits verwendet. Bitte wählen Sie einen anderen Port in den Einstellungen oder schließen Sie die andere Anwendung, die ihn verwendet. Server nicht gestartet.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Fehler beim Starten des Servers auf Port",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Ungültiger Port. Bitte geben Sie eine Zahl zwischen 0 und 65535 ein.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP-Port geändert (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Das Skript zielt möglicherweise auf den alten Port, wenn es bereits ausgeführt wird oder extern gestartet wurde.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Wählen Sie die Anzeigesprache für die Benutzeroberfläche des Python Bridge-Plugins. 'Automatisch' folgt der Spracheinstellung von Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Leistungstipp: Backlink-Cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Für eine verbesserte Leistung beim Abrufen von Backlinks (mit der Funktion get_backlinks) in großen Vaults sollten Sie die Installation des Community-Plugins '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' von @mnaoumov in Betracht ziehen.",
+	NOTICE_INVALID_FOLDER_PATH: "Ungültiger Ordnerpfad. Bitte wählen Sie einen gültigen Ordner in den Einstellungen.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Konfigurierter Python-Skript-Ordnerpfad '{path}' ist ungültig oder nicht gefunden. Einstellung wird gelöscht.",
+
 };

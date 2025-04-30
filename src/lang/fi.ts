@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "on jo käytössä. Valitse toinen portti asetuksista tai sulje sitä käyttävä sovellus. Palvelinta ei käynnistetty.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Palvelimen käynnistäminen portissa",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "epäonnistui.",
+	NOTICE_INVALID_PORT_RANGE: "Virheellinen portti. Anna numero väliltä 0–65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP-portti muuttui (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skripti saattaa kohdistaa vanhaan porttiin, jos se on jo käynnissä tai käynnistetty ulkoisesti.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Valitse Python Bridge -lisäosan käyttöliittymän näyttökieli. 'Automaattinen' noudattaa Obsidianin kieliasetusta.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Suorituskykyvinkki: Palautuslinkkien välimuisti",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Parantaaksesi suorituskykyä palautuslinkkejä haettaessa (käyttäen get_backlinks-funktiota) suurissa holveissa, harkitse @mnaoumov:n kehittämän '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' -yhteisölaajennuksen asentamista.",
+	NOTICE_INVALID_FOLDER_PATH: "Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Määritetty Python-skriptikansion polku '{path}' on virheellinen tai sitä ei löydy. Tyhjennetään asetusta.",
+
 };

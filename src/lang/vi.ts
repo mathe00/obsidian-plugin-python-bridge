@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "đã được sử dụng. Vui lòng chọn một cổng khác trong cài đặt hoặc đóng ứng dụng khác đang sử dụng nó. Máy chủ chưa được khởi động.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Không thể khởi động máy chủ trên cổng",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Cổng không hợp lệ. Vui lòng nhập một số từ 0 đến 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Cổng HTTP đã thay đổi (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Script có thể nhắm mục tiêu cổng cũ nếu đã chạy hoặc được khởi chạy từ bên ngoài.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Chọn ngôn ngữ hiển thị cho giao diện plugin Python Bridge. 'Tự động' tuân theo cài đặt ngôn ngữ của Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Mẹo hiệu suất: Bộ đệm Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Để cải thiện hiệu suất khi truy xuất backlink (sử dụng hàm get_backlinks) trong các kho lớn, hãy cân nhắc cài đặt plugin cộng đồng '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' của @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Đường dẫn thư mục không hợp lệ. Vui lòng chọn một thư mục hợp lệ trong cài đặt.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Đường dẫn thư mục tập lệnh Python đã định cấu hình '{path}' không hợp lệ hoặc không tìm thấy. Đang xóa cài đặt.",
+
 };

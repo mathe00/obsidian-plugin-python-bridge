@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "در حال حاضر استفاده می‌شود. لطفاً پورت دیگری را در تنظیمات انتخاب کنید یا برنامه دیگری که از آن استفاده می‌کند را ببندید. سرور شروع نشد.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "شروع به کار سرور روی پورت",
 	NOTICE_SERVER_START_FAILED_SUFFIX: "ناموفق بود.",
+	NOTICE_INVALID_PORT_RANGE: "پورت نامعتبر است. لطفاً عددی بین 0 تا 65535 وارد کنید.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: پورت HTTP تغییر کرد (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). اسکریپت ممکن است پورت قدیمی را هدف قرار دهد اگر از قبل در حال اجرا باشد یا از خارج راه‌اندازی شده باشد.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "زبان نمایش رابط کاربری افزونه Python Bridge را انتخاب کنید. 'خودکار' از تنظیمات زبان Obsidian پیروی می‌کند.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "نکته عملکرد: حافظه پنهان بک‌لینک",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "برای بهبود عملکرد هنگام بازیابی بک‌لینک‌ها (با استفاده از تابع get_backlinks) در والت‌های بزرگ، نصب افزونه جامعه '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' توسط @mnaoumov را در نظر بگیرید.",
+	NOTICE_INVALID_FOLDER_PATH: "مسیر پوشه نامعتبر است. لطفاً یک پوشه معتبر در تنظیمات انتخاب کنید.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "مسیر پوشه اسکریپت پایتون پیکربندی شده '{path}' نامعتبر است یا یافت نشد. در حال پاک کردن تنظیمات.",
+
 };

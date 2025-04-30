@@ -29,6 +29,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "가 이미 사용 중입니다. 설정에서 다른 포트를 선택하거나 해당 포트를 사용하는 다른 응용 프로그램을 닫으십시오. 서버가 시작되지 않았습니다.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "포트에서 서버 시작 실패:",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "잘못된 포트입니다. 0에서 65535 사이의 숫자를 입력하십시오.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP 포트 변경됨 (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). 스크립트가 이미 실행 중이거나 외부에서 시작된 경우 이전 포트를 대상으로 할 수 있습니다.",
@@ -76,4 +77,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Python Bridge 플러그인 인터페이스의 표시 언어를 선택하십시오. '자동'은 Obsidian의 언어 설정을 따릅니다.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "성능 팁: 백링크 캐시",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "큰 보관소에서 백링크를 검색할 때(get_backlinks 함수 사용) 성능 향상을 위해 @mnaoumov의 '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' 커뮤니티 플러그인 설치를 고려하십시오.",
+	NOTICE_INVALID_FOLDER_PATH: "잘못된 폴더 경로입니다. 설정에서 유효한 폴더를 선택하십시오.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "구성된 Python 스크립트 폴더 경로 '{path}'가 잘못되었거나 찾을 수 없습니다. 설정을 지웁니다.",
+
 };

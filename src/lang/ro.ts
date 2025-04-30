@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "este deja utilizat. Vă rugăm să alegeți alt port în setări sau să închideți cealaltă aplicație care îl folosește. Serverul nu a pornit.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Nu s-a putut porni serverul pe portul",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Port invalid. Vă rugăm să introduceți un număr între 0 și 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Portul HTTP s-a schimbat (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Scriptul ar putea viza portul vechi dacă rulează deja sau a fost lansat extern.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Alegeți limba de afișare pentru interfața pluginului Python Bridge. 'Automat' urmează setarea de limbă a Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Sfat de performanță: Cache Backlink",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Pentru performanțe îmbunătățite la preluarea backlink-urilor (folosind funcția get_backlinks) în vault-uri mari, luați în considerare instalarea pluginului comunitar '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Cale folder invalidă. Vă rugăm să selectați un folder valid în setări.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Calea folderului de scripturi Python configurată '{path}' este invalidă sau nu a fost găsită. Se șterge setarea.",
+
 };

@@ -1,39 +1,109 @@
 // --- src/PythonBridgeSettingTab.ts ---
-import { App, PluginSettingTab, Setting, normalizePath, ButtonComponent, Notice } from "obsidian";
+import { App, PluginSettingTab, Setting, normalizePath, ButtonComponent, Notice, SearchComponent, AbstractInputSuggest, TFolder, TAbstractFile, TextComponent, debounce } from "obsidian"; // Import debounce
 // --- MODIFIED: Import DEFAULT_PORT ---
 // --- MODIFIED: Import type for plugin and constant from constants.ts ---
 import type ObsidianPythonBridge from "./main";
 import { DEFAULT_PORT } from "./constants";
 import { t, loadTranslations, getAvailableLanguages } from "./lang/translations"; // Import helpers
+// --- REMOVED: Import FolderSuggest (now defined inline) ---
 import * as path from "path"; // Import path for relative path calculation
+import * as fs from "fs"; // Import fs for absolute path check
+
+// --- NEW: Inline FolderSuggest class definition ---
+// Inspired by Obsidian's internal file suggester and AutoNoteMover example
+class FolderSuggest extends AbstractInputSuggest<TFolder> {
+	constructor(
+		app: App,
+		private inputEl: HTMLInputElement,
+	) {
+		super(app, inputEl);
+	}
+
+	getSuggestions(inputStr: string): TFolder[] {
+		const lowerCaseInputStr = inputStr.toLowerCase();
+		// --- MODIFIED: Explicitly get folders first ---
+		const allFiles = this.app.vault.getAllLoadedFiles();
+		const folders: TFolder[] = [];
+
+		allFiles.forEach((file: TAbstractFile) => {
+			// Ensure we only consider actual TFolder objects
+			if (file instanceof TFolder) {
+				// Check if the folder path contains the input string AND is not __pycache__
+				if (
+					file.name !== "__pycache__" && // <--- Ignore __pycache__
+					file.path.toLowerCase().contains(lowerCaseInputStr)
+				) {
+					folders.push(file);
+				}
+			}
+		});
+
+		// Sort folders alphabetically by path
+		folders.sort((a, b) => a.path.localeCompare(b.path));
+
+		return folders;
+	}
+
+	renderSuggestion(item: TFolder, el: HTMLElement): void {
+		el.setText(item.path); // Display the folder path
+	}
+
+	selectSuggestion(item: TFolder): void {
+		this.inputEl.value = item.path; // Set input value to the selected path
+		this.inputEl.trigger('input'); // Trigger input event to update setting if needed
+		this.close(); // Close the suggestion modal
+	}
+}
+// --- End Inline FolderSuggest ---
+
 
 // Plugin settings tab
 export default class PythonBridgeSettingTab extends PluginSettingTab {
 	plugin: ObsidianPythonBridge;
+	// --- NEW: Debounce delay constant ---
+	private readonly DEBOUNCE_DELAY = 750; // milliseconds
 
 	constructor(app: App, plugin: ObsidianPythonBridge) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
 
+	// Helper to check if a path is a valid directory
+	private async isPathValidDirectory(inputPath: string): Promise<boolean> {
+		if (!inputPath) return false;
+		const trimmedPath = inputPath.trim();
+		if (!trimmedPath) return false;
+
+		if (path.isAbsolute(trimmedPath)) {
+			try {
+				const stats = await fs.promises.stat(trimmedPath);
+				return stats.isDirectory();
+			} catch (error) {
+				return false;
+			}
+		} else {
+			const normalizedRelative = normalizePath(trimmedPath);
+			const abstractFile = this.app.vault.getAbstractFileByPath(normalizedRelative);
+			return abstractFile instanceof TFolder;
+		}
+	}
+
+
 	display(): void {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		// --- NEW: Security Warning ---
-		// Use Obsidian's callout styling for native look and feel
+		// Security Warning
 		const warningContainer = containerEl.createDiv({
-			cls: 'callout python-bridge-security-warning', // Add our class + standard callout class
-			attr: { 'data-callout': 'warning' } // Use warning style
+			cls: 'callout python-bridge-security-warning',
+			attr: { 'data-callout': 'warning' }
 		});
-		warningContainer.createEl('strong', { text: t('SETTINGS_SECURITY_WARNING_TITLE') }); // Bold title (translatable)
-		warningContainer.createEl('br'); // Line break
-		warningContainer.appendText(t('SETTINGS_SECURITY_WARNING_TEXT')); // Main warning text (translatable)
-		// Add some space below the warning
+		warningContainer.createEl('strong', { text: t('SETTINGS_SECURITY_WARNING_TITLE') });
+		warningContainer.createEl('br');
+		warningContainer.appendText(t('SETTINGS_SECURITY_WARNING_TEXT'));
 		warningContainer.style.marginBottom = '1.5em';
-		// --- End Security Warning ---
 
-		// --- General Plugin Settings ---
+		// General Plugin Settings
 		containerEl.createEl("h2", { text: t("SETTINGS_TAB_TITLE") });
 
 		// Language Selection
@@ -42,10 +112,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			.setDesc(t("SETTINGS_LANGUAGE_DESC"))
 			.addDropdown((dropdown) => {
 				const languages = getAvailableLanguages();
-				// Ensure 'auto' is always an option
-				dropdown.addOption('auto', t('SETTINGS_LANGUAGE_AUTO') || 'Automatic'); // Add translation key
+				dropdown.addOption('auto', t('SETTINGS_LANGUAGE_AUTO') || 'Automatic');
 				for (const code in languages) {
-					if (code !== 'auto') { // Avoid duplicating 'auto' if present in languages
+					if (code !== 'auto') {
 						dropdown.addOption(code, languages[code]);
 					}
 				}
@@ -55,7 +124,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						this.plugin.settings.pluginLanguage = value;
 						await this.plugin.saveSettings();
 						loadTranslations(this.plugin);
-						this.display(); // Force redraw
+						this.display();
 					});
 			});
 
@@ -63,67 +132,119 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName(t("SETTINGS_FOLDER_TITLE"))
 			.setDesc(t("SETTINGS_FOLDER_DESC"))
-			.addText((text) =>
-				text
+			.addSearch(async (search: SearchComponent) => {
+				new FolderSuggest(this.app, search.inputEl);
+				search
 					.setPlaceholder(t("SETTINGS_FOLDER_PLACEHOLDER"))
 					.setValue(this.plugin.settings.pythonScriptsFolder)
-					.onChange(async (value) => {
+					// --- MODIFIED: Use debounced validation/saving ---
+					.onChange(debounce(async (value: string) => {
+						const newValue = value.trim();
 						const oldValue = this.plugin.settings.pythonScriptsFolder;
-						const newValue = value.trim(); // Trim the new value
-						// Only proceed if the value actually changed
-						if (oldValue !== newValue) {
-							this.plugin.settings.pythonScriptsFolder = newValue;
-							await this.plugin.saveSettings();
-							// If folder changed, trigger settings discovery
-							const scriptsFolder = this.plugin.getScriptsFolderPath(); // Re-evaluate folder path
-							if (scriptsFolder && this.plugin.pythonExecutable) {
-								// Use then/catch for async operation without blocking UI thread
-								this.plugin.updateScriptSettingsCache(scriptsFolder)
-									.then(() => {
-										this.plugin.logInfo("Script settings cache updated after folder change.");
-										this.display(); // Redraw after update completes
-									})
-									.catch(err => this.plugin.logError("Error updating settings cache after folder change:", err));
-							} else {
-								// Clear definitions if folder becomes invalid or Python is missing
-								this.plugin.logWarn("Clearing script settings cache due to invalid folder or missing Python.");
-								this.plugin.settings.scriptSettingsDefinitions = {};
-								this.plugin.settings.scriptSettingsValues = {}; // Also clear values
+						const isValidDirectory = await this.isPathValidDirectory(newValue);
+
+						if (isValidDirectory) {
+							search.inputEl.style.borderColor = ''; // Reset border
+							if (oldValue !== newValue) {
+								this.plugin.logDebug(`Saving valid folder path: ${newValue}`);
+								this.plugin.settings.pythonScriptsFolder = newValue;
 								await this.plugin.saveSettings();
-								this.display(); // Redraw to remove old script settings
+								// Trigger settings discovery only if path is valid and changed
+								const scriptsFolder = this.plugin.getScriptsFolderPath(); // Re-check path validity
+								if (scriptsFolder && this.plugin.pythonExecutable) {
+									// No need to await here, let it run in background
+									this.plugin.updateScriptSettingsCache(scriptsFolder)
+										.then(() => {
+											this.plugin.logInfo("Script settings cache updated after folder change.");
+											this.display(); // Redraw potentially needed if script settings appeared/disappeared
+										})
+										.catch(err => this.plugin.logError("Error updating settings cache after folder change:", err));
+								} else {
+									// This case might happen if python executable disappears between checks
+									this.plugin.logWarn("Clearing script settings cache due to invalid folder or missing Python after change.");
+									this.plugin.settings.scriptSettingsDefinitions = {};
+									this.plugin.settings.scriptSettingsValues = {};
+									await this.plugin.saveSettings(); // Save cleared settings
+									this.display(); // Redraw needed
+								}
+							}
+						} else {
+							// Path is invalid (doesn't exist or is a file)
+							// Only show error if the input field is not empty
+							if (newValue) {
+								search.inputEl.style.borderColor = 'red';
+								new Notice(t("NOTICE_INVALID_FOLDER_PATH"));
+								this.plugin.logWarn(`Invalid folder path entered: ${newValue}. Not saving.`);
+							} else {
+								// If field is empty, clear border and save empty path
+								search.inputEl.style.borderColor = '';
+								if (oldValue !== "") {
+									this.plugin.settings.pythonScriptsFolder = "";
+									await this.plugin.saveSettings();
+									// Clear script settings if path becomes empty
+									this.plugin.settings.scriptSettingsDefinitions = {};
+									this.plugin.settings.scriptSettingsValues = {};
+									await this.plugin.saveSettings();
+									this.display();
+								}
 							}
 						}
-					}),
-			);
+					}, this.DEBOUNCE_DELAY, true)); // Debounce onChange, true for leading edge execution if needed (optional)
+
+				// Initial validation check on display
+				const currentPath = this.plugin.settings.pythonScriptsFolder;
+				if (currentPath && !(await this.isPathValidDirectory(currentPath))) {
+					search.inputEl.style.borderColor = 'red';
+				}
+			});
+
 
 		// HTTP Server Port
 		new Setting(containerEl)
 			.setName(t("SETTINGS_PORT_TITLE"))
 			.setDesc(t("SETTINGS_PORT_DESC"))
-			.addText((text) =>
+			.addText((text: TextComponent) => { // Added type annotation
 				text
-					// --- MODIFIED: Use imported DEFAULT_PORT ---
 					.setPlaceholder(String(DEFAULT_PORT))
 					.setValue(String(this.plugin.settings.httpPort))
-					.onChange(async (value) => {
-						const port = parseInt(value.trim(), 10);
-						// Allow port 0 for dynamic assignment
-						if (!isNaN(port) && port >= 0 && port <= 65535) {
-							if (port > 0 && port < 1024) {
-								this.plugin.logWarn(`Port ${port} is in the well-known range, might require root/admin privileges.`);
+					// --- MODIFIED: Use debounced validation/saving ---
+					.onChange(debounce(async (value: string) => {
+						const portStr = value.trim();
+						// Handle empty input: reset to default
+						if (portStr === "") {
+							this.plugin.logInfo("Port input cleared, resetting to default.");
+							text.inputEl.style.borderColor = ""; // Clear border
+							if (this.plugin.settings.httpPort !== DEFAULT_PORT) {
+								this.plugin.settings.httpPort = DEFAULT_PORT;
+								text.setValue(String(DEFAULT_PORT)); // Update UI
+								await this.plugin.saveSettings();
 							}
-							this.plugin.settings.httpPort = port;
-							await this.plugin.saveSettings(); // saveSettings handles restart if needed
-							text.inputEl.style.borderColor = ""; // Reset border on valid input
-						} else {
-							text.inputEl.style.borderColor = "red"; // Indicate error
-							this.plugin.logWarn(
-								`Invalid port entered: ${value}. Must be between 0 and 65535.`,
-							);
-							// Do not save invalid port
+							return; // Stop processing if empty
 						}
-					}),
-			);
+
+						const port = parseInt(portStr, 10);
+						const isValidPort = !isNaN(port) && (port === 0 || (port >= 1024 && port <= 65535));
+
+						if (isValidPort) {
+							text.inputEl.style.borderColor = ""; // Clear border
+							if (this.plugin.settings.httpPort !== port) {
+								this.plugin.logDebug(`Saving valid port: ${port}`);
+								this.plugin.settings.httpPort = port;
+								await this.plugin.saveSettings(); // saveSettings handles restart
+							}
+						} else {
+							// Invalid port number or range
+							text.inputEl.style.borderColor = "red";
+							new Notice(t("NOTICE_INVALID_PORT_RANGE"));
+							this.plugin.logWarn(
+								`Invalid port entered: ${value}. Must be 0 or between 1024 and 65535. Not saving invalid value.`
+							);
+							// Do NOT save the invalid value. Keep the last valid one.
+							// Optionally revert the input field visually, but might conflict with user typing
+							// text.setValue(String(this.plugin.settings.httpPort));
+						}
+					}, this.DEBOUNCE_DELAY, true)); // Debounce onChange
+			});
 
 		// Disable Python Cache
 		new Setting(containerEl)
@@ -139,42 +260,44 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			);
 
 		// --- Script Specific Settings ---
-		containerEl.createEl("h2", { text: t("SETTINGS_SCRIPT_SETTINGS_TITLE") }); // Add key
+		containerEl.createEl("h2", { text: t("SETTINGS_SCRIPT_SETTINGS_TITLE") });
 
 		// Refresh Button
 		new Setting(containerEl)
-			.setName(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME")) // Add key
-			.setDesc(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC")) // Add key
+			.setName(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME"))
+			.setDesc(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC"))
 			.addButton((button: ButtonComponent) => {
 				button
-					.setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT")) // Add key
-					.setCta() // Make it stand out a bit
+					.setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT"))
+					.setCta()
 					.onClick(async () => {
 						const scriptsFolder = this.plugin.getScriptsFolderPath();
 						if (!scriptsFolder) {
-							new Notice(t("NOTICE_SCRIPTS_FOLDER_INVALID"), 5000); // Notice is imported now
+							if (this.plugin.settings.pythonScriptsFolder) {
+								new Notice(t("NOTICE_INVALID_FOLDER_PATH"));
+							} else {
+								new Notice(t("NOTICE_SCRIPTS_FOLDER_INVALID"), 5000);
+							}
 							return;
 						}
 						if (!this.plugin.pythonExecutable) {
-							new Notice(t("NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH"), 5000); // Notice is imported now
+							new Notice(t("NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH"), 5000);
 							await this.plugin.checkPythonEnvironment();
 							if (!this.plugin.pythonExecutable) return;
 						}
 
-						button.setDisabled(true).setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING")); // Add key
-						new Notice(t("NOTICE_REFRESHING_SCRIPT_SETTINGS")); // Notice is imported now
+						button.setDisabled(true).setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING"));
+						new Notice(t("NOTICE_REFRESHING_SCRIPT_SETTINGS"));
 
 						try {
 							await this.plugin.updateScriptSettingsCache(scriptsFolder);
-							new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS")); // Notice is imported now
-							this.display(); // Redraw the settings tab with new/updated definitions
+							new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS"));
+							this.display();
 						} catch (error) {
 							this.plugin.logError("Manual script settings refresh failed:", error);
-							new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED")); // Notice is imported now
+							new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED"));
 						} finally {
-							// Re-enable button even on error
-							// Check if button element still exists before modifying
-							if (button.buttonEl && button.disabled) { // Check disabled state before re-enabling
+							if (button.buttonEl && button.disabled) {
 								button.setDisabled(false).setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT"));
 							}
 						}
@@ -185,81 +308,81 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 		// Dynamically generate settings UI for each script
 		const definitions = this.plugin.settings.scriptSettingsDefinitions;
 		const values = this.plugin.settings.scriptSettingsValues;
-		const scriptsFolder = this.plugin.getScriptsFolderPath(); // Needed for relative path keys
+		const scriptsFolder = this.plugin.getScriptsFolderPath();
 
 		if (!scriptsFolder) {
-			containerEl.createEl('p', { text: t("SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED") }); // Add key
-			return; // Don't proceed if folder isn't set
+			if (!this.plugin.settings.pythonScriptsFolder) {
+				containerEl.createEl('p', { text: t("SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED") });
+			} else {
+				containerEl.createEl('p', { text: t("NOTICE_INVALID_FOLDER_PATH") });
+			}
+			return;
 		}
 
 		const sortedScriptPaths = Object.keys(definitions).sort();
 
 		if (sortedScriptPaths.length === 0) {
-			containerEl.createEl('p', { text: t("SETTINGS_NO_SCRIPT_SETTINGS_FOUND") }); // Add key
+			containerEl.createEl('p', { text: t("SETTINGS_NO_SCRIPT_SETTINGS_FOUND") });
 		}
 
 		for (const relativePath of sortedScriptPaths) {
 			const scriptDefs = definitions[relativePath];
-			if (!scriptDefs || scriptDefs.length === 0) continue; // Skip if no definitions for this script
+			if (!scriptDefs || scriptDefs.length === 0) continue;
 
-			// Ensure value storage exists for this script
 			values[relativePath] = values[relativePath] || {};
 			const scriptValues = values[relativePath];
 
-			// Add a heading for the script
-			containerEl.createEl("h3", { text: `${t("SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX")} ${relativePath}` }); // Add key
+			containerEl.createEl("h3", { text: `${t("SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX")} ${relativePath}` });
 
-			// Create settings for this script
 			for (const settingDef of scriptDefs) {
 				const setting = new Setting(containerEl)
-					.setName(settingDef.label || settingDef.key) // Use key as fallback label
-					.setDesc(settingDef.description || ""); // Use empty string as fallback desc
+					.setName(settingDef.label || settingDef.key)
+					.setDesc(settingDef.description || "");
 
-				// Get current value or default
 				const currentValue = scriptValues.hasOwnProperty(settingDef.key)
 					? scriptValues[settingDef.key]
 					: settingDef.default;
 
-				// Add appropriate control based on type
 				switch (settingDef.type) {
 					case "text":
 						setting.addText(text => {
-							text.setValue(String(currentValue ?? '')) // Ensure string, handle null/undefined default
-								.onChange(async (value) => {
+							text.setValue(String(currentValue ?? ''))
+								.onChange(debounce(async (value) => { // Debounce simple text too
 									scriptValues[settingDef.key] = value;
 									await this.plugin.saveSettings();
-								});
+								}, this.DEBOUNCE_DELAY));
 						});
 						break;
 					case "textarea":
 						setting.addTextArea(text => {
-							text.setValue(String(currentValue ?? '')) // Ensure string
-								.onChange(async (value) => {
+							text.setValue(String(currentValue ?? ''))
+								.onChange(debounce(async (value) => { // Debounce textarea
 									scriptValues[settingDef.key] = value;
 									await this.plugin.saveSettings();
-								});
-							// Optional: Adjust rows for textarea
+								}, this.DEBOUNCE_DELAY));
 							text.inputEl.rows = 4;
 						});
 						break;
 					case "number":
 						setting.addText(text => {
-							text.inputEl.type = "number"; // Set input type
+							text.inputEl.type = "number";
 							if (settingDef.min !== undefined && settingDef.min !== null) text.inputEl.min = String(settingDef.min);
 							if (settingDef.max !== undefined && settingDef.max !== null) text.inputEl.max = String(settingDef.max);
 							if (settingDef.step !== undefined && settingDef.step !== null) text.inputEl.step = String(settingDef.step);
 
-							text.setValue(String(currentValue ?? settingDef.default ?? '')) // Use default if current is null/undefined
-								.onChange(async (value) => {
-									const numValue = value === '' ? settingDef.default : parseFloat(value); // Use default if empty string
-									// Store as number if valid, otherwise use default
-									scriptValues[settingDef.key] = isNaN(numValue) ? settingDef.default : numValue;
+							text.setValue(String(currentValue ?? settingDef.default ?? ''))
+								.onChange(debounce(async (value) => { // Debounce number input
+									const numValue = value === '' ? settingDef.default : parseFloat(value);
+									// Basic validation within number type itself (min/max handled by browser)
+									const isValidNumber = !isNaN(numValue);
+									text.inputEl.style.borderColor = isValidNumber ? '' : 'red';
+									// Save the parsed number or the default if parsing failed
+									scriptValues[settingDef.key] = isValidNumber ? numValue : settingDef.default;
 									await this.plugin.saveSettings();
-									// Optional: Add validation feedback (e.g., red border)
-									text.inputEl.style.borderColor = isNaN(numValue) ? 'red' : '';
-								});
+								}, this.DEBOUNCE_DELAY));
 						});
 						break;
+					// Slider, Toggle, Dropdown usually don't need debounce as they change on specific actions
 					case "slider":
 						setting.addSlider(slider => {
 							const min = settingDef.min ?? 0;
@@ -267,19 +390,18 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 							const step = settingDef.step ?? 1;
 							slider
 								.setLimits(min, max, step)
-								// Ensure value is a number and within bounds before setting
 								.setValue(Math.max(min, Math.min(max, Number(currentValue ?? settingDef.default))))
 								.setDynamicTooltip()
-								.onChange(async (value) => {
-									scriptValues[settingDef.key] = value; // Store as number
+								.onChange(async (value) => { // Save immediately on slider change
+									scriptValues[settingDef.key] = value;
 									await this.plugin.saveSettings();
 								});
 						});
 						break;
 					case "toggle":
 						setting.addToggle(toggle => {
-							toggle.setValue(Boolean(currentValue ?? settingDef.default)) // Ensure boolean
-								.onChange(async (value) => {
+							toggle.setValue(Boolean(currentValue ?? settingDef.default))
+								.onChange(async (value) => { // Save immediately on toggle
 									scriptValues[settingDef.key] = value;
 									await this.plugin.saveSettings();
 								});
@@ -287,33 +409,28 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						break;
 					case "dropdown":
 						setting.addDropdown(dropdown => {
-							// --- MODIFIED: Use settingDef.options directly (type is now correct) ---
 							const options = settingDef.options || [];
 							options.forEach(option => {
-								// Allow options to be simple strings or {value: string, display: string}
 								if (typeof option === 'string') {
 									dropdown.addOption(option, option);
 								} else if (typeof option === 'object' && option !== null && 'value' in option && 'display' in option) {
-									// Check for null and properties explicitly for type safety
 									dropdown.addOption(option.value, option.display);
 								}
 							});
-							// Ensure the current value exists in the options, otherwise use default
 							const validValue = options.some(opt => (typeof opt === 'string' ? opt : opt.value) === currentValue)
 								? currentValue
 								: settingDef.default;
-							dropdown.setValue(String(validValue ?? '')) // Ensure string for matching option key
-								.onChange(async (value) => {
+							dropdown.setValue(String(validValue ?? ''))
+								.onChange(async (value) => { // Save immediately on dropdown change
 									scriptValues[settingDef.key] = value;
 									await this.plugin.saveSettings();
 								});
 						});
 						break;
 					default:
-						// Fallback for unknown types: display as text? Or show error?
 						setting.addText(text => {
 							text.setValue(String(currentValue ?? ''))
-								.setDisabled(true) // Disable editing for unknown type
+								.setDisabled(true)
 								.setPlaceholder(`Unknown setting type: ${settingDef.type}`);
 						});
 						this.plugin.logWarn(`Unknown setting type "${settingDef.type}" for key "${settingDef.key}" in script "${relativePath}"`);

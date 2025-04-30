@@ -23,6 +23,7 @@ export default {
 	NOTICE_PORT_IN_USE_SUFFIX: "tayari linatumika. Tafadhali chagua lango lingine katika mipangilio au funga programu nyingine inayolitumia. Seva haikuanzishwa.",
 	NOTICE_SERVER_START_FAILED_PREFIX: "Imeshindwa kuanzisha seva kwenye lango",
 	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
+	NOTICE_INVALID_PORT_RANGE: "Lango batili. Tafadhali weka nambari kati ya 0 na 65535.",
 	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Lango la HTTP limebadilika (",
 	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
 	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Hati inaweza kulenga lango la zamani ikiwa tayari inaendeshwa au ilizinduliwa kutoka nje.",
@@ -66,4 +67,7 @@ export default {
 	SETTINGS_LANGUAGE_DESC: "Chagua lugha ya kuonyesha kwa kiolesura cha programu-jalizi ya Python Bridge. 'Otomatiki' hufuata mpangilio wa lugha wa Obsidian.",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Kidokezo cha Utendaji: Kashe ya Viungo vya Nyuma",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Kwa utendakazi ulioboreshwa wakati wa kurejesha viungo vya nyuma (kwa kutumia chaguo la kukokotoa la get_backlinks) katika kuba kubwa, zingatia kusakinisha programu-jalizi ya jumuiya ya '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' na @mnaoumov.",
+	NOTICE_INVALID_FOLDER_PATH: "Njia batili ya folda. Tafadhali chagua folda halali katika mipangilio.",
+	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Njia ya folda ya hati za Python iliyosanidiwa '{path}' si sahihi au haipatikani. Inafuta mpangilio.",
+
 };

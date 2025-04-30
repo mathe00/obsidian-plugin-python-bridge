@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Đường dẫn thư mục không hợp lệ. Vui lòng chọn một thư mục hợp lệ trong cài đặt.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Đường dẫn thư mục tập lệnh Python đã định cấu hình '{path}' không hợp lệ hoặc không tìm thấy. Đang xóa cài đặt.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Đã Bật",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Cho phép script này được thực thi thông qua lệnh, phím tắt hoặc 'Chạy Tất cả'.",
+	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' đã bị tắt trong cài đặt và không thể thực thi.",
+
 };

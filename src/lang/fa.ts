@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "مسیر پوشه نامعتبر است. لطفاً یک پوشه معتبر در تنظیمات انتخاب کنید.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "مسیر پوشه اسکریپت پایتون پیکربندی شده '{path}' نامعتبر است یا یافت نشد. در حال پاک کردن تنظیمات.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "اسکریپت فعال شد",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "اجازه دهید این اسکریپت از طریق دستورات، میانبرها یا «اجرای همه» اجرا شود.",
+	NOTICE_SCRIPT_DISABLED: "اسکریپت '{scriptName}' در تنظیمات غیرفعال است و قابل اجرا نیست.",
+
 };

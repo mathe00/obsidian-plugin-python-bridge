@@ -6,6 +6,7 @@ import {
 	TFile,
 	TAbstractFile,
 	MarkdownView,
+	Command,
 	FileSystemAdapter,
 	PluginSettingTab,
 	Setting,
@@ -26,9 +27,9 @@ import { AddressInfo } from "net";
 // Import other components
 import PythonBridgeSettingTab from "./PythonBridgeSettingTab";
 import UserInputModal from "./UserInputModal";
-import { loadTranslations, t } from "./lang/translations"; // Import the loader AND the function t
+import { loadTranslations, t } from "./lang/translations";
 import ScriptSelectionModal from "./ScriptSelectionModal";
-import { DEFAULT_PORT, SETTINGS_DISCOVERY_TIMEOUT } from "./constants";
+import { DEFAULT_PORT, SETTINGS_DISCOVERY_TIMEOUT, PYTHON_LIBRARY_FILENAME } from "./constants";
 
 // --- Interfaces ---
 
@@ -58,6 +59,8 @@ interface PythonBridgeSettings {
 	scriptSettingsDefinitions: Record<string, ScriptSettingDefinition[]>;
 	/** User-configured values for script settings. Key: relative script path, Value: { settingKey: value } */
 	scriptSettingsValues: Record<string, Record<string, any>>;
+	/** User-configured activation status for scripts. Key: relative script path, Value: boolean (true=active, false=inactive) */
+    scriptActivationStatus: Record<string, boolean>; // <-- NEW: Activation status
 }
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
@@ -68,6 +71,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	// --- NEW: Initialize script settings storage ---
 	scriptSettingsDefinitions: {},
 	scriptSettingsValues: {},
+	scriptActivationStatus: {}, // Initialize activation status
 };
 
 interface JsonResponse {
@@ -88,6 +92,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	initialHttpPort: number = 0; // Store the port used at server start
 	// --- NEW: Store the detected Python executable ---
 	pythonExecutable: string | null = null;
+	// --- Store dynamic commands ---
+	private dynamicScriptCommands: Map<string, Command> = new Map();
 
 	// --- Logging Helpers ---
 	logDebug(message: string, ...optionalParams: any[]) {
@@ -129,8 +135,9 @@ export default class ObsidianPythonBridge extends Plugin {
 			const scriptsFolder = this.getScriptsFolderPath(); // Re-check after potential validation/clearing
 			if (scriptsFolder && this.pythonExecutable) {
 				// Run discovery asynchronously, don't block loading
-				this.updateScriptSettingsCache(scriptsFolder).catch((err) => {
-					this.logError("Initial script settings discovery failed:", err);
+				// This now also handles command registration/update
+				this.updateAndSyncCommands(scriptsFolder).catch((err) => {
+					this.logError("Initial script settings discovery and command sync failed:", err);
 				});
 			} else {
 				// Message modifié pour être plus générique car la validation a déjà eu lieu
@@ -166,6 +173,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		// --- NEW: Ensure new settings fields exist ---
 		this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
 		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
+		this.settings.scriptActivationStatus = this.settings.scriptActivationStatus || {}; // Ensure activation status exists
 
 		// Validate loaded port
 		if (
@@ -210,7 +218,7 @@ export default class ObsidianPythonBridge extends Plugin {
 				this.logError(`Attempted to save invalid port ${currentPortSetting}. Server not restarted.`);
 			}
 		}
-		// Note: Settings discovery update on folder change is handled in the settings tab itself.
+		// Note: Settings discovery & command sync on folder change is handled in the settings tab itself.
 	}
 
 	// --- NEW: Validate Scripts Folder Path on Startup ---
@@ -2095,7 +2103,10 @@ export default class ObsidianPythonBridge extends Plugin {
 		let pythonFiles: string[];
 		try {
 			pythonFiles = fs.readdirSync(scriptsFolder)
-				.filter(f => f.toLowerCase().endsWith(".py") && !f.startsWith("."));
+				.filter(f =>
+					f.toLowerCase().endsWith(".py") && // Is Python file
+					!f.startsWith(".") &&             // Not hidden
+					f !== PYTHON_LIBRARY_FILENAME);   // <-- Exclude library file		
 		} catch (err) {
 			this.logError(`Error reading scripts folder for settings discovery ${scriptsFolder}:`, err);
 			return;
@@ -2229,6 +2240,16 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.logWarn(`Could not determine relative path for script ${scriptPath} relative to folder ${scriptsFolder}. Script settings might not be retrievable.`);
 		}
 
+		// --- Check if script is active --- //
+		if (relativePath && this.settings.scriptActivationStatus[relativePath] === false) { // Check for explicit false only if relativePath is known
+			this.logInfo(`Skipping execution: Script ${path.basename(scriptPath)} is disabled in settings.`);
+			new Notice(t("NOTICE_SCRIPT_DISABLED").replace("{scriptName}", path.basename(scriptPath))); // <-- NEW: Notify user
+			return; // Stop execution
+		}
+		// --- End Check ---
+
+		// Now show the "Running" notice only if the script is active
+		new Notice(`${t("NOTICE_RUNNING_SCRIPT_PREFIX")} ${path.basename(scriptPath)}`);
 
 		// Prepare environment variables for the Python script
 		const env = {
@@ -2347,8 +2368,8 @@ export default class ObsidianPythonBridge extends Plugin {
 			pythonFiles = fs
 				.readdirSync(scriptsFolder)
 				.filter(
-					(f) =>
-						f.toLowerCase().endsWith(".py") && !f.startsWith("."),
+					(f) => // <-- Exclude library file
+					f.toLowerCase().endsWith(".py") && !f.startsWith(".") && f !== PYTHON_LIBRARY_FILENAME,
 				); // Case-insensitive check, ignore hidden
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : String(err);
@@ -2403,8 +2424,8 @@ export default class ObsidianPythonBridge extends Plugin {
 			pythonFiles = fs
 				.readdirSync(scriptsFolder)
 				.filter(
-					(f) =>
-						f.toLowerCase().endsWith(".py") && !f.startsWith("."),
+					(f) => // <-- Exclude library file
+						f.toLowerCase().endsWith(".py") && !f.startsWith(".") && f !== PYTHON_LIBRARY_FILENAME,
 				);
 		} catch (err) {
 			const errorMsg = err instanceof Error ? err.message : String(err);
@@ -2434,6 +2455,10 @@ export default class ObsidianPythonBridge extends Plugin {
 		for (const file of pythonFiles) {
 			// Use Node's path.join directly
 			const scriptPath = path.join(scriptsFolder, file);
+			// --- Check activation status before running in batch ---
+			const relativePath = normalizePath(path.relative(scriptsFolder, scriptPath));
+			if (this.settings.scriptActivationStatus[relativePath] === false) continue; // Skip disabled scripts
+
 			this.logInfo(`Running next script in batch: ${file}`);
 			// Use await here to ensure scripts run one after another
 			await this.runPythonScript(scriptPath);
@@ -2442,4 +2467,109 @@ export default class ObsidianPythonBridge extends Plugin {
 		}
 		this.logInfo("Finished batch run of scripts.");
 	}
+
+		// --- Dynamic Command Management ---
+	
+		/**
+		 * Generates a unique and stable command ID for a given script path.
+		 * @param relativePath Normalized relative path of the script.
+		 * @returns The command ID string.
+		 */
+		private getCommandIdForScript(relativePath: string): string {
+			// Using a simple prefix and the normalized path should be stable enough
+			return `python-bridge:run-script:${relativePath}`;
+		}
+	
+		/**
+		 * Updates or registers dynamic commands for all valid Python scripts.
+		 * Ensures commands exist for active scripts and their callbacks check activation status.
+		 * @param scriptsFolder Absolute path to the Python scripts folder.
+		 */
+		private async _updateDynamicScriptCommands(scriptsFolder: string): Promise<Set<string>> {
+			this.logDebug("Updating dynamic script commands...");
+			const activeScriptPaths = new Set<string>(); // Keep track of scripts found in this run
+	
+			if (!this.pythonExecutable) {
+				this.logWarn("Cannot update dynamic commands: Python executable not found.");
+				return activeScriptPaths; // Return empty set
+			}
+	
+			let pythonFiles: string[];
+			try {
+				pythonFiles = fs.readdirSync(scriptsFolder)
+					.filter(f =>
+						f.toLowerCase().endsWith(".py") && // Is Python file
+						!f.startsWith(".") &&             // Not hidden
+						f !== PYTHON_LIBRARY_FILENAME);   // <-- Exclude library file			
+				} catch (err) {
+				this.logError(`Error reading scripts folder for command update ${scriptsFolder}:`, err);
+				return activeScriptPaths; // Return empty set on error
+			}
+	
+			for (const file of pythonFiles) {
+				const scriptAbsolutePath = path.join(scriptsFolder, file);
+				const relativePath = normalizePath(path.relative(scriptsFolder, scriptAbsolutePath));
+				activeScriptPaths.add(relativePath); // Add to the set of currently existing scripts
+	
+				const commandId = this.getCommandIdForScript(relativePath);
+				const commandName = `Run Script: ${file}`; // Simple name, not translated for now
+	
+				// Check if command already exists (via our tracked map or Obsidian's list)
+				if (!this.dynamicScriptCommands.has(commandId)) {
+					this.logDebug(`Registering new command: ${commandId} ('${commandName}')`);
+					const command = this.addCommand({
+						id: commandId,
+						name: commandName,
+						callback: () => {
+							// Callback checks activation status *at execution time*
+							const isActive = this.settings.scriptActivationStatus[relativePath] !== false; // Default to true if undefined
+							if (isActive) {
+								this.logInfo(`Executing script via command: ${relativePath}`);
+								// Don't await here, let command run in background
+								this.runPythonScript(scriptAbsolutePath);
+							} else {
+								this.logInfo(`Skipping execution via command: Script ${relativePath} is disabled.`);
+								new Notice(t("NOTICE_SCRIPT_DISABLED").replace("{scriptName}", file));
+							}
+						},
+					});
+					this.dynamicScriptCommands.set(commandId, command); // Store the registered command object
+				} else { // Command already exists in our map
+					// Optional: Update callback if needed, but current callback logic is self-contained.
+					this.logDebug(`Command already exists: ${commandId}`);
+				}
+			}
+	
+			// --- Clean up commands for scripts that no longer exist ---
+			// Iterate over the commands we *know* we registered dynamically
+			const commandIdsToRemove: string[] = [];
+			for (const [commandId, command] of this.dynamicScriptCommands.entries()) {
+				const scriptPathFromId = commandId.substring("python-bridge:run-script:".length);
+				if (!activeScriptPaths.has(scriptPathFromId)) {
+					this.logDebug(`Command ${commandId} is stale (script removed), marking for removal.`);
+					commandIdsToRemove.push(commandId); // Mark ID for removal from our map
+					// Attempt to remove/unregister - Obsidian API lacks a clean way.
+					// Best effort: Make callback do nothing or remove from our map.
+					// For now, just remove from our map. The command might linger in Obsidian's list
+					// but its callback (if triggered) would fail gracefully if runPythonScript checks path existence.
+				}
+			}
+			commandIdsToRemove.forEach(id => this.dynamicScriptCommands.delete(id));
+			// Note: We don't explicitly unregister the command from Obsidian itself here,
+			// as there's no clean public API. The callback logic handles disabled/missing scripts.
+			// If Obsidian introduces a way to unregister commands by ID later, we can add it.
+	
+			this.logDebug(`Dynamic script command update complete. Active commands: ${this.dynamicScriptCommands.size}`);
+			return activeScriptPaths; // Return the set of scripts found
+		}
+	
+		/**
+		 * Updates script settings cache AND synchronizes dynamic commands.
+		 * @param scriptsFolder Absolute path to the Python scripts folder.
+		 */
+		async updateAndSyncCommands(scriptsFolder: string): Promise<void> {
+			await this.updateScriptSettingsCache(scriptsFolder); // Discover settings first
+			await this._updateDynamicScriptCommands(scriptsFolder); // Then update commands
+		}
+	
 } // End of class ObsidianPythonBridge

@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Laluan folder tidak sah. Sila pilih folder yang sah dalam tetapan.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Laluan folder skrip Python yang dikonfigurasikan '{path}' tidak sah atau tidak ditemui. Mengosongkan tetapan.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skrip Didayakan",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Benarkan skrip ini dilaksanakan melalui arahan, pintasan atau 'Jalankan Semua'.",
+	NOTICE_SCRIPT_DISABLED: "Skrip '{scriptName}' dilumpuhkan dalam tetapan dan tidak boleh dilaksanakan.",
+
 };

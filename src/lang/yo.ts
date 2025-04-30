@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Opopona folda ti ko tọ. Jọwọ yan folda to tọ ninu awọn eto.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Ọna folda awọn iwe afọwọkọ Python ti a tunto '{path}' ko wulo tabi ko ri. Ko eto kuro.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Iwe Afọwọkọ Ti ṣiṣẹ",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Gba iwe afọwọkọ yii laaye lati ṣiṣẹ nipasẹ awọn aṣẹ, awọn ọna abuja, tabi 'Ṣiṣe Gbogbo'.",
+	NOTICE_SCRIPT_DISABLED: "Iwe afọwọkọ '{scriptName}' jẹ alaabo ninu awọn eto ati pe ko le ṣiṣẹ.",
+
 };

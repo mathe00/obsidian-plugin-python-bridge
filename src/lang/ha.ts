@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Hanyar babban fayil mara inganci. Da fatan za a zaɓi babban fayil mai inganci a cikin saituna.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Hanyar babban fayil ɗin rubutun Python da aka saita '{path}' ba ta da inganci ko ba a samo ta ba. Share saitin.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "An kunna Script",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Bada damar aiwatar da wannan rubutun ta hanyar umarni, gajerun hanyoyi, ko 'Run All'.",
+	NOTICE_SCRIPT_DISABLED: "An kashe Script '{scriptName}' a cikin saituna kuma ba za a iya aiwatar da shi ba.",
+
 };

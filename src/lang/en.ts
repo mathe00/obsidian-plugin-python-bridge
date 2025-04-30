@@ -83,4 +83,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Invalid folder path. Please select a valid folder in settings.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Configured Python scripts folder path '{path}' is invalid or not found. Clearing setting.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Enabled",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Allow this script to be executed via commands, shortcuts, or 'Run All'.",
+	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is disabled in settings and cannot be executed.",
+
 };

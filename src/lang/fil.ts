@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Hindi wastong path ng folder. Mangyaring pumili ng wastong folder sa mga setting.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Ang naka-configure na path ng folder ng mga script ng Python '{path}' ay hindi wasto o hindi natagpuan. Kinaklaro ang setting.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Naka-enable ang Script",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Payagan ang script na ito na ma-execute sa pamamagitan ng mga command, shortcut, o 'Run All'.",
+	NOTICE_SCRIPT_DISABLED: "Naka-disable ang script na '{scriptName}' sa mga setting at hindi ma-execute.",
+
 };

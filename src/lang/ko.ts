@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "잘못된 폴더 경로입니다. 설정에서 유효한 폴더를 선택하십시오.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "구성된 Python 스크립트 폴더 경로 '{path}'가 잘못되었거나 찾을 수 없습니다. 설정을 지웁니다.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "스크립트 활성화됨",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "명령, 단축키 또는 '모두 실행'을 통해 이 스크립트를 실행하도록 허용합니다.",
+	NOTICE_SCRIPT_DISABLED: "스크립트 '{scriptName}'이(가) 설정에서 비활성화되어 실행할 수 없습니다.",
+
 };

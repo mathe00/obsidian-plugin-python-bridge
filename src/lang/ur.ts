@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "غلط فولڈر کا راستہ۔ براہ کرم سیٹنگز میں ایک درست فولڈر منتخب کریں۔",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "کنفیگر شدہ پائیتھن اسکرپٹس فولڈر کا راستہ '{path}' غلط ہے یا نہیں ملا۔ سیٹنگ صاف کی جا رہی ہے۔",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "اسکرپٹ فعال ہے",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "اس اسکرپٹ کو کمانڈز، شارٹ کٹس، یا 'سب چلائیں' کے ذریعے عمل میں لانے کی اجازت دیں۔",
+	NOTICE_SCRIPT_DISABLED: "اسکرپٹ '{scriptName}' سیٹنگز میں غیر فعال ہے اور اسے عمل میں نہیں لایا جا سکتا۔",
+
 };

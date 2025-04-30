@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Érvénytelen mappa elérési út. Kérjük, válasszon érvényes mappát a beállításokban.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "A beállított Python szkriptek mappa elérési útja ('{path}') érvénytelen vagy nem található. Beállítás törlése.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Szkript Engedélyezve",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Engedélyezi a szkript végrehajtását parancsokkal, gyorsbillentyűkkel vagy az 'Összes futtatása' paranccsal.",
+	NOTICE_SCRIPT_DISABLED: "A(z) '{scriptName}' szkript le van tiltva a beállításokban, és nem hajtható végre.",
+
 };

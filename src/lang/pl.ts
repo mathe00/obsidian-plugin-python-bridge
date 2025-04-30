@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Nieprawidłowa ścieżka folderu. Wybierz prawidłowy folder w ustawieniach.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Skonfigurowana ścieżka folderu skryptów Python '{path}' jest nieprawidłowa lub nie znaleziono. Czyszczenie ustawienia.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skrypt Włączony",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Zezwól na wykonywanie tego skryptu za pomocą poleceń, skrótów lub 'Uruchom Wszystko'.",
+	NOTICE_SCRIPT_DISABLED: "Skrypt '{scriptName}' jest wyłączony w ustawieniach i nie może zostać wykonany.",
+
 };

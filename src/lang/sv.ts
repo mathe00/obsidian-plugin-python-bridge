@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Ogiltig mappsökväg. Välj en giltig mapp i inställningarna.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Konfigurerad sökväg för Python-skriptmapp '{path}' är ogiltig eller hittades inte. Rensar inställning.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skript Aktiverat",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Tillåt att detta skript körs via kommandon, genvägar eller 'Kör alla'.",
+	NOTICE_SCRIPT_DISABLED: "Skriptet '{scriptName}' är inaktiverat i inställningarna och kan inte köras.",
+
 };

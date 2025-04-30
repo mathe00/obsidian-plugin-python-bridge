@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Geçersiz klasör yolu. Lütfen ayarlarda geçerli bir klasör seçin.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Yapılandırılmış Python betikleri klasör yolu '{path}' geçersiz veya bulunamadı. Ayar temizleniyor.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Betik Etkin",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Bu betiğin komutlar, kısayollar veya 'Tümünü Çalıştır' aracılığıyla yürütülmesine izin verin.",
+	NOTICE_SCRIPT_DISABLED: "'{scriptName}' betiği ayarlarda devre dışı bırakıldı ve yürütülemez.",
+
 };

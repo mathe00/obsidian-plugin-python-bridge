@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Ụzọ nchekwa ezighi ezi. Biko họrọ nchekwa ziri ezi na ntọala.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Ụzọ nchekwa edemede Python ahaziri '{path}' ezighi ezi ma ọ bụ ahụghị ya. Ihichapụ ntọala.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Edere edemede Enyere aka",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Kwe ka edemede a mee site na iwu, ụzọ mkpirisi, ma ọ bụ 'Gbaa niile'.",
+	NOTICE_SCRIPT_DISABLED: "Edemede '{scriptName}' nwere nkwarụ na ntọala na enweghị ike ime ya.",
+
 };

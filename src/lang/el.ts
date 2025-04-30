@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Μη έγκυρη διαδρομή φακέλου. Επιλέξτε έναν έγκυρο φάκελο στις ρυθμίσεις.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Η διαμορφωμένη διαδρομή φακέλου σεναρίων Python '{path}' είναι μη έγκυρη ή δεν βρέθηκε. Εκκαθάριση ρύθμισης.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Ενεργοποιημένο Σενάριο",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Να επιτρέπεται η εκτέλεση αυτού του σεναρίου μέσω εντολών, συντομεύσεων ή 'Εκτέλεση Όλων'.",
+	NOTICE_SCRIPT_DISABLED: "Το σενάριο '{scriptName}' είναι απενεργοποιημένο στις ρυθμίσεις και δεν είναι δυνατό να εκτελεστεί.",
+
 };

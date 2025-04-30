@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Caminho da pasta inválido. Selecione uma pasta válida nas configurações.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "O caminho da pasta de scripts Python configurado '{path}' é inválido ou não foi encontrado. Limpando a configuração.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Ativado",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Permitir que este script seja executado via comandos, atalhos ou 'Executar Todos'.",
+	NOTICE_SCRIPT_DISABLED: "O script '{scriptName}' está desativado nas configurações e não pode ser executado.",
+
 };

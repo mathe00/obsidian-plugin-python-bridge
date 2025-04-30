@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Njia batili ya folda. Tafadhali chagua folda halali katika mipangilio.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Njia ya folda ya hati za Python iliyosanidiwa '{path}' si sahihi au haipatikani. Inafuta mpangilio.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Hati Imewashwa",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Ruhusu hati hii itekelezwe kupitia amri, njia za mkato, au 'Endesha Zote'.",
+	NOTICE_SCRIPT_DISABLED: "Hati '{scriptName}' imezimwa katika mipangilio na haiwezi kutekelezwa.",
+
 };

@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Chemin de dossier invalide. Veuillez sélectionner un dossier valide dans les réglages.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Le chemin configuré pour le dossier des scripts Python '{path}' est invalide ou introuvable. Effacement du réglage.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Activé",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Permet l'exécution de ce script via les commandes, les raccourcis ou 'Exécuter Tout'.",
+	NOTICE_SCRIPT_DISABLED: "Le script '{scriptName}' est désactivé dans les paramètres et ne peut pas être exécuté.",
+
 };

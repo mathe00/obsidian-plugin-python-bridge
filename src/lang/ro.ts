@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Cale folder invalidă. Vă rugăm să selectați un folder valid în setări.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Calea folderului de scripturi Python configurată '{path}' este invalidă sau nu a fost găsită. Se șterge setarea.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Activat",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Permiteți executarea acestui script prin comenzi, comenzi rapide sau 'Executare Toate'.",
+	NOTICE_SCRIPT_DISABLED: "Scriptul '{scriptName}' este dezactivat în setări și nu poate fi executat.",
+
 };

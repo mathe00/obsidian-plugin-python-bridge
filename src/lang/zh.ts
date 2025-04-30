@@ -78,4 +78,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "文件夹路径无效。请在设置中选择一个有效的文件夹。",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "配置的 Python 脚本文件夹路径 '{path}' 无效或找不到。正在清除设置。",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "脚本已启用",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "允许通过命令、快捷键或“全部运行”执行此脚本。",
+	NOTICE_SCRIPT_DISABLED: "脚本“{scriptName}”在设置中被禁用，无法执行。",
+
 };

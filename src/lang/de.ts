@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Ungültiger Ordnerpfad. Bitte wählen Sie einen gültigen Ordner in den Einstellungen.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Konfigurierter Python-Skript-Ordnerpfad '{path}' ist ungültig oder nicht gefunden. Einstellung wird gelöscht.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skript Aktiviert",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Erlaube die Ausführung dieses Skripts über Befehle, Tastenkürzel oder 'Alle Ausführen'.",
+	NOTICE_SCRIPT_DISABLED: "Skript '{scriptName}' ist in den Einstellungen deaktiviert und kann nicht ausgeführt werden.",
+
 };

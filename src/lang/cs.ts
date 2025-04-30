@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Neplatná cesta ke složce. Vyberte prosím platnou složku v nastavení.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Nakonfigurovaná cesta ke složce skriptů Python '{path}' je neplatná nebo nebyla nalezena. Vymazání nastavení.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skript Povolen",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Povolit spuštění tohoto skriptu pomocí příkazů, zkratek nebo 'Spustit vše'.",
+	NOTICE_SCRIPT_DISABLED: "Skript '{scriptName}' je v nastavení zakázán a nelze jej spustit.",
+
 };

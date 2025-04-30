@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "مسار المجلد غير صالح. يرجى تحديد مجلد صالح في الإعدادات.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "مسار مجلد سكربتات بايثون المكون '{path}' غير صالح أو غير موجود. جارٍ مسح الإعداد.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "تمكين البرنامج النصي",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "السماح بتنفيذ هذا البرنامج النصي عبر الأوامر أو الاختصارات أو \"تشغيل الكل\".",
+	NOTICE_SCRIPT_DISABLED: "البرنامج النصي '{scriptName}' معطل في الإعدادات ولا يمكن تنفيذه.",
+
 };

@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "เส้นทางโฟลเดอร์ไม่ถูกต้อง โปรดเลือกโฟลเดอร์ที่ถูกต้องในการตั้งค่า",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "เส้นทางโฟลเดอร์สคริปต์ Python ที่กำหนดค่า '{path}' ไม่ถูกต้องหรือไม่พบ กำลังล้างการตั้งค่า",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "สคริปต์เปิดใช้งานอยู่",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "อนุญาตให้สคริปต์นี้ทำงานผ่านคำสั่ง ทางลัด หรือ 'เรียกใช้ทั้งหมด'",
+	NOTICE_SCRIPT_DISABLED: "สคริปต์ '{scriptName}' ถูกปิดใช้งานในการตั้งค่าและไม่สามารถดำเนินการได้",
+
 };

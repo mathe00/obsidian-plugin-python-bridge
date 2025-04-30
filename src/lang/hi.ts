@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "कॉन्फ़िगर किया गया पाइथन स्क्रिप्ट फ़ोल्डर पथ '{path}' अमान्य है या नहीं मिला। सेटिंग साफ़ की जा रही है।",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "स्क्रिप्ट सक्षम",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "इस स्क्रिप्ट को कमांड, शॉर्टकट, या 'सभी चलाएँ' के माध्यम से निष्पादित करने की अनुमति दें।",
+	NOTICE_SCRIPT_DISABLED: "स्क्रिप्ट '{scriptName}' सेटिंग्स में अक्षम है और इसे निष्पादित नहीं किया जा सकता है।",
+
 };

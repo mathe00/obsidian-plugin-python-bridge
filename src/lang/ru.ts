@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Недопустимый путь к папке. Пожалуйста, выберите действительную папку в настройках.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Настроенный путь к папке скриптов Python '{path}' недопустим или не найден. Очистка настройки.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Скрипт Включен",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Разрешить выполнение этого скрипта с помощью команд, сочетаний клавиш или 'Выполнить все'.",
+	NOTICE_SCRIPT_DISABLED: "Скрипт '{scriptName}' отключен в настройках и не может быть выполнен.",
+
 };

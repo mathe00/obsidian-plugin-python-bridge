@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Ruta de carpeta inválida. Por favor, seleccione una carpeta válida en la configuración.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "La ruta de la carpeta de scripts de Python configurada '{path}' es inválida o no se encuentra. Borrando la configuración.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Habilitado",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Permitir que este script se ejecute mediante comandos, atajos o 'Ejecutar Todo'.",
+	NOTICE_SCRIPT_DISABLED: "El script '{scriptName}' está deshabilitado en la configuración y no se puede ejecutar.",
+
 };

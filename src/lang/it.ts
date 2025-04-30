@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Percorso cartella non valido. Seleziona una cartella valida nelle impostazioni.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Il percorso della cartella degli script Python configurato '{path}' non è valido o non trovato. Cancellazione dell'impostazione.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Abilitato",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Consenti l'esecuzione di questo script tramite comandi, scorciatoie o 'Esegui Tutto'.",
+	NOTICE_SCRIPT_DISABLED: "Lo script '{scriptName}' è disabilitato nelle impostazioni e non può essere eseguito.",
+
 };

@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "資料夾路徑無效。請在設定中選擇一個有效的資料夾。",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "設定的 Python 指令碼資料夾路徑 '{path}' 無效或找不到。正在清除設定。",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "腳本已啟用",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "允許透過指令、快捷鍵或「全部執行」來執行此腳本。",
+	NOTICE_SCRIPT_DISABLED: "腳本 '{scriptName}' 已在設定中停用，無法執行。",
+
 };

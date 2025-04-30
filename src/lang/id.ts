@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Path folder tidak valid. Harap pilih folder yang valid di pengaturan.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Path folder skrip Python yang dikonfigurasi '{path}' tidak valid atau tidak ditemukan. Menghapus pengaturan.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skrip Diaktifkan",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Izinkan skrip ini dieksekusi melalui perintah, pintasan, atau 'Jalankan Semua'.",
+	NOTICE_SCRIPT_DISABLED: "Skrip '{scriptName}' dinonaktifkan di pengaturan dan tidak dapat dieksekusi.",
+
 };

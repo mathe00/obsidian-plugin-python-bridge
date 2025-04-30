@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Määritetty Python-skriptikansion polku '{path}' on virheellinen tai sitä ei löydy. Tyhjennetään asetusta.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skripti Käytössä",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Salli tämän skriptin suorittaminen komentojen, pikanäppäinten tai 'Suorita kaikki' kautta.",
+	NOTICE_SCRIPT_DISABLED: "Skripti '{scriptName}' on poistettu käytöstä asetuksista, eikä sitä voi suorittaa.",
+
 };

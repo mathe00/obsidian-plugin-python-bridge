@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "অবৈধ ফোল্ডার পাথ। অনুগ্রহ করে সেটিংসে একটি বৈধ ফোল্ডার নির্বাচন করুন।",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "কনফিগার করা পাইথন স্ক্রিপ্ট ফোল্ডার পাথ '{path}' অবৈধ বা পাওয়া যায়নি। সেটিং সাফ করা হচ্ছে।",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "স্ক্রিপ্ট সক্ষম",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "কমান্ড, শর্টকাট বা 'সব চালান' এর মাধ্যমে এই স্ক্রিপ্টটি চালানোর অনুমতি দিন।",
+	NOTICE_SCRIPT_DISABLED: "স্ক্রিপ্ট '{scriptName}' সেটিংসে নিষ্ক্রিয় করা আছে এবং চালানো যাবে না।",
+
 };

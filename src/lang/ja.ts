@@ -80,4 +80,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "無効なフォルダパス。設定で有効なフォルダを選択してください。",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "設定された Python スクリプトフォルダパス '{path}' が無効か見つかりません。設定をクリアしています。",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "スクリプト有効",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "コマンド、ショートカット、または「すべて実行」でこのスクリプトの実行を許可します。",
+	NOTICE_SCRIPT_DISABLED: "スクリプト「{scriptName}」は設定で無効になっており、実行できません。",
+
 };

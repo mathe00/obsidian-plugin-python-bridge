@@ -70,4 +70,8 @@ export default {
 	NOTICE_INVALID_FOLDER_PATH: "Ongeldig mappad. Selecteer een geldige map in de instellingen.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Geconfigureerd mappad voor Python-scripts '{path}' is ongeldig of niet gevonden. Instelling wissen.",
 
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Ingeschakeld",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Sta toe dat dit script wordt uitgevoerd via commando's, sneltoetsen of 'Alles Uitvoeren'.",
+	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is uitgeschakeld in de instellingen en kan niet worden uitgevoerd.",
+
 };

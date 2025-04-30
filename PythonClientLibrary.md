@@ -436,6 +436,21 @@ Opens a specific note in Obsidian using its link path.
 *   **Returns:** (`List[str]`) List of outgoing link paths.
 *   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if note not found.
 
+#### `get_backlinks(path: str, use_cache_if_available: bool = True, cache_mode: str = 'fast') -> Dict[str, List[Dict[str, Any]]]`
+
+*(New)* Retrieves backlinks (incoming links) for a specific note.
+
+Optionally utilizes the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin if installed and enabled in Obsidian for potentially faster results, especially in large vaults.
+
+*   **Parameters:**
+    *   `path` (`str`): The **vault-relative path** of the note (e.g., `"Folder/My Note.md"`).
+    *   `use_cache_if_available` (`bool`, optional, default: `True`): If `True`, attempts to use the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' plugin if available. If `False`, or if the plugin is not available/enabled, uses Obsidian's native method (which relies on an undocumented Obsidian function and might be less stable).
+    *   `cache_mode` (`str`, optional, default: `'fast'`): Specifies which mode to use if the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' plugin is used. Must be `'fast'` or `'safe'`. `'safe'` ensures all recent changes are processed but might be slightly slower than `'fast'`. Ignored if the cache plugin is not used.
+*   **Returns:** (`Dict[str, List[Dict[str, Any]]]`) A dictionary where keys are the absolute paths of the notes containing the backlinks, and values are lists of link information dictionaries for each link found in that source note. The structure mirrors Obsidian's `LinkCache`. Returns an empty dictionary if no backlinks are found.
+*   **Raises:**
+    *   `ValueError`: If `path` is empty or `cache_mode` is not `'fast'` or `'safe'`.
+    *   `ObsidianCommError`: If the request fails (e.g., note not found by Obsidian, communication error).
+
 ---
 
 ### Editor Operations (Active Note)

@@ -61,6 +61,7 @@ In short, while some tasks are technically feasible without this plugin, they’
 -   **🔔 Native Obsidian Notifications**: Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
 -   **📝 Access/Modify Active Note & Selection**: Easily get content, frontmatter, path, or title of the currently open note, and get or replace selected text in the editor. Get basic editor context (cursor position, line count).
 -   **📂 Vault Interaction & File Management**: Get the vault path, list all notes, open specific notes, read/modify any note's content or frontmatter (by path). **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
+-   **🔗 Backlink Retrieval**: Get incoming links (backlinks) for a specific note. Optionally uses the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) for significantly improved performance in large vaults if installed.
 -   **ℹ️ Obsidian Context**: Get the current Obsidian language setting, vault name, and theme mode (light/dark).
 -   **🛡️ Environment Checks & Guidance**: Automatically checks for Python and required libraries (`requests`, `PyYAML`) on startup and provides clear notifications if something is missing.
 -   **💻 Cross-Platform**: Works reliably on Windows, macOS, and Linux thanks to HTTP communication and robust Python detection.
@@ -68,7 +69,7 @@ In short, while some tasks are technically feasible without this plugin, they’
 
 Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library now requires the `requests` package, and `PyYAML` for frontmatter property management). **For easy importing, simply place the `ObsidianPluginDevPythonToJS.py` file in the same folder as your own Python scripts.**
 
-👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PythonClientLibrary.md).**
+👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md).**
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of AI assistants** (shoutout to **ChatGPT 4o**, **ChatGPT o1-preview**, and **Gemini 2.5 Pro** 😉). So, the code might be a bit rough around the edges, but it **works**. That’s all that matters, right?
 
@@ -205,12 +206,12 @@ _handle_cli_args() # Handles discovery request from Obsidian
 
 The **Obsidian Python Bridge** plugin will automatically **discover** these definitions and **display them in its settings tab** under a section for your script. Users can then configure these settings directly in the Obsidian interface, just like any other plugin!
 
-Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PythonClientLibrary.md) for full details!
+Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for full details!
 
 <a id="basic-usage"></a>
 ## Example of basic usage
 
-This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PythonClientLibrary.md) for examples using modals and settings.
+This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for examples using modals and settings.
 
 ```python
 # Import the Python-Obsidian bridge module
@@ -269,7 +270,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 <a id="roadmap"></a>
 ## 🚀 Future Features (roadmap)
 
--   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. *(Partially addressed: Added file management, context info)*
+-   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. *(Partially addressed: Added file management, context info, linking)*
 -   🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I’m open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
@@ -332,6 +333,7 @@ Before installing the plugin, please ensure you have the following installed on 
     -   Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
     -   **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (the plugin sets the `OBSIDIAN_HTTP_PORT` environment variable to the *actual* listening port when running scripts).
     -   **(New!) Script-Specific Settings**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them.
+    -   **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
 7.  **Place the Python Library**:
     -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
     -   **Crucially, place this `.py` file inside the Python scripts folder you configured in step 6.** This allows your scripts in that folder to easily `import ObsidianPluginDevPythonToJS`.

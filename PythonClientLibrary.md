@@ -37,7 +37,7 @@ The easiest way to use the library is to **place the `ObsidianPluginDevPythonToJ
 import sys
 import traceback
 
-# --- MODIFIED: Import necessary components ---
+# --- Import necessary components ---
 try:
     from ObsidianPluginDevPythonToJS import (
         ObsidianPluginDevPythonToJS,
@@ -52,14 +52,12 @@ except ImportError:
 
 # --- Define Settings (if any) ---
 # See "Script-Specific Settings" section below
-MY_SETTINGS = [
-    # ... your setting definitions ...
-]
-define_settings(MY_SETTINGS)
+# MY_SETTINGS = [ ... ]
+# define_settings(MY_SETTINGS)
 
 # --- Handle Settings Discovery ---
 # !!! IMPORTANT: Call this EARLY, before main logic !!!
-_handle_cli_args()
+# _handle_cli_args()
 
 # --- Main Script Logic ---
 try:
@@ -117,10 +115,10 @@ except ImportError:
 
 # --- Define Settings (if any) ---
 # ...
-define_settings(...)
+# define_settings(...)
 
 # --- Handle Settings Discovery ---
-_handle_cli_args()
+# _handle_cli_args()
 
 # --- Main Script Logic ---
 try:
@@ -138,10 +136,10 @@ except Exception as e:
 
 ## Initialization
 
-To start interacting with Obsidian, create an instance of the `ObsidianPluginDevPythonToJS` class **after** handling the settings discovery (`_handle_cli_args()`):
+To start interacting with Obsidian, create an instance of the `ObsidianPluginDevPythonToJS` class **after** handling the settings discovery (`_handle_cli_args()` if used):
 
 ```python
-# Must be called AFTER _handle_cli_args()
+# Must be called AFTER _handle_cli_args() if settings are defined
 obsidian = ObsidianPluginDevPythonToJS(http_port=None, connect_timeout=2.0, request_timeout=10.0)
 ```
 
@@ -176,146 +174,58 @@ except ObsidianCommError as e:
 
 Other standard Python exceptions like `ValueError` (for invalid arguments) or `NameError` (if `PyYAML` is missing for property methods) might also be raised.
 
-## Script-Specific Settings (New Feature!)
+## Script-Specific Settings
 
-You can now define configuration settings for your Python script that users can manage directly within the Obsidian "Python Bridge" settings tab.
+You can define configuration settings for your Python script that users can manage directly within the Obsidian "Python Bridge" settings tab.
 
 **Workflow:**
 
 1.  **Define Settings (in your Python script):**
-    *   Import the `define_settings` helper function from the library.
-    *   Create a list of dictionaries, where each dictionary describes one setting.
+    *   Import the `define_settings` helper function.
+    *   Create a list of dictionaries describing each setting.
     *   Call `define_settings(your_settings_list)` **at the beginning** of your script.
 2.  **Handle Discovery (in your Python script):**
     *   Import the `_handle_cli_args` helper function.
-    *   Call `_handle_cli_args()` **immediately after** `define_settings()`, before any other script logic. This allows the Obsidian plugin to query your script for its settings definitions without executing the full script.
-3.  **Plugin Discovers Settings:**
-    *   When Obsidian starts or when you manually trigger the "Refresh Definitions" command/button, the plugin runs each `.py` script in your configured folder with the `--get-settings-json` flag.
-    *   Scripts that correctly handle this flag (via `_handle_cli_args`) will print their settings definitions as JSON.
-    *   The plugin parses this JSON and caches the definitions.
-4.  **User Configures Values:**
-    *   The plugin dynamically generates UI controls (text fields, toggles, dropdowns, etc.) in its settings tab based on the discovered definitions.
-    *   The user interacts with these controls to set the desired values for each script. These values are saved by the Obsidian plugin.
-5.  **Script Retrieves Values (in your Python script):**
-    *   Inside your main script logic (after initializing `ObsidianPluginDevPythonToJS`), call the `obsidian.get_script_settings()` method.
-    *   This method fetches the current values (as set by the user in Obsidian) for *your specific script* from the plugin.
-    *   Use the returned dictionary to control your script's behavior.
+    *   Call `_handle_cli_args()` **immediately after** `define_settings()`, before any other script logic.
+3.  **Plugin Discovers Settings:** Obsidian runs scripts with `--get-settings-json` flag.
+4.  **User Configures Values:** User sets values in Obsidian settings UI.
+5.  **Script Retrieves Values:** Call `obsidian.get_script_settings()` in your main logic.
 
 **Settings Definition Structure:**
 
-Each dictionary in the list passed to `define_settings` should have the following keys:
+Each dictionary in the list passed to `define_settings` should have: `key` (str), `type` (str: 'text', 'textarea', 'number', 'toggle', 'dropdown', 'slider'), `label` (str), `description` (str), `default` (Any), `options` (Optional for dropdown), `min`/`max`/`step` (Optional for number/slider). (See README or previous examples for full details).
 
-*   `key` (`str`): A unique identifier for this setting within the script. Used for retrieving the value.
-*   `type` (`str`): The type of UI control to display in Obsidian. Supported types:
-    *   `'text'`: Single-line text input.
-    *   `'textarea'`: Multi-line text input.
-    *   `'number'`: Number input (allows decimals). Use `min`, `max`, `step` for constraints.
-    *   `'toggle'`: A boolean on/off switch.
-    *   `'dropdown'`: A selection list. Requires the `options` key.
-    *   `'slider'`: A number slider. Requires `min`, `max`, `step`.
-*   `label` (`str`): The user-friendly name displayed next to the setting in Obsidian.
-*   `description` (`str`): Help text displayed below the setting.
-*   `default` (`Any`): The default value for the setting if the user hasn't configured one. The type should match the expected value type (e.g., `str` for text, `bool` for toggle, `int`/`float` for number/slider, `str` for dropdown).
-*   `options` (`Optional[List[str | Dict[str, str]]]`, required for `dropdown`): A list defining the dropdown choices. Can be:
-    *   A list of simple strings (e.g., `["option1", "option2"]`). The string is used as both the internal value and the display text.
-    *   A list of dictionaries, each with `value` (string, internal value) and `display` (string, text shown to user) keys (e.g., `[{"value": "opt1", "display": "Option One"}, {"value": "opt2", "display": "Option Two"}]`).
-*   `min` (`Optional[Union[int, float]]`, optional for `number`/`slider`): Minimum allowed value.
-*   `max` (`Optional[Union[int, float]]`, optional for `number`/`slider`): Maximum allowed value.
-*   `step` (`Optional[Union[int, float]]`, optional for `number`/`slider`): Increment step.
-
-**Example Script (`my_configurable_script.py`):**
+**Example (`my_configurable_script.py`):**
 
 ```python
+# (See full example in main README.md or previous documentation)
 import sys
 import traceback
-import os
+# ... imports ...
+from ObsidianPluginDevPythonToJS import (
+    ObsidianPluginDevPythonToJS, ObsidianCommError,
+    define_settings, _handle_cli_args
+)
 
-try:
-    from ObsidianPluginDevPythonToJS import (
-        ObsidianPluginDevPythonToJS,
-        ObsidianCommError,
-        define_settings,
-        _handle_cli_args
-    )
-except ImportError:
-    print("ERROR: Could not import ObsidianPluginDevPythonToJS.", file=sys.stderr)
-    sys.exit(1)
-
-# 1. Define Settings
+# 1. Define
 MY_SETTINGS = [
-    {
-        "key": "api_endpoint",
-        "type": "text",
-        "label": "API Endpoint URL",
-        "description": "The URL of the API service to connect to.",
-        "default": "https://api.example.com/v1"
-    },
-    {
-        "key": "use_cache",
-        "type": "toggle",
-        "label": "Enable Caching",
-        "description": "Cache API responses locally.",
-        "default": True
-    },
-    {
-        "key": "output_format",
-        "type": "dropdown",
-        "label": "Output Format",
-        "description": "Select the desired output format.",
-        "default": "markdown",
-        "options": ["markdown", "json", "plaintext"]
-    },
-    {
-        "key": "retry_attempts",
-        "type": "number",
-        "label": "Retry Attempts",
-        "description": "Number of times to retry failed API calls.",
-        "default": 3,
-        "min": 0,
-        "max": 10
-    }
+    {"key": "api_key", "type": "text", "label": "API Key", "default": ""},
+    # ... more settings ...
 ]
-
-# 2. Register Settings
+# 2. Register
 define_settings(MY_SETTINGS)
-
-# 3. Handle Discovery Call
+# 3. Handle Discovery
 _handle_cli_args()
 
 # 4. Main Logic
-def main():
-    print(f"--- Running {os.path.basename(__file__)} ---")
-    try:
-        obsidian = ObsidianPluginDevPythonToJS()
-
-        # 5. Get Setting Values
-        settings = obsidian.get_script_settings()
-        print(f"Retrieved settings: {settings}")
-
-        # Use settings with fallbacks to defaults defined above
-        endpoint = settings.get("api_endpoint", MY_SETTINGS[0]["default"])
-        caching = settings.get("use_cache", MY_SETTINGS[1]["default"])
-        out_format = settings.get("output_format", MY_SETTINGS[2]["default"])
-        retries = settings.get("retry_attempts", MY_SETTINGS[3]["default"])
-
-        obsidian.show_notification(
-            f"Config:\nEndpoint: {endpoint}\nCache: {caching}\nFormat: {out_format}\nRetries: {retries}",
-            6000
-        )
-
-        # ... Your script logic using these variables ...
-        print("Script logic would run here...")
-        print(f"--- {os.path.basename(__file__)} finished ---")
-
-    except ObsidianCommError as e:
-        print(f"Obsidian Communication Error: {e}", file=sys.stderr)
-    except Exception as e:
-        print(f"Unexpected Error: {e}", file=sys.stderr)
-        traceback.print_exc()
-
-if __name__ == "__main__":
-    main()
-
+try:
+    obsidian = ObsidianPluginDevPythonToJS()
+    # 5. Get Values
+    settings = obsidian.get_script_settings()
+    api_key = settings.get("api_key", MY_SETTINGS[0]["default"])
+    # ... use settings ...
+except Exception as e:
+    # ... error handling ...
 ```
 
 ## API Reference
@@ -331,12 +241,12 @@ All methods below may raise `ObsidianCommError` if communication with the Obsidi
 Registers the settings definitions for the current script. **Must be called once at the beginning of the script.**
 
 *   **Parameters:**
-    *   `settings_list` (`List[Dict[str, Any]]`): A list of dictionaries, each defining a setting according to the structure described in the "Script-Specific Settings" section.
+    *   `settings_list` (`List[Dict[str, Any]]`): A list of dictionaries defining settings.
 *   **Returns:** `None`
 
 #### `_handle_cli_args() -> None`
 
-Checks for the `--get-settings-json` command-line argument. If present, prints the registered settings definitions (from `define_settings`) as JSON to stdout and exits the script immediately. **Must be called immediately after `define_settings()` and before the main script logic.**
+Checks for `--get-settings-json` argument. If present, prints settings JSON and exits. **Must be called immediately after `define_settings()` and before main logic.**
 
 *   **Parameters:** None
 *   **Returns:** `None` (or exits the script)
@@ -347,11 +257,11 @@ Checks for the `--get-settings-json` command-line argument. If present, prints t
 
 #### `get_script_settings() -> Dict[str, Any]`
 
-Retrieves the current values of the settings defined by *this specific script*, as configured by the user in the Obsidian settings tab. Relies on the `OBSIDIAN_SCRIPT_RELATIVE_PATH` environment variable being set by the plugin.
+Retrieves the current values of the settings defined by *this specific script*, as configured by the user in Obsidian.
 
 *   **Parameters:** None
-*   **Returns:** (`Dict[str, Any]`) A dictionary where keys are the setting `key`s defined in `define_settings`, and values are the current setting values (including defaults if not set by the user). Returns an empty dictionary if no settings were defined or retrieved.
-*   **Raises:** `ObsidianCommError` if the request fails, Obsidian reports an error, or the script path environment variable (`OBSIDIAN_SCRIPT_RELATIVE_PATH`) is missing.
+*   **Returns:** (`Dict[str, Any]`) Dictionary of setting keys and their current values.
+*   **Raises:** `ObsidianCommError` if request fails or script path env var is missing.
 
 ---
 
@@ -359,137 +269,201 @@ Retrieves the current values of the settings defined by *this specific script*, 
 
 #### `show_notification(content: str, duration: int = 4000) -> None`
 
-Displays a notification message within the Obsidian interface.
+Displays a notification message within Obsidian.
 
 *   **Parameters:**
-    *   `content` (`str`): The text message to display. Cannot be empty.
-    *   `duration` (`int`, optional, default: `4000`): How long the notification should remain visible, in milliseconds.
+    *   `content` (`str`): Message text. Cannot be empty.
+    *   `duration` (`int`, optional, default: `4000`): Duration in milliseconds.
 *   **Returns:** `None`
 *   **Raises:** `ValueError` if `content` is empty.
 
 #### `request_user_input(script_name: str, input_type: str, message: str, validation_regex: Optional[str] = None, min_value: Optional[Union[int, float]] = None, max_value: Optional[Union[int, float]] = None, step: Optional[Union[int, float]] = None, **kwargs) -> Any`
 
-Requests user input via a modal dialog shown within Obsidian. This call **blocks** script execution until the user interacts with the modal (submits or cancels).
+Requests user input via a modal dialog in Obsidian. **Blocks** script execution.
 
 *   **Parameters:**
-    *   `script_name` (`str`): Name of your script (shown in the modal title).
-    *   `input_type` (`str`): Type of input field. Supported types: `'text'`, `'textarea'`, `'number'`, `'range'`, `'slider'`, `'boolean'` (or `'checkbox'`), `'date'`.
-    *   `message` (`str`): The prompt message displayed to the user.
-    *   `validation_regex` (`Optional[str]`, optional): A regex pattern (as a string) for basic client-side validation of `'text'` input.
-    *   `min_value` (`Optional[Union[int, float]]`, optional): Minimum allowed value for `'number'`, `'range'`, or `'slider'`.
-    *   `max_value` (`Optional[Union[int, float]]`, optional): Maximum allowed value for `'number'`, `'range'`, or `'slider'`.
-    *   `step` (`Optional[Union[int, float]]`, optional): Step increment for `'number'`, `'range'`, or `'slider'`.
-    *   `**kwargs`: Allows passing additional parameters for potential future input types.
-*   **Returns:** (`Any`) The value entered by the user. The type depends on `input_type`:
-    *   `'text'`, `'textarea'`: `str`
-    *   `'number'`, `'range'`, `'slider'`: `float` (or potentially `int` if step is an integer, but safer to expect float)
-    *   `'boolean'`, `'checkbox'`: `bool`
-    *   `'date'`: `str` (in 'YYYY-MM-DD' format)
-*   **Raises:**
-    *   `ValueError`: If `script_name`, `input_type`, or `message` are empty.
-    *   `ObsidianCommError`: If the user cancels the input modal in Obsidian (the plugin returns an error status in this case) or if the request itself fails.
+    *   `script_name` (`str`): Name shown in modal title.
+    *   `input_type` (`str`): `'text'`, `'textarea'`, `'number'`, `'range'`, `'slider'`, `'boolean'`/`'checkbox'`, `'date'`.
+    *   `message` (`str`): Prompt message.
+    *   `validation_regex` (`Optional[str]`): Regex for `'text'` validation.
+    *   `min_value`, `max_value`, `step`: Optional for number/range/slider.
+    *   `**kwargs`: Future parameters.
+*   **Returns:** (`Any`) User input (type depends on `input_type`). Returns `None` if user cancels (raises `ObsidianCommError`).
+*   **Raises:** `ValueError` for invalid args. `ObsidianCommError` if user cancels or request fails.
 
 ---
 
 ### Active Note Operations
 
-These methods operate on the currently focused note in the Obsidian workspace. They will raise an `ObsidianCommError` if no Markdown note is active.
+Operate on the currently focused note. Raise `ObsidianCommError` if no Markdown note is active.
 
 #### `get_active_note_content() -> str`
 
-Retrieves the full Markdown content of the currently active note.
+Retrieves the full Markdown content of the active note.
 
-*   **Returns:** (`str`) The content of the active note.
+*   **Returns:** (`str`) Note content.
 
 #### `get_active_note_frontmatter() -> Optional[Dict[str, Any]]`
 
-Retrieves the parsed YAML frontmatter of the currently active note.
+Retrieves the parsed YAML frontmatter of the active note.
 
-*   **Returns:** (`Optional[Dict[str, Any]]`) A dictionary representing the frontmatter, or `None` if the note has no frontmatter.
+*   **Returns:** (`Optional[Dict[str, Any]]`) Frontmatter dictionary, or `None`.
 
 #### `get_active_note_absolute_path() -> str`
 
-Retrieves the absolute filesystem path of the currently active note.
+Retrieves the absolute filesystem path of the active note.
 
-*   **Returns:** (`str`) The absolute path (e.g., `/home/user/vault/folder/note.md` or `C:\Users\user\vault\folder\note.md`).
+*   **Returns:** (`str`) Absolute path.
 
 #### `get_active_note_relative_path() -> str`
 
-Retrieves the path of the currently active note, relative to the vault root.
+Retrieves the vault-relative path of the active note.
 
-*   **Returns:** (`str`) The vault-relative path (e.g., `folder/note.md`).
+*   **Returns:** (`str`) Vault-relative path (e.g., `folder/note.md`).
 
 #### `get_active_note_title() -> str`
 
-Retrieves the title (filename without extension) of the currently active note.
+Retrieves the title (filename without extension) of the active note.
 
-*   **Returns:** (`str`) The title of the note (e.g., `note`).
+*   **Returns:** (`str`) Note title.
 
 ---
 
-### Specific Note Operations
-
-These methods operate on a note specified by its path.
+### Specific Note/Path Operations
 
 #### `get_note_content(path: str) -> str`
 
 Retrieves the full content of a specific note.
 
 *   **Parameters:**
-    *   `path` (`str`): The **vault-relative path** to the note (e.g., `"Folder/My Note.md"`). Must include the `.md` extension.
-*   **Returns:** (`str`) The content of the note.
-*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if the note is not found.
+    *   `path` (`str`): **Vault-relative path** (e.g., `"Folder/My Note.md"`).
+*   **Returns:** (`str`) Note content.
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if not found.
 
 #### `get_note_frontmatter(path: str) -> Optional[Dict[str, Any]]`
 
 Retrieves the parsed YAML frontmatter of a specific note.
 
 *   **Parameters:**
-    *   `path` (`str`): The **vault-relative path** to the note (e.g., `"Folder/My Note.md"`). Must include the `.md` extension.
-*   **Returns:** (`Optional[Dict[str, Any]]`) Frontmatter dictionary, or `None` if none exists or the note is not found.
+    *   `path` (`str`): **Vault-relative path**.
+*   **Returns:** (`Optional[Dict[str, Any]]`) Frontmatter dictionary, or `None`.
 *   **Raises:** `ValueError` if `path` is empty.
 
 #### `modify_note_content(file_path: str, content: str) -> None`
 
-Modifies the entire content of a specific note using Obsidian's API. **Note:** This method expects an **absolute path**. The plugin internally converts this to a relative path for the preferred API call (`modify_note_content_by_path`).
+Modifies the entire content of a specific note using Obsidian's API.
 
 *   **Parameters:**
-    *   `file_path` (`str`): The **absolute filesystem path** to the Markdown note file (`.md`) to modify.
-    *   `content` (`str`): The new, full content to write to the note.
+    *   `file_path` (`str`): **Absolute filesystem path** to the note.
+    *   `content` (`str`): New full content.
 *   **Returns:** `None`
-*   **Raises:** `ValueError` if `file_path` is not an absolute path. `ObsidianCommError` if the file is not found within the vault, is outside the vault, or modification fails.
+*   **Raises:** `ValueError` if `file_path` is not absolute. `ObsidianCommError` if file not in vault or modification fails.
 
 #### `open_note(path: str, new_leaf: bool = False) -> None`
 
-Opens a specific note in the Obsidian interface using its link path (Obsidian's internal resolution).
+Opens a specific note in Obsidian using its link path.
 
 *   **Parameters:**
-    *   `path` (`str`): The **vault-relative path** of the note to open, **WITHOUT the `.md` extension**. Examples: `"Folder/My Note"`, `"My Note"`.
-    *   `new_leaf` (`bool`, optional, default: `False`): If `True`, attempts to open the note in a new leaf (tab/split).
+    *   `path` (`str`): **Vault-relative path**, **WITHOUT `.md` extension** (e.g., `"Folder/My Note"`).
+    *   `new_leaf` (`bool`, optional, default: `False`): Open in new leaf.
 *   **Returns:** `None`
-*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if the note cannot be opened (e.g., path not resolved by Obsidian).
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if note cannot be opened.
+
+#### `create_note(path: str, content: str = '') -> None`
+
+*(New)* Creates a new note in the vault.
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** for the new note (e.g., `"Folder/New Note.md"`). Must include `.md` extension.
+    *   `content` (`str`, optional): Initial content. Defaults to empty.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if creation fails (e.g., path exists).
+
+#### `check_path_exists(path: str) -> bool`
+
+*(New)* Checks if a file or folder exists at the given vault-relative path.
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** to check.
+*   **Returns:** (`bool`) `True` if the path exists, `False` otherwise.
+*   **Raises:** `ValueError` if `path` is empty.
+
+#### `delete_path(path: str, permanently: bool = False) -> None`
+
+*(New)* Deletes a note or folder (moves to trash by default).
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** of the item to delete.
+    *   `permanently` (`bool`, optional, default: `False`): If `True`, delete permanently. **Use with caution!**
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if deletion fails.
+
+#### `rename_path(old_path: str, new_path: str) -> None`
+
+*(New)* Renames or moves a note or folder within the vault.
+
+*   **Parameters:**
+    *   `old_path` (`str`): Current **vault-relative path**.
+    *   `new_path` (`str`): Desired new **vault-relative path**.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if paths are empty. `ObsidianCommError` if rename fails.
+
+#### `create_folder(path: str) -> None`
+
+*(New)* Creates a new folder at the specified vault-relative path.
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** for the new folder (e.g., `"New Folder"` or `"Parent/New Folder"`).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if creation fails.
+
+#### `list_folder(path: str) -> Dict[str, List[str]]`
+
+*(New)* Lists the files and subfolders within a specified vault folder.
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** of the folder to list. Use `""` (empty string) for the vault root.
+*   **Returns:** (`Dict[str, List[str]]`) Dictionary with keys `'files'` and `'folders'`, each containing a list of relative paths within that folder.
+*   **Raises:** `ValueError` if `path` is `None`. `ObsidianCommError` if listing fails.
+
+#### `get_links(path: str, type: str = 'outgoing') -> List[str]`
+
+*(New)* Retrieves links associated with a note. Currently only supports 'outgoing' links (including embeds).
+
+*   **Parameters:**
+    *   `path` (`str`): **Vault-relative path** of the note.
+    *   `type` (`str`, optional, default: `'outgoing'`): Type of links ('outgoing').
+*   **Returns:** (`List[str]`) List of outgoing link paths.
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if note not found.
 
 ---
 
 ### Editor Operations (Active Note)
 
-These methods operate on the editor of the currently active Markdown note.
+Operate on the editor of the currently active Markdown note.
 
 #### `get_selected_text() -> str`
 
 Retrieves the currently selected text in the active editor.
 
-*   **Returns:** (`str`) The selected text. Returns an empty string (`""`) if nothing is selected.
-*   **Raises:** `ObsidianCommError` if no Markdown editor is active.
+*   **Returns:** (`str`) Selected text, or `""` if none.
+*   **Raises:** `ObsidianCommError` if no Markdown editor active.
 
 #### `replace_selected_text(replacement: str) -> None`
 
-Replaces the selected text in the active editor. If nothing is selected, inserts the text at the cursor position.
+Replaces selected text or inserts at cursor.
 
 *   **Parameters:**
-    *   `replacement` (`str`): The text to insert or replace the selection with. Can be an empty string to delete the selection.
+    *   `replacement` (`str`): Text to insert/replace with.
 *   **Returns:** `None`
-*   **Raises:** `ObsidianCommError` if no Markdown editor is active.
+*   **Raises:** `ObsidianCommError` if no Markdown editor active.
+
+#### `get_editor_context() -> Dict[str, Any]`
+
+*(New)* Retrieves context information about the active editor.
+
+*   **Returns:** (`Dict[str, Any]`) Dictionary potentially containing `cursor` (`{'line': int, 'ch': int}`), `line_count` (`int`). Returns empty dict or null if no editor active.
+*   **Raises:** `ObsidianCommError` if request fails.
 
 ---
 
@@ -497,57 +471,77 @@ Replaces the selected text in the active editor. If nothing is selected, inserts
 
 #### `get_current_vault_absolute_path() -> str`
 
-Retrieves the absolute filesystem path of the currently open Obsidian vault.
+Retrieves the absolute filesystem path of the current vault.
 
-*   **Returns:** (`str`) The absolute path to the vault's root directory.
+*   **Returns:** (`str`) Absolute path to vault root.
 
 #### `get_all_note_paths(absolute: bool = False) -> List[str]`
 
-Retrieves the paths of all Markdown notes (`.md` files) within the vault.
+Retrieves paths of all Markdown notes (`.md`) in the vault.
 
 *   **Parameters:**
-    *   `absolute` (`bool`, optional, default: `False`):
-        *   If `False`, returns vault-relative paths (e.g., `["Folder/Note1.md", "Note2.md"]`).
-        *   If `True`, returns absolute filesystem paths.
-*   **Returns:** (`List[str]`) A list of note path strings.
+    *   `absolute` (`bool`, optional, default: `False`): Return absolute or vault-relative paths.
+*   **Returns:** (`List[str]`) List of note paths.
 
 #### `get_all_note_titles() -> List[str]`
 
-Retrieves the titles (filenames without extensions) of all Markdown notes in the vault.
+Retrieves titles (filenames without extensions) of all Markdown notes.
 
-*   **Returns:** (`List[str]`) A list of note title strings.
+*   **Returns:** (`List[str]`) List of note titles.
+
+#### `get_vault_name() -> str`
+
+*(New)* Retrieves the name of the currently open vault.
+
+*   **Returns:** (`str`) The name of the vault.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `get_all_tags() -> List[str]`
+
+*(Temporarily Disabled)* Retrieves a list of all unique tags in the vault.
+*Note: This method is currently disabled due to plugin-side build issues.*
+
+*   **Returns:** (`List[str]`) List of unique tags (e.g., `['#tag1', '#tag/nested']`).
+*   **Raises:** `ObsidianCommError` if request fails.
+
+---
+
+### Obsidian Operations
+
+#### `get_obsidian_language() -> str`
+
+*(New)* Retrieves the language code currently configured in Obsidian.
+
+*   **Returns:** (`str`) Language code (e.g., 'en', 'fr').
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `get_theme_mode() -> str`
+
+*(New)* Retrieves the current theme mode ('light' or 'dark').
+
+*   **Returns:** (`str`) 'light' or 'dark'.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `run_obsidian_command(command_id: str) -> None`
+
+*(Temporarily Disabled)* Executes an Obsidian command by its ID.
+*Note: This method is currently disabled due to plugin-side build issues.*
+
+*   **Parameters:**
+    *   `command_id` (`str`): ID of the command (e.g., `"editor:toggle-bold"`).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `command_id` is empty. `ObsidianCommError` if command fails.
 
 ---
 
 ### Frontmatter Property Management (Requires PyYAML)
 
-These methods directly manipulate the YAML frontmatter of a note file. They require the `PyYAML` library to be installed.
+Directly manipulate YAML frontmatter. Require `PyYAML`.
 
-#### `manage_properties_key(file_path: str, action: str, key: Optional[str] = None, new_key: Optional[str] = None, use_vault_modify: bool = True) -> Dict[str, Any]`
+#### `manage_properties_key(...) -> Dict[str, Any]`
 
-Manages top-level keys in a note's YAML frontmatter.
+Manages top-level keys in frontmatter ('add', 'remove', 'rename'). (See details in previous docs or code).
 
-*   **Parameters:**
-    *   `file_path` (`str`): **Absolute path** to the note file (`.md`).
-    *   `action` (`str`): `'add'`, `'remove'`, or `'rename'`.
-    *   `key` (`Optional[str]`): Key to act upon. Required.
-    *   `new_key` (`Optional[str]`): New key name for `'rename'`. Required for `'rename'`.
-    *   `use_vault_modify` (`bool`, optional, default: `True`): If `True`, uses the Obsidian API via HTTP (`modify_note_content`) to save changes. If `False`, writes directly to the file (RISKY, bypasses Obsidian's file handling).
-*   **Returns:** (`Dict[str, Any]`) A dictionary indicating success or failure: `{'success': True}` or `{'success': False, 'error': '...'}`.
-*   **Raises:** `NameError` if PyYAML is not installed. `FileNotFoundError` if `file_path` does not exist. `ValueError` if action/parameters are invalid. `yaml.YAMLError` if frontmatter parsing/dumping fails. `ObsidianCommError` if `use_vault_modify` is True and the API call fails. `IOError` if `use_vault_modify` is False and direct write fails.
+#### `manage_properties_value(...) -> Dict[str, Any]`
 
-#### `manage_properties_value(file_path: str, key: str, action: str, value: Any = None, new_value: Any = None, index: Optional[int] = None, use_vault_modify: bool = True) -> Dict[str, Any]`
-
-Manages values associated with a key in YAML frontmatter (scalars or lists).
-
-*   **Parameters:**
-    *   `file_path` (`str`): **Absolute path** to the note file (`.md`).
-    *   `key` (`str`): The frontmatter key to manage.
-    *   `action` (`str`): `'add'` (to a list or set initial value), `'remove'` (from a list or clear scalar if value matches), or `'update'` (scalar value or list element).
-    *   `value` (`Any`, optional): Value to add/remove, or the *old* value to find when updating a list element by value.
-    *   `new_value` (`Any`, optional): New value for `'add'` (if key doesn't exist or is null) or `'update'`. Required for `'update'`. Can be `None`.
-    *   `index` (`Optional[int]`, optional): Index for updating or removing a specific element in a list.
-    *   `use_vault_modify` (`bool`, optional, default: `True`): Same as in `manage_properties_key`.
-*   **Returns:** (`Dict[str, Any]`) A dictionary indicating success or failure: `{'success': True}` or `{'success': False, 'error': '...'}`.
-*   **Raises:** `NameError` if PyYAML is not installed. `FileNotFoundError` if `file_path` does not exist. `ValueError` if action/parameters are invalid. `yaml.YAMLError` if frontmatter parsing/dumping fails. `IndexError` if `index` is out of bounds. `ObsidianCommError` if `use_vault_modify` is True and the API call fails. `IOError` if `use_vault_modify` is False and direct write fails.
-
+Manages values associated with a key ('add', 'remove', 'update'). (See details in previous docs or code).

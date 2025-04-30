@@ -934,6 +934,157 @@ export default class ObsidianPythonBridge extends Plugin {
 					return { status: "success", data: finalValues };
 
 
+				case "get_obsidian_language":
+					try {
+						const lang = this._getObsidianLanguage();
+						return { status: "success", data: lang };
+					} catch (error) {
+						return { status: "error", error: `Failed to get Obsidian language: ${error instanceof Error ? error.message : String(error)}` };
+					}
+				
+
+				case "create_note":
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					// Content is optional, default to empty string if not provided or not a string
+					const noteContent = typeof payload?.content === "string" ? payload.content : "";
+					try {
+						await this._createNote(payload.path, noteContent);
+						return { status: "success", data: null }; // No data needed on success
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+					
+				
+				case "check_path_exists":
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					try {
+						const exists = await this._checkPathExists(payload.path);
+						return { status: "success", data: exists };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+				
+				
+				case "delete_path":
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					const permanently = typeof payload?.permanently === "boolean" ? payload.permanently : false;
+					try {
+						await this._deletePath(payload.path, permanently);
+						return { status: "success", data: null };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+				
+
+				case "rename_path":
+					if (typeof payload?.old_path !== "string" || !payload.old_path) {
+						return { status: "error", error: "Invalid payload: 'old_path' (non-empty string) required." };
+					}
+					if (typeof payload?.new_path !== "string" || !payload.new_path) {
+						return { status: "error", error: "Invalid payload: 'new_path' (non-empty string) required." };
+					}
+					try {
+						await this._renamePath(payload.old_path, payload.new_path);
+						return { status: "success", data: null };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+				// --- TEMPORARILY DISABLED due to persistent TS build errors (TS2339) ---
+				// --- Issue seems related to type definitions for App.commands not being recognized ---
+				// case "run_obsidian_command":
+				// 	if (typeof payload?.command_id !== "string" || !payload.command_id) {
+				// 		return { status: "error", error: "Invalid payload: 'command_id' (non-empty string) required." };
+				// 	}
+				// 	try {
+				// 		this._runObsidianCommand(payload.command_id);
+				// 		return { status: "success", data: null };
+				// 	} catch (error) {
+				// 		return { status: "error", error: error instanceof Error ? error.message : String(error) };
+				// 	}
+
+
+				// --- TEMPORARILY DISABLED due to persistent TS build errors (TS2339) ---
+				// --- Issue seems related to type definitions for App.commands not being recognized ---
+				// case "get_all_tags":
+				// 	try {
+				// 		const tags = this._getAllTags();
+				// 		return { status: "success", data: tags };
+				// 	} catch (error) {
+				// 		return { status: "error", error: error instanceof Error ? error.message : String(error) };
+				// 	}
+
+
+				case "get_vault_name":
+					try {
+						const name = this._getVaultName();
+						return { status: "success", data: name };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+				case "get_theme_mode":
+					try {
+						const mode = this._getThemeMode();
+						return { status: "success", data: mode };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+
+				case "create_folder":
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					try {
+						await this._createFolder(payload.path);
+						return { status: "success", data: null };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+
+				case "list_folder":
+					if (typeof payload?.path !== "string") { // Allow empty path for vault root listing
+						return { status: "error", error: "Invalid payload: 'path' (string) required." };
+					}
+					try {
+						const contents = await this._listFolder(payload.path);
+						return { status: "success", data: contents };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+				
+				case "get_links":
+					if (typeof payload?.path !== "string" || !payload.path) {
+						return { status: "error", error: "Invalid payload: 'path' (non-empty string) required." };
+					}
+					const linkType = typeof payload?.type === "string" ? payload.type : 'outgoing';
+					try {
+						const links = this._getLinks(payload.path, linkType);
+						return { status: "success", data: links };
+					} catch (error) {
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
+				
+				case "get_editor_context":
+					try {
+						const context = this._getEditorContext();
+						// Return data (which might be null if no editor)
+						return { status: "success", data: context };
+					} catch (error) {
+						// This catches errors from within _getEditorContext if they occur
+						return { status: "error", error: error instanceof Error ? error.message : String(error) };
+					}
+
 				// --- Default ---
 				default:
 					this.logWarn(`Received unknown action: ${action}`);
@@ -1296,6 +1447,378 @@ export default class ObsidianPythonBridge extends Plugin {
 			return "";
 		}
 	}
+
+	/**
+	 * Gets the current language setting of Obsidian.
+	 * @returns The language code (e.g., 'en', 'fr') or 'en' as default.
+	 */
+	private _getObsidianLanguage(): string {
+		// Obsidian stores language in localStorage or has an internal way to get it
+		// Using localStorage is a common pattern seen in plugins
+		const obsidianLang = localStorage.getItem('language');
+		if (obsidianLang) {
+			this.logDebug(`Obsidian language from localStorage: ${obsidianLang}`);
+			return obsidianLang;
+		}
+		// Fallback or alternative method if localStorage isn't reliable
+		// This might need adjustment based on Obsidian's internal API if it changes
+		// For now, let's assume 'moment.locale()' reflects the UI language setting
+		try {
+			// @ts-ignore - Accessing moment which is globally available in Obsidian
+			const momentLocale = moment.locale();
+			if (momentLocale) {
+				this.logDebug(`Obsidian language from moment.locale(): ${momentLocale}`);
+				return momentLocale;
+			}
+		} catch (e) {
+			this.logWarn("Could not get language via moment.locale()", e);
+		}
+		this.logWarn("Could not determine Obsidian language, defaulting to 'en'.");
+		return 'en'; // Default fallback
+	}
+
+	/**
+	 * Creates a new note in the vault.
+	 * @param relativePath Vault-relative path for the new note (including .md).
+	 * @param content Initial content for the note.
+	 * @throws Error if creation fails (e.g., file exists, invalid path).
+	 */
+	private async _createNote(relativePath: string, content: string): Promise<TFile> {
+		const normalizedPath = normalizePath(relativePath);
+		this.logDebug(`Attempting to create note: ${normalizedPath}`);
+		try {
+			// Check if file already exists to provide a clearer error
+			const existingFile = this.app.vault.getAbstractFileByPath(normalizedPath);
+			if (existingFile) {
+				throw new Error(`File already exists at path: ${normalizedPath}`);
+			}
+			const file = await this.app.vault.create(normalizedPath, content);
+			this.logInfo(`Note created successfully: ${normalizedPath}`);
+			return file;
+		} catch (error) {
+			this.logError(`Error creating note ${normalizedPath}:`, error);
+			throw new Error(`Failed to create note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+	/**
+	 * Checks if a file or folder exists using the vault adapter.
+	 * @param relativePath Vault-relative path to check.
+	 * @returns True if the path exists, false otherwise.
+	 * @throws Error if the adapter check fails unexpectedly.
+	 */
+	private async _checkPathExists(relativePath: string): Promise<boolean> {
+		const normalizedPath = normalizePath(relativePath);
+		try {
+			// Use adapter.exists for potentially better performance and reliability
+			const exists = await this.app.vault.adapter.exists(normalizedPath);
+			this.logDebug(`Path exists check for "${normalizedPath}": ${exists}`);
+			return exists;
+		} catch (error) {
+			this.logError(`Error checking existence for path ${normalizedPath}:`, error);
+			// Rethrow a generic error; specific adapter errors might be complex
+			throw new Error(`Failed to check existence for path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+	/**
+	 * Deletes a file or folder (moves to trash or permanently).
+	 * @param relativePath Vault-relative path of the item to delete.
+	 * @param permanently If true, delete permanently. Defaults to false (move to trash).
+	 * @throws Error if the item is not found or deletion fails.
+	 */
+	private async _deletePath(relativePath: string, permanently: boolean = false): Promise<void> {
+		const normalizedPath = normalizePath(relativePath);
+		this.logDebug(`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`);
+		const fileOrFolder = this.app.vault.getAbstractFileByPath(normalizedPath);
+
+		if (!fileOrFolder) {
+			throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
+		}
+
+		try {
+			if (permanently) {
+				this.logWarn(`Permanently deleting path: ${normalizedPath}`);
+				await this.app.vault.delete(fileOrFolder, true); // Force = true for permanent
+			} else {
+				// Use system = true to prefer system trash if available
+				await this.app.vault.trash(fileOrFolder, true);
+			}
+			this.logInfo(`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`);
+		} catch (error) {
+			this.logError(`Error deleting path ${normalizedPath}:`, error);
+			throw new Error(`Failed to delete path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+	/**
+	 * Renames or moves a file or folder within the vault.
+	 * @param oldRelativePath Current vault-relative path.
+	 * @param newRelativePath Desired new vault-relative path.
+	 * @throws Error if the old path is not found, the new path is invalid, or rename fails.
+	 */
+	private async _renamePath(oldRelativePath: string, newRelativePath: string): Promise<void> {
+		const normalizedOldPath = normalizePath(oldRelativePath);
+		const normalizedNewPath = normalizePath(newRelativePath);
+		this.logDebug(`Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`);
+
+		const fileOrFolder = this.app.vault.getAbstractFileByPath(normalizedOldPath);
+		if (!fileOrFolder) {
+			throw new Error(`Cannot rename: Source path not found at "${normalizedOldPath}"`);
+		}
+
+		// Basic check: prevent renaming to the exact same path
+		if (normalizedOldPath === normalizedNewPath) {
+			throw new Error(`Cannot rename: Old path and new path are identical "${normalizedOldPath}"`);
+		}
+
+		// Check if destination already exists (optional but good practice)
+		const destinationExists = this.app.vault.getAbstractFileByPath(normalizedNewPath);
+		if (destinationExists) {
+			throw new Error(`Cannot rename: Destination path already exists "${normalizedNewPath}"`);
+		}
+
+
+		try {
+			await this.app.vault.rename(fileOrFolder, normalizedNewPath);
+			this.logInfo(`Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`);
+		} catch (error) {
+			this.logError(`Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`, error);
+			throw new Error(`Failed to rename path "${normalizedOldPath}" to "${normalizedNewPath}": ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+	// --- TEMPORARILY DISABLED due to persistent TS build errors (TS2339) ---
+	// --- Issue seems related to type definitions for App.commands not being recognized ---
+	// /**
+	//  * Executes an Obsidian command by its ID.
+	//  * @param commandId The ID of the command to execute.
+	//  * @throws Error if the command ID is not found or execution fails.
+	//  */
+	// private _runObsidianCommand(commandId: string): void {
+	// 	this.logDebug(`Attempting to execute command ID: ${commandId}`);
+	// 	try {
+	// 		// executeCommandById returns false if command doesn't exist or isn't enabled
+	// 		const success = this.app.commands.executeCommandById(commandId);
+	// 		if (!success) {
+	// 			// Check if the command exists at all
+	// 			const commandExists = !!this.app.commands.commands[commandId];
+	// 			if (!commandExists) {
+	// 				throw new Error(`Command with ID "${commandId}" not found.`);
+	// 			} else {
+	// 				// Command exists but might be disabled in the current context
+	// 				throw new Error(`Command "${commandId}" could not be executed (possibly disabled or inactive in current context).`);
+	// 			}
+	// 		}
+	// 		this.logInfo(`Command executed successfully: ${commandId}`);
+	// 	} catch (error) {
+	// 		this.logError(`Error executing command ${commandId}:`, error);
+	// 		// Rethrow the original error or a wrapped one
+	// 		throw new Error(`Failed to execute command "${commandId}": ${error instanceof Error ? error.message : String(error)}`);
+	// 	}
+	// }
+
+
+	// --- TEMPORARILY DISABLED due to persistent TS build errors (TS2339) ---
+	// --- Issue seems related to type definitions for App.commands not being recognized ---
+	// /**
+	//  * Retrieves all unique tags directly from the Obsidian metadata cache using getAllTags().
+	//  * This method aggregates tags from note bodies and frontmatter across the entire vault.
+	//  * @returns A sorted list of unique tags (including '#').
+	//  */
+	// private _getAllTags(): string[] {
+	// 	try {
+	// 		// Use the official API method getAllTags() which returns Record<string, number>
+	// 		// This is the correct method name based on the documentation.
+	// 		const tagsObject = this.app.metadataCache.getAllTags(); // <-- Utilisation de getAllTags()
+
+	// 		// Extract the keys (the tags themselves) from the object
+	// 		const tagsArray = Object.keys(tagsObject);
+
+	// 		// Sort the tags alphabetically for consistent output
+	// 		tagsArray.sort();
+
+	// 		this.logDebug(`Retrieved ${tagsArray.length} unique tags directly via getAllTags().`);
+	// 		return tagsArray;
+	// 	} catch (error) {
+	// 		this.logError("Error retrieving tags using metadataCache.getAllTags():", error);
+	// 		// Throw a consistent error message
+	// 		throw new Error(`Failed to get tags using getAllTags(): ${error instanceof Error ? error.message : String(error)}`);
+	// 	}
+	// }
+
+
+	/**
+	 * Gets the name of the current vault.
+	 * @returns The vault name string.
+	 */
+	private _getVaultName(): string {
+		try {
+			const vaultName = this.app.vault.getName();
+			this.logDebug(`Retrieved vault name: ${vaultName}`);
+			return vaultName;
+		} catch (error) {
+			this.logError("Error retrieving vault name:", error);
+			throw new Error(`Failed to get vault name: ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+
+	/**
+	 * Determines the current theme mode (light or dark).
+	 * @returns 'light' or 'dark'.
+	 */
+	private _getThemeMode(): 'light' | 'dark' {
+		// Check the body class, which Obsidian uses to indicate the theme
+		try {
+			const isDark = document.body.classList.contains('theme-dark');
+			const mode = isDark ? 'dark' : 'light';
+			this.logDebug(`Determined theme mode: ${mode}`);
+			return mode;
+		} catch (error) {
+			// This should be very unlikely in a browser context, but handle defensively
+			this.logError("Error checking document.body for theme class:", error);
+			throw new Error(`Failed to determine theme mode: ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+
+	/**
+	 * Creates a new folder in the vault.
+	 * @param relativePath Vault-relative path for the new folder.
+	 * @throws Error if creation fails (e.g., folder exists, invalid path).
+	 */
+	private async _createFolder(relativePath: string): Promise<void> {
+		const normalizedPath = normalizePath(relativePath);
+		this.logDebug(`Attempting to create folder: ${normalizedPath}`);
+		try {
+			// Check if path already exists (could be file or folder)
+			const existingPath = this.app.vault.getAbstractFileByPath(normalizedPath);
+			if (existingPath) {
+				throw new Error(`Path already exists at "${normalizedPath}" (cannot create folder).`);
+			}
+			await this.app.vault.createFolder(normalizedPath);
+			this.logInfo(`Folder created successfully: ${normalizedPath}`);
+		} catch (error) {
+			this.logError(`Error creating folder ${normalizedPath}:`, error);
+			throw new Error(`Failed to create folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+
+	/**
+	 * Lists files and subfolders within a given vault folder path.
+	 * @param relativePath Vault-relative path of the folder to list.
+	 * @returns An object containing lists of relative file and folder paths within the target folder.
+	 * @throws Error if the path is not found, not a folder, or listing fails.
+	 */
+	private async _listFolder(relativePath: string): Promise<{ files: string[], folders: string[] }> {
+		const normalizedPath = normalizePath(relativePath);
+		this.logDebug(`Attempting to list folder contents: ${normalizedPath}`);
+		try {
+			// Use adapter.list for direct listing
+			const listResult = await this.app.vault.adapter.list(normalizedPath);
+			this.logDebug(`Folder listed successfully: ${normalizedPath}`);
+			// Ensure the result structure is as expected (files, folders arrays)
+			return {
+				files: listResult.files || [],
+				folders: listResult.folders || []
+			};
+		} catch (error) {
+			// adapter.list might throw if path doesn't exist or isn't a folder
+			this.logError(`Error listing folder ${normalizedPath}:`, error);
+			// Check if the path exists at all to provide better context
+			const pathExists = await this._checkPathExists(normalizedPath); // Reuse helper
+			if (!pathExists) {
+				throw new Error(`Cannot list folder: Path not found at "${normalizedPath}"`);
+			} else {
+				// Path exists but might not be a folder, or another error occurred
+				throw new Error(`Failed to list folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)} (Is it a folder?)`);
+			}
+		}
+	}
+
+
+	/**
+	 * Retrieves outgoing links (including embeds) from a note's metadata cache.
+	 * NOTE: Does not currently compute backlinks.
+	 * @param relativePath Vault-relative path of the note.
+	 * @param type The type of links requested (currently only 'outgoing' is implemented).
+	 * @returns A list of outgoing link strings.
+	 * @throws Error if the note is not found or metadata cannot be retrieved.
+	 */
+	private _getLinks(relativePath: string, type: string = 'outgoing'): string[] {
+		const normalizedPath = normalizePath(relativePath);
+		this.logDebug(`Attempting to get links for: ${normalizedPath} (type: ${type})`);
+
+		if (type !== 'outgoing') {
+			this.logWarn(`Link type "${type}" requested, but only "outgoing" is currently implemented. Returning outgoing links.`);
+			// Proceed to return outgoing links as a fallback
+		}
+
+		const metadata = this.app.metadataCache.getCache(normalizedPath);
+		if (!metadata) {
+			// Check if file exists to differentiate between "not found" and "no metadata"
+			const fileExists = !!this.app.vault.getAbstractFileByPath(normalizedPath);
+			if (!fileExists) {
+				throw new Error(`Cannot get links: File not found at path "${normalizedPath}"`);
+			} else {
+				// File exists but no metadata (e.g., not markdown, empty)
+				this.logWarn(`No metadata cache found for file "${normalizedPath}" to get links.`);
+				return []; // Return empty list if no metadata
+			}
+		}
+
+		const outgoingLinks: string[] = [];
+
+		// Add regular links [[link]]
+		if (metadata.links) {
+			metadata.links.forEach(link => outgoingLinks.push(link.link));
+		}
+
+		// Add embeds ![[embed]]
+		if (metadata.embeds) {
+			metadata.embeds.forEach(embed => outgoingLinks.push(embed.link));
+		}
+
+		// Remove duplicates if any (though unlikely between links and embeds for the same target)
+		const uniqueLinks = Array.from(new Set(outgoingLinks));
+
+		this.logDebug(`Found ${uniqueLinks.length} unique outgoing links/embeds for ${normalizedPath}.`);
+		return uniqueLinks;
+	}
+
+
+	/**
+	 * Retrieves context information about the active editor.
+	 * @returns An object with editor context, or null if no editor is active.
+	 * @throws Error if accessing editor properties fails unexpectedly.
+	 */
+	private _getEditorContext(): Record<string, any> | null {
+		const view = this.app.workspace.getActiveViewOfType(MarkdownView);
+		if (!view || !view.editor) {
+			this.logDebug("No active Markdown editor found for get_editor_context.");
+			return null; // Return null instead of throwing error if simply no editor active
+		}
+
+		const editor = view.editor;
+		try {
+			const cursor = editor.getCursor(); // {line, ch}
+			const lineCount = editor.lineCount();
+			const context = {
+				cursor: { line: cursor.line, ch: cursor.ch },
+				line_count: lineCount,
+				// Add more context here if needed in the future
+				// e.g., selection: editor.listSelections()?.[0]
+			};
+			this.logDebug("Retrieved editor context:", context);
+			return context;
+		} catch (error) {
+			this.logError("Error retrieving editor context:", error);
+			throw new Error(`Failed to get editor context: ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
 
 	/**
 	 * Executes a Python script to retrieve its settings definitions JSON.

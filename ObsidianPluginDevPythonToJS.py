@@ -1028,3 +1028,218 @@ class ObsidianPluginDevPythonToJS:
             print(f"ERROR: Unexpected error in manage_properties_value: {e}\n{traceback.format_exc()}", file=sys.stderr)
             return {'success': False, 'error': f"An unexpected error occurred: {e}"}
 
+    def get_obsidian_language(self) -> str:
+        """
+        Retrieves the language code currently configured in Obsidian.
+
+        Returns:
+            str: The language code (e.g., 'en', 'fr').
+
+        Raises:
+            ObsidianCommError: If the request fails.
+        """
+        return self._send_receive("get_obsidian_language")
+
+    def create_note(self, path: str, content: str = '') -> None:
+        """
+        Creates a new note in the vault.
+
+        Args:
+            path (str): The vault-relative path for the new note (e.g., "Folder/New Note.md").
+                        Include the .md extension.
+            content (str, optional): The initial content for the note. Defaults to empty.
+
+        Raises:
+            ValueError: If path is empty.
+            ObsidianCommError: If the note creation fails (e.g., path already exists, invalid path).
+        """
+        if not path: raise ValueError("Path cannot be empty for create_note.")
+        payload = {"path": path, "content": content}
+        self._send_receive("create_note", payload)
+        print(f"Request sent to create note: {path}")
+
+    def check_path_exists(self, path: str) -> bool:
+        """
+        Checks if a file or folder exists at the given vault-relative path.
+
+        Args:
+            path (str): The vault-relative path to check.
+
+        Returns:
+            bool: True if the path exists, False otherwise.
+
+        Raises:
+            ValueError: If path is empty.
+            ObsidianCommError: If the request fails.
+        """
+        if not path: raise ValueError("Path cannot be empty for check_path_exists.")
+        payload = {"path": path}
+        return self._send_receive("check_path_exists", payload)
+
+    def delete_path(self, path: str, permanently: bool = False) -> None:
+        """
+        Deletes a note or folder (moves to system/Obsidian trash by default).
+
+        Args:
+            path (str): The vault-relative path of the item to delete.
+            permanently (bool, optional): If True, delete permanently instead of moving
+                                          to trash. Defaults to False. Use with caution!
+
+        Raises:
+            ValueError: If path is empty.
+            ObsidianCommError: If the deletion fails (e.g., path not found).
+        """
+        if not path: raise ValueError("Path cannot be empty for delete_path.")
+        payload = {"path": path, "permanently": permanently}
+        self._send_receive("delete_path", payload)
+        print(f"Request sent to delete path: {path} (Permanently: {permanently})")
+
+    def rename_path(self, old_path: str, new_path: str) -> None:
+        """
+        Renames or moves a note or folder within the vault.
+
+        Args:
+            old_path (str): The current vault-relative path of the item.
+            new_path (str): The desired new vault-relative path for the item.
+
+        Raises:
+            ValueError: If old_path or new_path are empty.
+            ObsidianCommError: If the rename/move fails (e.g., old path not found, new path invalid).
+        """
+        if not old_path: raise ValueError("old_path cannot be empty for rename_path.")
+        if not new_path: raise ValueError("new_path cannot be empty for rename_path.")
+        payload = {"old_path": old_path, "new_path": new_path}
+        self._send_receive("rename_path", payload)
+        print(f"Request sent to rename path: {old_path} -> {new_path}")
+
+    def run_obsidian_command(self, command_id: str) -> None:
+        """
+        Executes an Obsidian command by its ID.
+
+        Args:
+            command_id (str): The ID of the command to execute (e.g., "editor:toggle-bold").
+
+        Raises:
+            ValueError: If command_id is empty.
+            ObsidianCommError: If the command execution fails (e.g., command ID not found).
+        """
+        if not command_id: raise ValueError("command_id cannot be empty for run_obsidian_command.")
+        payload = {"command_id": command_id}
+        self._send_receive("run_obsidian_command", payload)
+        print(f"Request sent to run command: {command_id}")
+
+    def get_all_tags(self) -> List[str]:
+        """
+        Retrieves a list of all unique tags present in the vault.
+        Includes the '#' prefix.
+
+        Returns:
+            List[str]: A list of unique tags (e.g., ['#tag1', '#tag/nested']).
+
+        Raises:
+            ObsidianCommError: If the request fails.
+        """
+        return self._send_receive("get_all_tags")
+
+    def get_vault_name(self) -> str:
+        """
+        Retrieves the name of the currently open vault.
+
+        Returns:
+            str: The name of the vault.
+
+        Raises:
+            ObsidianCommError: If the request fails.
+        """
+        return self._send_receive("get_vault_name")
+
+    def get_theme_mode(self) -> str:
+        """
+        Retrieves the current theme mode ('light' or 'dark').
+
+        Returns:
+            str: 'light' or 'dark'.
+
+        Raises:
+            ObsidianCommError: If the request fails.
+        """
+        return self._send_receive("get_theme_mode")
+
+    def create_folder(self, path: str) -> None:
+        """
+        Creates a new folder at the specified vault-relative path.
+
+        Args:
+            path (str): The vault-relative path for the new folder (e.g., "New Folder" or "Parent/New Folder").
+
+        Raises:
+            ValueError: If path is empty.
+            ObsidianCommError: If folder creation fails (e.g., path already exists, invalid path).
+        """
+        if not path: raise ValueError("Path cannot be empty for create_folder.")
+        payload = {"path": path}
+        self._send_receive("create_folder", payload)
+        print(f"Request sent to create folder: {path}")
+
+    def list_folder(self, path: str) -> Dict[str, List[str]]:
+        """
+        Lists the files and subfolders within a specified vault folder.
+
+        Args:
+            path (str): The vault-relative path of the folder to list.
+                        An empty string "" typically represents the vault root.
+
+        Returns:
+            Dict[str, List[str]]: A dictionary with keys 'files' and 'folders',
+                                  each containing a list of relative paths within that folder.
+                                  Example: {'files': ['Note.md'], 'folders': ['Subfolder']}
+
+        Raises:
+            ValueError: If path is None (use "" for root).
+            ObsidianCommError: If listing fails (e.g., path not found, not a folder).
+        """
+        if path is None:
+             raise ValueError("Path cannot be None for list_folder. Use an empty string \"\" for the vault root.")
+        payload = {"path": path}
+        return self._send_receive("list_folder", payload)
+
+    def get_links(self, path: str, type: str = 'outgoing') -> List[str]:
+        """
+        Retrieves links associated with a note.
+        Currently only supports 'outgoing' links (including embeds).
+
+        Args:
+            path (str): The vault-relative path of the note.
+            type (str, optional): The type of links to retrieve. Currently only
+                                  'outgoing' is reliably supported. Defaults to 'outgoing'.
+
+        Returns:
+            List[str]: A list of link paths (as strings) found in the note.
+
+        Raises:
+            ValueError: If path is empty.
+            ObsidianCommError: If the request fails (e.g., note not found).
+        """
+        if not path: raise ValueError("Path cannot be empty for get_links.")
+        # Basic validation for type, although only 'outgoing' is implemented server-side for now
+        if type not in ['outgoing', 'incoming', 'all']:
+             print(f"Warning: Link type '{type}' requested, but only 'outgoing' is currently implemented by the plugin.", file=sys.stderr)
+             type = 'outgoing' # Default to outgoing if invalid type requested
+
+        payload = {"path": path, "type": type}
+        return self._send_receive("get_links", payload)
+
+    def get_editor_context(self) -> Dict[str, Any]:
+        """
+        Retrieves context information about the active editor.
+
+        Returns:
+            Dict[str, Any]: A dictionary containing editor context, potentially including:
+                            - cursor (Dict): {'line': int, 'ch': int}
+                            - line_count (int): Total number of lines in the document.
+                            (Structure may evolve). Returns empty dict if no editor active.
+
+        Raises:
+            ObsidianCommError: If the request fails.
+        """
+        return self._send_receive("get_editor_context")

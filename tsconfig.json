@@ -1,17 +1,28 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "es6",
-      "strict": true,
-      "jsx": "react",
-      "esModuleInterop": true,
-      "experimentalDecorators": true,
-      "lib": ["es2017", "dom"],
-      "types": ["node", "obsidian"],
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
-      "outDir": "dist"
-    },
-    "include": ["src/**/*.ts"]
-  }
-  
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "target": "ES6",
+    "allowJs": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "types": [
+      "node",
+      "obsidian"
+    ],
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+    // inlineSourceMap et inlineSources supprimés
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

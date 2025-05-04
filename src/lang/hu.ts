@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Engedélyezi a szkript végrehajtását parancsokkal, gyorsbillentyűkkel vagy az 'Összes futtatása' paranccsal.",
 	NOTICE_SCRIPT_DISABLED: "A(z) '{scriptName}' szkript le van tiltva a beállításokban, és nem hajtható végre.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Futtatás indításkor",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "A szkript automatikus futtatása az Obsidian indításakor (csak akkor, ha a 'Szkript engedélyezve' is be van kapcsolva).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Indítási késleltetés (másodperc)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Várjon ennyi másodpercet az Obsidian indítása után a szkript futtatása előtt (csak akkor érvényes, ha a 'Futtatás indításkor' be van kapcsolva). Használjon 0-t, ha nincs késleltetés.",
+
 };

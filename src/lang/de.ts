@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Erlaube die Ausführung dieses Skripts über Befehle, Tastenkürzel oder 'Alle Ausführen'.",
 	NOTICE_SCRIPT_DISABLED: "Skript '{scriptName}' ist in den Einstellungen deaktiviert und kann nicht ausgeführt werden.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Beim Start ausführen",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Dieses Skript automatisch ausführen, wenn Obsidian startet (nur wenn 'Skript aktiviert' ebenfalls eingeschaltet ist).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Startverzögerung (Sekunden)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Warten Sie diese Anzahl von Sekunden nach dem Start von Obsidian, bevor Sie das Skript ausführen (gilt nur, wenn 'Beim Start ausführen' aktiviert ist). Verwenden Sie 0 für keine Verzögerung.",
+
 };

@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Benarkan skrip ini dilaksanakan melalui arahan, pintasan atau 'Jalankan Semua'.",
 	NOTICE_SCRIPT_DISABLED: "Skrip '{scriptName}' dilumpuhkan dalam tetapan dan tidak boleh dilaksanakan.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Jalankan semasa Permulaan",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Jalankan skrip ini secara automatik apabila Obsidian dimulakan (hanya jika 'Skrip Didayakan' juga dihidupkan).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Kelewatan Permulaan (saat)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Tunggu beberapa saat selepas Obsidian dimulakan sebelum menjalankan skrip (hanya terpakai jika 'Jalankan semasa Permulaan' dihidupkan). Gunakan 0 untuk tiada kelewatan.",
+
 };

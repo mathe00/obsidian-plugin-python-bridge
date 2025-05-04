@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Payagan ang script na ito na ma-execute sa pamamagitan ng mga command, shortcut, o 'Run All'.",
 	NOTICE_SCRIPT_DISABLED: "Naka-disable ang script na '{scriptName}' sa mga setting at hindi ma-execute.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Patakbuhin sa Startup",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Awtomatikong patakbuhin ang script na ito kapag nagsimula ang Obsidian (kung naka-on din ang 'Script Enabled').",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Pagkaantala sa Startup (segundo)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Maghintay ng ganitong bilang ng segundo pagkatapos magsimula ang Obsidian bago patakbuhin ang script (nalalapat lamang kung naka-on ang 'Patakbuhin sa Startup'). Gumamit ng 0 para walang pagkaantala.",
+
 };

@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Consenti l'esecuzione di questo script tramite comandi, scorciatoie o 'Esegui Tutto'.",
 	NOTICE_SCRIPT_DISABLED: "Lo script '{scriptName}' è disabilitato nelle impostazioni e non può essere eseguito.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Esegui all'avvio",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Esegui automaticamente questo script all'avvio di Obsidian (solo se anche 'Script Abilitato' è attivo).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Ritardo all'avvio (secondi)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Attendi questo numero di secondi dopo l'avvio di Obsidian prima di eseguire lo script (si applica solo se 'Esegui all'avvio' è attivo). Usa 0 per nessun ritardo.",
+
 };

@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Sta toe dat dit script wordt uitgevoerd via commando's, sneltoetsen of 'Alles Uitvoeren'.",
 	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is uitgeschakeld in de instellingen en kan niet worden uitgevoerd.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Uitvoeren bij opstarten",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Voer dit script automatisch uit wanneer Obsidian start (alleen als 'Script ingeschakeld' ook aan staat).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Opstartvertraging (seconden)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Wacht dit aantal seconden nadat Obsidian is gestart voordat het script wordt uitgevoerd (alleen van toepassing als 'Uitvoeren bij opstarten' is ingeschakeld). Gebruik 0 voor geen vertraging.",
+
 };

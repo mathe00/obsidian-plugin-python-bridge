@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "इस स्क्रिप्ट को कमांड, शॉर्टकट, या 'सभी चलाएँ' के माध्यम से निष्पादित करने की अनुमति दें।",
 	NOTICE_SCRIPT_DISABLED: "स्क्रिप्ट '{scriptName}' सेटिंग्स में अक्षम है और इसे निष्पादित नहीं किया जा सकता है।",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "स्टार्टअप पर चलाएँ",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "जब ओब्सीडियन शुरू होता है तो इस स्क्रिप्ट को स्वचालित रूप से चलाएं (केवल तभी जब 'स्क्रिप्ट सक्षम' भी चालू हो)।",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "स्टार्टअप विलंब (सेकंड)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "ओब्सीडियन शुरू होने के बाद स्क्रिप्ट चलाने से पहले इतने सेकंड प्रतीक्षा करें ('स्टार्टअप पर चलाएँ' चालू होने पर ही लागू होता है)। कोई विलंब नहीं के लिए 0 का उपयोग करें।",
+
 };

@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Дозволити виконання цього скрипта за допомогою команд, сполучень клавіш або 'Виконати все'.",
 	NOTICE_SCRIPT_DISABLED: "Скрипт '{scriptName}' вимкнено в налаштуваннях, і його неможливо виконати.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Запускати при старті",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Автоматично запускати цей скрипт при старті Obsidian (тільки якщо 'Скрипт увімкнено' також активовано).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Затримка запуску (секунди)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Зачекайте вказану кількість секунд після запуску Obsidian перед виконанням скрипту (застосовується, тільки якщо увімкнено 'Запускати при старті'). Використовуйте 0 для відсутності затримки.",
+
 };

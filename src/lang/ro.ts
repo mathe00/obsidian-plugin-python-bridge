@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Permiteți executarea acestui script prin comenzi, comenzi rapide sau 'Executare Toate'.",
 	NOTICE_SCRIPT_DISABLED: "Scriptul '{scriptName}' este dezactivat în setări și nu poate fi executat.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Rulează la pornire",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Rulează automat acest script la pornirea Obsidian (doar dacă și 'Script Activat' este pornit).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Întârziere la pornire (secunde)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Așteaptă acest număr de secunde după pornirea Obsidian înainte de a rula scriptul (se aplică doar dacă 'Rulează la pornire' este activat). Folosește 0 pentru nicio întârziere.",
+
 };

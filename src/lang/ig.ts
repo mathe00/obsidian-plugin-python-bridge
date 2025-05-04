@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Kwe ka edemede a mee site na iwu, ụzọ mkpirisi, ma ọ bụ 'Gbaa niile'.",
 	NOTICE_SCRIPT_DISABLED: "Edemede '{scriptName}' nwere nkwarụ na ntọala na enweghị ike ime ya.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Gbaa ọsọ na mmalite",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Na-agba ọsọ edemede a na-akpaghị aka mgbe Obsidian malitere (naanị ma ọ bụrụ na 'Ederede agbanyere' dịkwa).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Nkwụsị mmalite (sekọnd)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Chere ọtụtụ sekọnd ndị a mgbe Obsidian malitere tupu ịgba ọsọ edemede ahụ (na-emetụta naanị ma ọ bụrụ na 'Gbaa ọsọ na mmalite' dị). Jiri 0 maka enweghị igbu oge.",
+
 };

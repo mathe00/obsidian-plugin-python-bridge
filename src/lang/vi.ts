@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Cho phép script này được thực thi thông qua lệnh, phím tắt hoặc 'Chạy Tất cả'.",
 	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' đã bị tắt trong cài đặt và không thể thực thi.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Chạy khi khởi động",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Tự động chạy tập lệnh này khi Obsidian khởi động (chỉ khi 'Tập lệnh được bật' cũng đang bật).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Độ trễ khởi động (giây)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Đợi số giây này sau khi Obsidian khởi động trước khi chạy tập lệnh (chỉ áp dụng nếu 'Chạy khi khởi động' đang bật). Sử dụng 0 nếu không có độ trễ.",
+
 };

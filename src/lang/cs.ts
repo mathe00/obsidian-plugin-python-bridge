@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Povolit spuštění tohoto skriptu pomocí příkazů, zkratek nebo 'Spustit vše'.",
 	NOTICE_SCRIPT_DISABLED: "Skript '{scriptName}' je v nastavení zakázán a nelze jej spustit.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Spustit při startu",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Automaticky spustit tento skript při startu Obsidianu (pouze pokud je také zapnuto 'Skript povolen').",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Zpoždění startu (sekundy)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Počkejte tento počet sekund po startu Obsidianu před spuštěním skriptu (platí pouze pokud je zapnuto 'Spustit při startu'). Použijte 0 pro žádné zpoždění.",
+
 };

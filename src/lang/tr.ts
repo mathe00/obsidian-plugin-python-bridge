@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Bu betiğin komutlar, kısayollar veya 'Tümünü Çalıştır' aracılığıyla yürütülmesine izin verin.",
 	NOTICE_SCRIPT_DISABLED: "'{scriptName}' betiği ayarlarda devre dışı bırakıldı ve yürütülemez.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Başlangıçta Çalıştır",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Obsidian başladığında bu betiği otomatik olarak çalıştır (yalnızca 'Betik Etkin' de açıksa).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Başlangıç Gecikmesi (saniye)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian başladıktan sonra betiği çalıştırmadan önce bu kadar saniye bekleyin ('Başlangıçta Çalıştır' açıksa geçerlidir). Gecikme olmaması için 0 kullanın.",
+
 };

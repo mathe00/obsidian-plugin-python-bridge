@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Tillåt att detta skript körs via kommandon, genvägar eller 'Kör alla'.",
 	NOTICE_SCRIPT_DISABLED: "Skriptet '{scriptName}' är inaktiverat i inställningarna och kan inte köras.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Kör vid start",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Kör detta skript automatiskt när Obsidian startar (endast om 'Skript aktiverat' också är på).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Startfördröjning (sekunder)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Vänta så här många sekunder efter att Obsidian har startat innan skriptet körs (gäller endast om 'Kör vid start' är aktiverat). Använd 0 för ingen fördröjning.",
+
 };

@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Izinkan skrip ini dieksekusi melalui perintah, pintasan, atau 'Jalankan Semua'.",
 	NOTICE_SCRIPT_DISABLED: "Skrip '{scriptName}' dinonaktifkan di pengaturan dan tidak dapat dieksekusi.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Jalankan saat Startup",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Jalankan skrip ini secara otomatis saat Obsidian dimulai (hanya jika 'Skrip Diaktifkan' juga aktif).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Penundaan Startup (detik)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Tunggu beberapa detik setelah Obsidian dimulai sebelum menjalankan skrip (hanya berlaku jika 'Jalankan saat Startup' aktif). Gunakan 0 jika tidak ada penundaan.",
+
 };

@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Zezwól na wykonywanie tego skryptu za pomocą poleceń, skrótów lub 'Uruchom Wszystko'.",
 	NOTICE_SCRIPT_DISABLED: "Skrypt '{scriptName}' jest wyłączony w ustawieniach i nie może zostać wykonany.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Uruchom przy starcie",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Automatycznie uruchom ten skrypt po uruchomieniu Obsidian (tylko jeśli 'Skrypt włączony' jest również zaznaczony).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Opóźnienie startu (sekundy)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Poczekaj tę liczbę sekund po uruchomieniu Obsidian przed uruchomieniem skryptu (dotyczy tylko, gdy opcja 'Uruchom przy starcie' jest włączona). Użyj 0, aby nie było opóźnienia.",
+
 };

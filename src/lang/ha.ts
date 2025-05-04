@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Bada damar aiwatar da wannan rubutun ta hanyar umarni, gajerun hanyoyi, ko 'Run All'.",
 	NOTICE_SCRIPT_DISABLED: "An kashe Script '{scriptName}' a cikin saituna kuma ba za a iya aiwatar da shi ba.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Gudun Lokacin Farawa",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Gudun wannan rubutun ta atomatik lokacin da Obsidian ya fara (kawai idan 'An kunna Script' shima yana kunne).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Jinkirin Farawa (sakanni)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Jira wannan adadin sakanni bayan Obsidian ya fara kafin gudanar da rubutun (yana aiki ne kawai idan 'Gudun Lokacin Farawa' yana kunne). Yi amfani da 0 don babu jinkiri.",
+
 };

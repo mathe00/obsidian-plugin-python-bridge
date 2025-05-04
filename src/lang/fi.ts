@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Salli tämän skriptin suorittaminen komentojen, pikanäppäinten tai 'Suorita kaikki' kautta.",
 	NOTICE_SCRIPT_DISABLED: "Skripti '{scriptName}' on poistettu käytöstä asetuksista, eikä sitä voi suorittaa.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Suorita käynnistyksen yhteydessä",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Suorita tämä skripti automaattisesti Obsidianin käynnistyessä (vain jos 'Skripti käytössä' on myös päällä).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Käynnistysviive (sekuntia)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Odota näin monta sekuntia Obsidianin käynnistymisen jälkeen ennen skriptin suorittamista (koskee vain, jos 'Suorita käynnistyksen yhteydessä' on päällä). Käytä 0, jos et halua viivettä.",
+
 };

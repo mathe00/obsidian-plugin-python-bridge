@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "اجازه دهید این اسکریپت از طریق دستورات، میانبرها یا «اجرای همه» اجرا شود.",
 	NOTICE_SCRIPT_DISABLED: "اسکریپت '{scriptName}' در تنظیمات غیرفعال است و قابل اجرا نیست.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "اجرا در هنگام راه‌اندازی",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "این اسکریپت را به طور خودکار هنگام شروع Obsidian اجرا کنید (فقط در صورتی که 'اسکریپت فعال' نیز روشن باشد).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "تأخیر راه‌اندازی (ثانیه)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "این تعداد ثانیه پس از شروع Obsidian صبر کنید و سپس اسکریپت را اجرا کنید (فقط در صورتی اعمال می‌شود که 'اجرا در هنگام راه‌اندازی' روشن باشد). برای عدم تأخیر از 0 استفاده کنید.",
+
 };

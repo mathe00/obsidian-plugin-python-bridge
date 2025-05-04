@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "อนุญาตให้สคริปต์นี้ทำงานผ่านคำสั่ง ทางลัด หรือ 'เรียกใช้ทั้งหมด'",
 	NOTICE_SCRIPT_DISABLED: "สคริปต์ '{scriptName}' ถูกปิดใช้งานในการตั้งค่าและไม่สามารถดำเนินการได้",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "ทำงานเมื่อเริ่มต้น",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "เรียกใช้สคริปต์นี้โดยอัตโนมัติเมื่อ Obsidian เริ่มทำงาน (เฉพาะเมื่อ 'เปิดใช้งานสคริปต์' เปิดอยู่ด้วย)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "ความล่าช้าในการเริ่มต้น (วินาที)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "รอเป็นจำนวนวินาทีหลังจาก Obsidian เริ่มทำงานก่อนที่จะเรียกใช้สคริปต์ (ใช้ได้เฉพาะเมื่อ 'ทำงานเมื่อเริ่มต้น' เปิดอยู่) ใช้ 0 หากไม่ต้องการความล่าช้า",
+
 };

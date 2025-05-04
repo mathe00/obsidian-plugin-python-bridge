@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "কমান্ড, শর্টকাট বা 'সব চালান' এর মাধ্যমে এই স্ক্রিপ্টটি চালানোর অনুমতি দিন।",
 	NOTICE_SCRIPT_DISABLED: "স্ক্রিপ্ট '{scriptName}' সেটিংসে নিষ্ক্রিয় করা আছে এবং চালানো যাবে না।",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "স্টার্টআপে চালান",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Obsidian শুরু হলে এই স্ক্রিপ্টটি স্বয়ংক্রিয়ভাবে চালান (শুধুমাত্র যদি 'স্ক্রিপ্ট সক্ষম' চালু থাকে)।",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "স্টার্টআপ বিলম্ব (সেকেন্ড)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian শুরু হওয়ার পর স্ক্রিপ্টটি চালানোর আগে এই কয়েক সেকেন্ড অপেক্ষা করুন ('স্টার্টআপে চালান' চালু থাকলেই প্রযোজ্য)। কোনো বিলম্ব না চাইলে 0 ব্যবহার করুন।",
+
 };

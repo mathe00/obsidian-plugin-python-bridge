@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "السماح بتنفيذ هذا البرنامج النصي عبر الأوامر أو الاختصارات أو \"تشغيل الكل\".",
 	NOTICE_SCRIPT_DISABLED: "البرنامج النصي '{scriptName}' معطل في الإعدادات ولا يمكن تنفيذه.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "تشغيل عند البدء",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "تشغيل هذا السكربت تلقائيًا عند بدء تشغيل Obsidian (فقط إذا كان 'تمكين السكربت' قيد التشغيل أيضًا).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "تأخير البدء (ثواني)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "انتظر هذا العدد من الثواني بعد بدء تشغيل Obsidian قبل تشغيل السكربت (ينطبق فقط إذا كان 'تشغيل عند البدء' قيد التشغيل). استخدم 0 لعدم وجود تأخير.",
+
 };

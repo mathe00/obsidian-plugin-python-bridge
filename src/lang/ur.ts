@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "اس اسکرپٹ کو کمانڈز، شارٹ کٹس، یا 'سب چلائیں' کے ذریعے عمل میں لانے کی اجازت دیں۔",
 	NOTICE_SCRIPT_DISABLED: "اسکرپٹ '{scriptName}' سیٹنگز میں غیر فعال ہے اور اسے عمل میں نہیں لایا جا سکتا۔",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "اسٹارٹ اپ پر چلائیں",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "جب Obsidian شروع ہو تو اس اسکرپٹ کو خود بخود چلائیں (صرف اس صورت میں جب 'اسکرپٹ فعال' بھی آن ہو)۔",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "اسٹارٹ اپ میں تاخیر (سیکنڈ)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian شروع ہونے کے بعد اسکرپٹ چلانے سے پہلے اتنے سیکنڈ انتظار کریں ('اسٹارٹ اپ پر چلائیں' آن ہونے پر ہی لاگو ہوتا ہے)۔ بغیر کسی تاخیر کے 0 استعمال کریں۔",
+
 };

@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Ruhusu hati hii itekelezwe kupitia amri, njia za mkato, au 'Endesha Zote'.",
 	NOTICE_SCRIPT_DISABLED: "Hati '{scriptName}' imezimwa katika mipangilio na haiwezi kutekelezwa.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Endesha Wakati wa Kuanza",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Endesha hati hii kiotomatiki wakati Obsidian inapoanza (tu ikiwa 'Hati Imewashwa' pia imewashwa).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Kuchelewa Kuanza (sekunde)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Subiri sekunde hizi nyingi baada ya Obsidian kuanza kabla ya kuendesha hati (inatumika tu ikiwa 'Endesha Wakati wa Kuanza' imewashwa). Tumia 0 bila kuchelewa.",
+
 };

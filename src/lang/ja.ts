@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "コマンド、ショートカット、または「すべて実行」でこのスクリプトの実行を許可します。",
 	NOTICE_SCRIPT_DISABLED: "スクリプト「{scriptName}」は設定で無効になっており、実行できません。",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "起動時に実行",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Obsidianの起動時にこのスクリプトを自動的に実行します（「スクリプト有効」もオンの場合のみ）。",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "起動遅延（秒）",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidianの起動後、スクリプトを実行する前にこの秒数待機します（「起動時に実行」がオンの場合のみ適用）。遅延なしの場合は0を使用します。",
+
 };

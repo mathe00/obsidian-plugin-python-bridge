@@ -84,4 +84,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "명령, 단축키 또는 '모두 실행'을 통해 이 스크립트를 실행하도록 허용합니다.",
 	NOTICE_SCRIPT_DISABLED: "스크립트 '{scriptName}'이(가) 설정에서 비활성화되어 실행할 수 없습니다.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "시작 시 실행",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Obsidian 시작 시 이 스크립트를 자동으로 실행합니다 ('스크립트 활성화'도 켜져 있는 경우에만).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "시작 지연 (초)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian 시작 후 스크립트를 실행하기 전에 이 시간(초)만큼 기다립니다 ('시작 시 실행'이 켜져 있는 경우에만 적용됨). 지연이 없으려면 0을 사용하십시오.",
+
 };

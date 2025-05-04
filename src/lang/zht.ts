@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "允許透過指令、快捷鍵或「全部執行」來執行此腳本。",
 	NOTICE_SCRIPT_DISABLED: "腳本 '{scriptName}' 已在設定中停用，無法執行。",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "啟動時執行",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Obsidian 啟動時自動執行此腳本（僅當「腳本已啟用」也開啟時）。",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "啟動延遲（秒）",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian 啟動後等待這麼多秒再執行腳本（僅當「啟動時執行」開啟時適用）。使用 0 表示無延遲。",
+
 };

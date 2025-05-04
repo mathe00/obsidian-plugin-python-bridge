@@ -74,4 +74,9 @@ export default {
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Gba iwe afọwọkọ yii laaye lati ṣiṣẹ nipasẹ awọn aṣẹ, awọn ọna abuja, tabi 'Ṣiṣe Gbogbo'.",
 	NOTICE_SCRIPT_DISABLED: "Iwe afọwọkọ '{scriptName}' jẹ alaabo ninu awọn eto ati pe ko le ṣiṣẹ.",
 
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Ṣiṣe ni Ibẹrẹ",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Ṣiṣe iwe afọwọkọ yii laifọwọyi nigbati Obsidian ba bẹrẹ (nikan ti 'Iwe afọwọkọ Ti ṣiṣẹ' ba tun wa ni titan).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Idaduro Ibẹrẹ (iṣẹju-aaya)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Duro fun iye awọn aaya yii lẹhin ti Obsidian bẹrẹ ṣaaju ṣiṣe iwe afọwọkọ naa (kan nikan ti 'Ṣiṣe ni Ibẹrẹ' ba wa ni titan). Lo 0 fun ko si idaduro.",
+
 };

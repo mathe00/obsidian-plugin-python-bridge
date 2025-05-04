@@ -55,7 +55,25 @@ HTTP_PORT = int(os.environ.get("OBSIDIAN_HTTP_PORT", DEFAULT_HTTP_PORT))
 
 # --- Global variable to store settings definitions ---
 # This will be populated by the user script calling define_settings
-_script_settings_definitions: List[Dict[str, Any]] = []
+
+# --- Global variable to store event handling status ---
+_is_handling_event = False
+_event_name = None
+_event_payload = None
+
+# --- Check for Event Trigger Environment Variables AT MODULE LEVEL ---
+# This ensures these globals are set based on the environment *when the module is imported*.
+_event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if _event_name_from_env:
+    _is_handling_event = True
+    _event_name = _event_name_from_env
+    _payload_str_from_env = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    try:
+        _event_payload = json.loads(_payload_str_from_env)
+    except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse event payload JSON for event '{_event_name}'. Payload: '{_payload_str_from_env}'", file=sys.stderr)
+        _event_payload = {"error": "Failed to parse payload", "raw_payload": _payload_str_from_env}
+    # print(f"DEBUG: Module level event check: Name={_event_name}, Payload={_event_payload}", file=sys.stderr) # Optional debug
 
 # --- Function for user scripts to define their settings ---
 def define_settings(settings_list: List[Dict[str, Any]]):
@@ -103,7 +121,22 @@ def _handle_cli_args():
     )
     # Parse only known args defined above, ignore others that might be passed
     # This prevents errors if Obsidian or the user passes other args accidentally
-    args, _ = parser.parse_known_args()
+
+    # --- Check for Event Trigger Environment Variables ---
+    # This check happens AFTER parsing CLI args but BEFORE checking --get-settings-json
+    # because event triggers should take precedence over settings discovery.
+    global _is_handling_event, _event_name, _event_payload
+    _event_name = os.environ.get("OBSIDIAN_EVENT_NAME")
+    if _event_name:
+        _is_handling_event = True
+        payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+        try:
+            _event_payload = json.loads(payload_str)
+        except json.JSONDecodeError:
+            print(f"ERROR: Failed to parse event payload JSON for event '{_event_name}'. Payload: '{payload_str}'", file=sys.stderr)
+            _event_payload = {"error": "Failed to parse payload", "raw_payload": payload_str}
+        # print(f"DEBUG: Script triggered by event: {_event_name}, Payload: {_event_payload}", file=sys.stderr) # Optional debug
+        # --- IMPORTANT: Do NOT exit here. Let the main script logic check _is_handling_event ---
 
     if args.get_settings_json:
         # print("DEBUG: --get-settings-json flag detected.", file=sys.stderr) # Optional debug
@@ -182,10 +215,13 @@ class ObsidianPluginDevPythonToJS:
         self.request_timeout = request_timeout
         # Use a requests Session for potential performance benefits (connection pooling)
         self.session = requests.Session()
+        # Store script path for event listener registration payload
+        self._script_relative_path_for_api: Optional[str] = None
 
         # --- Read script relative path from environment variable ---
         # This is crucial for the get_script_settings method.
         self.script_relative_path: Optional[str] = os.environ.get("OBSIDIAN_SCRIPT_RELATIVE_PATH")
+        self._script_relative_path_for_api = self.script_relative_path # Store for API calls
         if not self.script_relative_path:
              # Log a warning but don't prevent initialization.
              # Only get_script_settings will fail later if called.
@@ -1243,6 +1279,67 @@ class ObsidianPluginDevPythonToJS:
             ObsidianCommError: If the request fails.
         """
         return self._send_receive("get_editor_context")
+
+    # --- NEW: Event Listener Methods ---
+
+    def register_event_listener(self, event_name: str) -> None:
+        """
+        Registers this script to listen for a specific Obsidian event.
+
+        When the event occurs in Obsidian, the plugin will execute this script again,
+        providing the event details via environment variables:
+        - OBSIDIAN_EVENT_NAME: The name of the event (e.g., "vault-modify").
+        - OBSIDIAN_EVENT_PAYLOAD: A JSON string containing event data (e.g., '{"path": "Note.md"}').
+
+        Your script should check for `os.environ.get("OBSIDIAN_EVENT_NAME")` at startup
+        to handle these event triggers and typically exit afterwards using `sys.exit(0)`.
+
+        Args:
+            event_name (str): The name of the Obsidian event to listen for.
+                              Supported events include: "vault-modify", "vault-delete",
+                              "vault-rename", "metadata-changed", "layout-change",
+                              "active-leaf-change".
+
+        Raises:
+            ObsidianCommError: If the registration request fails or the script path
+                               could not be determined during initialization.
+            ValueError: If event_name is empty.
+        """
+        if not event_name:
+            raise ValueError("event_name cannot be empty.")
+        if not self._script_relative_path_for_api:
+             raise ObsidianCommError(
+                 "Cannot register listener: Script path was not determined during initialization. "
+                 "Ensure OBSIDIAN_SCRIPT_RELATIVE_PATH environment variable is set.",
+                 action="register_event_listener"
+             )
+        payload = {"eventName": event_name, "scriptPath": self._script_relative_path_for_api}
+        self._send_receive("register_event_listener", payload)
+        print(f"Event listener registration request sent for: {event_name}")
+
+    def unregister_event_listener(self, event_name: str) -> None:
+        """
+        Unregisters this script from listening to a specific Obsidian event.
+
+        Args:
+            event_name (str): The name of the Obsidian event to stop listening to.
+
+        Raises:
+            ObsidianCommError: If the unregistration request fails or the script path
+                               could not be determined during initialization.
+            ValueError: If event_name is empty.
+        """
+        if not event_name:
+            raise ValueError("event_name cannot be empty.")
+        if not self._script_relative_path_for_api:
+             raise ObsidianCommError(
+                 "Cannot unregister listener: Script path was not determined during initialization. "
+                 "Ensure OBSIDIAN_SCRIPT_RELATIVE_PATH environment variable is set.",
+                 action="unregister_event_listener"
+             )
+        payload = {"eventName": event_name, "scriptPath": self._script_relative_path_for_api}
+        self._send_receive("unregister_event_listener", payload)
+        print(f"Event listener unregistration request sent for: {event_name}")
 
     def get_backlinks(self, path: str, use_cache_if_available: bool = True, cache_mode: str = 'fast') -> Dict[str, List[Dict[str, Any]]]:
         """

@@ -100,6 +100,8 @@ export default class ObsidianPythonBridge extends Plugin {
 	pythonExecutable: string | null = null;
 	// --- Store dynamic commands ---
 	private dynamicScriptCommands: Map<string, Command> = new Map();
+	// --- NEW: Store event listeners ---
+	private eventListeners: Map<string, Set<string>> = new Map(); // eventName -> Set<scriptRelativePath>
 
 	// --- Logging Helpers ---
 	logDebug(message: string, ...optionalParams: any[]) {
@@ -163,12 +165,16 @@ export default class ObsidianPythonBridge extends Plugin {
 				this.stopHttpServer();
 			}),
 		);
+
+		// --- NEW: Register Obsidian event listeners ---
+		this.registerObsidianEventListeners();
 		this.logInfo("Obsidian Python Bridge plugin loaded.");
 	}
 
 	onunload() {
 		this.logInfo("Unloading Obsidian Python Bridge plugin...");
 		this.stopHttpServer(); // Ensure server is stopped on unload
+		this.eventListeners.clear(); // Clear listeners on unload
 		this.logInfo("Obsidian Python Bridge plugin unloaded.");
 	}
 
@@ -1238,6 +1244,43 @@ export default class ObsidianPythonBridge extends Plugin {
 						return { status: "error", error: `Failed to retrieve backlinks for ${targetPath} using any method.` };
 					}
 				// End of case "get_backlinks"	
+
+				// --- NEW: Event Listener Actions ---
+				case "register_event_listener":
+					if (typeof payload?.eventName !== "string" || !payload.eventName) {
+						return { status: "error", error: "Invalid payload: 'eventName' (string) required." };
+					}
+					// We need the script path, which should be implicitly available via the env var
+					// when the Python script calls the API. Let's retrieve it.
+					const scriptPathForRegister = payload.scriptPath; // Assuming Python lib sends this
+					if (!scriptPathForRegister || typeof scriptPathForRegister !== 'string') {
+						// Fallback: Try to get from env if Python lib didn't send it explicitly
+						// This relies on how runPythonScript sets the env var, might be less reliable
+						// const scriptPathFromEnv = process.env.OBSIDIAN_SCRIPT_RELATIVE_PATH; // This won't work reliably here
+						return { status: "error", error: "Internal error: Script path not provided in payload for registration." };
+					}
+
+					const eventNameReg = payload.eventName;
+					if (!this.eventListeners.has(eventNameReg)) {
+						this.eventListeners.set(eventNameReg, new Set());
+					}
+					this.eventListeners.get(eventNameReg)?.add(scriptPathForRegister);
+					this.logInfo(`Script '${scriptPathForRegister}' registered for event '${eventNameReg}'. Current listeners:`, this.eventListeners.get(eventNameReg));
+					return { status: "success", data: null };
+
+				case "unregister_event_listener":
+					if (typeof payload?.eventName !== "string" || !payload.eventName) {
+						return { status: "error", error: "Invalid payload: 'eventName' (string) required." };
+					}
+					const scriptPathForUnregister = payload.scriptPath; // Assuming Python lib sends this
+					if (!scriptPathForUnregister || typeof scriptPathForUnregister !== 'string') {
+						return { status: "error", error: "Internal error: Script path not provided in payload for unregistration." };
+					}
+
+					const eventNameUnreg = payload.eventName;
+					this.removeListener(eventNameUnreg, scriptPathForUnregister);
+					this.logInfo(`Script '${scriptPathForUnregister}' unregistered from event '${eventNameUnreg}'.`);
+					return { status: "success", data: null };
 	
 
 				// --- Default ---
@@ -2601,6 +2644,195 @@ export default class ObsidianPythonBridge extends Plugin {
 			await this.updateScriptSettingsCache(scriptsFolder); // Discover settings first
 			await this._updateDynamicScriptCommands(scriptsFolder); // Then update commands
 		}
+
+	// --- NEW: Event Handling Logic ---
+
+	/**
+	 * Registers internal listeners for Obsidian events.
+	 */
+	private registerObsidianEventListeners(): void {
+		this.logInfo("Registering Obsidian event listeners...");
+
+		// Vault changes
+		this.registerEvent(this.app.vault.on('modify', (file) => {
+			if (file instanceof TFile) { // Ensure it's a file
+				this.triggerEvent("vault-modify", { path: file.path });
+			}
+		}));
+		this.registerEvent(this.app.vault.on('delete', (file) => {
+			// Note: file might be TFile or TFolder
+			this.triggerEvent("vault-delete", { path: file.path, type: file instanceof TFile ? 'file' : 'folder' });
+		}));
+		this.registerEvent(this.app.vault.on('rename', (file, oldPath) => {
+			this.triggerEvent("vault-rename", { path: file.path, oldPath: oldPath, type: file instanceof TFile ? 'file' : 'folder' });
+		}));
+
+		// Metadata changes
+		this.registerEvent(this.app.metadataCache.on('changed', (file, data, cache) => {
+			this.triggerEvent("metadata-changed", { path: file.path });
+		}));
+
+		// Layout changes
+		this.registerEvent(this.app.workspace.on('layout-change', () => {
+			this.triggerEvent("layout-change", {}); // No specific payload needed for now
+		}));
+
+		// Active leaf change
+		this.registerEvent(this.app.workspace.on('active-leaf-change', (leaf) => {
+			const view = leaf?.view;
+			let filePath = null;
+			if (view instanceof MarkdownView && view.file) {
+				filePath = view.file.path;
+			}
+			this.triggerEvent("active-leaf-change", { path: filePath }); // path can be null
+		}));
+
+
+		// Add more listeners here as needed (e.g., file-menu, editor-menu)
+		// this.registerEvent(this.app.workspace.on('file-menu', (menu, file) => { ... }));
+		// this.registerEvent(this.app.workspace.on('editor-menu', (menu, editor, view) => { ... }));
+
+		this.logInfo("Obsidian event listeners registered.");
+	}
+
+	/**
+	 * Triggers the execution of Python scripts listening to a specific event.
+	 * @param eventName The name of the event being triggered.
+	 * @param payload Data associated with the event, must be JSON serializable.
+	 */
+	private triggerEvent(eventName: string, payload: any): void {
+		const listeningScripts = this.eventListeners.get(eventName);
+		if (!listeningScripts || listeningScripts.size === 0) {
+			// this.logDebug(`No scripts listening for event: ${eventName}`);
+			return; // No scripts registered for this event
+		}
+
+		this.logInfo(`Event triggered: ${eventName}. Notifying ${listeningScripts.size} script(s). Payload:`, payload);
+		const scriptsFolder = this.getScriptsFolderPath();
+		if (!scriptsFolder) {
+			this.logError(`Cannot trigger event ${eventName}: Scripts folder path is invalid.`);
+			return;
+		}
+
+		// Serialize payload carefully
+		let payloadJson: string;
+		try {
+			payloadJson = JSON.stringify(payload);
+		} catch (error) {
+			this.logError(`Failed to serialize payload for event ${eventName}:`, error);
+			this.logError(`Original payload was:`, payload);
+			return; // Cannot proceed without serializable payload
+		}
+
+		listeningScripts.forEach(relativePath => {
+			const absolutePath = path.join(scriptsFolder, relativePath);
+			// Check if script still exists and is active before running
+			if (this.settings.scriptActivationStatus[relativePath] !== false) {
+				try {
+					if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
+						this.logDebug(`Running script ${relativePath} for event ${eventName}`);
+						// --- Execute script with event environment variables ---
+						this.runPythonScriptForEvent(absolutePath, relativePath, eventName, payloadJson);
+					} else {
+						this.logWarn(`Script ${relativePath} registered for event ${eventName} not found at ${absolutePath}. Removing listener.`);
+						this.removeListener(eventName, relativePath); // Clean up stale listener
+					}
+				} catch (error) {
+					this.logError(`Error checking file status for event script ${absolutePath}:`, error);
+				}
+			} else {
+				this.logDebug(`Skipping event notification for ${relativePath}: Script is disabled.`);
+			}
+		});
+	}
+
+	/**
+	 * Executes a Python script specifically for an event trigger, adding event env vars.
+	 * @param scriptAbsolutePath Absolute path to the script.
+	 * @param scriptRelativePath Relative path (for logging/identification).
+	 * @param eventName Name of the event.
+	 * @param payloadJson JSON string payload for the event.
+	 */
+	private async runPythonScriptForEvent(scriptAbsolutePath: string, scriptRelativePath: string, eventName: string, payloadJson: string) {
+		if (!this.pythonExecutable) {
+			this.logError(`Cannot run event script ${scriptRelativePath}: Python executable not found.`);
+			// Don't show notice here, might be too spammy for events
+			return;
+		}
+		const pythonCmd = this.pythonExecutable;
+
+		this.logDebug(`Running event handler: ${pythonCmd} ${scriptAbsolutePath} for event ${eventName}`);
+
+		// Prepare environment variables
+		const env = {
+			...process.env,
+			OBSIDIAN_HTTP_PORT: this.initialHttpPort.toString(),
+			OBSIDIAN_BRIDGE_ACTIVE: "true",
+			OBSIDIAN_SCRIPT_RELATIVE_PATH: scriptRelativePath, // Pass relative path
+			// --- NEW Event Variables ---
+			OBSIDIAN_EVENT_NAME: eventName,
+			OBSIDIAN_EVENT_PAYLOAD: payloadJson,
+			...(this.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }),
+		};
+
+		const pythonArgsBase = this.settings.disablePyCache ? ["-B"] : [];
+		const fullArgs = [...pythonArgsBase, scriptAbsolutePath];
+
+		try {
+			await new Promise<void>((resolve, reject) => {
+				const pythonProcess = spawn(pythonCmd, fullArgs, {
+					env,
+					cwd: path.dirname(scriptAbsolutePath) // Set CWD
+				});
+
+				let stderrOutput = "";
+				pythonProcess.stderr?.on("data", (data) => {
+					stderrOutput += data.toString();
+					console.error(`[stderr EVENT ${path.basename(scriptAbsolutePath)}]: ${data.toString().trim()}`);
+					this.logError(`[stderr EVENT ${path.basename(scriptAbsolutePath)}]: ${data.toString().trim()}`);
+				});
+
+				pythonProcess.stdout?.on("data", (data) => {
+					console.log(`[stdout EVENT ${path.basename(scriptAbsolutePath)}]: ${data.toString().trim()}`);
+					this.logDebug(`[stdout EVENT ${path.basename(scriptAbsolutePath)}]: ${data.toString().trim()}`);
+				});
+
+				pythonProcess.on("error", (error) => {
+					this.logError(`Failed to start event script ${scriptRelativePath}: ${error.message}`);
+					reject(error);
+				});
+
+				pythonProcess.on("close", (code) => {
+					if (code !== 0 && code !== null) {
+						this.logError(`Event script ${scriptRelativePath} failed for event ${eventName} with exit code ${code}.`);
+						if (stderrOutput.trim()) {
+							this.logError(`[Error Summary EVENT ${path.basename(scriptAbsolutePath)}]: ${stderrOutput.trim()}`);
+						}
+						// Don't show notice, too spammy
+						reject(new Error(`Event script exited with non-zero code: ${code}`));
+					} else {
+						this.logDebug(`Event script ${scriptRelativePath} finished for event ${eventName}.`);
+						resolve();
+					}
+				});
+			});
+		} catch (error) {
+			this.logWarn(`Event script ${scriptRelativePath} execution failed for event ${eventName}: ${error instanceof Error ? error.message : String(error)}`);
+		}
+	}
+
+	/** Helper to remove a script listener */
+	private removeListener(eventName: string, relativePath: string): void {
+		const listeners = this.eventListeners.get(eventName);
+		if (listeners) {
+			listeners.delete(relativePath);
+			if (listeners.size === 0) {
+				this.eventListeners.delete(eventName);
+			}
+		}
+	}
+
+	// --- End NEW Event Handling Logic ---
 
 	/**
 	 * Runs scripts marked for auto-start.

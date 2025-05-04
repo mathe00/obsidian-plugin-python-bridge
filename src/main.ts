@@ -63,6 +63,8 @@ interface PythonBridgeSettings {
     scriptActivationStatus: Record<string, boolean>; // <-- NEW: Activation status
 	/** User-configured auto-start status for scripts. Key: relative script path, Value: boolean (true=auto-start) */
 	scriptAutoStartStatus: Record<string, boolean>;
+	/** User-configured auto-start delay (in seconds) for scripts. Key: relative script path, Value: number */
+	scriptAutoStartDelay: Record<string, number>;
 }
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
@@ -75,6 +77,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	scriptSettingsValues: {},
 	scriptActivationStatus: {}, // Initialize activation status
 	scriptAutoStartStatus: {}, // Initialize auto-start status
+	scriptAutoStartDelay: {}, // Initialize auto-start delay
 };
 
 interface JsonResponse {
@@ -181,6 +184,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
 		this.settings.scriptActivationStatus = this.settings.scriptActivationStatus || {}; // Ensure activation status exists
 		this.settings.scriptAutoStartStatus = this.settings.scriptAutoStartStatus || {}; // Ensure auto-start status exists
+		this.settings.scriptAutoStartDelay = this.settings.scriptAutoStartDelay || {}; // Ensure auto-start delay exists
 
 		// Validate loaded port
 		if (
@@ -2162,17 +2166,35 @@ export default class ObsidianPythonBridge extends Plugin {
 		const cachedPaths = Object.keys(this.settings.scriptSettingsDefinitions);
 		for (const cachedPath of cachedPaths) {
 			if (!currentDefinitionKeys.has(cachedPath)) {
-				changesMade = true; // Definitions were removed
-				this.logInfo(`Script ${cachedPath} removed, clearing its settings definitions.`);
-				// Also clear corresponding values? Yes, makes sense.
+				changesMade = true; // Mark changes if any setting is removed
+				this.logInfo(`Script ${cachedPath} removed, clearing its settings definitions and values.`);
+
+				// Clear definitions
+				delete this.settings.scriptSettingsDefinitions[cachedPath];
+
+				// Clear corresponding values
 				if (this.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
 					delete this.settings.scriptSettingsValues[cachedPath];
-					this.logDebug(`Cleared auto-start status for removed script ${cachedPath}.`);
 					this.logDebug(`Cleared stored values for removed script ${cachedPath}.`);
+				}
+				// Clear activation status
+				if (this.settings.scriptActivationStatus.hasOwnProperty(cachedPath)) {
+					delete this.settings.scriptActivationStatus[cachedPath];
+					this.logDebug(`Cleared activation status for removed script ${cachedPath}.`);
+				}
+				// Clear auto-start status
+				if (this.settings.scriptAutoStartStatus.hasOwnProperty(cachedPath)) {
+					delete this.settings.scriptAutoStartStatus[cachedPath];
+					this.logDebug(`Cleared auto-start status for removed script ${cachedPath}.`);
+				}
+				// Clear auto-start delay
+				if (this.settings.scriptAutoStartDelay.hasOwnProperty(cachedPath)) {
+					delete this.settings.scriptAutoStartDelay[cachedPath];
+					this.logDebug(`Cleared auto-start delay for removed script ${cachedPath}.`);
 				}
 			}
 		}
-		// Check if number of scripts with definitions changed
+		// Check if number of scripts with definitions changed (redundant if changesMade is tracked correctly)
 		if (cachedPaths.length !== currentDefinitionKeys.size) {
 			changesMade = true;
 		}
@@ -2595,6 +2617,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		let scriptsRunCount = 0;
 		for (const relativePath in this.settings.scriptAutoStartStatus) {
 			const shouldAutoStart = this.settings.scriptAutoStartStatus[relativePath];
+			// Ensure script activation status is also checked
 			const isScriptActive = this.settings.scriptActivationStatus[relativePath] !== false; // Default true
 
 			if (shouldAutoStart && isScriptActive) {
@@ -2603,14 +2626,33 @@ export default class ObsidianPythonBridge extends Plugin {
 				try {
 					if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
 						this.logInfo(`Auto-starting script: ${relativePath}`);
-						// Don't await, let them run in background potentially concurrently
-						this.runPythonScript(absolutePath);
+						// --- Use setTimeout with delay ---
+						const delaySeconds = this.settings.scriptAutoStartDelay[relativePath] ?? 0;
+						const delayMs = Math.max(0, delaySeconds) * 1000; // Ensure non-negative delay in ms
+
+						if (delayMs > 0) {
+							this.logInfo(` -> Delaying execution by ${delaySeconds} second(s).`);
+							setTimeout(() => {
+								// Re-check activation status inside timeout in case it changed
+								if (this.settings.scriptActivationStatus[relativePath] !== false) {
+									this.logInfo(`Executing delayed auto-start script: ${relativePath}`);
+									this.runPythonScript(absolutePath); // No await inside timeout
+								} else {
+									this.logWarn(`Skipping delayed auto-start for ${relativePath}: Script was disabled during delay.`);
+								}
+							}, delayMs);
+						} else {
+							// Execute immediately if delay is 0 or invalid
+							this.runPythonScript(absolutePath); // No await
+						}
+						// --- End Modification ---
 						scriptsRunCount++;
 					} else {
 						this.logWarn(`Skipping auto-start for ${relativePath}: Script file not found at ${absolutePath}.`);
-						// Clean up stale auto-start entry?
+						// Consider cleaning up stale auto-start/delay entries here if desired
 						// delete this.settings.scriptAutoStartStatus[relativePath];
-						// this.saveSettings(); // Consider implications of saving settings here
+						// delete this.settings.scriptAutoStartDelay[relativePath];
+						// await this.saveSettings(); // Be careful with async operations in sync loops
 					}
 				} catch (error) {
 					this.logError(`Error checking file status for auto-start script ${absolutePath}:`, error);
@@ -2624,5 +2666,4 @@ export default class ObsidianPythonBridge extends Plugin {
 			this.logInfo("No active scripts configured for auto-start.");
 		}
 	}
-	
-} // End of class ObsidianPythonBridge
+}

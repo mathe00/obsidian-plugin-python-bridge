@@ -520,9 +520,54 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 									await this.plugin.saveSettings();
 									this.plugin.logInfo(
 										`Script '${relativePath}' auto-start status set to: ${value}`,
+										
 									);
+								this.display();
 								});
 						});
+					
+
+					// --- NEW: Auto-start Delay Input (Only if auto-start is enabled) ---
+					if (isAutoStartEnabled) {
+						// Ensure delay value exists (default 0)
+						if (this.plugin.settings.scriptAutoStartDelay[relativePath] === undefined) {
+							this.plugin.settings.scriptAutoStartDelay[relativePath] = 0;
+						}
+						const currentDelay = this.plugin.settings.scriptAutoStartDelay[relativePath];
+
+						new Setting(containerEl)
+							.setName(t("SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME")) // New translation key
+							.setDesc(t("SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC")) // New translation key
+							.addText((text) => {
+								text.inputEl.type = "number";
+								text.inputEl.min = "0"; // Minimum delay is 0
+								text.setPlaceholder("0")
+									.setValue(String(currentDelay))
+									.onChange(debounce(async (value) => {
+										const delayStr = value.trim();
+										let delayNum = parseInt(delayStr, 10);
+
+										// Validate: must be a non-negative integer
+										if (isNaN(delayNum) || delayNum < 0) {
+											text.inputEl.style.borderColor = "red";
+											// Optionally show a notice? Or just prevent saving invalid value
+											this.plugin.logWarn(`Invalid auto-start delay entered: ${value}. Using 0.`);
+											delayNum = 0; // Reset to default if invalid
+											// Update UI to reflect the reset value
+											// text.setValue("0"); // This might interfere with typing
+										} else {
+											text.inputEl.style.borderColor = ""; // Clear border on valid input
+										}
+
+										// Save only if the valid number changed
+										if (this.plugin.settings.scriptAutoStartDelay[relativePath] !== delayNum) {
+											this.plugin.settings.scriptAutoStartDelay[relativePath] = delayNum;
+											await this.plugin.saveSettings();
+											this.plugin.logInfo(`Script '${relativePath}' auto-start delay set to: ${delayNum} seconds.`);
+										}
+									}, this.DEBOUNCE_DELAY)); // Use debounce
+							});
+					}
 				}
 
 				// --- Conditionally display specific settings ---

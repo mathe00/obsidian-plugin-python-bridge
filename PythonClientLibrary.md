@@ -35,9 +35,26 @@ The easiest way to use the library is to **place the `ObsidianPluginDevPythonToJ
 # as ObsidianPluginDevPythonToJS.py
 
 import sys
+import os # Needed for environment variable check
+import json # Needed for parsing event payload
 import traceback
 
-# --- Import necessary components ---
+# --- Check for event trigger FIRST ---
+# This is crucial for the event listening system
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+is_handling_event = bool(event_name_from_env)
+event_payload = None
+
+if is_handling_event:
+    # Load payload if handling event
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    try:
+        event_payload = json.loads(payload_str)
+    except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse event payload JSON. Payload: '{payload_str}'", file=sys.stderr)
+        event_payload = {"error": "Failed to parse payload", "raw_payload": payload_str}
+
+# --- Now import the library ---
 try:
     from ObsidianPluginDevPythonToJS import (
         ObsidianPluginDevPythonToJS,
@@ -50,35 +67,68 @@ except ImportError:
     print("Ensure ObsidianPluginDevPythonToJS.py is in the same folder as this script.", file=sys.stderr)
     sys.exit(1)
 
-# --- Define Settings (if any) ---
-# See "Script-Specific Settings" section below
-# MY_SETTINGS = [ ... ]
-# define_settings(MY_SETTINGS)
 
-# --- Handle Settings Discovery ---
-# !!! IMPORTANT: Call this EARLY, before main logic !!!
-# _handle_cli_args()
+# --- Event Handling Logic (if triggered) ---
+if is_handling_event:
+    print(f"--- Script launched by Event: {event_name_from_env} ---")
+    # Add your event handling logic here based on event_name_from_env
+    # Example:
+    # if event_name_from_env == "vault-modify":
+    #     file_path = event_payload.get("path")
+    #     print(f"Note modified: {file_path}")
+    #     # Initialize client only if needed for response (e.g., notification)
+    #     try:
+    #         obsidian_client = ObsidianPluginDevPythonToJS(request_timeout=5.0)
+    #         obsidian_client.show_notification(f"Handled modify event for {file_path}")
+    #         # Optionally unregister
+    #         # obsidian_client.unregister_event_listener("vault-modify")
+    #     except Exception as e_handle:
+    #         print(f"Error initializing client or handling event: {e_handle}", file=sys.stderr)
 
-# --- Main Script Logic ---
-try:
-    # Your script logic here...
-    obsidian = ObsidianPluginDevPythonToJS()
+    # --- IMPORTANT: Exit after handling the event ---
+    print("--- Event handling finished. Exiting. ---")
+    sys.exit(0)
 
-    # Get settings values if needed
-    # settings = obsidian.get_script_settings()
-    # api_key = settings.get("api_key", "default_value")
 
-    obsidian.show_notification("Script started!")
-    # ... more actions
+# --- Main Script Logic (Only runs if NOT triggered by an event) ---
+else:
+    print("--- Script running in normal mode (not event triggered) ---")
+    # --- Define Settings (if any) ---
+    # MY_SETTINGS = [ ... ]
+    # define_settings(MY_SETTINGS)
 
-except ObsidianCommError as e:
-    # Handle communication errors with Obsidian specifically
-    print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
-    traceback.print_exc() # Optional: print full traceback for debugging
-except Exception as e:
-    # Handle other potential errors in your script
-    print(f"An unexpected error occurred: {e}", file=sys.stderr)
-    traceback.print_exc()
+    # --- Handle Settings Discovery ---
+    # !!! IMPORTANT: Call this EARLY, before main logic !!!
+    _handle_cli_args() # Checks for --get-settings-json
+
+    # --- Main Script Logic ---
+    try:
+        # Your script logic here...
+        obsidian = ObsidianPluginDevPythonToJS()
+
+        # Example: Register listener on first run
+        # try:
+        #     print("Registering listener for vault-modify...")
+        #     obsidian.register_event_listener("vault-modify")
+        #     obsidian.show_notification("Listening for note modifications...")
+        # except ObsidianCommError as e_reg:
+        #     print(f"Failed to register listener: {e_reg}", file=sys.stderr)
+
+        # Get settings values if needed
+        # settings = obsidian.get_script_settings()
+        # api_key = settings.get("api_key", "default_value")
+
+        obsidian.show_notification("Normal script execution started!")
+        # ... more actions
+
+    except ObsidianCommError as e:
+        # Handle communication errors with Obsidian specifically
+        print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
+        traceback.print_exc() # Optional: print full traceback for debugging
+    except Exception as e:
+        # Handle other potential errors in your script
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
+        traceback.print_exc()
 
 ```
 
@@ -89,7 +139,23 @@ If you store `ObsidianPluginDevPythonToJS.py` in a central location, you need to
 ```python
 import sys
 import os
+import json # Needed for parsing event payload
 import traceback
+
+# --- Check for event trigger FIRST ---
+# This is crucial for the event listening system
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+is_handling_event = bool(event_name_from_env)
+event_payload = None
+
+if is_handling_event:
+    # Load payload if handling event
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    try:
+        event_payload = json.loads(payload_str)
+    except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse event payload JSON. Payload: '{payload_str}'", file=sys.stderr)
+        event_payload = {"error": "Failed to parse payload", "raw_payload": payload_str}
 
 # --- Configuration ---
 # Path to the *directory* containing ObsidianPluginDevPythonToJS.py
@@ -113,33 +179,45 @@ except ImportError:
     print(f"Ensure '{library_directory}' is correct and contains the .py file.", file=sys.stderr)
     sys.exit(1)
 
-# --- Define Settings (if any) ---
-# ...
-# define_settings(...)
+# --- Event Handling Logic (if triggered) ---
+if is_handling_event:
+    print(f"--- Script launched by Event: {event_name_from_env} ---")
+    # Add your event handling logic here
+    # ... (similar logic as in the recommended method example) ...
+    print("--- Event handling finished. Exiting. ---")
+    sys.exit(0)
 
-# --- Handle Settings Discovery ---
-# _handle_cli_args()
-
-# --- Main Script Logic ---
-try:
-    # Your script logic here...
-    obsidian = ObsidianPluginDevPythonToJS()
+# --- Main Script Logic (Only runs if NOT triggered by an event) ---
+else:
+    print("--- Script running in normal mode (not event triggered) ---")
+    # --- Define Settings (if any) ---
     # ...
+    # define_settings(...)
 
-except ObsidianCommError as e:
-    print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
-    traceback.print_exc()
-except Exception as e:
-    print(f"An unexpected error occurred: {e}", file=sys.stderr)
-    traceback.print_exc()
+    # --- Handle Settings Discovery ---
+    _handle_cli_args()
+
+    # --- Main Script Logic ---
+    try:
+        # Your script logic here...
+        obsidian = ObsidianPluginDevPythonToJS()
+        # ...
+
+    except ObsidianCommError as e:
+        print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
+        traceback.print_exc()
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
+        traceback.print_exc()
 ```
 
 ## Initialization
 
-To start interacting with Obsidian, create an instance of the `ObsidianPluginDevPythonToJS` class **after** handling the settings discovery (`_handle_cli_args()` if used):
+To start interacting with Obsidian, create an instance of the `ObsidianPluginDevPythonToJS` class **after** handling the settings discovery (`_handle_cli_args()` if used) and **only if the script is NOT being run for an event**.
 
 ```python
 # Must be called AFTER _handle_cli_args() if settings are defined
+# And typically within the 'else' block after checking for event triggers
 obsidian = ObsidianPluginDevPythonToJS(http_port=None, connect_timeout=2.0, request_timeout=10.0)
 ```
 
@@ -153,7 +231,7 @@ obsidian = ObsidianPluginDevPythonToJS(http_port=None, connect_timeout=2.0, requ
 **Initialization Behavior:**
 
 *   The constructor attempts a quick connection test to the determined URL (`http://127.0.0.1:PORT/`).
-*   It reads the `OBSIDIAN_SCRIPT_RELATIVE_PATH` environment variable (set by the plugin) to identify the current script. This is needed for the `get_script_settings()` method. If the variable is missing (e.g., running the script outside Obsidian), a warning is printed, and `get_script_settings()` will fail.
+*   It reads the `OBSIDIAN_SCRIPT_RELATIVE_PATH` environment variable (set by the plugin) to identify the current script. This is needed for the `get_script_settings()` and event listener registration methods. If the variable is missing (e.g., running the script outside Obsidian), a warning is printed, and `get_script_settings()` / event methods will fail.
 *   **Raises:**
     *   `ValueError`: If `http_port` (if provided manually) is not a valid integer between 1 and 65535.
     *   `ObsidianCommError`: If the initial connection test fails (e.g., timeout, connection refused, Obsidian not running, plugin inactive, wrong port).
@@ -183,13 +261,13 @@ You can define configuration settings for your Python script that users can mana
 1.  **Define Settings (in your Python script):**
     *   Import the `define_settings` helper function.
     *   Create a list of dictionaries describing each setting.
-    *   Call `define_settings(your_settings_list)` **at the beginning** of your script.
+    *   Call `define_settings(your_settings_list)` **at the beginning** of your script (before `_handle_cli_args`).
 2.  **Handle Discovery (in your Python script):**
     *   Import the `_handle_cli_args` helper function.
-    *   Call `_handle_cli_args()` **immediately after** `define_settings()`, before any other script logic.
+    *   Call `_handle_cli_args()` **immediately after** `define_settings()`, before any other script logic. This function checks for `--get-settings-json` and also handles the initial event check.
 3.  **Plugin Discovers Settings:** Obsidian runs scripts with `--get-settings-json` flag.
 4.  **User Configures Values:** User sets values in Obsidian settings UI.
-5.  **Script Retrieves Values:** Call `obsidian.get_script_settings()` in your main logic.
+5.  **Script Retrieves Values:** Call `obsidian.get_script_settings()` in your main logic (when not handling an event).
 
 **Settings Definition Structure:**
 
@@ -200,32 +278,59 @@ Each dictionary in the list passed to `define_settings` should have: `key` (str)
 ```python
 # (See full example in main README.md or previous documentation)
 import sys
+import os # Needed for event check
+import json # Needed for event check
 import traceback
-# ... imports ...
-from ObsidianPluginDevPythonToJS import (
-    ObsidianPluginDevPythonToJS, ObsidianCommError,
-    define_settings, _handle_cli_args
-)
+# ... other imports ...
 
-# 1. Define
-MY_SETTINGS = [
-    {"key": "api_key", "type": "text", "label": "API Key", "default": ""},
-    # ... more settings ...
-]
-# 2. Register
-define_settings(MY_SETTINGS)
-# 3. Handle Discovery
-_handle_cli_args()
+# --- Event Check ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+is_handling_event = bool(event_name_from_env)
+event_payload = None
+if is_handling_event:
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    try: event_payload = json.loads(payload_str)
+    except: pass # Handle error below if needed
 
-# 4. Main Logic
+# --- Library Import ---
 try:
-    obsidian = ObsidianPluginDevPythonToJS()
-    # 5. Get Values
-    settings = obsidian.get_script_settings()
-    api_key = settings.get("api_key", MY_SETTINGS[0]["default"])
-    # ... use settings ...
-except Exception as e:
-    # ... error handling ...
+    from ObsidianPluginDevPythonToJS import (
+        ObsidianPluginDevPythonToJS, ObsidianCommError,
+        define_settings, _handle_cli_args
+    )
+except ImportError:
+    print("ERROR: Could not import ObsidianPluginDevPythonToJS.", file=sys.stderr)
+    sys.exit(1)
+
+# --- Event Handling ---
+if is_handling_event:
+    print(f"Handling event: {event_name_from_env}")
+    # ... handle event logic ...
+    sys.exit(0)
+
+# --- Normal Execution ---
+else:
+    # 1. Define
+    MY_SETTINGS = [
+        {"key": "api_key", "type": "text", "label": "API Key", "default": ""},
+        # ... more settings ...
+    ]
+    define_settings(MY_SETTINGS)
+
+    # 2. Handle Discovery (also checks events, but we already did)
+    _handle_cli_args()
+
+    # 3. Main Logic
+    try:
+        obsidian = ObsidianPluginDevPythonToJS()
+        # 4. Get Values
+        settings = obsidian.get_script_settings()
+        api_key = settings.get("api_key", MY_SETTINGS[0]["default"])
+        # ... use settings ...
+    except Exception as e:
+        # ... error handling ...
+        print(f"Error in main logic: {e}", file=sys.stderr)
+
 ```
 
 ## API Reference
@@ -238,7 +343,7 @@ All methods below may raise `ObsidianCommError` if communication with the Obsidi
 
 #### `define_settings(settings_list: List[Dict[str, Any]]) -> None`
 
-Registers the settings definitions for the current script. **Must be called once at the beginning of the script.**
+Registers the settings definitions for the current script. **Must be called once at the beginning of the script (before `_handle_cli_args`).**
 
 *   **Parameters:**
     *   `settings_list` (`List[Dict[str, Any]]`): A list of dictionaries defining settings.
@@ -246,7 +351,7 @@ Registers the settings definitions for the current script. **Must be called once
 
 #### `_handle_cli_args() -> None`
 
-Checks for `--get-settings-json` argument. If present, prints settings JSON and exits. **Must be called immediately after `define_settings()` and before main logic.**
+Checks for `--get-settings-json` argument. If present, prints settings JSON and exits. **Must be called immediately after `define_settings()` and before main script logic.** *Note: This function is essential for settings discovery by the plugin.*
 
 *   **Parameters:** None
 *   **Returns:** `None` (or exits the script)
@@ -560,3 +665,146 @@ Manages top-level keys in frontmatter ('add', 'remove', 'rename'). (See details 
 #### `manage_properties_value(...) -> Dict[str, Any]`
 
 Manages values associated with a key ('add', 'remove', 'update'). (See details in previous docs or code).
+
+---
+
+### Event Listening (Reacting to Obsidian Events)
+
+Your Python scripts can react to things happening inside Obsidian (like modifying a note, deleting a file, etc.) by registering event listeners.
+
+**How it Works (Important Concept):**
+
+Unlike typical Python event listeners that run continuously in the background, this system works differently due to the bridge architecture:
+
+1.  **Registration:** Your script runs once (e.g., triggered by a command) and calls `obsidian.register_event_listener("event-name")`. This tells the Obsidian plugin "Hey, if 'event-name' happens, run me again!". Your script then finishes its initial execution.
+2.  **Event Occurs:** Something happens in Obsidian (e.g., you modify a note).
+3.  **Plugin Action:** The Obsidian plugin detects the event. It checks its list of registered scripts for that event.
+4.  **Script Re-Execution:** The plugin **runs your Python script again from the beginning**, but this time it adds special **environment variables**:
+    *   `OBSIDIAN_EVENT_NAME`: The name of the event that occurred (e.g., `"vault-modify"`).
+    *   `OBSIDIAN_EVENT_PAYLOAD`: A JSON string containing data about the event (e.g., `'{"path": "My Note.md"}'`).
+5.  **Your Script's Responsibility:** Your script **must check for `os.environ.get("OBSIDIAN_EVENT_NAME")` right at the start**.
+    *   If the variable exists, it means the script was run *because* of an event. Your script should then:
+        *   Parse the `OBSIDIAN_EVENT_PAYLOAD` (using `json.loads`).
+        *   Perform the action needed for that specific event.
+        *   Optionally call `obsidian.unregister_event_listener()` if it should only react once.
+        *   **Exit immediately using `sys.exit(0)`** to prevent the rest of the script (like the registration part) from running again.
+    *   If the variable *doesn't* exist, the script was run normally (e.g., by you via a command), and it should proceed with its normal logic (like registering the listener).
+
+**Supported Event Names (Initial List):**
+
+*   `"vault-modify"`: A file's content has been modified.
+    *   Payload: `{"path": "relative/path/to/file.md"}`
+*   `"vault-delete"`: A file or folder has been deleted.
+    *   Payload: `{"path": "relative/path/to/item", "type": "file" | "folder"}`
+*   `"vault-rename"`: A file or folder has been renamed/moved.
+    *   Payload: `{"path": "new/relative/path", "oldPath": "old/relative/path", "type": "file" | "folder"}`
+*   `"metadata-changed"`: A file's metadata (frontmatter, tags, links) has changed.
+    *   Payload: `{"path": "relative/path/to/file.md"}`
+*   `"layout-change"`: The overall workspace layout has changed (e.g., split opened/closed).
+    *   Payload: `{}` (Empty for now)
+*   `"active-leaf-change"`: The currently focused tab/pane (leaf) has changed.
+    *   Payload: `{"path": "relative/path/to/active/note.md" | null}` (Path is null if the active leaf isn't a Markdown note)
+
+*(More events might be added in the future based on the Obsidian API.)*
+
+#### `register_event_listener(event_name: str) -> None`
+
+Registers the current script to be executed when a specific Obsidian event occurs.
+
+*   **Parameters:**
+    *   `event_name` (`str`): The name of the event to listen for (see list above).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `event_name` is empty. `ObsidianCommError` if registration fails or the script path couldn't be determined.
+
+#### `unregister_event_listener(event_name: str) -> None`
+
+Unregisters the current script from listening to a specific Obsidian event.
+
+*   **Parameters:**
+    *   `event_name` (`str`): The name of the event to stop listening to.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `event_name` is empty. `ObsidianCommError` if unregistration fails or the script path couldn't be determined.
+
+**Example Script (`react_on_modify.py`):**
+
+```python
+# react_on_modify.py
+import sys
+import os
+import json
+import time
+import traceback
+
+# --- Check for event trigger FIRST ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+is_handling_event = bool(event_name_from_env)
+event_payload = None
+
+if is_handling_event:
+    # Load payload if handling event
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    try:
+        event_payload = json.loads(payload_str)
+    except json.JSONDecodeError:
+        print(f"ERROR: Failed to parse event payload JSON. Payload: '{payload_str}'", file=sys.stderr)
+        event_payload = {"error": "Failed to parse payload", "raw_payload": payload_str}
+
+# --- Now import the library ---
+try:
+    # Assuming ObsidianPluginDevPythonToJS.py is in the same folder or accessible via PYTHONPATH
+    from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
+except ImportError:
+    print("ERROR: Could not import ObsidianPluginDevPythonToJS.", file=sys.stderr)
+    sys.exit(1)
+
+# --- Configuration ---
+EVENT_TO_LISTEN_FOR = "vault-modify"
+
+# --- Global client instance ---
+obsidian = None
+
+# --- Event Handling Logic ---
+if is_handling_event:
+    try:
+        obsidian = ObsidianPluginDevPythonToJS(request_timeout=5.0) # Init client for handling
+
+        if event_name_from_env == EVENT_TO_LISTEN_FOR:
+            file_path = event_payload.get("path", "N/A")
+            print(f"Detected modification of: {file_path}")
+            obsidian.show_notification(f"Detected modification:\n{file_path}", 4000)
+            # Optional: Unregister if you only want to react once per script run
+            # try:
+            #     obsidian.unregister_event_listener(EVENT_TO_LISTEN_FOR)
+            #     obsidian.show_notification(f"Stopped listening for {EVENT_TO_LISTEN_FOR}", 3000)
+            # except Exception as e_unreg:
+            #     print(f"Error unregistering: {e_unreg}", file=sys.stderr)
+        else:
+             obsidian.show_notification(f"Ignoring event: {event_name_from_env}", 3000)
+
+    except Exception as e_event:
+         print(f"ERROR during event handling: {e_event}", file=sys.stderr)
+         # Avoid showing notification if client init failed
+         if obsidian:
+             try: obsidian.show_notification(f"❌ Error handling event: {e_event}", 6000)
+             except: pass
+
+    # --- IMPORTANT: Exit after handling ---
+    sys.exit(0)
+
+# --- Main Script Logic (Registration) ---
+else:
+    try:
+        obsidian = ObsidianPluginDevPythonToJS(request_timeout=10.0)
+        print(f"--- Registering Listener for: {EVENT_TO_LISTEN_FOR} ---")
+        obsidian.register_event_listener(EVENT_TO_LISTEN_FOR)
+        obsidian.show_notification(f"👂 Now listening for {EVENT_TO_LISTEN_FOR}...", 5000)
+        print(f"--- Registered. Modify a note to trigger this script. ---")
+
+    except Exception as e_main:
+        print(f"❌ ERROR during registration: {e_main}", file=sys.stderr)
+        if obsidian:
+             try: obsidian.show_notification(f"❌ Registration Error: {e_main}", 8000)
+             except: pass
+        sys.exit(1)
+
+```

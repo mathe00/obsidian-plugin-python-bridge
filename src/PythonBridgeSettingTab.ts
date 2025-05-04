@@ -501,6 +501,30 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 							});
 					});
 
+				// --- NEW: Auto-start Toggle (Only if script is active) ---
+				if (isScriptActive) {
+					// Ensure auto-start status exists (default false)
+					if (this.plugin.settings.scriptAutoStartStatus[relativePath] === undefined) {
+						this.plugin.settings.scriptAutoStartStatus[relativePath] = false;
+					}
+					const isAutoStartEnabled = this.plugin.settings.scriptAutoStartStatus[relativePath];
+
+					new Setting(containerEl)
+						.setName(t("SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME")) // New translation key
+						.setDesc(t("SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC")) // New translation key
+						.addToggle((toggle) => {
+							toggle
+								.setValue(isAutoStartEnabled)
+								.onChange(async (value) => {
+									this.plugin.settings.scriptAutoStartStatus[relativePath] = value;
+									await this.plugin.saveSettings();
+									this.plugin.logInfo(
+										`Script '${relativePath}' auto-start status set to: ${value}`,
+									);
+								});
+						});
+				}
+
 				// --- Conditionally display specific settings ---
 				const scriptDefs = definitions[relativePath];
 				if (scriptDefs && scriptDefs.length > 0) {

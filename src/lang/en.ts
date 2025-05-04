@@ -85,6 +85,8 @@ export default {
 
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Enabled",
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Allow this script to be executed via commands, shortcuts, or 'Run All'.",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Run on Startup",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Automatically run this script when Obsidian starts (only if 'Script Enabled' is also on).",
 	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is disabled in settings and cannot be executed.",
 
 };

@@ -61,6 +61,8 @@ interface PythonBridgeSettings {
 	scriptSettingsValues: Record<string, Record<string, any>>;
 	/** User-configured activation status for scripts. Key: relative script path, Value: boolean (true=active, false=inactive) */
     scriptActivationStatus: Record<string, boolean>; // <-- NEW: Activation status
+	/** User-configured auto-start status for scripts. Key: relative script path, Value: boolean (true=auto-start) */
+	scriptAutoStartStatus: Record<string, boolean>;
 }
 
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
@@ -72,6 +74,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	scriptSettingsDefinitions: {},
 	scriptSettingsValues: {},
 	scriptActivationStatus: {}, // Initialize activation status
+	scriptAutoStartStatus: {}, // Initialize auto-start status
 };
 
 interface JsonResponse {
@@ -138,6 +141,9 @@ export default class ObsidianPythonBridge extends Plugin {
 				// This now also handles command registration/update
 				this.updateAndSyncCommands(scriptsFolder).catch((err) => {
 					this.logError("Initial script settings discovery and command sync failed:", err);
+				}).then(() => {
+					// --- NEW: Run auto-start scripts AFTER initial discovery/sync ---
+					this.runAutoStartScripts();
 				});
 			} else {
 				// Message modifié pour être plus générique car la validation a déjà eu lieu
@@ -174,6 +180,7 @@ export default class ObsidianPythonBridge extends Plugin {
 		this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
 		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
 		this.settings.scriptActivationStatus = this.settings.scriptActivationStatus || {}; // Ensure activation status exists
+		this.settings.scriptAutoStartStatus = this.settings.scriptAutoStartStatus || {}; // Ensure auto-start status exists
 
 		// Validate loaded port
 		if (
@@ -2160,6 +2167,7 @@ export default class ObsidianPythonBridge extends Plugin {
 				// Also clear corresponding values? Yes, makes sense.
 				if (this.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
 					delete this.settings.scriptSettingsValues[cachedPath];
+					this.logDebug(`Cleared auto-start status for removed script ${cachedPath}.`);
 					this.logDebug(`Cleared stored values for removed script ${cachedPath}.`);
 				}
 			}
@@ -2571,5 +2579,50 @@ export default class ObsidianPythonBridge extends Plugin {
 			await this.updateScriptSettingsCache(scriptsFolder); // Discover settings first
 			await this._updateDynamicScriptCommands(scriptsFolder); // Then update commands
 		}
+
+	/**
+	 * Runs scripts marked for auto-start.
+	 * Called after plugin load, server start, and initial settings sync.
+	 */
+	private runAutoStartScripts(): void {
+		this.logInfo("Checking for scripts to run on startup...");
+		const scriptsFolder = this.getScriptsFolderPath();
+		if (!scriptsFolder) {
+			this.logWarn("Cannot run auto-start scripts: Scripts folder path is invalid.");
+			return;
+		}
+
+		let scriptsRunCount = 0;
+		for (const relativePath in this.settings.scriptAutoStartStatus) {
+			const shouldAutoStart = this.settings.scriptAutoStartStatus[relativePath];
+			const isScriptActive = this.settings.scriptActivationStatus[relativePath] !== false; // Default true
+
+			if (shouldAutoStart && isScriptActive) {
+				const absolutePath = path.join(scriptsFolder, relativePath);
+				// Check if file actually exists before trying to run
+				try {
+					if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
+						this.logInfo(`Auto-starting script: ${relativePath}`);
+						// Don't await, let them run in background potentially concurrently
+						this.runPythonScript(absolutePath);
+						scriptsRunCount++;
+					} else {
+						this.logWarn(`Skipping auto-start for ${relativePath}: Script file not found at ${absolutePath}.`);
+						// Clean up stale auto-start entry?
+						// delete this.settings.scriptAutoStartStatus[relativePath];
+						// this.saveSettings(); // Consider implications of saving settings here
+					}
+				} catch (error) {
+					this.logError(`Error checking file status for auto-start script ${absolutePath}:`, error);
+				}
+			}
+		}
+
+		if (scriptsRunCount > 0) {
+			this.logInfo(`Finished launching ${scriptsRunCount} auto-start script(s).`);
+		} else {
+			this.logInfo("No active scripts configured for auto-start.");
+		}
+	}
 	
 } // End of class ObsidianPythonBridge

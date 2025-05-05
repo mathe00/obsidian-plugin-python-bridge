@@ -14,6 +14,12 @@ import {
 	debounce,
 } from "obsidian"; // Import debounce
 import type ObsidianPythonBridge from "./main";
+// Import helpers moved out of main.ts
+import {
+	getScriptsFolderPath,
+	updateAndSyncCommands,
+} from "./python_executor";
+import { checkPythonEnvironment } from "./environment_checker";
 import { DEFAULT_PORT, PYTHON_LIBRARY_FILENAME } from "./constants";
 import {
 	t,
@@ -175,17 +181,18 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 											newValue;
 										await this.plugin.saveSettings();
 										// Trigger settings discovery & command sync only if path is valid and changed
-										const scriptsFolder =
-											this.plugin.getScriptsFolderPath(); // Re-check path validity
+										// FIX: Use imported function and remove duplicate call
+										const scriptsFolder = getScriptsFolderPath(this.plugin); // Re-check path validity
 										if (
 											scriptsFolder &&
 											this.plugin.pythonExecutable
 										) {
 											// No need to await here, let it run in background
-											this.plugin
-												.updateAndSyncCommands(
-													scriptsFolder,
-												) // Call updateAndSyncCommands
+											// FIX: Use imported function and remove duplicate call
+											updateAndSyncCommands(
+												this.plugin,
+												scriptsFolder,
+											) // Call updateAndSyncCommands
 												.then(() => {
 													this.plugin.logInfo(
 														"Script settings cache & commands updated after folder change.",
@@ -365,8 +372,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 					)
 					.setCta()
 					.onClick(async () => {
-						const scriptsFolder =
-							this.plugin.getScriptsFolderPath();
+						// FIX: Use imported function and remove duplicate call
+						const scriptsFolder = getScriptsFolderPath(this.plugin);
 						if (!scriptsFolder) {
 							if (this.plugin.settings.pythonScriptsFolder) {
 								new Notice(t("NOTICE_INVALID_FOLDER_PATH"));
@@ -385,7 +392,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 								),
 								5000,
 							);
-							await this.plugin.checkPythonEnvironment();
+							// FIX: Use imported function
+							await checkPythonEnvironment(this.plugin); // Re-check env
 							if (!this.plugin.pythonExecutable) return;
 						}
 
@@ -399,13 +407,13 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						new Notice(t("NOTICE_REFRESHING_SCRIPT_SETTINGS"));
 
 						try {
-							await this.plugin.updateAndSyncCommands(
-								scriptsFolder,
-							); // Call updateAndSyncCommands
+							// FIX: Use imported function and remove duplicate/incorrect call
+							await updateAndSyncCommands(this.plugin, scriptsFolder); // Call updateAndSyncCommands
 							new Notice(
 								t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS"),
 							);
 							this.display(); // Redraw to show updated settings/scripts
+						// FIX: Catch block was inside the try block before
 						} catch (error) {
 							this.plugin.logError(
 								"Manual script settings refresh failed:",
@@ -430,7 +438,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			});
 
 		// Logic to display ALL scripts
-		const scriptsFolder = this.plugin.getScriptsFolderPath();
+		// FIX: Use imported function and remove duplicate call
+		const scriptsFolder = getScriptsFolderPath(this.plugin);
 		const definitions = this.plugin.settings.scriptSettingsDefinitions;
 		const values = this.plugin.settings.scriptSettingsValues;
 		const activationStatus = this.plugin.settings.scriptActivationStatus;

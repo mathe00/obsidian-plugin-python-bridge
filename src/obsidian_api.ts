@@ -1,17 +1,7 @@
 // --- src/obsidian_api.ts ---
 // Encapsulates direct interactions with the Obsidian API (app.vault, app.workspace, etc.).
 
-import {
-	App,
-	TFile,
-	TFolder,
-	TAbstractFile,
-	MarkdownView,
-	FileSystemAdapter,
-	normalizePath,
-	LinkCache,
-	Notice, // Keep Notice import if used directly here, though likely better in calling modules
-} from "obsidian";
+import { App, TFile, TFolder, TAbstractFile, MarkdownView, FileSystemAdapter, normalizePath, LinkCache, Notice } from "obsidian"; // Keep Notice import if used directly here, though likely better in calling modules
 import * as path from "path";
 import type ObsidianPythonBridge from "./main"; // Import the main plugin type
 import { t } from "./lang/translations"; // Import translation function if needed for errors/logs
@@ -33,9 +23,7 @@ export function getActiveNoteFile(plugin: ObsidianPythonBridge): TFile | null {
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The note content as a string, or null if no active note.
  */
-export async function getActiveNoteContent(
-	plugin: ObsidianPythonBridge,
-): Promise<string | null> {
+export async function getActiveNoteContent(plugin: ObsidianPythonBridge): Promise<string | null> {
 	const file = getActiveNoteFile(plugin);
 	return file ? plugin.app.vault.cachedRead(file) : null;
 }
@@ -45,25 +33,18 @@ export async function getActiveNoteContent(
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The relative path string or null.
  */
-export function getActiveNoteRelativePath(
-	plugin: ObsidianPythonBridge,
-): string | null {
-	return getActiveNoteFile(plugin)?.path ?? null;
-}
+export function getActiveNoteRelativePath(plugin: ObsidianPythonBridge): string | null { return getActiveNoteFile(plugin)?.path ?? null; }
 
 /**
  * Gets the absolute filesystem path of the currently active Markdown note.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The absolute path string or null if path cannot be determined.
  */
-export function getActiveNoteAbsolutePath(
-	plugin: ObsidianPythonBridge,
-): string | null {
+export function getActiveNoteAbsolutePath(plugin: ObsidianPythonBridge): string | null {
 	const file = getActiveNoteFile(plugin);
 	const vaultPath = getCurrentVaultAbsolutePath(plugin);
 	if (!file || !vaultPath) return null;
-	// Use normalizePath for consistency across OS
-	return normalizePath(path.join(vaultPath, file.path));
+	return normalizePath(path.join(vaultPath, file.path)); // Use normalizePath for consistency across OS
 }
 
 /**
@@ -71,18 +52,14 @@ export function getActiveNoteAbsolutePath(
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The title string or null.
  */
-export function getActiveNoteTitle(plugin: ObsidianPythonBridge): string | null {
-	return getActiveNoteFile(plugin)?.basename ?? null;
-}
+export function getActiveNoteTitle(plugin: ObsidianPythonBridge): string | null { return getActiveNoteFile(plugin)?.basename ?? null; }
 
 /**
  * Gets the parsed frontmatter of the currently active Markdown note.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The frontmatter object or null.
  */
-export async function getActiveNoteFrontmatter(
-	plugin: ObsidianPythonBridge,
-): Promise<Record<string, any> | null> {
+export async function getActiveNoteFrontmatter(plugin: ObsidianPythonBridge): Promise<Record<string, any> | null> {
 	const file = getActiveNoteFile(plugin);
 	if (!file) return null;
 	const metadata = plugin.app.metadataCache.getFileCache(file);
@@ -96,16 +73,10 @@ export async function getActiveNoteFrontmatter(
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The absolute path string or null if unavailable.
  */
-export function getCurrentVaultAbsolutePath(
-	plugin: ObsidianPythonBridge,
-): string | null {
+export function getCurrentVaultAbsolutePath(plugin: ObsidianPythonBridge): string | null {
 	const adapter = plugin.app.vault.adapter;
-	if (adapter instanceof FileSystemAdapter && adapter.getBasePath) {
-		return adapter.getBasePath();
-	}
-	plugin.logWarn(
-		"Vault adapter is not FileSystemAdapter or lacks getBasePath method.",
-	);
+	if (adapter instanceof FileSystemAdapter && adapter.getBasePath) return adapter.getBasePath();
+	plugin.logWarn("Vault adapter is not FileSystemAdapter or lacks getBasePath method.");
 	return null;
 }
 
@@ -114,9 +85,7 @@ export function getCurrentVaultAbsolutePath(
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns An array of vault-relative paths.
  */
-export function getAllNotePaths(plugin: ObsidianPythonBridge): string[] {
-	return plugin.app.vault.getMarkdownFiles().map((f) => f.path);
-}
+export function getAllNotePaths(plugin: ObsidianPythonBridge): string[] { return plugin.app.vault.getMarkdownFiles().map((f) => f.path); }
 
 /**
  * Retrieves the full content of a note specified by its vault-relative path.
@@ -125,17 +94,10 @@ export function getAllNotePaths(plugin: ObsidianPythonBridge): string[] {
  * @returns The content of the note.
  * @throws Error if the file is not found or is not a TFile.
  */
-export async function getNoteContentByPath(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): Promise<string> {
+export async function getNoteContentByPath(plugin: ObsidianPythonBridge, relativePath: string): Promise<string> {
 	const normalizedPath = normalizePath(relativePath);
 	const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-	if (!(file instanceof TFile)) {
-		throw new Error(
-			`File not found or is not a file at path: ${normalizedPath}`,
-		);
-	}
+	if (!(file instanceof TFile)) throw new Error(`File not found or is not a file at path: ${normalizedPath}`);
 	return plugin.app.vault.cachedRead(file); // Use cachedRead
 }
 
@@ -145,24 +107,13 @@ export async function getNoteContentByPath(
  * @param relativePath The vault-relative path to the note.
  * @returns The parsed frontmatter object, or null if no frontmatter exists or file not found.
  */
-export async function getNoteFrontmatterByPath(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): Promise<Record<string, any> | null> {
+export async function getNoteFrontmatterByPath(plugin: ObsidianPythonBridge, relativePath: string): Promise<Record<string, any> | null> {
 	const normalizedPath = normalizePath(relativePath);
 	const metadata = plugin.app.metadataCache.getCache(normalizedPath);
 	if (!metadata) {
-		const fileExists =
-			!!plugin.app.vault.getAbstractFileByPath(normalizedPath);
-		if (!fileExists) {
-			plugin.logDebug(
-				`File not found at path for frontmatter lookup: ${normalizedPath}`,
-			);
-			return null;
-		}
-		plugin.logDebug(
-			`No metadata cache found for existing file: ${normalizedPath}`,
-		);
+		const fileExists = !!plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		if (!fileExists) { plugin.logDebug(`File not found at path for frontmatter lookup: ${normalizedPath}`); return null; }
+		plugin.logDebug(`No metadata cache found for existing file: ${normalizedPath}`);
 		return null;
 	}
 	return metadata.frontmatter ?? null;
@@ -175,34 +126,17 @@ export async function getNoteFrontmatterByPath(
  * @param newContent The new full content for the note.
  * @throws Error if the file is not found or modification fails.
  */
-export async function modifyNoteContentByRelativePath(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-	newContent: string,
-): Promise<void> {
+export async function modifyNoteContentByRelativePath(plugin: ObsidianPythonBridge, relativePath: string, newContent: string): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
 	const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-
-	if (!(file instanceof TFile)) {
-		throw new Error(
-			`Cannot modify note: File not found in vault at path: ${normalizedPath}`,
-		);
-	}
-
-	plugin.logDebug(
-		`Attempting to modify note via Vault API: ${normalizedPath}`,
-	);
+	if (!(file instanceof TFile)) throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
+	plugin.logDebug(`Attempting to modify note via Vault API: ${normalizedPath}`);
 	try {
 		await plugin.app.vault.modify(file, newContent);
 		plugin.logInfo(`Note modified successfully: ${normalizedPath}`);
 	} catch (error) {
-		plugin.logError(
-			`Error during app.vault.modify for ${normalizedPath}:`,
-			error,
-		);
-		throw new Error(
-			`Vault API failed to modify ${normalizedPath}: ${error instanceof Error ? error.message : String(error)}`,
-		);
+		plugin.logError(`Error during app.vault.modify for ${normalizedPath}:`, error);
+		throw new Error(`Vault API failed to modify ${normalizedPath}: ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -214,27 +148,18 @@ export async function modifyNoteContentByRelativePath(
  * @returns The created TFile object.
  * @throws Error if creation fails (e.g., file exists, invalid path).
  */
-export async function createNote(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-	content: string,
-): Promise<TFile> {
+export async function createNote(plugin: ObsidianPythonBridge, relativePath: string, content: string): Promise<TFile> {
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to create note: ${normalizedPath}`);
 	try {
-		const existingFile =
-			plugin.app.vault.getAbstractFileByPath(normalizedPath);
-		if (existingFile) {
-			throw new Error(`File already exists at path: ${normalizedPath}`);
-		}
+		const existingFile = plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		if (existingFile) throw new Error(`File already exists at path: ${normalizedPath}`);
 		const file = await plugin.app.vault.create(normalizedPath, content);
 		plugin.logInfo(`Note created successfully: ${normalizedPath}`);
 		return file;
 	} catch (error) {
 		plugin.logError(`Error creating note ${normalizedPath}:`, error);
-		throw new Error(
-			`Failed to create note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		throw new Error(`Failed to create note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -245,23 +170,15 @@ export async function createNote(
  * @returns True if the path exists, false otherwise.
  * @throws Error if the adapter check fails unexpectedly.
  */
-export async function checkPathExists(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): Promise<boolean> {
+export async function checkPathExists(plugin: ObsidianPythonBridge, relativePath: string): Promise<boolean> {
 	const normalizedPath = normalizePath(relativePath);
 	try {
 		const exists = await plugin.app.vault.adapter.exists(normalizedPath);
 		plugin.logDebug(`Path exists check for "${normalizedPath}": ${exists}`);
 		return exists;
 	} catch (error) {
-		plugin.logError(
-			`Error checking existence for path ${normalizedPath}:`,
-			error,
-		);
-		throw new Error(
-			`Failed to check existence for path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		plugin.logError(`Error checking existence for path ${normalizedPath}:`, error);
+		throw new Error(`Failed to check existence for path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -272,39 +189,18 @@ export async function checkPathExists(
  * @param permanently If true, delete permanently. Defaults to false (move to trash).
  * @throws Error if the item is not found or deletion fails.
  */
-export async function deletePath(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-	permanently: boolean = false,
-): Promise<void> {
+export async function deletePath(plugin: ObsidianPythonBridge, relativePath: string, permanently: boolean = false): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
-	plugin.logDebug(
-		`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`,
-	);
-	const fileOrFolder =
-		plugin.app.vault.getAbstractFileByPath(normalizedPath);
-
-	if (!fileOrFolder) {
-		throw new Error(
-			`Cannot delete: Path not found at "${normalizedPath}"`,
-		);
-	}
-
+	plugin.logDebug(`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`);
+	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedPath);
+	if (!fileOrFolder) throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
 	try {
-		if (permanently) {
-			plugin.logWarn(`Permanently deleting path: ${normalizedPath}`);
-			await plugin.app.vault.delete(fileOrFolder, true); // Force = true for permanent
-		} else {
-			await plugin.app.vault.trash(fileOrFolder, true); // system = true
-		}
-		plugin.logInfo(
-			`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`,
-		);
+		if (permanently) { plugin.logWarn(`Permanently deleting path: ${normalizedPath}`); await plugin.app.vault.delete(fileOrFolder, true); } // Force = true for permanent
+		else { await plugin.app.vault.trash(fileOrFolder, true); } // system = true
+		plugin.logInfo(`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`);
 	} catch (error) {
 		plugin.logError(`Error deleting path ${normalizedPath}:`, error);
-		throw new Error(
-			`Failed to delete path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		throw new Error(`Failed to delete path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -315,52 +211,21 @@ export async function deletePath(
  * @param newRelativePath Desired new vault-relative path.
  * @throws Error if the old path is not found, the new path is invalid, or rename fails.
  */
-export async function renamePath(
-	plugin: ObsidianPythonBridge,
-	oldRelativePath: string,
-	newRelativePath: string,
-): Promise<void> {
+export async function renamePath(plugin: ObsidianPythonBridge, oldRelativePath: string, newRelativePath: string): Promise<void> {
 	const normalizedOldPath = normalizePath(oldRelativePath);
 	const normalizedNewPath = normalizePath(newRelativePath);
-	plugin.logDebug(
-		`Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`,
-	);
-
-	const fileOrFolder =
-		plugin.app.vault.getAbstractFileByPath(normalizedOldPath);
-	if (!fileOrFolder) {
-		throw new Error(
-			`Cannot rename: Source path not found at "${normalizedOldPath}"`,
-		);
-	}
-
-	if (normalizedOldPath === normalizedNewPath) {
-		throw new Error(
-			`Cannot rename: Old path and new path are identical "${normalizedOldPath}"`,
-		);
-	}
-
-	const destinationExists =
-		plugin.app.vault.getAbstractFileByPath(normalizedNewPath);
-	if (destinationExists) {
-		throw new Error(
-			`Cannot rename: Destination path already exists "${normalizedNewPath}"`,
-		);
-	}
-
+	plugin.logDebug(`Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`);
+	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedOldPath);
+	if (!fileOrFolder) throw new Error(`Cannot rename: Source path not found at "${normalizedOldPath}"`);
+	if (normalizedOldPath === normalizedNewPath) throw new Error(`Cannot rename: Old path and new path are identical "${normalizedOldPath}"`);
+	const destinationExists = plugin.app.vault.getAbstractFileByPath(normalizedNewPath);
+	if (destinationExists) throw new Error(`Cannot rename: Destination path already exists "${normalizedNewPath}"`);
 	try {
 		await plugin.app.vault.rename(fileOrFolder, normalizedNewPath);
-		plugin.logInfo(
-			`Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`,
-		);
+		plugin.logInfo(`Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`);
 	} catch (error) {
-		plugin.logError(
-			`Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`,
-			error,
-		);
-		throw new Error(
-			`Failed to rename path "${normalizedOldPath}" to "${normalizedNewPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		plugin.logError(`Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`, error);
+		throw new Error(`Failed to rename path "${normalizedOldPath}" to "${normalizedNewPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -370,27 +235,17 @@ export async function renamePath(
  * @param relativePath Vault-relative path for the new folder.
  * @throws Error if creation fails (e.g., folder exists, invalid path).
  */
-export async function createFolder(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): Promise<void> {
+export async function createFolder(plugin: ObsidianPythonBridge, relativePath: string): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to create folder: ${normalizedPath}`);
 	try {
-		const existingPath =
-			plugin.app.vault.getAbstractFileByPath(normalizedPath);
-		if (existingPath) {
-			throw new Error(
-				`Path already exists at "${normalizedPath}" (cannot create folder).`,
-			);
-		}
+		const existingPath = plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		if (existingPath) throw new Error(`Path already exists at "${normalizedPath}" (cannot create folder).`);
 		await plugin.app.vault.createFolder(normalizedPath);
 		plugin.logInfo(`Folder created successfully: ${normalizedPath}`);
 	} catch (error) {
 		plugin.logError(`Error creating folder ${normalizedPath}:`, error);
-		throw new Error(
-			`Failed to create folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		throw new Error(`Failed to create folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -401,32 +256,18 @@ export async function createFolder(
  * @returns An object containing lists of relative file and folder paths.
  * @throws Error if the path is not found, not a folder, or listing fails.
  */
-export async function listFolder(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): Promise<{ files: string[]; folders: string[] }> {
+export async function listFolder(plugin: ObsidianPythonBridge, relativePath: string): Promise<{ files: string[]; folders: string[] }> {
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to list folder contents: ${normalizedPath}`);
 	try {
-		const listResult =
-			await plugin.app.vault.adapter.list(normalizedPath);
+		const listResult = await plugin.app.vault.adapter.list(normalizedPath);
 		plugin.logDebug(`Folder listed successfully: ${normalizedPath}`);
-		return {
-			files: listResult.files || [],
-			folders: listResult.folders || [],
-		};
+		return { files: listResult.files || [], folders: listResult.folders || [] };
 	} catch (error) {
 		plugin.logError(`Error listing folder ${normalizedPath}:`, error);
 		const pathExists = await checkPathExists(plugin, normalizedPath);
-		if (!pathExists) {
-			throw new Error(
-				`Cannot list folder: Path not found at "${normalizedPath}"`,
-			);
-		} else {
-			throw new Error(
-				`Failed to list folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)} (Is it a folder?)`,
-			);
-		}
+		if (!pathExists) throw new Error(`Cannot list folder: Path not found at "${normalizedPath}"`);
+		else throw new Error(`Failed to list folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)} (Is it a folder?)`);
 	}
 }
 
@@ -437,41 +278,20 @@ export async function listFolder(
  * @returns A list of outgoing link strings.
  * @throws Error if the note is not found or metadata cannot be retrieved.
  */
-export function getLinks(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-): string[] {
+export function getLinks(plugin: ObsidianPythonBridge, relativePath: string): string[] {
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to get outgoing links for: ${normalizedPath}`);
-
 	const metadata = plugin.app.metadataCache.getCache(normalizedPath);
 	if (!metadata) {
-		const fileExists =
-			!!plugin.app.vault.getAbstractFileByPath(normalizedPath);
-		if (!fileExists) {
-			throw new Error(
-				`Cannot get links: File not found at path "${normalizedPath}"`,
-			);
-		} else {
-			plugin.logWarn(
-				`No metadata cache found for file "${normalizedPath}" to get links.`,
-			);
-			return [];
-		}
+		const fileExists = !!plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		if (!fileExists) throw new Error(`Cannot get links: File not found at path "${normalizedPath}"`);
+		else { plugin.logWarn(`No metadata cache found for file "${normalizedPath}" to get links.`); return []; }
 	}
-
 	const outgoingLinks: string[] = [];
-	if (metadata.links) {
-		metadata.links.forEach((link) => outgoingLinks.push(link.link));
-	}
-	if (metadata.embeds) {
-		metadata.embeds.forEach((embed) => outgoingLinks.push(embed.link));
-	}
-
+	if (metadata.links) metadata.links.forEach((link) => outgoingLinks.push(link.link));
+	if (metadata.embeds) metadata.embeds.forEach((embed) => outgoingLinks.push(embed.link));
 	const uniqueLinks = Array.from(new Set(outgoingLinks));
-	plugin.logDebug(
-		`Found ${uniqueLinks.length} unique outgoing links/embeds for ${normalizedPath}.`,
-	);
+	plugin.logDebug(`Found ${uniqueLinks.length} unique outgoing links/embeds for ${normalizedPath}.`);
 	return uniqueLinks;
 }
 
@@ -484,114 +304,49 @@ export function getLinks(
  * @returns A dictionary mapping source file paths to their LinkCache arrays.
  * @throws Error if the target file is not found or backlink retrieval fails.
  */
-export async function getBacklinks(
-	plugin: ObsidianPythonBridge,
-	targetPath: string,
-	useCacheIfAvailable: boolean,
-	cacheMode: "fast" | "safe",
-): Promise<Record<string, LinkCache[]>> {
-	plugin.logDebug(
-		`Handling get_backlinks for: ${targetPath}, useCache: ${useCacheIfAvailable}, mode: ${cacheMode}`,
-	);
-
+export async function getBacklinks(plugin: ObsidianPythonBridge, targetPath: string, useCacheIfAvailable: boolean, cacheMode: "fast" | "safe"): Promise<Record<string, LinkCache[]>> {
+	plugin.logDebug(`Handling get_backlinks for: ${targetPath}, useCache: ${useCacheIfAvailable}, mode: ${cacheMode}`);
 	const targetFile = plugin.app.vault.getAbstractFileByPath(targetPath);
-	if (!(targetFile instanceof TFile)) {
-		throw new Error(`File not found at path: ${targetPath}`);
-	}
-
+	if (!(targetFile instanceof TFile)) throw new Error(`File not found at path: ${targetPath}`);
 	let backlinksResult: Record<string, LinkCache[]> | null = null;
 	let errorOccurred: string | null = null;
-
-	const isCachePluginEnabled = (plugin.app as any).plugins.enabledPlugins.has(
-		"backlink-cache",
-	);
+	const isCachePluginEnabled = (plugin.app as any).plugins.enabledPlugins.has("backlink-cache");
 	const attemptCacheFeatures = useCacheIfAvailable && isCachePluginEnabled;
-	const getBacklinksFn = (plugin.app.metadataCache as any)
-		.getBacklinksForFile;
-
-	if (typeof getBacklinksFn !== "function") {
-		plugin.logError(
-			"Native function app.metadataCache.getBacklinksForFile not found!",
-		);
-		throw new Error(
-			"Obsidian's native getBacklinksForFile function is missing.",
-		);
-	}
-
+	const getBacklinksFn = (plugin.app.metadataCache as any).getBacklinksForFile;
+	if (typeof getBacklinksFn !== "function") { plugin.logError("Native function app.metadataCache.getBacklinksForFile not found!"); throw new Error("Obsidian's native getBacklinksForFile function is missing."); }
 	try {
 		if (attemptCacheFeatures && cacheMode === "safe") {
 			if (typeof getBacklinksFn.safe === "function") {
-				plugin.logDebug(
-					"Attempting to call getBacklinksForFile.safe() (provided by backlink-cache)",
-				);
-				backlinksResult = await getBacklinksFn.safe.call(
-					plugin.app.metadataCache,
-					targetFile,
-				);
+				plugin.logDebug("Attempting to call getBacklinksForFile.safe() (provided by backlink-cache)");
+				backlinksResult = await getBacklinksFn.safe.call(plugin.app.metadataCache, targetFile);
 				plugin.logDebug("Call to getBacklinksForFile.safe() completed.");
 			} else {
-				plugin.logWarn(
-					"Requested 'safe' mode, but getBacklinksForFile.safe function not found. Falling back to standard call.",
-				);
-				backlinksResult = getBacklinksFn.call(
-					plugin.app.metadataCache,
-					targetFile,
-				);
+				plugin.logWarn("Requested 'safe' mode, but getBacklinksForFile.safe function not found. Falling back to standard call.");
+				backlinksResult = getBacklinksFn.call(plugin.app.metadataCache, targetFile);
 			}
 		} else {
-			if (attemptCacheFeatures) {
-				plugin.logDebug(
-					"Calling standard getBacklinksForFile (using backlink-cache 'fast' mode if active)",
-				);
-			} else {
-				plugin.logDebug(
-					"Calling standard getBacklinksForFile (native Obsidian implementation)",
-				);
-			}
-			backlinksResult = getBacklinksFn.call(
-				plugin.app.metadataCache,
-				targetFile,
-			);
+			if (attemptCacheFeatures) plugin.logDebug("Calling standard getBacklinksForFile (using backlink-cache 'fast' mode if active)");
+			else plugin.logDebug("Calling standard getBacklinksForFile (native Obsidian implementation)");
+			backlinksResult = getBacklinksFn.call(plugin.app.metadataCache, targetFile);
 			plugin.logDebug("Standard call to getBacklinksForFile completed.");
 		}
 	} catch (error) {
-		plugin.logError(
-			`Error during getBacklinksForFile call (mode: ${attemptCacheFeatures ? cacheMode : "native"}):`,
-			error,
-		);
+		plugin.logError(`Error during getBacklinksForFile call (mode: ${attemptCacheFeatures ? cacheMode : "native"}):`, error);
 		errorOccurred = `Error retrieving backlinks: ${error instanceof Error ? error.message : String(error)}`;
 	}
-
-	if (errorOccurred) {
-		throw new Error(errorOccurred);
-	} else if (backlinksResult !== null) {
-		plugin.logDebug(
-			"Raw backlinks result from API/Native:",
-			backlinksResult,
-		);
+	if (errorOccurred) throw new Error(errorOccurred);
+	else if (backlinksResult !== null) {
+		plugin.logDebug("Raw backlinks result from API/Native:", backlinksResult);
 		const serializableBacklinks: Record<string, LinkCache[]> = {};
 		try {
 			// The structure returned by the cache plugin seems to be { data: Map<string, LinkCache[]> }
 			// The native one might be different, adjust based on observation if needed.
 			const backlinksMap = (backlinksResult as any)?.data;
 			if (backlinksMap instanceof Map) {
-				plugin.logDebug(
-					`Iterating through Map with ${backlinksMap.size} entries.`,
-				);
-				for (const [
-					sourcePath,
-					linkCacheArray,
-				] of backlinksMap.entries()) {
-					if (
-						typeof sourcePath === "string" &&
-						Array.isArray(linkCacheArray)
-					) {
-						serializableBacklinks[sourcePath] = linkCacheArray;
-					} else {
-						plugin.logWarn(
-							`Skipping invalid entry in backlinks Map: Key=${sourcePath}, Value type=${typeof linkCacheArray}`,
-						);
-					}
+				plugin.logDebug(`Iterating through Map with ${backlinksMap.size} entries.`);
+				for (const [sourcePath, linkCacheArray] of backlinksMap.entries()) {
+					if (typeof sourcePath === "string" && Array.isArray(linkCacheArray)) serializableBacklinks[sourcePath] = linkCacheArray;
+					else plugin.logWarn(`Skipping invalid entry in backlinks Map: Key=${sourcePath}, Value type=${typeof linkCacheArray}`);
 				}
 			} else {
 				// Fallback or handle native structure if different
@@ -602,34 +357,19 @@ export async function getBacklinks(
 					// This part might need refinement based on testing native behavior without the cache plugin
 					Object.assign(serializableBacklinks, backlinksResult);
 				} else {
-					plugin.logWarn(
-						"Backlinks result did not contain the expected 'data' Map structure or a direct Record. Raw result:",
-						backlinksResult,
-					);
+					plugin.logWarn("Backlinks result did not contain the expected 'data' Map structure or a direct Record. Raw result:", backlinksResult);
 				}
 			}
-			plugin.logDebug(
-				"Serializable backlinks data prepared:",
-				serializableBacklinks,
-			);
+			plugin.logDebug("Serializable backlinks data prepared:", serializableBacklinks);
 			return serializableBacklinks;
 		} catch (conversionError) {
-			plugin.logError(
-				"Error converting backlinks result to serializable format:",
-				conversionError,
-			);
-			throw new Error(
-				`Failed to process backlink data: ${conversionError instanceof Error ? conversionError.message : String(conversionError)}`,
-			);
+			plugin.logError("Error converting backlinks result to serializable format:", conversionError);
+			throw new Error(`Failed to process backlink data: ${conversionError instanceof Error ? conversionError.message : String(conversionError)}`);
 		}
 	} else {
 		// This case should ideally not be reached if errorOccurred is handled correctly
-		plugin.logError(
-			`Failed to retrieve backlinks for ${targetPath} using any method. Returning error.`,
-		);
-		throw new Error(
-			`Failed to retrieve backlinks for ${targetPath} using any method.`,
-		);
+		plugin.logError(`Failed to retrieve backlinks for ${targetPath} using any method. Returning error.`);
+		throw new Error(`Failed to retrieve backlinks for ${targetPath} using any method.`);
 	}
 }
 
@@ -643,15 +383,9 @@ export async function getBacklinks(
  */
 export function getSelectedText(plugin: ObsidianPythonBridge): string {
 	const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
-	if (!view) {
-		throw new Error("No active Markdown view found.");
-	}
+	if (!view) throw new Error("No active Markdown view found.");
 	const editor = view.editor;
-	if (!editor) {
-		throw new Error(
-			"Active Markdown view does not have an editor instance.",
-		);
-	}
+	if (!editor) throw new Error("Active Markdown view does not have an editor instance.");
 	return editor.getSelection();
 }
 
@@ -662,22 +396,11 @@ export function getSelectedText(plugin: ObsidianPythonBridge): string {
  * @param replacement The text to insert or replace the selection with.
  * @throws Error if no Markdown view/editor is active.
  */
-export function replaceSelectedText(
-	plugin: ObsidianPythonBridge,
-	replacement: string,
-): void {
+export function replaceSelectedText(plugin: ObsidianPythonBridge, replacement: string): void {
 	const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
-	if (!view) {
-		throw new Error(
-			"No active Markdown view found to replace selection in.",
-		);
-	}
+	if (!view) throw new Error("No active Markdown view found to replace selection in.");
 	const editor = view.editor;
-	if (!editor) {
-		throw new Error(
-			"Active Markdown view does not have an editor instance.",
-		);
-	}
+	if (!editor) throw new Error("Active Markdown view does not have an editor instance.");
 	editor.replaceSelection(replacement);
 }
 
@@ -688,30 +411,15 @@ export function replaceSelectedText(
  * @param newLeaf If true, opens the note in a new leaf (tab/split). Defaults to false.
  * @throws Error if the file cannot be opened (e.g., not found, invalid path).
  */
-export async function openNote(
-	plugin: ObsidianPythonBridge,
-	relativePath: string,
-	newLeaf: boolean = false,
-): Promise<void> {
+export async function openNote(plugin: ObsidianPythonBridge, relativePath: string, newLeaf: boolean = false): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
-	plugin.logDebug(
-		`Requesting to open note: ${normalizedPath} (newLeaf: ${newLeaf})`,
-	);
+	plugin.logDebug(`Requesting to open note: ${normalizedPath} (newLeaf: ${newLeaf})`);
 	try {
-		await plugin.app.workspace.openLinkText(
-			normalizedPath,
-			"", // sourcePath
-			newLeaf ? "split" : false, // PaneType or boolean
-		);
+		await plugin.app.workspace.openLinkText(normalizedPath, "", newLeaf ? "split" : false); // sourcePath // PaneType or boolean
 		plugin.logInfo(`Successfully requested to open ${normalizedPath}`);
 	} catch (error) {
-		plugin.logError(
-			`Failed to open link text "${normalizedPath}":`,
-			error,
-		);
-		throw new Error(
-			`Could not open note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`,
-		);
+		plugin.logError(`Failed to open link text "${normalizedPath}":`, error);
+		throw new Error(`Could not open note "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -721,32 +429,19 @@ export async function openNote(
  * @returns An object with editor context, or null if no editor is active.
  * @throws Error if accessing editor properties fails unexpectedly.
  */
-export function getEditorContext(
-	plugin: ObsidianPythonBridge,
-): Record<string, any> | null {
+export function getEditorContext(plugin: ObsidianPythonBridge): Record<string, any> | null {
 	const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
-	if (!view || !view.editor) {
-		plugin.logDebug(
-			"No active Markdown editor found for get_editor_context.",
-		);
-		return null;
-	}
-
+	if (!view || !view.editor) { plugin.logDebug("No active Markdown editor found for get_editor_context."); return null; }
 	const editor = view.editor;
 	try {
 		const cursor = editor.getCursor();
 		const lineCount = editor.lineCount();
-		const context = {
-			cursor: { line: cursor.line, ch: cursor.ch },
-			line_count: lineCount,
-		};
+		const context = { cursor: { line: cursor.line, ch: cursor.ch }, line_count: lineCount };
 		plugin.logDebug("Retrieved editor context:", context);
 		return context;
 	} catch (error) {
 		plugin.logError("Error retrieving editor context:", error);
-		throw new Error(
-			`Failed to get editor context: ${error instanceof Error ? error.message : String(error)}`,
-		);
+		throw new Error(`Failed to get editor context: ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -759,27 +454,13 @@ export function getEditorContext(
  */
 export function getObsidianLanguage(plugin: ObsidianPythonBridge): string {
 	const obsidianLang = localStorage.getItem("language");
-	if (obsidianLang) {
-		plugin.logDebug(
-			`Obsidian language from localStorage: ${obsidianLang}`,
-		);
-		return obsidianLang;
-	}
+	if (obsidianLang) { plugin.logDebug(`Obsidian language from localStorage: ${obsidianLang}`); return obsidianLang; }
 	try {
 		// @ts-ignore - Accessing moment which is globally available in Obsidian
 		const momentLocale = moment.locale();
-		if (momentLocale) {
-			plugin.logDebug(
-				`Obsidian language from moment.locale(): ${momentLocale}`,
-			);
-			return momentLocale;
-		}
-	} catch (e) {
-		plugin.logWarn("Could not get language via moment.locale()", e);
-	}
-	plugin.logWarn(
-		"Could not determine Obsidian language, defaulting to 'en'.",
-	);
+		if (momentLocale) { plugin.logDebug(`Obsidian language from moment.locale(): ${momentLocale}`); return momentLocale; }
+	} catch (e) { plugin.logWarn("Could not get language via moment.locale()", e); }
+	plugin.logWarn("Could not determine Obsidian language, defaulting to 'en'.");
 	return "en";
 }
 
@@ -796,9 +477,7 @@ export function getVaultName(plugin: ObsidianPythonBridge): string {
 		return vaultName;
 	} catch (error) {
 		plugin.logError("Error retrieving vault name:", error);
-		throw new Error(
-			`Failed to get vault name: ${error instanceof Error ? error.message : String(error)}`,
-		);
+		throw new Error(`Failed to get vault name: ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -815,13 +494,8 @@ export function getThemeMode(plugin: ObsidianPythonBridge): "light" | "dark" {
 		plugin.logDebug(`Determined theme mode: ${mode}`);
 		return mode;
 	} catch (error) {
-		plugin.logError(
-			"Error checking document.body for theme class:",
-			error,
-		);
-		throw new Error(
-			`Failed to determine theme mode: ${error instanceof Error ? error.message : String(error)}`,
-		);
+		plugin.logError("Error checking document.body for theme class:", error);
+		throw new Error(`Failed to determine theme mode: ${error instanceof Error ? error.message : String(error)}`);
 	}
 }
 
@@ -834,10 +508,7 @@ export function getThemeMode(plugin: ObsidianPythonBridge): "light" | "dark" {
  * @param commandId The ID of the command to execute.
  * @throws Error always (feature disabled).
  */
-export function runObsidianCommand(
-	plugin: ObsidianPythonBridge,
-	commandId: string,
-): void {
+export function runObsidianCommand(plugin: ObsidianPythonBridge, commandId: string): void {
 	plugin.logError("run_obsidian_command is temporarily disabled due to build issues.");
 	throw new Error("run_obsidian_command is temporarily disabled.");
 	// Original logic:
@@ -846,11 +517,8 @@ export function runObsidianCommand(
 	//  const success = plugin.app.commands.executeCommandById(commandId);
 	//  if (!success) {
 	//      const commandExists = !!plugin.app.commands.commands[commandId];
-	//      if (!commandExists) {
-	//          throw new Error(`Command with ID "${commandId}" not found.`);
-	//      } else {
-	//          throw new Error(`Command "${commandId}" could not be executed (possibly disabled or inactive).`);
-	//      }
+	//      if (!commandExists) throw new Error(`Command with ID "${commandId}" not found.`);
+	//      else throw new Error(`Command "${commandId}" could not be executed (possibly disabled or inactive).`);
 	//  }
 	//  plugin.logInfo(`Command executed successfully: ${commandId}`);
 	// } catch (error) {

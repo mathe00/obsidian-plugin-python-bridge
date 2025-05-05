@@ -103,3 +103,4 @@ cython_debug/
 
 # Personal data of plugin settings
 data.json
+.prettierrc.json

@@ -15,11 +15,15 @@ import {
 } from "obsidian"; // Import debounce
 import type ObsidianPythonBridge from "./main";
 import { DEFAULT_PORT, PYTHON_LIBRARY_FILENAME } from "./constants";
-import { t, loadTranslations, getAvailableLanguages } from "./lang/translations"; // Import helpers
+import {
+	t,
+	loadTranslations,
+	getAvailableLanguages,
+} from "./lang/translations"; // Import helpers
 import * as path from "path"; // Import path for relative path calculation
 import * as fs from "fs"; // Import fs for absolute path check
 
-// --- Inline FolderSuggest class definition ---
+// Inline FolderSuggest class definition
 // Inspired by Obsidian's internal file suggester and AutoNoteMover example
 class FolderSuggest extends AbstractInputSuggest<TFolder> {
 	constructor(
@@ -31,7 +35,7 @@ class FolderSuggest extends AbstractInputSuggest<TFolder> {
 
 	getSuggestions(inputStr: string): TFolder[] {
 		const lowerCaseInputStr = inputStr.toLowerCase();
-		// --- MODIFIED: Explicitly get folders first ---
+		// Explicitly get folders first
 		const allFiles = this.app.vault.getAllLoadedFiles();
 		const folders: TFolder[] = [];
 
@@ -64,12 +68,12 @@ class FolderSuggest extends AbstractInputSuggest<TFolder> {
 		this.close(); // Close the suggestion modal
 	}
 }
-// --- End Inline FolderSuggest ---
+// End Inline FolderSuggest
 
 // Plugin settings tab
 export default class PythonBridgeSettingTab extends PluginSettingTab {
 	plugin: ObsidianPythonBridge;
-	// --- NEW: Debounce delay constant ---
+	// Debounce delay constant
 	private readonly DEBOUNCE_DELAY = 750; // milliseconds
 
 	constructor(app: App, plugin: ObsidianPythonBridge) {
@@ -138,7 +142,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						this.plugin.settings.pluginLanguage = value;
 						await this.plugin.saveSettings();
 						loadTranslations(this.plugin);
-						this.display();
+						this.display(); // Redraw settings tab with new language
 					});
 			});
 
@@ -151,7 +155,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 				search
 					.setPlaceholder(t("SETTINGS_FOLDER_PLACEHOLDER"))
 					.setValue(this.plugin.settings.pythonScriptsFolder)
-					// --- MODIFIED: Use debounced validation/saving ---
+					// Use debounced validation/saving
 					.onChange(
 						debounce(
 							async (value: string) => {
@@ -181,7 +185,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 											this.plugin
 												.updateAndSyncCommands(
 													scriptsFolder,
-												) // <-- MODIFIED: Call updateAndSyncCommands
+												) // Call updateAndSyncCommands
 												.then(() => {
 													this.plugin.logInfo(
 														"Script settings cache & commands updated after folder change.",
@@ -205,6 +209,10 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 												{};
 											this.plugin.settings.scriptActivationStatus =
 												{}; // Clear activation status too
+											this.plugin.settings.scriptAutoStartStatus =
+												{}; // Clear auto-start status too
+											this.plugin.settings.scriptAutoStartDelay =
+												{}; // Clear auto-start delay too
 											await this.plugin.saveSettings(); // Save cleared settings
 											this.display(); // Redraw needed
 										}
@@ -235,6 +243,10 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 												{};
 											this.plugin.settings.scriptActivationStatus =
 												{}; // Clear activation status too
+											this.plugin.settings.scriptAutoStartStatus =
+												{}; // Clear auto-start status too
+											this.plugin.settings.scriptAutoStartDelay =
+												{}; // Clear auto-start delay too
 											await this.plugin.saveSettings();
 											this.display();
 										}
@@ -264,7 +276,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 				// Added type annotation
 				text.setPlaceholder(String(DEFAULT_PORT))
 					.setValue(String(this.plugin.settings.httpPort))
-					// --- MODIFIED: Use debounced validation/saving ---
+					// Use debounced validation/saving
 					.onChange(
 						debounce(
 							async (value: string) => {
@@ -337,7 +349,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 					}),
 			);
 
-		// --- Script Specific Settings ---
+		// Script Specific Settings
 		containerEl.createEl("h2", {
 			text: t("SETTINGS_SCRIPT_SETTINGS_TITLE"),
 		});
@@ -389,11 +401,11 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						try {
 							await this.plugin.updateAndSyncCommands(
 								scriptsFolder,
-							); // <-- MODIFIED: Call updateAndSyncCommands
+							); // Call updateAndSyncCommands
 							new Notice(
 								t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS"),
 							);
-							this.display();
+							this.display(); // Redraw to show updated settings/scripts
 						} catch (error) {
 							this.plugin.logError(
 								"Manual script settings refresh failed:",
@@ -403,6 +415,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 								t("NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED"),
 							);
 						} finally {
+							// Ensure button is re-enabled even if display() fails or is interrupted
 							if (button.buttonEl && button.disabled) {
 								button
 									.setDisabled(false)
@@ -416,11 +429,13 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 					});
 			});
 
-		// --- MODIFIED: Logic to display ALL scripts ---
+		// Logic to display ALL scripts
 		const scriptsFolder = this.plugin.getScriptsFolderPath();
 		const definitions = this.plugin.settings.scriptSettingsDefinitions;
 		const values = this.plugin.settings.scriptSettingsValues;
 		const activationStatus = this.plugin.settings.scriptActivationStatus;
+		const autoStartStatus = this.plugin.settings.scriptAutoStartStatus;
+		const autoStartDelay = this.plugin.settings.scriptAutoStartDelay;
 
 		if (!scriptsFolder) {
 			if (!this.plugin.settings.pythonScriptsFolder) {
@@ -428,6 +443,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 					text: t("SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED"),
 				});
 			} else {
+				// Folder path is set but invalid
 				containerEl.createEl("p", {
 					text: t("NOTICE_INVALID_FOLDER_PATH"),
 				});
@@ -480,7 +496,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 				}
 				const isScriptActive = activationStatus[relativePath];
 
-				// --- Display section for EACH script ---
+				// Display section for EACH script
 				containerEl.createEl("h3", {
 					text: `${t("SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX")} ${scriptFilename}`, // Use filename for title
 				});
@@ -498,16 +514,18 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 								this.plugin.logInfo(
 									`Script '${relativePath}' activation status set to: ${value}`,
 								);
+								// Redraw needed to show/hide auto-start options
+								this.display();
 							});
 					});
 
-				// --- NEW: Auto-start Toggle (Only if script is active) ---
+				// Auto-start Toggle (Only if script is active)
 				if (isScriptActive) {
 					// Ensure auto-start status exists (default false)
-					if (this.plugin.settings.scriptAutoStartStatus[relativePath] === undefined) {
-						this.plugin.settings.scriptAutoStartStatus[relativePath] = false;
+					if (autoStartStatus[relativePath] === undefined) {
+						autoStartStatus[relativePath] = false;
 					}
-					const isAutoStartEnabled = this.plugin.settings.scriptAutoStartStatus[relativePath];
+					const isAutoStartEnabled = autoStartStatus[relativePath];
 
 					new Setting(containerEl)
 						.setName(t("SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME")) // New translation key
@@ -516,24 +534,23 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 							toggle
 								.setValue(isAutoStartEnabled)
 								.onChange(async (value) => {
-									this.plugin.settings.scriptAutoStartStatus[relativePath] = value;
+									autoStartStatus[relativePath] = value;
 									await this.plugin.saveSettings();
 									this.plugin.logInfo(
 										`Script '${relativePath}' auto-start status set to: ${value}`,
-										
 									);
-								this.display();
+									// Redraw needed to show/hide delay input
+									this.display();
 								});
 						});
-					
 
-					// --- NEW: Auto-start Delay Input (Only if auto-start is enabled) ---
+					// Auto-start Delay Input (Only if auto-start is enabled)
 					if (isAutoStartEnabled) {
 						// Ensure delay value exists (default 0)
-						if (this.plugin.settings.scriptAutoStartDelay[relativePath] === undefined) {
-							this.plugin.settings.scriptAutoStartDelay[relativePath] = 0;
+						if (autoStartDelay[relativePath] === undefined) {
+							autoStartDelay[relativePath] = 0;
 						}
-						const currentDelay = this.plugin.settings.scriptAutoStartDelay[relativePath];
+						const currentDelay = autoStartDelay[relativePath];
 
 						new Setting(containerEl)
 							.setName(t("SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME")) // New translation key
@@ -543,34 +560,54 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 								text.inputEl.min = "0"; // Minimum delay is 0
 								text.setPlaceholder("0")
 									.setValue(String(currentDelay))
-									.onChange(debounce(async (value) => {
-										const delayStr = value.trim();
-										let delayNum = parseInt(delayStr, 10);
+									.onChange(
+										debounce(async (value) => {
+											const delayStr = value.trim();
+											let delayNum = parseInt(
+												delayStr,
+												10,
+											);
 
-										// Validate: must be a non-negative integer
-										if (isNaN(delayNum) || delayNum < 0) {
-											text.inputEl.style.borderColor = "red";
-											// Optionally show a notice? Or just prevent saving invalid value
-											this.plugin.logWarn(`Invalid auto-start delay entered: ${value}. Using 0.`);
-											delayNum = 0; // Reset to default if invalid
-											// Update UI to reflect the reset value
-											// text.setValue("0"); // This might interfere with typing
-										} else {
-											text.inputEl.style.borderColor = ""; // Clear border on valid input
-										}
+											// Validate: must be a non-negative integer
+											if (
+												isNaN(delayNum) ||
+												delayNum < 0
+											) {
+												text.inputEl.style.borderColor =
+													"red";
+												// Optionally show a notice? Or just prevent saving invalid value
+												this.plugin.logWarn(
+													`Invalid auto-start delay entered: ${value}. Using 0.`,
+												);
+												delayNum = 0; // Reset to default if invalid
+												// Update UI to reflect the reset value
+												// text.setValue("0"); // This might interfere with typing
+											} else {
+												text.inputEl.style.borderColor =
+													""; // Clear border on valid input
+											}
 
-										// Save only if the valid number changed
-										if (this.plugin.settings.scriptAutoStartDelay[relativePath] !== delayNum) {
-											this.plugin.settings.scriptAutoStartDelay[relativePath] = delayNum;
-											await this.plugin.saveSettings();
-											this.plugin.logInfo(`Script '${relativePath}' auto-start delay set to: ${delayNum} seconds.`);
-										}
-									}, this.DEBOUNCE_DELAY)); // Use debounce
+											// Save only if the valid number changed
+											if (
+												autoStartDelay[
+													relativePath
+												] !== delayNum
+											) {
+												autoStartDelay[
+													relativePath
+												] = delayNum;
+												await this.plugin.saveSettings();
+												this.plugin.logInfo(
+													`Script '${relativePath}' auto-start delay set to: ${delayNum} seconds.`,
+												);
+											}
+										}, this.DEBOUNCE_DELAY),
+									); // Use debounce
 							});
 					}
 				}
 
-				// --- Conditionally display specific settings ---
+				// Conditionally display specific settings
 				const scriptDefs = definitions[relativePath];
 				if (scriptDefs && scriptDefs.length > 0) {
 					// Ensure scriptValues object exists if definitions exist

@@ -1,7 +1,7 @@
 {
     "id": "obsidian-python-bridge",
     "name": "Obsidian Python Bridge",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "minAppVersion": "0.12.0",
     "description": "🐍 A plugin that lets you write Obsidian plugins in Python! Yes, it's as crazy as it sounds!",
     "author": "AsLongAsItWorksDev",

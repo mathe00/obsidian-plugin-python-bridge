@@ -24,9 +24,14 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 -   [Example of basic usage](#basic-usage)
 -   [🚀 Future Features (roadmap)](#roadmap)
 -   [🛠️ Installation](#installation)
--   [💖 Support the Project](#support)
--   [⭐ Show Your Support](#support)
--   [🛠️ Contributing](#contributing)
+    -   [Prerequisites](#prerequisites)
+    -   [From Obsidian Community Plugins (Recommended - Pending Approval)](#install-community)
+    -   [Manual Installation (Using Releases)](#install-manual)
+-   [⚙️ Configuration](#configuration)
+-   [🐍 Using the Python Library](#using-library)
+-   [💖 Support the Project](#support-the-project)
+-   [⭐ Show Your Support](#support-star)
+-   [🛠️ Contributing / Developer Setup](#contributing)
 -   [⭐ Check out my other plugins](#other-plugins)
 -   [License](#license)
 
@@ -145,33 +150,46 @@ Here's a quick example to demonstrate how you can use this feature:
 ```python
 # Import the Python-Obsidian bridge module
 # Make sure 'requests' is installed: pip install requests
-from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
+from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError, define_settings, _handle_cli_args
 import sys # Import sys to print errors to stderr
+import os
+import json
 
-# NOTE: For scripts with settings, add define_settings() and _handle_cli_args() here
+# --- Event Check ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if event_name_from_env:
+    print(f"Event triggered: {event_name_from_env}. Exiting example.")
+    sys.exit(0)
 
-try:
-    # Create an instance of the class (uses default/env port)
-    obsidian = ObsidianPluginDevPythonToJS()
+# --- Settings Definition & Discovery Handling ---
+# Recommended even for scripts without settings
+MY_SETTINGS: list = []
+define_settings(MY_SETTINGS)
+_handle_cli_args() # Handles --get-settings-json and exits if found
 
-    # Request text input from the user
-    response = obsidian.request_user_input(
-        script_name="Text Input Example",
-        input_type="text",
-        message="Please enter your name:"
-    )
+# --- Main Script Logic ---
+if __name__ == "__main__":
+    try:
+        # Create an instance of the class (uses default/env port)
+        obsidian = ObsidianPluginDevPythonToJS()
 
-    # Send a notification with the user's input
-    if response is not None: # Check if user cancelled
-        obsidian.show_notification(content=f"Hello {response}!")
-    else:
-        obsidian.show_notification(content="Input cancelled by user.")
+        # Request text input from the user
+        response = obsidian.request_user_input(
+            script_name="Text Input Example",
+            input_type="text",
+            message="Please enter your name:"
+        )
 
+        # Send a notification with the user's input
+        if response is not None: # Check if user cancelled
+            obsidian.show_notification(content=f"Hello {response}!")
+        else:
+            obsidian.show_notification(content="Input cancelled by user.")
 
-except ObsidianCommError as e:
-    print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
-except Exception as e:
-    print(f"An unexpected error occurred: {e}", file=sys.stderr)
+    except ObsidianCommError as e:
+        print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
 
 ```
 
@@ -195,20 +213,28 @@ With the latest update, you can **define settings directly within your Python sc
 
 ```python
 # Example snippet from your script
-from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args
+import sys
+import os
+from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args, ObsidianPluginDevPythonToJS
 
+# --- Event Check (Recommended) ---
+# ...
+
+# --- Settings Definition & Discovery Handling (Recommended) ---
 MY_SETTINGS = [
     { "key": "api_key", "type": "text", "label": "API Key", "default": "" },
     { "key": "enabled", "type": "toggle", "label": "Enable Feature", "default": True }
 ]
 define_settings(MY_SETTINGS)
-_handle_cli_args() # Handles discovery request from Obsidian
+_handle_cli_args() # Handles discovery request from Obsidian and exits
 
-# ... later in your script ...
-# obsidian = ObsidianPluginDevPythonToJS()
-# settings = obsidian.get_script_settings()
-# api_key = settings.get("api_key")
-# feature_enabled = settings.get("enabled")
+# --- Main Script Logic ---
+if __name__ == "__main__" and not os.environ.get("OBSIDIAN_EVENT_NAME"):
+    obsidian = ObsidianPluginDevPythonToJS()
+    settings = obsidian.get_script_settings()
+    api_key = settings.get("api_key")
+    feature_enabled = settings.get("enabled")
+    # ... use settings ...
 ```
 
 The **Obsidian Python Bridge** plugin will automatically **discover** these definitions and **display them in its settings tab** under a section for your script. Users can then configure these settings directly in the Obsidian interface, just like any other plugin!
@@ -223,49 +249,70 @@ This example shows basic interaction without script-specific settings. See the h
 ```python
 # Import the Python-Obsidian bridge module
 # Make sure 'requests' is installed: pip install requests
-from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
 import sys
+import os
+import json
+from ObsidianPluginDevPythonToJS import (
+    ObsidianPluginDevPythonToJS, ObsidianCommError,
+    define_settings, _handle_cli_args
+)
 
-# NOTE: For scripts with settings, add define_settings() and _handle_cli_args() here
+# --- Event Check ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if event_name_from_env:
+    print(f"Event triggered: {event_name_from_env}. Exiting basic example.")
+    sys.exit(0)
 
-try:
-    # Create an instance of the class (uses default/env port)
-    obsidian = ObsidianPluginDevPythonToJS()
+# --- Settings Definition & Discovery Handling (Recommended) ---
+MY_SETTINGS: list = [] # No settings for this basic example
+define_settings(MY_SETTINGS)
+_handle_cli_args() # Handles --get-settings-json and exits if found
 
-    # Test sending a notification
-    obsidian.show_notification(content="Test notification: show_notification function", duration=5000)
+# --- Main Script Logic ---
+if __name__ == "__main__":
+    try:
+        # Create an instance of the class (uses default/env port)
+        obsidian = ObsidianPluginDevPythonToJS()
 
-    # Test retrieving the content of the active note
-    note_content = obsidian.get_active_note_content()
-    if note_content is not None:
-        obsidian.show_notification(content=f"Note content: {note_content[:50]}...", duration=5000)  # Show the first 50 characters
-    else:
-        obsidian.show_notification(content="No active note found.", duration=3000)
+        # Test sending a notification
+        obsidian.show_notification(content="Test notification: show_notification function", duration=5000)
 
-    # Retrieving the absolute path of the active note
-    absolute_path = obsidian.get_active_note_absolute_path()
-    obsidian.show_notification(content=f"Absolute path: {absolute_path}", duration=5000)
+        # Test retrieving the content of the active note (as string)
+        note_content = obsidian.get_active_note_content(return_format="string") # Explicitly string
+        if note_content is not None:
+            obsidian.show_notification(content=f"Note content: {note_content[:50]}...", duration=5000)  # Show the first 50 characters
+        else:
+            obsidian.show_notification(content="No active note found.", duration=3000)
 
-    # Retrieving the relative path of the active note
-    relative_path = obsidian.get_active_note_relative_path()
-    obsidian.show_notification(content=f"Relative path: {relative_path}", duration=5000)
+        # Retrieving the absolute path of the active note
+        absolute_path = obsidian.get_active_note_absolute_path()
+        obsidian.show_notification(content=f"Absolute path: {absolute_path}", duration=5000)
 
-    # Retrieving the title of the active note
-    title = obsidian.get_active_note_title()
-    obsidian.show_notification(content=f"Title: {title}", duration=5000)
+        # Retrieving the relative path of the active note
+        relative_path = obsidian.get_active_note_relative_path()
+        obsidian.show_notification(content=f"Relative path: {relative_path}", duration=5000)
 
-    # Retrieving the absolute path of the current vault
-    vault_path = obsidian.get_current_vault_absolute_path()
-    obsidian.show_notification(content=f"Vault path: {vault_path}", duration=5000)
+        # Retrieving the title of the active note
+        title = obsidian.get_active_note_title()
+        obsidian.show_notification(content=f"Title: {title}", duration=5000)
 
-    # Retrieving the frontmatter of the active note
-    frontmatter = obsidian.get_active_note_frontmatter()
-    obsidian.show_notification(content=f"Frontmatter: {frontmatter}", duration=5000)
+        # Retrieving the absolute path of the current vault
+        vault_path = obsidian.get_current_vault_absolute_path()
+        obsidian.show_notification(content=f"Vault path: {vault_path}", duration=5000)
 
-except ObsidianCommError as e:
-    print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
-except Exception as e:
-    print(f"An unexpected error occurred: {e}", file=sys.stderr)
+        # Retrieving the frontmatter of the active note
+        frontmatter = obsidian.get_active_note_frontmatter()
+        obsidian.show_notification(content=f"Frontmatter: {frontmatter}", duration=5000)
+
+        # Retrieving all note paths (relative)
+        all_relative = obsidian.get_all_note_paths(absolute=False)
+        obsidian.show_notification(content=f"Found {len(all_relative)} relative paths.", duration=3000)
+
+
+    except ObsidianCommError as e:
+        print(f"Error communicating with Obsidian: {e}", file=sys.stderr)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}", file=sys.stderr)
 
 ```
 
@@ -287,6 +334,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 <a id="installation"></a>
 ## 🛠️ Installation
 
+<a id="prerequisites"></a>
 ### Prerequisites
 
 Before installing the plugin, please ensure you have the following installed on your system:
@@ -308,47 +356,63 @@ Before installing the plugin, please ensure you have the following installed on 
     python3 -m pip install PyYAML
     ```
 
-### Installation Steps
+<a id="install-community"></a>
+### From Obsidian Community Plugins (Recommended - Pending Approval)
 
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/mathe00/obsidian-plugin-python-bridge.git
-    ```
-2.  **Navigate into the project folder**:
-    ```bash
-    cd obsidian-plugin-python-bridge/
-    ```
-3.  **Install dependencies** (for the plugin build process):
-    ```bash
-    npm install
-    ```
-4.  **Build the project**:
-    ```bash
-    npm run build
-    ```
-    This will generate the `main.js` file needed by Obsidian.
-5.  **Install the Plugin in Obsidian**:
-    -   Create a new folder named `obsidian-python-bridge` inside your vault's plugin folder: `<your-vault>/.obsidian/plugins/`.
-    -   Copy the generated `main.js` file and the `manifest.json` file from the project root into the newly created `<your-vault>/.obsidian/plugins/obsidian-python-bridge/` folder.
-    -   **Restart Obsidian**.
-    -   Go to **Settings** > **Community plugins**, find "Python Bridge" in the list of installed plugins (you might need to disable Safe Mode if it's your first time), and **enable it**.
-6.  **Configure Plugin Settings**:
-    -   In Obsidian, go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
-    -   **(Important!) Security Warning**: Read the security warning at the top. Only run scripts you trust!
-    -   **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
-    -   Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts.
-    -   Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
-    -   **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (the plugin sets the `OBSIDIAN_HTTP_PORT` environment variable to the *actual* listening port when running scripts).
-    -   **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
-        You can also configure enabled scripts to **run automatically on Obsidian startup**, optionally setting a **delay** (in seconds) before execution.
-    -   **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
-    -   **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
-7.  **Using the Python Library (`ObsidianPluginDevPythonToJS.py`)**:
-    -   **Recommended (Default Behavior):** The plugin includes a setting called "**Auto-set PYTHONPATH for Library**" (found under "Python Bridge" in Obsidian's Community Plugin settings). This option is **enabled by default**. When enabled, the plugin automatically makes the `ObsidianPluginDevPythonToJS.py` library (located within the plugin's installation directory) available to your Python scripts. You can then directly use `from ObsidianPluginDevPythonToJS import ...` in your scripts located in your configured "Python Scripts Folder" without any extra steps.
-    -   **Alternative (If "Auto-set PYTHONPATH" is disabled):** If you choose to disable the "Auto-set PYTHONPATH for Library" option, you will then need to:
-        -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
-        -   Place this `.py` file inside the "Python Scripts Folder" you configured in step 6.
-        -   Alternatively, you would need to manage Python's `sys.path` manually within each of your scripts to point to the location of the library file, which is more complex.
+> **Status:** The plugin (v2.0.0) has been submitted to the Obsidian Community Plugin list and is currently awaiting review and approval by the Obsidian team.
+
+Once approved:
+
+1.  Open Obsidian **Settings**.
+2.  Go to **Community plugins**.
+3.  Ensure **Safe mode** is **off**.
+4.  Click **Browse** community plugins.
+5.  Search for "**Python Bridge**".
+6.  Click **Install**.
+7.  Once installed, click **Enable**.
+8.  Proceed to the [Configuration](#configuration) section below.
+
+<a id="install-manual"></a>
+### Manual Installation (Using Releases)
+
+If the plugin is not yet available in the Community Plugins list or you prefer manual installation:
+
+1.  Go to the [**Releases page**](https://github.com/mathe00/obsidian-plugin-python-bridge/releases) of this repository.
+2.  Download the latest release archive (e.g., `obsidian-python-bridge-X.Y.Z.zip`). **Do not** download the source code zip.
+3.  Extract the contents of the downloaded zip file. You should have `main.js`, `manifest.json`, and potentially `styles.css`.
+4.  Navigate to your Obsidian vault's configuration folder: `<your-vault>/.obsidian/plugins/`.
+5.  Create a new folder named `obsidian-python-bridge`.
+6.  Copy the extracted `main.js`, `manifest.json`, and `styles.css` (if present) into the newly created `obsidian-python-bridge` folder.
+7.  **Restart Obsidian**.
+8.  Go to **Settings** > **Community plugins**, find "Python Bridge" in the list of installed plugins (you might need to disable Safe Mode if it's your first time), and **enable it**.
+9.  Proceed to the [Configuration](#configuration) section.
+
+<a id="configuration"></a>
+## ⚙️ Configuration
+
+After installing and enabling the plugin:
+
+1.  Go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
+2.  **(Important!) Security Warning**: Read the security warning at the top. Only run scripts you trust!
+3.  **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
+4.  Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts. This is where the plugin will look for `.py` files to run and discover settings from.
+5.  Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
+    *   **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (the plugin sets the `OBSIDIAN_HTTP_PORT` environment variable to the *actual* listening port when running scripts).
+6.  **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
+    You can also configure enabled scripts to **run automatically on Obsidian startup**, optionally setting a **delay** (in seconds) before execution.
+7.  **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
+8.  **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
+
+<a id="using-library"></a>
+## 🐍 Using the Python Library (`ObsidianPluginDevPythonToJS.py`)
+
+-   **Recommended (Default Behavior):** The plugin includes a setting called "**Auto-set PYTHONPATH for Library**" (found under "Python Bridge" in Obsidian's Community Plugin settings). This option is **enabled by default**. When enabled, the plugin automatically makes the `ObsidianPluginDevPythonToJS.py` library (located within the plugin's installation directory) available to your Python scripts. You can then directly use `from ObsidianPluginDevPythonToJS import ...` in your scripts located in your configured "Python Scripts Folder" without any extra steps.
+-   **Alternative (If "Auto-set PYTHONPATH" is disabled):** If you choose to disable the "Auto-set PYTHONPATH for Library" option, you will then need to:
+    -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
+    -   Place this `.py` file inside the "Python Scripts Folder" you configured in step 6.
+    -   Alternatively, you would need to manage Python's `sys.path` manually within each of your scripts to point to the location of the library file, which is more complex.
+
+👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PythonClientLibrary.md).**
 
 <a id="support-the-project"></a>
 ## 💖 Support the Project
@@ -369,7 +433,7 @@ I currently accept donations through:
 
 If you have any questions about donations or encounter any issues, please feel free to open a GitHub issue. I'm available to respond to donation-related questions just like any other issue or feedback.
 
-<a id="support"></a>
+<a id="support-star"></a>
 ## ⭐ Show Your Support
 
 If you find this plugin useful or interesting, feel free to give it a **star** on GitHub!
@@ -377,9 +441,34 @@ Or if you'd rather not, you can also drop by and say **hello** or provide feedba
 I'm open to all kinds of feedback, advice, and encouragements! 😊
 
 <a id="contributing"></a>
-## 🛠️ Contributing
+## 🛠️ Contributing / Developer Setup
 
-If you're a **developer** and you see ways to improve this plugin, I'm open to suggestions. I'm also always happy to welcome contributions!
+Contributions are welcome! If you're a developer and see ways to improve this plugin, feel free to submit issues or pull requests.
+
+**Setup for Development:**
+
+If you want to modify the plugin's TypeScript code or contribute:
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/mathe00/obsidian-plugin-python-bridge.git
+    ```
+2.  **Navigate into the project folder**:
+    ```bash
+    cd obsidian-plugin-python-bridge/
+    ```
+3.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+4.  **Build the project**:
+    ```bash
+    npm run build
+    ```
+    Or run `npm run dev` to automatically rebuild on file changes.
+5.  **Install in Obsidian for Testing**:
+    -   Copy the generated `main.js`, `manifest.json`, and `styles.css` (if it exists) into a dedicated folder within your vault's plugin directory (e.g., `<your-vault>/.obsidian/plugins/obsidian-python-bridge-dev/`).
+    -   Enable the plugin in Obsidian.
 
 As for me, as long as it works in **Python**, I'm satisfied. But if you see how to optimize or make the code **cleaner**, feel free to **submit your pull requests**!
 

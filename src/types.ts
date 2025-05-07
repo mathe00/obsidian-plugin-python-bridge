@@ -46,5 +46,9 @@ export interface JsonResponse {
 // Structure for JSON requests received FROM the Python client
 export interface JsonRequest {
 	action: string;
-	payload?: any;
+	payload?: {
+		absolute?: boolean; // For get_all_note_paths
+		// Add other potential payload structures here as a union if they become more defined
+		[key: string]: any; // Allow other arbitrary keys for now
+	};
 }

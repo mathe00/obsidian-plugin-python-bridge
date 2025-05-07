@@ -595,18 +595,18 @@ class ObsidianPluginDevPythonToJS:
         Raises:
             ObsidianCommError: If paths cannot be retrieved or vault path is needed but unavailable.
         """
-        relative_paths = self._send_receive("get_all_note_paths")
+        # The plugin side will handle the logic of returning absolute or relative paths
+        # based on the 'absolute' flag.
+        payload = {"absolute": absolute}
+        note_paths = self._send_receive("get_all_note_paths", payload)
 
-        if not isinstance(relative_paths, list):
-             raise ObsidianCommError(f"Expected a list of paths, but received: {type(relative_paths)}", action="get_all_note_paths")
-
-        if absolute:
-            vault_path = self.get_current_vault_absolute_path() # This itself uses _send_receive
-            clean_vault_path = vault_path.rstrip(os.sep)
-            absolute_paths = [os.path.join(clean_vault_path, p.lstrip(os.sep)) for p in relative_paths]
-            return absolute_paths
-        else:
-            return relative_paths
+        if not isinstance(note_paths, list):
+             raise ObsidianCommError(f"Expected a list of paths, but received: {type(note_paths)}", action="get_all_note_paths")
+        # Further validation that all elements are strings could be added if desired
+        # for p in note_paths:
+        #     if not isinstance(p, str):
+        #         raise ObsidianCommError(f"Path list contains non-string element: {p}", action="get_all_note_paths")
+        return note_paths
 
     def get_all_note_titles(self) -> List[str]:
         """

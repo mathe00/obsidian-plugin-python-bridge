@@ -9,8 +9,36 @@ import { t } from "./lang/translations"; // Import translation function
 import UserInputModal from "./UserInputModal"; // Import modal
 
 // Import functions from the new modules
-import { getActiveNoteContent, getActiveNoteRelativePath, getActiveNoteAbsolutePath, getActiveNoteTitle, getActiveNoteFrontmatter, getCurrentVaultAbsolutePath, getNoteContentByPath, getNoteFrontmatterByPath, getSelectedText, replaceSelectedText, openNote, getObsidianLanguage, createNote, checkPathExists, deletePath, renamePath, runObsidianCommand, getAllTags, getVaultName, getThemeMode, createFolder, listFolder, getLinks, getEditorContext, getBacklinks, modifyNoteContentByRelativePath } from "./obsidian_api"; // Use the relative path version // Keep import even if disabled for now // Keep import even if disabled for now
-import { removeListener } from "./event_handler"; // Import event helper
+import {
+	getAllNotePaths,
+	getActiveNoteContent,
+	getActiveNoteRelativePath,
+	getActiveNoteAbsolutePath,
+	getActiveNoteTitle,
+	getActiveNoteFrontmatter,
+	getCurrentVaultAbsolutePath,
+	getNoteContentByPath,
+	getNoteFrontmatterByPath,
+	getSelectedText,
+	replaceSelectedText,
+	openNote,
+	getObsidianLanguage,
+	createNote,
+	checkPathExists,
+	deletePath,
+	renamePath,
+	runObsidianCommand,
+	getAllTags,
+	getVaultName,
+	getThemeMode,
+	createFolder,
+	listFolder,
+	getLinks,
+	getEditorContext,
+	getBacklinks,
+	modifyNoteContentByRelativePath,
+} from "./obsidian_api";
+import { removeListener } from "./event_handler";
 
 /**
  * Handles incoming JSON requests from the Python client.
@@ -25,7 +53,18 @@ export async function dispatchAction(plugin: ObsidianPythonBridge, request: Json
 		switch (action) {
 			// --- Vault/Note Info ---
 			case "get_all_note_paths":
-				return { status: "success", data: plugin.getAllNotePaths() }; // Directly call the function from obsidian_api.ts // Use plugin method which calls obsidian_api internally
+				// The payload structure is now { absolute?: boolean }
+				// Default to false if not provided or if payload is undefined or not an object
+				const getAbsolutePaths = typeof payload === 'object' && payload !== null && payload.absolute === true;
+				try {
+					// Call the updated function from obsidian_api.ts
+					const paths = getAllNotePaths(plugin, getAbsolutePaths);
+					return { status: "success", data: paths };
+				} catch (error) {
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					plugin.logError(`Error in get_all_note_paths (absolute=${getAbsolutePaths}): ${errorMsg}`);
+					return { status: "error", error: `Failed to get note paths: ${errorMsg}` };
+				}
 			case "get_active_note_content":
 				const activeContent = await getActiveNoteContent(plugin);
 				return activeContent !== null ? { status: "success", data: activeContent } : { status: "error", error: "No active Markdown note found." };

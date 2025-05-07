@@ -66,8 +66,15 @@ export async function dispatchAction(plugin: ObsidianPythonBridge, request: Json
 					return { status: "error", error: `Failed to get note paths: ${errorMsg}` };
 				}
 			case "get_active_note_content":
-				const activeContent = await getActiveNoteContent(plugin);
-				return activeContent !== null ? { status: "success", data: activeContent } : { status: "error", error: "No active Markdown note found." };
+				const returnFormat = typeof payload === 'object' && payload !== null && typeof payload.return_format === 'string' ? payload.return_format : "string";
+				try {
+					const activeContent = await getActiveNoteContent(plugin, returnFormat);
+					return activeContent !== null ? { status: "success", data: activeContent } : { status: "error", error: "No active Markdown note found." };
+				} catch (error) {
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					plugin.logError(`Error in get_active_note_content (format=${returnFormat}): ${errorMsg}`);
+					return { status: "error", error: `Failed to get active note content: ${errorMsg}` };
+				}
 			case "get_active_note_relative_path":
 				const activeRelativePath = getActiveNoteRelativePath(plugin);
 				return activeRelativePath !== null ? { status: "success", data: activeRelativePath } : { status: "error", error: "No active Markdown note found." };

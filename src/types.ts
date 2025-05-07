@@ -48,6 +48,7 @@ export interface JsonRequest {
 	action: string;
 	payload?: {
 		absolute?: boolean; // For get_all_note_paths
+		return_format?: string; // For get_active_note_content
 		// Add other potential payload structures here as a union if they become more defined
 		[key: string]: any; // Allow other arbitrary keys for now
 	};

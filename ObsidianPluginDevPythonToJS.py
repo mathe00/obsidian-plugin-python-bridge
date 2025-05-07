@@ -436,18 +436,28 @@ class ObsidianPluginDevPythonToJS:
         self._send_receive("show_notification", payload)
         print(f"Notification request sent: '{content}' (duration: {duration}ms)")
 
-    def get_active_note_content(self) -> str:
+    def get_active_note_content(self, return_format: str = "string") -> Union[str, List[str]]:
         """
         Retrieves the full Markdown content of the currently active note in Obsidian.
 
+        Args:
+            return_format (str, optional): The desired format for the note content.
+                - "string" (default): Returns the entire content as a single string.
+                - "lines": Returns the content as a list of strings, where each
+                string is a line from the note.
+
         Returns:
-            str: The content of the active note.
+            Union[str, List[str]]: The content of the active note in the specified format.
 
         Raises:
+            ValueError: If return_format is not "string" or "lines".
             ObsidianCommError: If there is no active note, the active file is not
-                               a Markdown file, or the request fails.
+            a Markdown file, or the request fails.
         """
-        return self._send_receive("get_active_note_content")
+        if return_format not in ["string", "lines"]:
+            raise ValueError("return_format must be either 'string' or 'lines'.")
+        payload = {"return_format": return_format}
+        return self._send_receive("get_active_note_content", payload)
 
     def get_active_note_frontmatter(self) -> Optional[Dict[str, Any]]:
         """

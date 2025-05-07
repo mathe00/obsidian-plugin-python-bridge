@@ -3,7 +3,6 @@
 node_modules/
 dist/
 build/
-main.js
 *.tsbuildinfo
 *.tgz
 .npm

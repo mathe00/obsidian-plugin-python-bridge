@@ -57,40 +57,73 @@ export default class UserInputModal extends Modal {
 		submitButton.addEventListener('click', () => {
 			if (this.inputEl) {
 				let inputValue: any;
+				let validationPassed = true; // Flag to track validation status
+
 				// Handle different input types to get the correct value
-				if (this.inputType === 'boolean' || this.inputType === 'checkbox') inputValue = (this.inputEl as HTMLInputElement).checked;
-				else if (this.inputType === 'number' || this.inputType === 'range') {
-					inputValue = parseFloat(this.inputEl.value); // Parse as float or int depending on step? For now, parse as float.
+				if (this.inputType === 'boolean' || this.inputType === 'checkbox') {
+					inputValue = (this.inputEl as HTMLInputElement).checked;
+					this.inputEl.style.borderColor = ""; // Reset border for checkbox/boolean
+				} else if (this.inputType === 'number' || this.inputType === 'range') {
+					inputValue = parseFloat(this.inputEl.value);
 					// Basic validation if min/max are set
 					if (this.minValue !== undefined && inputValue < this.minValue) inputValue = this.minValue;
 					if (this.maxValue !== undefined && inputValue > this.maxValue) inputValue = this.maxValue;
-				} else {
+					// Check if the result is a valid number (e.g., if input was empty or non-numeric)
+					if (isNaN(inputValue)) {
+						// Handle potential NaN if input is cleared or invalid for number/range
+						// Decide on behavior: default value? error? For now, let's show notice and prevent submit
+						new Notice("Invalid number input."); // Consider translating this if needed
+						this.inputEl.style.borderColor = "red";
+						this.inputEl.focus();
+						validationPassed = false; // Mark validation as failed
+					} else {
+						this.inputEl.style.borderColor = ""; // Reset border if valid number
+					}
+				} else { // Includes 'text', 'date', etc.
 					inputValue = this.inputEl.value;
 					// Optional: Add regex validation here if needed for 'text' type
 					if (this.inputType === 'text' && this.validationRegex) {
 						try {
 							const regex = new RegExp(this.validationRegex);
-							if (!regex.test(inputValue)) { new Notice(t("NOTICE_INPUT_VALIDATION_FAILED")); return; } // Show a translated error message // Prevent closing if validation fails
+							if (!regex.test(inputValue)) {
+								this.inputEl.style.borderColor = "red"; // Set border to red
+								this.inputEl.focus(); // Set focus back to the input field
+								new Notice(t("NOTICE_INPUT_VALIDATION_FAILED")); // Show translated error
+								validationPassed = false; // Mark validation as failed
+							} else {
+								this.inputEl.style.borderColor = ""; // Reset border if valid
+							}
 						} catch (e) {
 							console.error("UserInputModal: Invalid validation regex provided:", this.validationRegex, e);
-							// Optionally notify the user about the bad regex? Or just proceed without validation.
-							// For now, we proceed without validation if regex is bad.
+							this.inputEl.style.borderColor = ""; // Reset border in case of regex error
+							// Proceed without validation if regex itself is bad
 						}
+					} else {
+						// Reset border for other types like 'date' or 'text' without regex
+						this.inputEl.style.borderColor = "";
 					}
 				}
-				this.onSubmit(inputValue);
-				this.close();
+
+				// Only submit and close if validation passed
+				if (validationPassed) {
+					this.onSubmit(inputValue);
+					this.close();
+				}
+				// If validationPassed is false, the modal remains open due to the logic above
 			}
 		});
 
-		// Allow submitting with Enter key on text/number inputs
+		// Allow submitting with Enter key on text/number/date inputs
 		if (this.inputEl && (this.inputType === 'text' || this.inputType === 'number' || this.inputType === 'date')) {
 			this.inputEl.addEventListener('keypress', (event) => {
-				if (event.key === 'Enter') { event.preventDefault(); submitButton.click(); } // Prevent default form submission behavior // Trigger the submit button's click handler
+				if (event.key === 'Enter') {
+					event.preventDefault(); // Prevent default form submission behavior
+					submitButton.click(); // Trigger the submit button's click handler
+				}
 			});
 			this.inputEl.focus(); // Focus the input element when the modal opens
-		}
-	}
+	}}
+
 
 	onClose() { const { contentEl } = this; contentEl.empty(); }
 }

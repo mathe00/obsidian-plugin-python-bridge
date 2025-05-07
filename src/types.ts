@@ -33,6 +33,7 @@ export interface PythonBridgeSettings {
 	scriptAutoStartStatus: Record<string, boolean>;
 	/** User-configured auto-start delay (in seconds) for scripts. Key: relative script path, Value: number */
 	scriptAutoStartDelay: Record<string, number>;
+	autoSetPYTHONPATH: boolean; // Setting to control automatic PYTHONPATH modification
 }
 
 // Structure for JSON responses sent TO the Python client

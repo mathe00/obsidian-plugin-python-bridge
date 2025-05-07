@@ -23,9 +23,16 @@ import { loadTranslations, t } from "./lang/translations";
 
 // --- Default Settings ---
 const DEFAULT_SETTINGS: PythonBridgeSettings = {
-	pythonScriptsFolder: "", httpPort: DEFAULT_PORT, disablePyCache: true, pluginLanguage: "auto",
-	scriptSettingsDefinitions: {}, scriptSettingsValues: {}, scriptActivationStatus: {},
-	scriptAutoStartStatus: {}, scriptAutoStartDelay: {},
+	pythonScriptsFolder: "",
+	httpPort: DEFAULT_PORT,
+	disablePyCache: true,
+	pluginLanguage: "auto",
+	autoSetPYTHONPATH: true,
+	scriptSettingsDefinitions: {},
+	scriptSettingsValues: {},
+	scriptActivationStatus: {},
+	scriptAutoStartStatus: {},
+	scriptAutoStartDelay: {},
 };
 
 // --- Main Plugin Class ---
@@ -36,6 +43,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	pythonExecutable: string | null = null; // Managed by environment_checker
 	dynamicScriptCommands: Map<string, Command> = new Map(); // Managed by python_executor
 	eventListeners: Map<string, Set<string>> = new Map(); // Managed by event_handler
+	pluginDirAbsPath: string | null = null; // Absolute path to the plugin's directory
 
 	// --- Logging Helpers ---
 	// (Keep these methods as they are used by other modules via the plugin instance)
@@ -51,6 +59,29 @@ export default class ObsidianPythonBridge extends Plugin {
 		await this.validateScriptsFolderPathSetting(); // Validate startup folder path setting
 		loadTranslations(this); // Load translations
 		this.initialHttpPort = this.settings.httpPort; // Store initial port
+
+		// --- Determine plugin absolute path *BEFORE* settings discovery ---
+		const adapter = this.app.vault.adapter;
+		if (adapter instanceof FileSystemAdapter && this.manifest.dir) {
+			const basePath = adapter.getBasePath();
+			const manifestDir = this.manifest.dir;
+			this.logDebug(`Determining plugin path from basePath: '${basePath}' and manifestDir: '${manifestDir}'`);
+			let joinedPath = path.join(basePath, manifestDir);
+			this.pluginDirAbsPath = normalizePath(joinedPath);
+
+			// Final check and potential correction if normalizePath removed the leading slash (Unix-like systems)
+			if (basePath.startsWith('/') && !this.pluginDirAbsPath.startsWith('/')) {
+				this.logWarn(`normalizePath might have removed the leading slash. Original joined: ${joinedPath}, Normalized: ${this.pluginDirAbsPath}. Attempting to prepend slash.`);
+				// Prepend slash if missing, remove any multiple leading slashes first just in case
+				this.pluginDirAbsPath = '/' + this.pluginDirAbsPath.replace(/^\/+/, '');
+			}
+			this.logInfo(`Plugin absolute directory path determined: ${this.pluginDirAbsPath}`);
+		} else {
+			this.logError("Could not determine plugin absolute directory path. Automatic PYTHONPATH for the bridge library might not work correctly.");
+			this.pluginDirAbsPath = null; // Ensure it's null if determination fails
+		}
+		// --- End Plugin Path Determination ---
+
 		this.addSettingTab(new PythonBridgeSettingTab(this.app, this));
 		this.addCommands(); // Add static commands
 
@@ -58,8 +89,11 @@ export default class ObsidianPythonBridge extends Plugin {
 		const envCheckOk = await checkPythonEnvironment(this);
 		if (envCheckOk) {
 			this.startHttpServer(); // Start server only if Python env is okay
+
 			// Discover script settings and sync commands using the dedicated module
-			const scriptsFolder = getScriptsFolderPath(this); // Re-check after potential validation
+			// This now runs *after* pluginDirAbsPath is potentially determined
+			// const scriptsFolder = getScriptsFolderPath(this.plugin); // Re-check after potential validation
+			const scriptsFolder = getScriptsFolderPath(this); // Pass 'this' (the plugin instance) directly
 			if (scriptsFolder && this.pythonExecutable) {
 				// Run discovery and command sync asynchronously
 				updateAndSyncCommands(this, scriptsFolder)
@@ -79,8 +113,9 @@ export default class ObsidianPythonBridge extends Plugin {
 		}));
 		// Register Obsidian event listeners using the dedicated module
 		registerObsidianEventListeners(this);
+
 		this.logInfo("Obsidian Python Bridge plugin loaded.");
-	}
+	} // --- End onload ---
 
 	onunload() {
 		this.logInfo("Unloading Obsidian Python Bridge plugin...");
@@ -93,6 +128,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 		// Ensure new settings fields exist
+		this.settings.autoSetPYTHONPATH = this.settings.autoSetPYTHONPATH ?? true; // Ensure default for existing users
 		this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
 		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
 		this.settings.scriptActivationStatus = this.settings.scriptActivationStatus || {};

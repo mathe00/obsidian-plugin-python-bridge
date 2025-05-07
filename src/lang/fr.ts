@@ -13,6 +13,8 @@ export default {
 	SETTINGS_CACHE_TITLE: "Désactiver le Cache Python (__pycache__)",
 	SETTINGS_CACHE_DESC:
 		'Exécute Python avec l\'option "-B" pour empêcher l\'écriture des fichiers .pyc.',
+	// SETTINGS_AUTO_PYTHONPATH_NAME: "Définir PYTHONPATH pour la Librairie", // <-- REMOVED FROM HERE
+	// SETTINGS_AUTO_PYTHONPATH_DESC: "...", // <-- REMOVED FROM HERE
 
 	// main.ts Notices
 	NOTICE_PLUGIN_NAME: "Python Bridge",
@@ -87,5 +89,10 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Délai au Démarrage (secondes)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Attendre ce nombre de secondes après le démarrage d'Obsidian avant d'exécuter le script (s'applique seulement si 'Exécuter au Démarrage' est coché). Utilisez 0 pour aucun délai.",
 	NOTICE_SCRIPT_DISABLED: "Le script '{scriptName}' est désactivé dans les paramètres et ne peut pas être exécuté.",
+
+	// --- ADDED KEYS AT THE END ---
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Définir PYTHONPATH pour la Librairie",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Ajouter automatiquement le dossier du plugin à PYTHONPATH lors de l'exécution des scripts, permettant l'import direct de la librairie Python (Recommandé). Si désactivé, vous devez copier ObsidianPluginDevPythonToJS.py dans votre dossier de scripts ou gérer sys.path manuellement.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automatique désactivé. Assurez-vous que ObsidianPluginDevPythonToJS.py est dans votre dossier de scripts ou gérez sys.path manuellement.",
 
 };

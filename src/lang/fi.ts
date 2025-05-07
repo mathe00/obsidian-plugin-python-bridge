@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Käynnistysviive (sekuntia)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Odota näin monta sekuntia Obsidianin käynnistymisen jälkeen ennen skriptin suorittamista (koskee vain, jos 'Suorita käynnistyksen yhteydessä' on päällä). Käytä 0, jos et halua viivettä.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Aseta PYTHONPATH automaattisesti kirjastolle",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Lisää automaattisesti laajennushakemiston PYTHONPATHiin komentosarjoja suoritettaessa, mikä mahdollistaa Python-kirjaston suoran tuonnin (Suositus). Jos se on poistettu käytöstä, sinun on kopioitava ObsidianPluginDevPythonToJS.py komentosarjakansioosi tai hallittava sys.pathia manuaalisesti.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automaattinen PYTHONPATH pois käytöstä. Varmista, että ObsidianPluginDevPythonToJS.py on komentosarjakansiossasi tai hallitse sys.pathia manuaalisesti.",
+
 };

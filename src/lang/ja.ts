@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "起動遅延（秒）",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidianの起動後、スクリプトを実行する前にこの秒数待機します（「起動時に実行」がオンの場合のみ適用）。遅延なしの場合は0を使用します。",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "ライブラリのPYTHONPATHを自動設定",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "スクリプト実行時にプラグインディレクトリを自動的にPYTHONPATHに追加し、Pythonライブラリの直接インポートを可能にします（推奨）。無効にした場合、ObsidianPluginDevPythonToJS.pyをスクリプトフォルダにコピーするか、sys.pathを手動で管理する必要があります。",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "自動PYTHONPATHが無効になりました。ObsidianPluginDevPythonToJS.pyがスクリプトフォルダにあることを確認するか、sys.pathを手動で管理してください。",
+
 };

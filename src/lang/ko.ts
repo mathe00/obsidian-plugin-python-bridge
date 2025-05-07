@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "시작 지연 (초)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian 시작 후 스크립트를 실행하기 전에 이 시간(초)만큼 기다립니다 ('시작 시 실행'이 켜져 있는 경우에만 적용됨). 지연이 없으려면 0을 사용하십시오.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "라이브러리에 대해 PYTHONPATH 자동 설정",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "스크립트를 실행할 때 플러그인 디렉토리를 PYTHONPATH에 자동으로 추가하여 Python 라이브러리를 직접 가져올 수 있도록 합니다(권장). 비활성화된 경우 ObsidianPluginDevPythonToJS.py를 스크립트 폴더에 복사하거나 sys.path를 수동으로 관리해야 합니다.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "자동 PYTHONPATH가 비활성화되었습니다. ObsidianPluginDevPythonToJS.py가 스크립트 폴더에 있는지 확인하거나 sys.path를 수동으로 관리하십시오.",
+
 };

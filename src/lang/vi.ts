@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Độ trễ khởi động (giây)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Đợi số giây này sau khi Obsidian khởi động trước khi chạy tập lệnh (chỉ áp dụng nếu 'Chạy khi khởi động' đang bật). Sử dụng 0 nếu không có độ trễ.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Tự động đặt PYTHONPATH cho Thư viện",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Tự động thêm thư mục plugin vào PYTHONPATH khi chạy script, cho phép nhập trực tiếp thư viện Python (Khuyến nghị). Nếu bị tắt, bạn phải sao chép ObsidianPluginDevPythonToJS.py vào thư mục script của mình hoặc quản lý sys.path thủ công.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH tự động đã bị tắt. Đảm bảo ObsidianPluginDevPythonToJS.py nằm trong thư mục script của bạn hoặc quản lý sys.path thủ công.",
+
 };

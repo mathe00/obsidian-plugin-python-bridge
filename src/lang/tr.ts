@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Başlangıç Gecikmesi (saniye)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian başladıktan sonra betiği çalıştırmadan önce bu kadar saniye bekleyin ('Başlangıçta Çalıştır' açıksa geçerlidir). Gecikme olmaması için 0 kullanın.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Kütüphane için PYTHONPATH'ı otomatik ayarla",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Komut dosyalarını çalıştırırken eklenti dizinini otomatik olarak PYTHONPATH'a ekleyerek Python kitaplığının doğrudan içe aktarılmasına izin verir (Önerilir). Devre dışı bırakılırsa, ObsidianPluginDevPythonToJS.py dosyasını komut dosyası klasörünüze kopyalamanız veya sys.path'i manuel olarak yönetmeniz gerekir.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Otomatik PYTHONPATH devre dışı bırakıldı. ObsidianPluginDevPythonToJS.py dosyasının komut dosyası klasörünüzde olduğundan emin olun veya sys.path'i manuel olarak yönetin.",
+
 };

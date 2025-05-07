@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "اسٹارٹ اپ میں تاخیر (سیکنڈ)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian شروع ہونے کے بعد اسکرپٹ چلانے سے پہلے اتنے سیکنڈ انتظار کریں ('اسٹارٹ اپ پر چلائیں' آن ہونے پر ہی لاگو ہوتا ہے)۔ بغیر کسی تاخیر کے 0 استعمال کریں۔",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "لائبریری کے لیے PYTHONPATH خودکار طور پر سیٹ کریں",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "اسکرپٹ چلاتے وقت پلگ ان ڈائرکٹری کو خودکار طور پر PYTHONPATH میں شامل کریں، جس سے Python لائبریری کی براہ راست درآمد ممکن ہو (تجویز کردہ)۔ اگر غیر فعال ہے تو، آپ کو ObsidianPluginDevPythonToJS.py کو اپنے اسکرپٹ فولڈر میں کاپی کرنا ہوگا یا sys.path کو دستی طور پر منظم کرنا ہوگا۔",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "خودکار PYTHONPATH غیر فعال ہے۔ یقینی بنائیں کہ ObsidianPluginDevPythonToJS.py آپ کے اسکرپٹ فولڈر میں ہے یا sys.path کو دستی طور پر منظم کریں۔",
+
 };

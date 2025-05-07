@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Penundaan Startup (detik)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Tunggu beberapa detik setelah Obsidian dimulai sebelum menjalankan skrip (hanya berlaku jika 'Jalankan saat Startup' aktif). Gunakan 0 jika tidak ada penundaan.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Atur otomatis PYTHONPATH untuk Library",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Secara otomatis menambahkan direktori plugin ke PYTHONPATH saat menjalankan skrip, memungkinkan impor langsung pustaka Python (Disarankan). Jika dinonaktifkan, Anda harus menyalin ObsidianPluginDevPythonToJS.py ke folder skrip Anda atau mengelola sys.path secara manual.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH otomatis dinonaktifkan. Pastikan ObsidianPluginDevPythonToJS.py ada di folder skrip Anda atau kelola sys.path secara manual.",
+
 };

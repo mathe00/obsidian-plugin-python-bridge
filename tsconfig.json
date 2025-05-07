@@ -20,7 +20,6 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
-    // inlineSourceMap et inlineSources supprimés
   },
   "include": [
     "src/**/*.ts"

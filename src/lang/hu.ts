@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Indítási késleltetés (másodperc)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Várjon ennyi másodpercet az Obsidian indítása után a szkript futtatása előtt (csak akkor érvényes, ha a 'Futtatás indításkor' be van kapcsolva). Használjon 0-t, ha nincs késleltetés.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "PYTHONPATH automatikus beállítása a könyvtárhoz",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatikusan hozzáadja a bővítménykönyvtárat a PYTHONPATH-hoz szkriptek futtatásakor, lehetővé téve a Python könyvtár közvetlen importálását (Ajánlott). Ha le van tiltva, át kell másolnia az ObsidianPluginDevPythonToJS.py fájlt a szkriptmappájába, vagy manuálisan kell kezelnie a sys.path-t.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatikus PYTHONPATH letiltva. Győződjön meg róla, hogy az ObsidianPluginDevPythonToJS.py a szkriptmappájában van, vagy kezelje manuálisan a sys.path-t.",
+
 };

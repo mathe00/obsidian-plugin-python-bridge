@@ -87,4 +87,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "启动延迟（秒）",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian 启动后等待这么多秒再运行脚本（仅当“启动时运行”开启时适用）。使用 0 表示无延迟。",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "为库自动设置 PYTHONPATH",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "运行脚本时自动将插件目录添加到 PYTHONPATH，允许直接导入 Python 库（推荐）。如果禁用，您必须将 ObsidianPluginDevPythonToJS.py 复制到您的脚本文件夹或手动管理 sys.path。",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "自动 PYTHONPATH 已禁用。请确保 ObsidianPluginDevPythonToJS.py 在您的脚本文件夹中，或手动管理 sys.path。",
+
 };

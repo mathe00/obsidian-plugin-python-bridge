@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Jinkirin Farawa (sakanni)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Jira wannan adadin sakanni bayan Obsidian ya fara kafin gudanar da rubutun (yana aiki ne kawai idan 'Gudun Lokacin Farawa' yana kunne). Yi amfani da 0 don babu jinkiri.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Saita PYTHONPATH ta atomatik don Laburare",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Ƙara babban fayil ɗin plugin ta atomatik zuwa PYTHONPATH lokacin gudanar da rubutun, yana ba da damar shigo da laburaren Python kai tsaye (An ba da shawarar). Idan an kashe, dole ne ka kwafi ObsidianPluginDevPythonToJS.py zuwa babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "An kashe PYTHONPATH ta atomatik. Tabbatar cewa ObsidianPluginDevPythonToJS.py yana cikin babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
+
 };

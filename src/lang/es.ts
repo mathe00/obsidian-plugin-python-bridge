@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Retraso de inicio (segundos)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Esperar esta cantidad de segundos después de que Obsidian se inicie antes de ejecutar el script (solo se aplica si 'Ejecutar al iniciar' está activado). Use 0 para no tener retraso.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Establecer PYTHONPATH automáticamente para la biblioteca",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Añadir automáticamente el directorio del plugin a PYTHONPATH al ejecutar scripts, permitiendo la importación directa de la biblioteca Python (Recomendado). Si está desactivado, debes copiar ObsidianPluginDevPythonToJS.py a tu carpeta de scripts o gestionar sys.path manualmente.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automático desactivado. Asegúrate de que ObsidianPluginDevPythonToJS.py esté en tu carpeta de scripts o gestiona sys.path manualmente.",
+
 };

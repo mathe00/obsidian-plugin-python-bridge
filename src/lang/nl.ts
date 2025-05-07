@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Opstartvertraging (seconden)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Wacht dit aantal seconden nadat Obsidian is gestart voordat het script wordt uitgevoerd (alleen van toepassing als 'Uitvoeren bij opstarten' is ingeschakeld). Gebruik 0 voor geen vertraging.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "PYTHONPATH automatisch instellen voor bibliotheek",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Voegt automatisch de plug-inmap toe aan PYTHONPATH bij het uitvoeren van scripts, waardoor directe import van de Python-bibliotheek mogelijk is (Aanbevolen). Indien uitgeschakeld, moet u ObsidianPluginDevPythonToJS.py naar uw scriptmap kopiëren of sys.path handmatig beheren.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatische PYTHONPATH uitgeschakeld. Zorg ervoor dat ObsidianPluginDevPythonToJS.py zich in uw scriptmap bevindt of beheer sys.path handmatig.",
+
 };

@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Idaduro Ibẹrẹ (iṣẹju-aaya)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Duro fun iye awọn aaya yii lẹhin ti Obsidian bẹrẹ ṣaaju ṣiṣe iwe afọwọkọ naa (kan nikan ti 'Ṣiṣe ni Ibẹrẹ' ba wa ni titan). Lo 0 fun ko si idaduro.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Ṣeto PYTHONPATH laifọwọyi fun Ile-ikawe",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Ṣafikun itọsọna itanna si PYTHONPATH laifọwọyi nigbati o nṣiṣẹ awọn iwe afọwọkọ, gbigba gbigbe wọle taara ti ile-ikawe Python (Iṣeduro). Ti o ba jẹ alaabo, o gbọdọ daakọ ObsidianPluginDevPythonToJS.py si folda iwe afọwọkọ rẹ tabi ṣakoso sys.path pẹlu ọwọ.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH aifọwọyi alaabo. Rii daju pe ObsidianPluginDevPythonToJS.py wa ninu folda iwe afọwọkọ rẹ tabi ṣakoso sys.path pẹlu ọwọ.",
+
 };

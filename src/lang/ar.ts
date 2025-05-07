@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "تأخير البدء (ثواني)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "انتظر هذا العدد من الثواني بعد بدء تشغيل Obsidian قبل تشغيل السكربت (ينطبق فقط إذا كان 'تشغيل عند البدء' قيد التشغيل). استخدم 0 لعدم وجود تأخير.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "تعيين PYTHONPATH تلقائيًا للمكتبة",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "إضافة دليل المكون الإضافي تلقائيًا إلى PYTHONPATH عند تشغيل البرامج النصية، مما يسمح بالاستيراد المباشر لمكتبة Python (موصى به). إذا تم تعطيله، يجب عليك نسخ ObsidianPluginDevPythonToJS.py إلى مجلد البرامج النصية الخاص بك أو إدارة sys.path يدويًا.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "تم تعطيل PYTHONPATH التلقائي. تأكد من وجود ObsidianPluginDevPythonToJS.py في مجلد البرامج النصية الخاص بك أو قم بإدارة sys.path يدويًا.",
+
 };

@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Nkwụsị mmalite (sekọnd)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Chere ọtụtụ sekọnd ndị a mgbe Obsidian malitere tupu ịgba ọsọ edemede ahụ (na-emetụta naanị ma ọ bụrụ na 'Gbaa ọsọ na mmalite' dị). Jiri 0 maka enweghị igbu oge.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Tọọ PYTHONPATH na akpaghị aka maka ọba akwụkwọ",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Tinye akpaghị aka ndekọ ngwa mgbakwunye na PYTHONPATH mgbe ị na-agba ọsọ edemede, na-enye ohere mbubata ozugbo nke ọba akwụkwọ Python (Akwadoro). Ọ bụrụ na nkwarụ, ị ga-edepụtaghachi ObsidianPluginDevPythonToJS.py na folda edemede gị ma ọ bụ jikwaa sys.path aka.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH akpaaka nwere nkwarụ. Gbaa mbọ hụ na ObsidianPluginDevPythonToJS.py dị na folda edemede gị ma ọ bụ jikwaa sys.path aka.",
+
 };

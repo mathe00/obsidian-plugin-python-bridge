@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Kuchelewa Kuanza (sekunde)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Subiri sekunde hizi nyingi baada ya Obsidian kuanza kabla ya kuendesha hati (inatumika tu ikiwa 'Endesha Wakati wa Kuanza' imewashwa). Tumia 0 bila kuchelewa.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Weka PYTHONPATH kiotomatiki kwa Maktaba",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Ongeza kiotomatiki saraka ya programu-jalizi kwenye PYTHONPATH wakati wa kuendesha hati, kuruhusu uagizaji wa moja kwa moja wa maktaba ya Python (Inapendekezwa). Ikiwa imezimwa, lazima unakili ObsidianPluginDevPythonToJS.py kwenye folda yako ya hati au udhibiti sys.path mwenyewe.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH otomatiki imezimwa. Hakikisha ObsidianPluginDevPythonToJS.py iko kwenye folda yako ya hati au dhibiti sys.path mwenyewe.",
+
 };

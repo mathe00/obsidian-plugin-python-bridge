@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Καθυστέρηση εκκίνησης (δευτερόλεπτα)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Περιμένετε τόσα δευτερόλεπτα μετά την εκκίνηση του Obsidian πριν εκτελέσετε το σενάριο (ισχύει μόνο εάν είναι ενεργοποιημένο το 'Εκτέλεση κατά την εκκίνηση'). Χρησιμοποιήστε 0 για καμία καθυστέρηση.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Αυτόματη ρύθμιση PYTHONPATH για τη Βιβλιοθήκη",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Προσθέτει αυτόματα τον κατάλογο του plugin στο PYTHONPATH κατά την εκτέλεση σεναρίων, επιτρέποντας την απευθείας εισαγωγή της βιβλιοθήκης Python (Συνιστάται). Εάν απενεργοποιηθεί, πρέπει να αντιγράψετε το ObsidianPluginDevPythonToJS.py στον φάκελο των σεναρίων σας ή να διαχειριστείτε μη αυτόματα το sys.path.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Η αυτόματη ρύθμιση PYTHONPATH απενεργοποιήθηκε. Βεβαιωθείτε ότι το ObsidianPluginDevPythonToJS.py βρίσκεται στον φάκελο των σεναρίων σας ή διαχειριστείτε το sys.path μη αυτόματα.",
+
 };

@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "تأخیر راه‌اندازی (ثانیه)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "این تعداد ثانیه پس از شروع Obsidian صبر کنید و سپس اسکریپت را اجرا کنید (فقط در صورتی اعمال می‌شود که 'اجرا در هنگام راه‌اندازی' روشن باشد). برای عدم تأخیر از 0 استفاده کنید.",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "تنظیم خودکار PYTHONPATH برای کتابخانه",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "هنگام اجرای اسکریپت‌ها، دایرکتوری افزونه را به‌طور خودکار به PYTHONPATH اضافه می‌کند و امکان وارد کردن مستقیم کتابخانه پایتون را فراهم می‌کند (توصیه می‌شود). اگر غیرفعال باشد، باید ObsidianPluginDevPythonToJS.py را در پوشه اسکریپت‌های خود کپی کنید یا sys.path را به‌صورت دستی مدیریت کنید.",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH خودکار غیرفعال شد. اطمینان حاصل کنید که ObsidianPluginDevPythonToJS.py در پوشه اسکریپت شما قرار دارد یا sys.path را به صورت دستی مدیریت کنید.",
+
 };

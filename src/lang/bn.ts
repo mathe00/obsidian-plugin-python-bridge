@@ -79,4 +79,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "স্টার্টআপ বিলম্ব (সেকেন্ড)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Obsidian শুরু হওয়ার পর স্ক্রিপ্টটি চালানোর আগে এই কয়েক সেকেন্ড অপেক্ষা করুন ('স্টার্টআপে চালান' চালু থাকলেই প্রযোজ্য)। কোনো বিলম্ব না চাইলে 0 ব্যবহার করুন।",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "লাইব্রেরির জন্য স্বয়ংক্রিয়ভাবে PYTHONPATH সেট করুন",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "স্ক্রিপ্ট চালানোর সময় প্লাগইন ডিরেক্টরি স্বয়ংক্রিয়ভাবে PYTHONPATH-এ যোগ করুন, যা পাইথন লাইব্রেরির সরাসরি আমদানি সক্ষম করে (প্রস্তাবিত)। নিষ্ক্রিয় করা থাকলে, আপনাকে অবশ্যই ObsidianPluginDevPythonToJS.py আপনার স্ক্রিপ্ট ফোল্ডারে কপি করতে হবে অথবা sys.path ম্যানুয়ালি পরিচালনা করতে হবে।",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "স্বয়ংক্রিয় PYTHONPATH নিষ্ক্রিয় করা হয়েছে। নিশ্চিত করুন ObsidianPluginDevPythonToJS.py আপনার স্ক্রিপ্ট ফোল্ডারে আছে অথবা sys.path ম্যানুয়ালি পরিচালনা করুন।",
+
 };

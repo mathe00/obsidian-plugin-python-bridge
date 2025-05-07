@@ -186,23 +186,43 @@ async function runPythonScriptForEvent(
 
 	// Prepare environment variables
 	const currentPYTHONPATH = process.env.PYTHONPATH;
-	const newPYTHONPATH = currentPYTHONPATH
-		? `${scriptDir}${path.delimiter}${currentPYTHONPATH}`
-		: scriptDir;
+	const pathsForPythonPath: string[] = [];
+
+	// 1. Add the script's own directory
+	pathsForPythonPath.push(scriptDir);
+	plugin.logDebug(`Adding script's own directory to PYTHONPATH for event script: ${scriptDir}`);
+
+	// 2. Conditionally add the plugin's directory based on setting
+	if (plugin.settings.autoSetPYTHONPATH) { // Check the setting
+		if (plugin.pluginDirAbsPath) {
+			pathsForPythonPath.push(plugin.pluginDirAbsPath);
+			plugin.logDebug(`Adding plugin directory to PYTHONPATH for event script (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`);
+		} else {
+			plugin.logWarn("Plugin directory path not available for event script, library might not be importable even if autoSetPYTHONPATH is enabled.");
+		}
+	} else {
+		plugin.logDebug("Skipping adding plugin directory to PYTHONPATH for event script (autoSetPYTHONPATH disabled).");
+	}
+
+	let newPYTHONPATH = pathsForPythonPath.join(path.delimiter);
+
+	// 3. Append any existing PYTHONPATH
+	if (currentPYTHONPATH) {
+		newPYTHONPATH = `${newPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
+	}
 
 	const env = {
 		...process.env,
 		OBSIDIAN_HTTP_PORT: plugin.initialHttpPort.toString(),
 		OBSIDIAN_BRIDGE_ACTIVE: "true",
-		OBSIDIAN_SCRIPT_RELATIVE_PATH: scriptRelativePath,
-		PYTHONPATH: newPYTHONPATH, // Set PYTHONPATH
+		PYTHONPATH: newPYTHONPATH, // Set our constructed PYTHONPATH
 		// Event Variables
 		OBSIDIAN_EVENT_NAME: eventName,
 		OBSIDIAN_EVENT_PAYLOAD: payloadJson,
 		...(plugin.settings.disablePyCache && {
 			PYTHONPYCACHEPREFIX: os.tmpdir(),
 		}),
-	};
+	}; // End of CORRECT env block
 
 	plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH} for event script`);
 	plugin.logDebug(`Setting cwd=${scriptDir} for event script`);
@@ -213,7 +233,7 @@ async function runPythonScriptForEvent(
 	try {
 		await new Promise<void>((resolve, reject) => {
 			const pythonProcess = spawn(pythonCmd, fullArgs, {
-				env,
+				env, // Use the correctly defined env
 				cwd: scriptDir, // Set CWD
 			});
 

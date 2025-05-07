@@ -121,11 +121,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 								this.plugin.settings.pythonScriptsFolder = newValue;
 								await this.plugin.saveSettings();
 								// Trigger settings discovery & command sync only if path is valid and changed
-								// FIX: Use imported function and remove duplicate call
 								const scriptsFolder = getScriptsFolderPath(this.plugin); // Re-check path validity
 								if (scriptsFolder && this.plugin.pythonExecutable) {
-									// No need to await here, let it run in background
-									// FIX: Use imported function and remove duplicate call
 									updateAndSyncCommands(this.plugin, scriptsFolder) // Call updateAndSyncCommands
 										.then(() => {
 											this.plugin.logInfo("Script settings cache & commands updated after folder change.");
@@ -227,6 +224,20 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 				await this.plugin.saveSettings();
 			}));
 
+		// Auto-set PYTHONPATH Toggle
+		new Setting(containerEl)
+			.setName(t("SETTINGS_AUTO_PYTHONPATH_NAME"))
+			.setDesc(t("SETTINGS_AUTO_PYTHONPATH_DESC"))
+			.addToggle((toggle) => toggle.setValue(this.plugin.settings.autoSetPYTHONPATH).onChange(async (value) => {
+				this.plugin.settings.autoSetPYTHONPATH = value;
+				await this.plugin.saveSettings();
+				this.plugin.logInfo(`Automatic PYTHONPATH setting changed to: ${value}`);
+				// Optionally add a notice if disabled, explaining the consequence
+				if (!value) {
+					new Notice(t("NOTICE_AUTO_PYTHONPATH_DISABLED_DESC"), 6000);
+				}
+			}));
+
 		// Script Specific Settings
 		containerEl.createEl("h2", { text: t("SETTINGS_SCRIPT_SETTINGS_TITLE") });
 
@@ -236,7 +247,6 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			.setDesc(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC"))
 			.addButton((button: ButtonComponent) => {
 				button.setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT")).setCta().onClick(async () => {
-					// FIX: Use imported function and remove duplicate call
 					const scriptsFolder = getScriptsFolderPath(this.plugin);
 					if (!scriptsFolder) {
 						if (this.plugin.settings.pythonScriptsFolder) new Notice(t("NOTICE_INVALID_FOLDER_PATH"));
@@ -245,18 +255,15 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 					}
 					if (!this.plugin.pythonExecutable) {
 						new Notice(t("NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH"), 5000);
-						// FIX: Use imported function
 						await checkPythonEnvironment(this.plugin); // Re-check env
 						if (!this.plugin.pythonExecutable) return;
 					}
 					button.setDisabled(true).setButtonText(t("SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING"));
 					new Notice(t("NOTICE_REFRESHING_SCRIPT_SETTINGS"));
 					try {
-						// FIX: Use imported function and remove duplicate/incorrect call
 						await updateAndSyncCommands(this.plugin, scriptsFolder); // Call updateAndSyncCommands
 						new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS"));
 						this.display(); // Redraw to show updated settings/scripts
-					// FIX: Catch block was inside the try block before
 					} catch (error) {
 						this.plugin.logError("Manual script settings refresh failed:", error);
 						new Notice(t("NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED"));
@@ -270,7 +277,6 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			});
 
 		// Logic to display ALL scripts
-		// FIX: Use imported function and remove duplicate call
 		const scriptsFolder = getScriptsFolderPath(this.plugin);
 		const definitions = this.plugin.settings.scriptSettingsDefinitions;
 		const values = this.plugin.settings.scriptSettingsValues;

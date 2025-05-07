@@ -57,10 +57,33 @@ export async function discoverScriptSettings(plugin: ObsidianPythonBridge, scrip
 		const args = [scriptAbsolutePath, "--get-settings-json"];
 		plugin.logDebug(`Running discovery command: ${plugin.pythonExecutable} ${args.join(" ")}`);
 		const scriptDir = path.dirname(scriptAbsolutePath);
+		// --- PYTHONPATH for discovery: Only needs script's dir for its own imports ---
 		const currentPYTHONPATH = process.env.PYTHONPATH;
-		const newPYTHONPATH = currentPYTHONPATH ? `${scriptDir}${path.delimiter}${currentPYTHONPATH}` : scriptDir; // Prepend script's directory to PYTHONPATH for relative imports within the script
-		const env = { ...process.env, PYTHONPATH: newPYTHONPATH }; // Pass other relevant env vars if needed for discovery? Usually not.
-		plugin.logDebug(`Executing discovery with PYTHONPATH: ${newPYTHONPATH} and cwd: ${scriptDir}`);
+		// --- PYTHONPATH for discovery: Mirror the logic from runPythonScript ---
+		const pathsForPythonPath: string[] = [];
+		// 1. Add the script's own directory
+		pathsForPythonPath.push(scriptDir);
+		plugin.logDebug(`Discovery PYTHONPATH: Adding script's own directory: ${scriptDir}`);
+		// 2. Conditionally add the plugin's directory based on setting
+		if (plugin.settings.autoSetPYTHONPATH) { // <-- Respect the setting
+			if (plugin.pluginDirAbsPath) {
+				pathsForPythonPath.push(plugin.pluginDirAbsPath);
+				plugin.logDebug(`Discovery PYTHONPATH: Adding plugin directory (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`);
+			} else {
+				plugin.logWarn("Discovery PYTHONPATH: Plugin directory path not available, library might not be importable even if autoSetPYTHONPATH is enabled.");
+			}
+		} else {
+			plugin.logDebug("Discovery PYTHONPATH: Skipping adding plugin directory (autoSetPYTHONPATH disabled).");
+		}
+		// 3. Construct the final PYTHONPATH, appending existing env var if present
+		let discoveryPYTHONPATH = pathsForPythonPath.join(path.delimiter);
+		if (currentPYTHONPATH) {
+			discoveryPYTHONPATH = `${discoveryPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
+		}
+		// --- End PYTHONPATH for discovery ---
+		const env = { ...process.env, PYTHONPATH: discoveryPYTHONPATH };
+		// --- End PYTHONPATH for discovery ---
+		plugin.logDebug(`Executing discovery with PYTHONPATH: ${discoveryPYTHONPATH} and cwd: ${scriptDir}`);
 		const pythonProcess = spawn(plugin.pythonExecutable!, args, { timeout: discoveryTimeoutMs, cwd: scriptDir, env: env }); // Set working directory to the script's folder // Pass modified environment
 		let stdoutData = "";
 		let stderrData = "";
@@ -199,8 +222,39 @@ export async function runPythonScript(plugin: ObsidianPythonBridge, scriptPath: 
 	plugin.logInfo(`Attempting to run Python script (${context}): ${scriptPath} using ${pythonCmd}`);
 	// Prepare environment variables
 	const currentPYTHONPATH = process.env.PYTHONPATH;
-	const newPYTHONPATH = currentPYTHONPATH ? `${scriptDir}${path.delimiter}${currentPYTHONPATH}` : scriptDir;
-	const env = { ...process.env, OBSIDIAN_HTTP_PORT: plugin.initialHttpPort.toString(), OBSIDIAN_BRIDGE_ACTIVE: "true", PYTHONPATH: newPYTHONPATH, ...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }), ...(plugin.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }) }; // Set PYTHONPATH
+	const pathsForPythonPath: string[] = [];
+
+	// 1. Add the script's own directory (for its relative imports)
+	pathsForPythonPath.push(scriptDir);
+	plugin.logDebug(`Adding script's own directory to PYTHONPATH: ${scriptDir}`);
+
+	// 2. Conditionally add the plugin's directory based on setting
+	if (plugin.settings.autoSetPYTHONPATH) {
+		if (plugin.pluginDirAbsPath) {
+			pathsForPythonPath.push(plugin.pluginDirAbsPath);
+			plugin.logDebug(`Adding plugin directory to PYTHONPATH (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`);
+		} else {
+			plugin.logWarn("Plugin directory path not available, library might not be importable even if autoSetPYTHONPATH is enabled.");
+		}
+	} else {
+		plugin.logDebug("Skipping adding plugin directory to PYTHONPATH (autoSetPYTHONPATH disabled).");
+	}
+
+	let newPYTHONPATH = pathsForPythonPath.join(path.delimiter);
+
+	// 3. Append any existing PYTHONPATH from the environment
+	if (currentPYTHONPATH) {
+		newPYTHONPATH = `${newPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
+	}
+
+	const env = {
+		...process.env, // Inherit existing environment
+		OBSIDIAN_HTTP_PORT: plugin.initialHttpPort.toString(),
+		OBSIDIAN_BRIDGE_ACTIVE: "true",
+		PYTHONPATH: newPYTHONPATH, // Set our constructed PYTHONPATH
+		...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }),
+		...(plugin.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }),
+	};
 	plugin.logDebug(`Setting OBSIDIAN_HTTP_PORT=${plugin.initialHttpPort} for script.`);
 	if (relativePath) plugin.logDebug(`Setting OBSIDIAN_SCRIPT_RELATIVE_PATH=${relativePath}`);
 	plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH}`);

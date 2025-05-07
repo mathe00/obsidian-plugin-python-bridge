@@ -89,4 +89,8 @@ export default {
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "स्टार्टअप विलंब (सेकंड)",
 	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "ओब्सीडियन शुरू होने के बाद स्क्रिप्ट चलाने से पहले इतने सेकंड प्रतीक्षा करें ('स्टार्टअप पर चलाएँ' चालू होने पर ही लागू होता है)। कोई विलंब नहीं के लिए 0 का उपयोग करें।",
 
+	SETTINGS_AUTO_PYTHONPATH_NAME: "लाइब्रेरी के लिए PYTHONPATH स्वतः सेट करें",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "स्क्रिप्ट चलाते समय प्लगइन निर्देशिका को स्वचालित रूप से PYTHONPATH में जोड़ें, जिससे पायथन लाइब्रेरी का सीधा आयात संभव हो सके (अनुशंसित)। यदि अक्षम है, तो आपको ObsidianPluginDevPythonToJS.py को अपनी स्क्रिप्ट फ़ोल्डर में कॉपी करना होगा या sys.path को मैन्युअल रूप से प्रबंधित करना होगा।",
+	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "स्वचालित PYTHONPATH अक्षम है। सुनिश्चित करें कि ObsidianPluginDevPythonToJS.py आपकी स्क्रिप्ट फ़ोल्डर में है या sys.path को मैन्युअल रूप से प्रबंधित करें।",
+
 };

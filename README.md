@@ -37,7 +37,7 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 
 💻 Developing **Obsidian plugins** without diving into **JavaScript**? Yes, that's possible with **Obsidian Python Bridge**. This plugin is designed specifically to **execute Python scripts** within Obsidian, and it comes with a **built-in Python library** to make your life easier.
 
-**Cross-Platform Compatibility & Robustness (Windows, macOS, Linux):** As of **late April 2025**, the plugin uses a local HTTP server (listening only on `127.0.0.1` for security) instead of Unix sockets for communication. This makes the bridge **fully compatible with Windows, macOS, and Linux**! Furthermore, the plugin now **automatically detects your Python installation** (trying `py`, `python3`, and `python`) across all platforms, simplifying setup, especially on Windows. It also **performs checks on startup** to ensure Python is accessible and the required `requests` library is installed, **notifying you immediately** within Obsidian if there's an environment issue.
+**Cross-Platform Compatibility & Robustness (Windows, macOS, Linux):** As of **May 2025**, the plugin uses a local HTTP server (listening only on `127.0.0.1` for security) instead of Unix sockets for communication. This makes the bridge **fully compatible with Windows, macOS, and Linux**! Furthermore, the plugin now **automatically detects your Python installation** (trying `py`, `python3`, and `python`) across all platforms, simplifying setup, especially on Windows. It also **performs checks on startup** to ensure Python is accessible and the required `requests` library is installed, **notifying you immediately** within Obsidian if there's an environment issue.
 
 Some might think this plugin doesn't add much compared to running **external Python scripts**, but that's far from true. There are several key advantages:
 
@@ -65,7 +65,6 @@ In short, while some tasks are technically feasible without this plugin, they're
 -   **🔔 Native Obsidian Notifications**: Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
 -   **📝 Access/Modify Active Note & Selection**: Easily get content (as a single string or list of lines), frontmatter, path, or title of the currently open note, and get or replace selected text in the editor. Get basic editor context (cursor position, line count).
 -   **📂 Vault Interaction & File Management**: Get the vault path, list all note paths (relative or absolute), open specific notes, read/modify any note's content or frontmatter (by path). **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
--   **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
 -   **🔗 Backlink Retrieval**: Get incoming links (backlinks) for a specific note. Optionally uses the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) for significantly improved performance in large vaults if installed.
 *   **👂 Event Listening**: Allow Python scripts to react to Obsidian events (like note modification, deletion, rename, etc.) by registering listeners.
 -   **ℹ️ Obsidian Context**: Get the current Obsidian language setting, vault name, and theme mode (light/dark).
@@ -75,7 +74,7 @@ In short, while some tasks are technically feasible without this plugin, they're
 
 Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) provided with this plugin, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library requires the `requests` package, and `PyYAML` for some frontmatter property management functions). By default, the plugin automatically configures the environment so your scripts can directly `import ObsidianPluginDevPythonToJS` without needing to copy the library file.
 
-👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md).**
+👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PythonClientLibrary.md).**
 
 > **Note**: I'm **not a developer**, I just have solid experience with **Python**, and I get by with that. I know **nothing about JS**. This plugin was made **entirely with the help of AI assistants** (shoutout to **ChatGPT 4o**, **ChatGPT o1-preview**, and **Gemini 2.5 Pro** 😉). So, the code might be a bit rough around the edges, but it **works**. That's all that matters, right?
 
@@ -192,6 +191,8 @@ Tired of hardcoding API keys or configuration values in your scripts? Now you do
 
 With the latest update, you can **define settings directly within your Python script**. Simply import the `define_settings` helper, create a list describing your settings (like text fields, toggles, dropdowns, number inputs), and register them.
 
+> **Important Note on Script Structure:** For settings discovery to work reliably and to prevent unintended code execution during plugin startup or settings refresh, it is **strongly recommended** to include `define_settings([])` (even with an empty list if your script has no settings) followed by `_handle_cli_args()` at the beginning of **all** your Python scripts. This ensures your script exits cleanly when the plugin checks for settings. See the [Python Client Library Documentation](PythonClientLibrary.md) for details on the recommended script structure.
+
 ```python
 # Example snippet from your script
 from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args
@@ -212,12 +213,12 @@ _handle_cli_args() # Handles discovery request from Obsidian
 
 The **Obsidian Python Bridge** plugin will automatically **discover** these definitions and **display them in its settings tab** under a section for your script. Users can then configure these settings directly in the Obsidian interface, just like any other plugin!
 
-Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for full details!
+Your script can then easily fetch the current values set by the user using the `obsidian.get_script_settings()` method. This makes your scripts much more flexible, user-friendly, and truly integrated into Obsidian. Check the [Python Client Library Documentation](PythonClientLibrary.md) for full details!
 
 <a id="basic-usage"></a>
 ## Example of basic usage
 
-This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md) for examples using modals and settings.
+This example shows basic interaction without script-specific settings. See the highlights above and the [Python Client Library Documentation](PythonClientLibrary.md) for examples using modals and settings. Remember to include the recommended structure with `define_settings` and `_handle_cli_args` as shown above for best results.
 
 ```python
 # Import the Python-Obsidian bridge module

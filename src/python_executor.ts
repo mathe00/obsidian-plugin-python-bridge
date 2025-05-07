@@ -122,54 +122,177 @@ export async function discoverScriptSettings(plugin: ObsidianPythonBridge, scrip
 
 /**
  * Scans the scripts folder, discovers settings for each script, and updates the cache.
+ * Handles clearing cached definitions if discovery fails for a script.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param scriptsFolder Absolute path to the Python scripts folder.
  */
-export async function updateScriptSettingsCache(plugin: ObsidianPythonBridge, scriptsFolder: string): Promise<void> {
+export async function updateScriptSettingsCache(
+	plugin: ObsidianPythonBridge,
+	scriptsFolder: string,
+): Promise<void> {
 	plugin.logInfo("Updating script settings definitions cache...");
-	if (!plugin.pythonExecutable) { plugin.logError("Cannot update script settings cache: Python executable not found."); return; }
-	if (!scriptsFolder || !fs.existsSync(scriptsFolder)) { plugin.logWarn("Cannot update script settings cache: Scripts folder path is invalid or not found."); return; }
+	if (!plugin.pythonExecutable) {
+		plugin.logError(
+			"Cannot update script settings cache: Python executable not found.",
+		);
+		return;
+	}
+	if (!scriptsFolder || !fs.existsSync(scriptsFolder)) {
+		plugin.logWarn(
+			"Cannot update script settings cache: Scripts folder path is invalid or not found.",
+		);
+		return;
+	}
+
 	let pythonFiles: string[];
-	try { pythonFiles = fs.readdirSync(scriptsFolder).filter((f) => f.toLowerCase().endsWith(".py") && !f.startsWith(".") && f !== PYTHON_LIBRARY_FILENAME); }
-	catch (err) { plugin.logError(`Error reading scripts folder for settings discovery ${scriptsFolder}:`, err); return; }
+	try {
+		// Read directory and filter for .py files, excluding hidden files and the library itself
+		pythonFiles = fs
+			.readdirSync(scriptsFolder)
+			.filter(
+				(f) =>
+					f.toLowerCase().endsWith(".py") &&
+					!f.startsWith(".") &&
+					f !== PYTHON_LIBRARY_FILENAME,
+			);
+	} catch (err) {
+		plugin.logError(
+			`Error reading scripts folder for settings discovery ${scriptsFolder}:`,
+			err,
+		);
+		return;
+	}
+
+	// Store newly discovered definitions here
 	const newDefinitions: Record<string, ScriptSettingDefinition[]> = {};
-	let changesMade = false;
-	const currentDefinitionKeys = new Set<string>();
+	let changesMade = false; // Track if any updates require saving settings
+	const currentScriptPaths = new Set<string>(); // Keep track of scripts found in the folder
+
 	for (const file of pythonFiles) {
 		const scriptAbsolutePath = path.join(scriptsFolder, file);
-		const relativePath = normalizePath(path.relative(scriptsFolder, scriptAbsolutePath));
-		currentDefinitionKeys.add(relativePath);
+		// Use normalized relative path as the key for settings objects
+		const relativePath = normalizePath(
+			path.relative(scriptsFolder, scriptAbsolutePath),
+		);
+		currentScriptPaths.add(relativePath);
+		let discoveryFailed = false; // Flag to track failure for the current script
+
 		try {
-			const definitions = await discoverScriptSettings(plugin, scriptAbsolutePath);
-			if (definitions !== null) {
-				newDefinitions[relativePath] = definitions;
-				if (JSON.stringify(definitions) !== JSON.stringify(plugin.settings.scriptSettingsDefinitions[relativePath])) { changesMade = true; plugin.logDebug(`Definitions updated for ${relativePath}`); }
+			// Attempt to discover settings by running the script with --get-settings-json
+			const definitions = await discoverScriptSettings(
+				plugin,
+				scriptAbsolutePath,
+			);
+
+			// discoverScriptSettings returns null on failure (timeout, non-zero exit, parse error, etc.)
+			if (definitions === null) {
+				discoveryFailed = true;
+				plugin.logWarn(
+					`Settings discovery failed for script: ${relativePath}.`,
+				);
 			} else {
-				if (plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)) { newDefinitions[relativePath] = plugin.settings.scriptSettingsDefinitions[relativePath]; plugin.logWarn(`Failed to discover settings for ${relativePath}, keeping cached version.`); }
-				else plugin.logWarn(`Failed to discover settings for ${relativePath}, no cached version available.`);
+				// Discovery succeeded (definitions can be an empty array if no settings are defined)
+				newDefinitions[relativePath] = definitions;
+				// Check if the discovered definitions differ from the cached ones
+				if (
+					JSON.stringify(definitions) !==
+					JSON.stringify(
+						plugin.settings.scriptSettingsDefinitions[relativePath],
+					)
+				) {
+					changesMade = true;
+					plugin.logDebug(
+						`Definitions updated or added for ${relativePath}`,
+					);
+				}
 			}
 		} catch (error) {
-			plugin.logError(`Unexpected error during settings discovery for ${file}:`, error);
-			if (plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)) newDefinitions[relativePath] = plugin.settings.scriptSettingsDefinitions[relativePath];
+			// Catch unexpected errors during the discoverScriptSettings call itself
+			plugin.logError(
+				`Unexpected error during settings discovery call for ${file}:`,
+				error,
+			);
+			discoveryFailed = true;
 		}
-	}
-	const cachedPaths = Object.keys(plugin.settings.scriptSettingsDefinitions);
-	for (const cachedPath of cachedPaths) {
-		if (!currentDefinitionKeys.has(cachedPath)) {
+
+		// --- Handle Cache Clearing on Discovery Failure ---
+		if (discoveryFailed) {
+			// If discovery failed, check if there were old definitions cached
+			if (
+				plugin.settings.scriptSettingsDefinitions.hasOwnProperty(
+					relativePath,
+				)
+			) {
+				plugin.logInfo(
+					`Removing cached settings definitions for ${relativePath} due to discovery failure.`,
+				);
+				// By *not* adding this script to newDefinitions, we effectively remove it.
+				changesMade = true; // Mark that a change (removal) occurred
+			}
+			// If no old cache existed, we just logged the failure above.
+		}
+	} // --- End of script file loop ---
+
+	// --- Final Cleanup: Remove data for scripts no longer present and orphaned values ---
+	const previouslyCachedPaths = Object.keys(
+		plugin.settings.scriptSettingsDefinitions,
+	);
+	for (const cachedPath of previouslyCachedPaths) {
+		if (!currentScriptPaths.has(cachedPath)) {
+			// Script file was deleted from the folder
 			changesMade = true;
-			plugin.logInfo(`Script ${cachedPath} removed, clearing its settings definitions and values.`);
-			delete plugin.settings.scriptSettingsDefinitions[cachedPath];
-			if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) delete plugin.settings.scriptSettingsValues[cachedPath];
-			if (plugin.settings.scriptActivationStatus.hasOwnProperty(cachedPath)) delete plugin.settings.scriptActivationStatus[cachedPath];
-			if (plugin.settings.scriptAutoStartStatus.hasOwnProperty(cachedPath)) delete plugin.settings.scriptAutoStartStatus[cachedPath];
-			if (plugin.settings.scriptAutoStartDelay.hasOwnProperty(cachedPath)) delete plugin.settings.scriptAutoStartDelay[cachedPath];
+			plugin.logInfo(
+				`Script ${cachedPath} removed, clearing its settings definitions and values.`,
+			);
+			// Definition is already absent from newDefinitions because it wasn't in currentScriptPaths.
+			// Clean up associated values and statuses.
+			if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
+				delete plugin.settings.scriptSettingsValues[cachedPath];
+			}
+			if (
+				plugin.settings.scriptActivationStatus.hasOwnProperty(cachedPath)
+			) {
+				delete plugin.settings.scriptActivationStatus[cachedPath];
+			}
+			if (
+				plugin.settings.scriptAutoStartStatus.hasOwnProperty(cachedPath)
+			) {
+				delete plugin.settings.scriptAutoStartStatus[cachedPath];
+			}
+			if (
+				plugin.settings.scriptAutoStartDelay.hasOwnProperty(cachedPath)
+			) {
+				delete plugin.settings.scriptAutoStartDelay[cachedPath];
+			}
+		} else if (!newDefinitions.hasOwnProperty(cachedPath)) {
+			// Script file exists, but discovery failed (and it was previously cached)
+			// The definition was already omitted from newDefinitions above.
+			// Also remove any stored values for this script.
+			if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
+				plugin.logInfo(
+					`Clearing settings values for ${cachedPath} due to discovery failure.`,
+				);
+				delete plugin.settings.scriptSettingsValues[cachedPath];
+				changesMade = true; // Ensure change is marked
+			}
+			// Keep activation/autostart status even if settings discovery fails? Yes, seems reasonable.
 		}
 	}
-	if (cachedPaths.length !== currentDefinitionKeys.size) changesMade = true;
+
+	// Check if the overall structure of definitions changed (covers additions/removals)
+	if (
+		JSON.stringify(newDefinitions) !==
+		JSON.stringify(plugin.settings.scriptSettingsDefinitions)
+	) {
+		changesMade = true;
+	}
+
+	// Save settings only if there were actual changes to definitions or values
 	if (changesMade) {
 		plugin.logInfo("Script settings definitions cache updated.");
 		plugin.settings.scriptSettingsDefinitions = newDefinitions;
-		await plugin.saveSettings(); // Save updated definitions and potentially cleared values
+		// Note: scriptSettingsValues and statuses might have been modified directly above
+		await plugin.saveSettings();
 	} else {
 		plugin.logInfo("Script settings definitions cache is up to date.");
 	}

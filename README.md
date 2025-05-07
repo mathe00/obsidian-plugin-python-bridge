@@ -72,7 +72,7 @@ In short, while some tasks are technically feasible without this plugin, they're
 -   **💻 Cross-Platform**: Works reliably on Windows, macOS, and Linux thanks to HTTP communication and robust Python detection.
 -   **🌐 Internationalized Interface**: Plugin UI (settings, commands, notices) available in multiple languages.
 
-Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) I've developed, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library now requires the `requests` package, and `PyYAML` for frontmatter property management). **For easy importing, simply place the `ObsidianPluginDevPythonToJS.py` file in the same folder as your own Python scripts.**
+Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) provided with this plugin, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library requires the `requests` package, and `PyYAML` for some frontmatter property management functions). By default, the plugin automatically configures the environment so your scripts can directly `import ObsidianPluginDevPythonToJS` without needing to copy the library file.
 
 👉 **For detailed instructions on how to use the Python library and its functions, including the new settings feature, please refer to the [Python Client Library Documentation](PYTHON_LIBRARY_DOCS.md).**
 
@@ -340,9 +340,13 @@ Before installing the plugin, please ensure you have the following installed on 
     -   **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
         You can also configure enabled scripts to **run automatically on Obsidian startup**, optionally setting a **delay** (in seconds) before execution.
     -   **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
-7.  **Place the Python Library**:
-    -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
-    -   **Crucially, place this `.py` file inside the Python scripts folder you configured in step 6.** This allows your scripts in that folder to easily `import ObsidianPluginDevPythonToJS`.
+    -   **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
+7.  **Using the Python Library (`ObsidianPluginDevPythonToJS.py`)**:
+    -   **Recommended (Default Behavior):** The plugin includes a setting called "**Auto-set PYTHONPATH for Library**" (found under "Python Bridge" in Obsidian's Community Plugin settings). This option is **enabled by default**. When enabled, the plugin automatically makes the `ObsidianPluginDevPythonToJS.py` library (located within the plugin's installation directory) available to your Python scripts. You can then directly use `from ObsidianPluginDevPythonToJS import ...` in your scripts located in your configured "Python Scripts Folder" without any extra steps.
+    -   **Alternative (If "Auto-set PYTHONPATH" is disabled):** If you choose to disable the "Auto-set PYTHONPATH for Library" option, you will then need to:
+        -   Download the `ObsidianPluginDevPythonToJS.py` file from this repository.
+        -   Place this `.py` file inside the "Python Scripts Folder" you configured in step 6.
+        -   Alternatively, you would need to manage Python's `sys.path` manually within each of your scripts to point to the location of the library file, which is more complex.
 
 <a id="support-the-project"></a>
 ## 💖 Support the Project

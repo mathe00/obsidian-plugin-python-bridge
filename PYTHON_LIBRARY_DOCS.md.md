@@ -1,0 +1,562 @@
+# Obsidian Python Bridge - Python Client Library Documentation
+
+This document provides instructions and API reference for using the `ObsidianPluginDevPythonToJS.py` client library to interact with the Obsidian Python Bridge plugin from your Python scripts.
+
+## Overview
+
+This library facilitates communication between your Python scripts and the Obsidian Python Bridge plugin running inside Obsidian. It uses HTTP requests (via the `requests` library) to send commands to the plugin and receive data back, allowing you to interact with your Obsidian vault programmatically, define script-specific settings, and more.
+
+## Prerequisites
+
+1.  **Python 3.x:** Ensure you have a working Python 3 installation accessible from your system's PATH. The library uses `argparse` for handling command-line flags, which is included in standard Python 3 distributions.
+2.  **`requests` Library (Required):** This library is essential for HTTP communication. Install it if you haven't already:
+    ```bash
+    pip install requests
+    # or
+    python3 -m pip install requests
+    ```
+    The Obsidian plugin checks for this on startup, but your script will fail immediately without it.
+3.  **`PyYAML` Library (Optional):** This library is only required if you intend to use the `manage_properties_key` or `manage_properties_value` methods for manipulating note frontmatter. Install it if needed:
+    ```bash
+    pip install PyYAML
+    # or
+    python3 -m pip install PyYAML
+    ```
+    If PyYAML is not installed, calling these specific methods will raise a `NameError`.
+
+## Setup and Importing
+
+The Obsidian Python Bridge plugin is designed to make importing its client library (`ObsidianPluginDevPythonToJS.py`) as straightforward as possible.
+
+**Recommended Method (Default Plugin Behavior):**
+
+The plugin has a setting named "**Auto-set PYTHONPATH for Library**" which is **enabled by default**.
+*   When this setting is active, the plugin automatically configures the Python environment when it runs your scripts. This means the `ObsidianPluginDevPythonToJS.py` library (which is part of the plugin's installation) is made available to your scripts.
+*   You can then directly use `from ObsidianPluginDevPythonToJS import ...` in your Python scripts without needing to copy the `ObsidianPluginDevPythonToJS.py` file into your scripts folder or manually modify `sys.path`.
+
+**Example (when "Auto-set PYTHONPATH for Library" is enabled):**
+```python
+# Your script (e.g., my_script.py)
+# No need to copy ObsidianPluginDevPythonToJS.py if the plugin setting is enabled.
+
+import sys
+import os
+import json
+# It's good practice to handle potential errors, but for brevity in examples,
+# extensive try-except blocks for imports or API calls might be omitted.
+# In production scripts, robust error handling is recommended.
+
+from ObsidianPluginDevPythonToJS import (
+    ObsidianPluginDevPythonToJS,
+    ObsidianCommError,
+    define_settings,
+    _handle_cli_args
+)
+
+# --- Check for event trigger FIRST ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+is_handling_event = bool(event_name_from_env)
+event_payload = None
+
+if is_handling_event:
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    # Simplified error handling for example
+    try: event_payload = json.loads(payload_str)
+    except json.JSONDecodeError: event_payload = {"error": "Failed to parse payload"}
+
+    print(f"--- Script launched by Event: {event_name_from_env} ---")
+    print(f"Payload: {event_payload}")
+    # Add your event-specific logic here
+    # Example:
+    # if event_name_from_env == "vault-modify":
+    #     obsidian_client = ObsidianPluginDevPythonToJS() # Initialize if needed
+    #     obsidian_client.show_notification(f"Note modified: {event_payload.get('path')}")
+    print("--- Event handling finished. Exiting. ---")
+    sys.exit(0)
+
+# --- Main Script Logic (Only runs if NOT triggered by an event) ---
+else:
+    print("--- Script running in normal mode (not event triggered) ---")
+    
+    # 1. Define Settings (if any)
+    # MY_SETTINGS = [
+    #     {"key": "api_key", "type": "text", "label": "API Key", "default": ""},
+    # ]
+    # define_settings(MY_SETTINGS)
+
+    # 2. Handle Settings Discovery (Essential if settings are defined)
+    _handle_cli_args() # Checks for --get-settings-json and exits if found
+
+    # 3. Main Script Logic
+    # For production, wrap this in try-except ObsidianCommError as e: print(f"Error: {e}", file=sys.stderr)
+    obsidian = ObsidianPluginDevPythonToJS()
+
+    # Example: Get settings values if needed
+    # settings = obsidian.get_script_settings()
+    # api_key = settings.get("api_key", "default_api_key_if_not_set")
+    # print(f"Using API Key: {api_key}")
+
+    obsidian.show_notification("Normal script execution started!")
+    active_note_title = obsidian.get_active_note_title()
+    if active_note_title:
+        obsidian.show_notification(f"Active note: {active_note_title}")
+    else:
+        obsidian.show_notification("No active note found.")
+```
+
+**Alternative Method (If "Auto-set PYTHONPATH for Library" is Disabled):**
+
+If you have disabled the "Auto-set PYTHONPATH for Library" option in the plugin settings, you will need to ensure Python can find the `ObsidianPluginDevPythonToJS.py` library file. Options include:
+
+1.  **Copy the Library File:**
+    *   Copy `ObsidianPluginDevPythonToJS.py` from the plugin's repository into the **same folder** as your Python scripts.
+2.  **Modify `sys.path` in Your Script (More Complex):**
+    *   Store `ObsidianPluginDevPythonToJS.py` in a known location.
+    *   In your script, *before* the `from ObsidianPluginDevPythonToJS import ...` line, add the directory containing the library to `sys.path`.
+    ```python
+    # import sys
+    # library_directory = "/path/to/library_location/"
+    # if library_directory not in sys.path:
+    #     sys.path.insert(0, library_directory)
+    ```
+
+For most users interacting with scripts *through the Obsidian plugin*, relying on the **"Auto-set PYTHONPATH for Library"** setting is the easiest and recommended way.
+
+## Initialization
+
+To start interacting with Obsidian, create an instance of the `ObsidianPluginDevPythonToJS` class. This should typically be done **after** any initial setup like event checking or settings discovery handling (`_handle_cli_args()`).
+
+```python
+# Typically within the 'else' block after checking for event triggers,
+# and after _handle_cli_args() if settings are defined.
+obsidian = ObsidianPluginDevPythonToJS(http_port=None, connect_timeout=2.0, request_timeout=10.0)
+```
+
+**Constructor Parameters:**
+
+*   `http_port` (`int`, optional): The port number the Obsidian plugin's HTTP server is listening on.
+    *   **Default (`None`):** Reads the `OBSIDIAN_HTTP_PORT` environment variable (set by the plugin when running scripts, reflects the *actual* listening port, even if dynamic port 0 was configured). If the variable is not set, it falls back to `27123`. You usually **do not need** to set this manually when running scripts via the plugin.
+*   `connect_timeout` (`float`, optional, default: `2.0`): Timeout in seconds for the initial connection test performed during initialization.
+*   `request_timeout` (`float`, optional, default: `10.0`): Default timeout in seconds for waiting for a response from Obsidian for most API calls.
+
+**Initialization Behavior:**
+
+*   The constructor attempts a quick connection test to the determined URL (`http://127.0.0.1:PORT/`).
+*   It reads the `OBSIDIAN_SCRIPT_RELATIVE_PATH` environment variable (set by the plugin) to identify the current script. This is needed for the `get_script_settings()` and event listener registration methods. If the variable is missing (e.g., running the script outside Obsidian), a warning is printed, and `get_script_settings()` / event methods will fail.
+*   **Raises:**
+    *   `ValueError`: If `http_port` (if provided manually) is not a valid integer between 1 and 65535.
+    *   `ObsidianCommError`: If the initial connection test fails (e.g., timeout, connection refused, Obsidian not running, plugin inactive, wrong port).
+
+## Error Handling
+
+Most communication issues or errors reported by the Obsidian plugin will raise an `ObsidianCommError`. While the examples in this documentation are simplified, it's **highly recommended** to wrap your API calls in `try...except ObsidianCommError as e:` blocks in your production scripts to handle these gracefully.
+
+```python
+# Recommended error handling pattern for production scripts:
+# try:
+#     content = obsidian.get_active_note_content()
+#     print("Got content successfully.")
+# except ObsidianCommError as e:
+#     print(f"Failed to get note content: {e}", file=sys.stderr)
+#     # e.action might contain the failed action name (e.g., 'get_active_note_content')
+#     # e.status_code might contain the HTTP status code if available
+# except Exception as general_e:
+#     print(f"An unexpected Python error occurred: {general_e}", file=sys.stderr)
+```
+
+Other standard Python exceptions like `ValueError` (for invalid arguments) or `NameError` (if `PyYAML` is missing for property methods) might also be raised.
+
+## Script-Specific Settings
+
+You can define configuration settings for your Python script that users can manage directly within the Obsidian "Python Bridge" settings tab.
+
+**Workflow:**
+
+1.  **Define Settings (in your Python script):**
+    *   Import the `define_settings` helper function.
+    *   Create a list of dictionaries describing each setting.
+    *   Call `define_settings(your_settings_list)` **at the beginning** of your script (before `_handle_cli_args`).
+2.  **Handle Discovery (in your Python script):**
+    *   Import the `_handle_cli_args` helper function.
+    *   Call `_handle_cli_args()` **immediately after** `define_settings()`, before any other script logic. This function checks for `--get-settings-json` (and exits if found) and also handles the initial event check.
+3.  **Plugin Discovers Settings:** Obsidian runs scripts with the `--get-settings-json` flag.
+4.  **User Configures Values:** User sets values in Obsidian settings UI.
+5.  **Script Retrieves Values:** Call `obsidian.get_script_settings()` in your main logic (when not handling an event).
+
+**Settings Definition Structure:**
+
+Each dictionary in the list passed to `define_settings` should have: `key` (str), `type` (str: 'text', 'textarea', 'number', 'toggle', 'dropdown', 'slider'), `label` (str), `description` (str), `default` (Any), `options` (Optional for dropdown), `min`/`max`/`step` (Optional for number/slider).
+
+**Example (`my_configurable_script.py`):**
+```python
+import sys
+import os
+import json
+from ObsidianPluginDevPythonToJS import (
+    ObsidianPluginDevPythonToJS, ObsidianCommError,
+    define_settings, _handle_cli_args
+)
+
+# --- Event Check (simplified) ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if event_name_from_env:
+    print(f"Event triggered: {event_name_from_env}. Exiting settings example.")
+    sys.exit(0)
+
+# --- Normal Execution ---
+# 1. Define Settings
+MY_SCRIPT_SETTINGS = [
+    {"key": "api_key", "type": "text", "label": "Your API Key", "default": "", "description": "Enter the API key for the service."},
+    {"key": "enable_feature_x", "type": "toggle", "label": "Enable Feature X", "default": True, "description": "Toggle Feature X on or off."}
+]
+define_settings(MY_SCRIPT_SETTINGS)
+
+# 2. Handle Settings Discovery (MUST be called after define_settings)
+_handle_cli_args() # This will exit if --get-settings-json is passed
+
+# 3. Main Script Logic (only runs if not discovery and not event)
+print("--- Configurable script running ---")
+# In a real script, wrap this in a try-except block
+obsidian = ObsidianPluginDevPythonToJS()
+
+# 4. Get User-Configured Values
+settings = obsidian.get_script_settings()
+api_key = settings.get("api_key", MY_SCRIPT_SETTINGS[0]["default"]) # Use default from definition if not found
+feature_x_enabled = settings.get("enable_feature_x", MY_SCRIPT_SETTINGS[1]["default"])
+
+obsidian.show_notification(f"API Key: '{api_key}', Feature X: {feature_x_enabled}")
+
+if feature_x_enabled:
+    print("Feature X is enabled and running...")
+else:
+    print("Feature X is disabled.")
+```
+
+## API Reference
+
+All methods below may raise `ObsidianCommError` if communication with the Obsidian plugin fails or if the plugin reports an error for the requested action. Robust `try-except` blocks are recommended for production use.
+
+---
+
+### Library Helper Functions (Import directly)
+
+#### `define_settings(settings_list: List[Dict[str, Any]]) -> None`
+
+Registers the settings definitions for the current script. **Must be called once at the beginning of the script (before `_handle_cli_args`).**
+
+*   **Parameters:**
+    *   `settings_list` (`List[Dict[str, Any]]`): A list of dictionaries defining settings.
+*   **Returns:** `None`
+
+#### `_handle_cli_args() -> None`
+
+Checks for `--get-settings-json` argument. If present, prints settings JSON and exits. **Must be called immediately after `define_settings()` and before main script logic.** *Note: This function is essential for settings discovery by the plugin.*
+
+*   **Parameters:** None
+*   **Returns:** `None` (or exits the script)
+
+---
+
+### `ObsidianPluginDevPythonToJS` Class Methods
+
+#### `get_script_settings() -> Dict[str, Any]`
+
+Retrieves the current values of the settings defined by *this specific script*, as configured by the user in Obsidian.
+
+*   **Parameters:** None
+*   **Returns:** (`Dict[str, Any]`) Dictionary of setting keys and their current values.
+*   **Raises:** `ObsidianCommError` if request fails or script path env var is missing.
+
+---
+
+### UI Interaction
+
+#### `show_notification(content: str, duration: int = 4000) -> None`
+
+Displays a notification message within Obsidian.
+
+*   **Parameters:**
+    *   `content` (`str`): Message text. Cannot be empty.
+    *   `duration` (`int`, optional, default: `4000`): Duration in milliseconds.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `content` is empty.
+
+#### `request_user_input(script_name: str, input_type: str, message: str, validation_regex: Optional[str] = None, min_value: Optional[Union[int, float]] = None, max_value: Optional[Union[int, float]] = None, step: Optional[Union[int, float]] = None, **kwargs) -> Any`
+
+Requests user input via a modal dialog in Obsidian. **Blocks** script execution.
+
+*   **Parameters:**
+    *   `script_name` (`str`): Name shown in modal title.
+    *   `input_type` (`str`): `'text'`, `'textarea'`, `'number'`, `'range'`, `'slider'`, `'boolean'`/`'checkbox'`, `'date'`.
+    *   `message` (`str`): Prompt message.
+    *   `validation_regex` (`Optional[str]`): Regex for `'text'` validation.
+    *   `min_value`, `max_value`, `step`: Optional for number/range/slider.
+    *   `**kwargs`: Future parameters.
+*   **Returns:** (`Any`) User input (type depends on `input_type`). Raises `ObsidianCommError` if user cancels.
+*   **Raises:** `ValueError` for invalid args. `ObsidianCommError` if user cancels or request fails.
+
+---
+
+### Active Note Operations
+
+Operate on the currently focused note. Raise `ObsidianCommError` if no Markdown note is active.
+
+#### `get_active_note_content() -> str`
+Retrieves the full Markdown content of the active note.
+*   **Returns:** (`str`) Note content.
+
+#### `get_active_note_frontmatter() -> Optional[Dict[str, Any]]`
+Retrieves the parsed YAML frontmatter of the active note.
+*   **Returns:** (`Optional[Dict[str, Any]]`) Frontmatter dictionary, or `None`.
+
+#### `get_active_note_absolute_path() -> str`
+Retrieves the absolute filesystem path of the active note.
+*   **Returns:** (`str`) Absolute path.
+
+#### `get_active_note_relative_path() -> str`
+Retrieves the vault-relative path of the active note.
+*   **Returns:** (`str`) Vault-relative path (e.g., `folder/note.md`).
+
+#### `get_active_note_title() -> str`
+Retrieves the title (filename without extension) of the active note.
+*   **Returns:** (`str`) Note title.
+
+---
+
+### Specific Note/Path Operations
+
+#### `get_note_content(path: str) -> str`
+Retrieves the full content of a specific note.
+*   **Parameters:** `path` (`str`): **Vault-relative path** (e.g., `"Folder/My Note.md"`).
+*   **Returns:** (`str`) Note content.
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if not found.
+
+#### `get_note_frontmatter(path: str) -> Optional[Dict[str, Any]]`
+Retrieves the parsed YAML frontmatter of a specific note.
+*   **Parameters:** `path` (`str`): **Vault-relative path**.
+*   **Returns:** (`Optional[Dict[str, Any]]`) Frontmatter dictionary, or `None`.
+*   **Raises:** `ValueError` if `path` is empty.
+
+#### `modify_note_content(file_path: str, content: str) -> None`
+Modifies the entire content of a specific note using Obsidian's API.
+*   **Parameters:** `file_path` (`str`): **Absolute filesystem path** to the note. `content` (`str`): New full content.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `file_path` is not absolute. `ObsidianCommError` if file not in vault or modification fails.
+
+#### `open_note(path: str, new_leaf: bool = False) -> None`
+Opens a specific note in Obsidian using its link path.
+*   **Parameters:** `path` (`str`): **Vault-relative path**, **WITHOUT `.md` extension** (e.g., `"Folder/My Note"`). `new_leaf` (`bool`, optional, default: `False`): Open in new leaf.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if note cannot be opened.
+
+#### `create_note(path: str, content: str = '') -> None`
+*(New)* Creates a new note in the vault.
+*   **Parameters:** `path` (`str`): **Vault-relative path** (e.g., `"Folder/New Note.md"`). Must include `.md`. `content` (`str`, optional): Initial content.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if creation fails.
+
+#### `check_path_exists(path: str) -> bool`
+*(New)* Checks if a file or folder exists at the given vault-relative path.
+*   **Parameters:** `path` (`str`): **Vault-relative path**.
+*   **Returns:** (`bool`) `True` if exists, `False` otherwise.
+*   **Raises:** `ValueError` if `path` is empty.
+
+#### `delete_path(path: str, permanently: bool = False) -> None`
+*(New)* Deletes a note or folder.
+*   **Parameters:** `path` (`str`): **Vault-relative path**. `permanently` (`bool`, optional, default: `False`): If `True`, delete permanently. **Use with caution!**
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if deletion fails.
+
+#### `rename_path(old_path: str, new_path: str) -> None`
+*(New)* Renames or moves a note or folder.
+*   **Parameters:** `old_path` (`str`): Current **vault-relative path**. `new_path` (`str`): New **vault-relative path**.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if paths are empty. `ObsidianCommError` if rename fails.
+
+#### `create_folder(path: str) -> None`
+*(New)* Creates a new folder.
+*   **Parameters:** `path` (`str`): **Vault-relative path** (e.g., `"New Folder"`).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `path` is empty. `ObsidianCommError` if creation fails.
+
+#### `list_folder(path: str) -> Dict[str, List[str]]`
+*(New)* Lists files and subfolders.
+*   **Parameters:** `path` (`str`): **Vault-relative path**. Use `""` for vault root.
+*   **Returns:** (`Dict[str, List[str]]`) `{'files': [...], 'folders': [...]}`.
+*   **Raises:** `ValueError` if `path` is `None`. `ObsidianCommError` if listing fails.
+
+#### `get_links(path: str, type: str = 'outgoing') -> List[str]`
+*(New)* Retrieves links from a note (currently 'outgoing' only).
+*   **Parameters:** `path` (`str`): **Vault-relative path**. `type` (`str`, optional, default: `'outgoing'`).
+*   **Returns:** (`List[str]`) List of link paths.
+*   **Raises:** `ValueError` if `path` is empty.
+
+#### `get_backlinks(path: str, use_cache_if_available: bool = True, cache_mode: str = 'fast') -> Dict[str, List[Dict[str, Any]]]`
+*(New)* Retrieves backlinks for a note.
+*   **Parameters:** `path` (`str`): **Vault-relative path**. `use_cache_if_available` (`bool`, default: `True`). `cache_mode` (`str`, default: `'fast'`).
+*   **Returns:** (`Dict[str, List[Dict[str, Any]]]`) Dictionary of source paths to `LinkCache` arrays.
+*   **Raises:** `ValueError` for invalid args.
+
+---
+
+### Editor Operations (Active Note)
+
+#### `get_selected_text() -> str`
+Retrieves selected text.
+*   **Returns:** (`str`) Selected text, or `""`.
+*   **Raises:** `ObsidianCommError` if no Markdown editor active.
+
+#### `replace_selected_text(replacement: str) -> None`
+Replaces selected text or inserts at cursor.
+*   **Parameters:** `replacement` (`str`).
+*   **Returns:** `None`
+*   **Raises:** `ObsidianCommError` if no Markdown editor active.
+
+#### `get_editor_context() -> Dict[str, Any]`
+*(New)* Retrieves editor context (cursor, line count).
+*   **Returns:** (`Dict[str, Any]`) or `None`.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+---
+
+### Vault Operations
+
+#### `get_current_vault_absolute_path() -> str`
+Retrieves absolute path of the current vault.
+*   **Returns:** (`str`) Absolute path.
+
+#### `get_all_note_paths(absolute: bool = False) -> List[str]`
+Retrieves paths of all Markdown notes.
+*   **Parameters:** `absolute` (`bool`, optional, default: `False`).
+*   **Returns:** (`List[str]`) List of note paths.
+
+#### `get_all_note_titles() -> List[str]`
+Retrieves titles of all Markdown notes.
+*   **Returns:** (`List[str]`) List of note titles.
+
+#### `get_vault_name() -> str`
+*(New)* Retrieves the name of the current vault.
+*   **Returns:** (`str`) Vault name.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `get_all_tags() -> List[str]`
+*(Temporarily Disabled)* Retrieves all unique tags.
+*   **Returns:** (`List[str]`) e.g., `['#tag1', '#tag/nested']`.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+---
+
+### Obsidian Operations
+
+#### `get_obsidian_language() -> str`
+*(New)* Retrieves Obsidian's current language code.
+*   **Returns:** (`str`) e.g., 'en', 'fr'.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `get_theme_mode() -> str`
+*(New)* Retrieves current theme mode ('light' or 'dark').
+*   **Returns:** (`str`) 'light' or 'dark'.
+*   **Raises:** `ObsidianCommError` if request fails.
+
+#### `run_obsidian_command(command_id: str) -> None`
+*(Temporarily Disabled)* Executes an Obsidian command.
+*   **Parameters:** `command_id` (`str`) e.g., `"editor:toggle-bold"`.
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `command_id` is empty. `ObsidianCommError` if command fails.
+
+---
+
+### Frontmatter Property Management (Requires PyYAML)
+
+Directly manipulate YAML frontmatter.
+
+#### `manage_properties_key(file_path: str, action: str, key: Optional[str] = None, new_key: Optional[str] = None, use_vault_modify: bool = True) -> Dict[str, Any]`
+Manages top-level keys in frontmatter ('add', 'remove', 'rename').
+*   **Parameters:** `file_path` (absolute), `action`, `key`, `new_key`, `use_vault_modify` (default `True` for API, `False` for direct write - risky).
+*   **Returns:** (`Dict[str, Any]`) `{'success': True}` or `{'success': False, 'error': '...'}`.
+*   **Raises:** `NameError` if PyYAML missing. `FileNotFoundError`. `ValueError`. `yaml.YAMLError`. `ObsidianCommError` (if `use_vault_modify=True`). `IOError` (if `use_vault_modify=False`).
+
+#### `manage_properties_value(file_path: str, key: str, action: str, value: Any = None, new_value: Any = None, index: Optional[int] = None, use_vault_modify: bool = True) -> Dict[str, Any]`
+Manages values for a key ('add', 'remove', 'update').
+*   **Parameters:** `file_path` (absolute), `key`, `action`, `value`, `new_value`, `index`, `use_vault_modify` (default `True`).
+*   **Returns:** (`Dict[str, Any]`) `{'success': True}` or `{'success': False, 'error': '...'}`.
+*   **Raises:** Similar to `manage_properties_key`, plus `IndexError`.
+
+---
+
+### Event Listening (Reacting to Obsidian Events)
+
+Your Python scripts can react to events in Obsidian.
+
+**How it Works:**
+
+1.  **Registration:** Your script calls `obsidian.register_event_listener("event-name")` and then typically exits its main flow.
+2.  **Event Occurs:** An event (e.g., note modification) happens in Obsidian.
+3.  **Script Re-Execution:** The plugin **runs your Python script again from the beginning**, adding environment variables:
+    *   `OBSIDIAN_EVENT_NAME`: Name of the event (e.g., `"vault-modify"`).
+    *   `OBSIDIAN_EVENT_PAYLOAD`: JSON string with event data (e.g., `'{"path": "My Note.md"}'`).
+4.  **Your Script's Responsibility:**
+    *   **At the start**, check `os.environ.get("OBSIDIAN_EVENT_NAME")`.
+    *   If it exists, parse `OBSIDIAN_EVENT_PAYLOAD`, perform event-specific actions.
+    *   Optionally call `obsidian.unregister_event_listener()` if it should only react once.
+    *   **Exit immediately using `sys.exit(0)`** to prevent normal script logic from running.
+    *   If the variable doesn't exist, proceed with normal script logic (like initial registration).
+
+**Supported Event Names (Initial List):**
+
+*   `"vault-modify"`: File content modified. Payload: `{"path": "relative/path/to/file.md"}`
+*   `"vault-delete"`: File/folder deleted. Payload: `{"path": "relative/path/to/item", "type": "file" | "folder"}`
+*   `"vault-rename"`: File/folder renamed/moved. Payload: `{"path": "new/relative/path", "oldPath": "old/relative/path", "type": "file" | "folder"}`
+*   `"metadata-changed"`: File metadata changed. Payload: `{"path": "relative/path/to/file.md"}`
+*   `"layout-change"`: Workspace layout changed. Payload: `{}`
+*   `"active-leaf-change"`: Focused tab/pane changed. Payload: `{"path": "relative/path/to/active/note.md" | null}`
+
+#### `register_event_listener(event_name: str) -> None`
+Registers the current script for an Obsidian event.
+*   **Parameters:** `event_name` (`str`).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `event_name` empty. `ObsidianCommError` if registration fails.
+
+#### `unregister_event_listener(event_name: str) -> None`
+Unregisters the current script from an event.
+*   **Parameters:** `event_name` (`str`).
+*   **Returns:** `None`
+*   **Raises:** `ValueError` if `event_name` empty. `ObsidianCommError` if unregistration fails.
+
+**Example Script (`react_on_modify.py` - Simplified):**
+```python
+# react_on_modify.py
+import sys
+import os
+import json
+# For production, add robust error handling (try-except) for imports and API calls.
+from ObsidianPluginDevPythonToJS import ObsidianPluginDevPythonToJS, ObsidianCommError
+
+EVENT_TO_LISTEN_FOR = "vault-modify"
+
+# --- Check for event trigger FIRST ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if event_name_from_env:
+    print(f"--- Script launched by Event: {event_name_from_env} ---")
+    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
+    event_payload = json.loads(payload_str) # Simplified: assume valid JSON for example
+
+    if event_name_from_env == EVENT_TO_LISTEN_FOR:
+        file_path = event_payload.get("path", "N/A")
+        print(f"Detected modification of: {file_path}")
+        # Initialize client only if needed for a response
+        # obsidian_client = ObsidianPluginDevPythonToJS()
+        # obsidian_client.show_notification(f"Handled modify: {file_path}")
+    
+    print("--- Event handling finished. Exiting. ---")
+    sys.exit(0)
+
+# --- Main Script Logic (Registration) ---
+else:
+    print(f"--- Registering Listener for: {EVENT_TO_LISTEN_FOR} ---")
+    # Simplified: assume client initializes and registers successfully
+    obsidian = ObsidianPluginDevPythonToJS()
+    obsidian.register_event_listener(EVENT_TO_LISTEN_FOR)
+    obsidian.show_notification(f"👂 Now listening for {EVENT_TO_LISTEN_FOR}...", 5000)
+    print(f"--- Registered. Modify a note to trigger this script. ---")
+```

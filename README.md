@@ -353,7 +353,11 @@ Before installing the plugin, please ensure you have the following installed on 
 <a id="support-the-project"></a>
 ## 💖 Support the Project
 
-If you've found this plugin saves you substantial time by letting you create Obsidian plugins in Python when you otherwise couldn't have (or wouldn't have wanted to) create them in JavaScript, consider making a small donation. I've personally spent dozens of hours developing this plugin through various technical challenges—all for free and largely not even for my own extensive personal use. Compared to the hours of work and frustration this plugin might save you, a small contribution goes a long way in supporting continued development and maintenance.
+If you find this plugin valuable, especially if it saves you substantial time by letting you create Obsidian plugins in Python when you otherwise couldn't have (or wouldn't have wanted to) in JavaScript, please consider making a donation.
+
+Developing and maintaining this bridge has involved a significant personal investment: **dozens of hours** tackling technical challenges and **substantial financial costs** related to AI assistance (API fees and subscriptions for literally thousands of requests) used extensively during development – all provided for free and largely for the benefit of the community, not just my own use.
+
+Compared to the hours of work and potential frustration this plugin might save you, even a small contribution is greatly appreciated and goes a long way in helping to offset these development costs and support continued maintenance and future improvements.
 
 I currently accept donations through:
 

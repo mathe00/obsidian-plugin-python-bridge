@@ -81,7 +81,11 @@ export async function discoverScriptSettings(plugin: ObsidianPythonBridge, scrip
 			discoveryPYTHONPATH = `${discoveryPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
 		}
 		// --- End PYTHONPATH for discovery ---
-		const env = { ...process.env, PYTHONPATH: discoveryPYTHONPATH };
+		const env = {
+			...process.env, // Inherit existing environment
+			PYTHONPATH: discoveryPYTHONPATH,
+			OBSIDIAN_BRIDGE_MODE: "discovery"
+		};
 		// --- End PYTHONPATH for discovery ---
 		plugin.logDebug(`Executing discovery with PYTHONPATH: ${discoveryPYTHONPATH} and cwd: ${scriptDir}`);
 		const pythonProcess = spawn(plugin.pythonExecutable!, args, { timeout: discoveryTimeoutMs, cwd: scriptDir, env: env }); // Set working directory to the script's folder // Pass modified environment
@@ -340,40 +344,80 @@ export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise
  * Called after plugin load, server start, and initial settings sync.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export function runAutoStartScripts(plugin: ObsidianPythonBridge): void {
+export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise<void> { // Make async to await loadData
 	plugin.logInfo("Checking for scripts to run on startup...");
-	const scriptsFolder = getScriptsFolderPath(plugin);
-	if (!scriptsFolder) { plugin.logWarn("Cannot run auto-start scripts: Scripts folder path is invalid."); return; }
-	let scriptsRunCount = 0;
-	for (const relativePath in plugin.settings.scriptAutoStartStatus) {
-		const shouldAutoStart = plugin.settings.scriptAutoStartStatus[relativePath];
-		const isScriptActive = plugin.settings.scriptActivationStatus[relativePath] !== false;
-		if (shouldAutoStart && isScriptActive) {
-			const absolutePath = path.join(scriptsFolder, relativePath);
-			try {
-				if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
-					plugin.logInfo(`Auto-starting script: ${relativePath}`);
-					const delaySeconds = plugin.settings.scriptAutoStartDelay[relativePath] ?? 0;
-					const delayMs = Math.max(0, delaySeconds) * 1000;
-					if (delayMs > 0) {
-						plugin.logInfo(` -> Delaying execution by ${delaySeconds} second(s).`);
-						setTimeout(() => {
-							if (plugin.settings.scriptActivationStatus[relativePath] !== false) { // Re-check activation status inside timeout
-								plugin.logInfo(`Executing delayed auto-start script: ${relativePath}`);
-								runPythonScript(plugin, absolutePath, "auto-start"); // No await
-							} else plugin.logWarn(`Skipping delayed auto-start for ${relativePath}: Script was disabled during delay.`);
-						}, delayMs);
-					} else runPythonScript(plugin, absolutePath, "auto-start"); // No await
-					scriptsRunCount++;
-				} else {
-					plugin.logWarn(`Skipping auto-start for ${relativePath}: Script file not found at ${absolutePath}.`);
-					// Consider cleaning up stale auto-start/delay entries here if desired
-				}
-			} catch (error) { plugin.logError(`Error checking file status for auto-start script ${absolutePath}:`, error); }
-		}
+
+	// Reload settings just before checking to ensure the latest values are used.
+	// This is a safeguard against potential async state issues.
+	await plugin.loadSettings();
+	const currentSettings = plugin.settings; // Use a local copy for the loop
+
+	const scriptsFolder = getScriptsFolderPath(plugin); // Uses plugin.settings which was just reloaded
+	if (!scriptsFolder) {
+		plugin.logWarn("Cannot run auto-start scripts: Scripts folder path is invalid.");
+		return;
 	}
-	if (scriptsRunCount > 0) plugin.logInfo(`Finished launching ${scriptsRunCount} auto-start script(s).`);
-	else plugin.logInfo("No active scripts configured for auto-start.");
+
+	let scriptsRunCount = 0;
+	plugin.logDebug("Current AutoStart Status:", currentSettings.scriptAutoStartStatus);
+	plugin.logDebug("Current Activation Status:", currentSettings.scriptActivationStatus);
+
+	// Iterate over scripts that have an entry in scriptAutoStartStatus
+	for (const relativePath in currentSettings.scriptAutoStartStatus) {
+		const shouldAutoStart = currentSettings.scriptAutoStartStatus[relativePath];
+		// Explicitly check if shouldAutoStart is true
+		if (shouldAutoStart === true) {
+			// Then check if the script is active
+			const isScriptActive = currentSettings.scriptActivationStatus[relativePath] !== false;
+			plugin.logDebug(`Checking script ${relativePath}: shouldAutoStart=${shouldAutoStart}, isScriptActive=${isScriptActive}`);
+
+			if (isScriptActive) {
+				const absolutePath = path.join(scriptsFolder, relativePath);
+				try {
+					if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
+						plugin.logInfo(`Auto-starting script: ${relativePath}`);
+						const delaySeconds = currentSettings.scriptAutoStartDelay[relativePath] ?? 0;
+						const delayMs = Math.max(0, delaySeconds) * 1000;
+
+						if (delayMs > 0) {
+							plugin.logInfo(` -> Delaying execution by ${delaySeconds} second(s).`);
+							setTimeout(async () => { // Make callback async to reload settings
+								// Re-check status just before delayed execution
+								await plugin.loadSettings(); // Reload again
+								const latestActivationStatus = plugin.settings.scriptActivationStatus[relativePath] !== false;
+								const latestAutoStartStatus = plugin.settings.scriptAutoStartStatus[relativePath] === true;
+
+								if (latestActivationStatus && latestAutoStartStatus) {
+									plugin.logInfo(`Executing delayed auto-start script: ${relativePath}`);
+									runPythonScript(plugin, absolutePath, "auto-start"); // No await needed here
+								} else {
+									plugin.logWarn(`Skipping delayed auto-start for ${relativePath}: Script status changed during delay (Active: ${latestActivationStatus}, AutoStart: ${latestAutoStartStatus}).`);
+								}
+							}, delayMs);
+						} else {
+							// Immediate execution (no need to re-check here as we just loaded settings)
+							runPythonScript(plugin, absolutePath, "auto-start"); // No await needed here
+						}
+						scriptsRunCount++;
+					} else {
+						plugin.logWarn(`Skipping auto-start for ${relativePath}: Script file not found at ${absolutePath}.`);
+					}
+				} catch (error) {
+					plugin.logError(`Error checking file status for auto-start script ${absolutePath}:`, error);
+				}
+			} else {
+				plugin.logDebug(`Skipping auto-start for ${relativePath}: Script is not active.`);
+			}
+		} else {
+			plugin.logDebug(`Skipping auto-start for ${relativePath}: Auto-start setting is false.`);
+		}
+	} // End for loop
+
+	if (scriptsRunCount > 0) {
+		plugin.logInfo(`Finished launching ${scriptsRunCount} auto-start script(s).`);
+	} else {
+		plugin.logInfo("No active scripts configured for auto-start based on current settings.");
+	}
 }
 
 // --- Dynamic Command Management ---

@@ -121,7 +121,7 @@ def _handle_cli_args():
     )
     # Parse only known args defined above, ignore others that might be passed
     # This prevents errors if Obsidian or the user passes other args accidentally
-
+    args, unknown = parser.parse_known_args()
     # --- Check for Event Trigger Environment Variables ---
     # This check happens AFTER parsing CLI args but BEFORE checking --get-settings-json
     # because event triggers should take precedence over settings discovery.
@@ -142,7 +142,9 @@ def _handle_cli_args():
         # print("DEBUG: --get-settings-json flag detected.", file=sys.stderr) # Optional debug
         try:
             # Use the globally stored definitions populated by define_settings
-            json_output = json.dumps(_script_settings_definitions) # No indent for production
+            # Ensure _script_settings_definitions exists, default to empty list if not defined by user script
+            definitions_to_output = _script_settings_definitions if '_script_settings_definitions' in globals() else []
+            json_output = json.dumps(definitions_to_output) # No indent for production
             print(json_output) # Print JSON to stdout
             sys.exit(0) # Exit successfully, preventing rest of script execution
         except TypeError as e:
@@ -150,7 +152,7 @@ def _handle_cli_args():
             error_msg = {
                 "status": "error",
                 "error": f"Failed to serialize settings definitions to JSON: {e}. Check default values.",
-                "definitions": _script_settings_definitions # Include definitions for debugging
+                "definitions": definitions_to_output # Include definitions for debugging
             }
             print(json.dumps(error_msg), file=sys.stderr)
             sys.exit(1) # Exit with error
@@ -217,6 +219,12 @@ class ObsidianPluginDevPythonToJS:
         self.session = requests.Session()
         # Store script path for event listener registration payload
         self._script_relative_path_for_api: Optional[str] = None
+        
+        # --- Determine execution mode (normal or discovery) ---
+        self._execution_mode = os.environ.get("OBSIDIAN_BRIDGE_MODE", "normal")
+        if self._execution_mode == "discovery":
+            # Use stderr for info messages during discovery to avoid polluting stdout (which is used for JSON)
+            print("INFO: ObsidianPluginDevPythonToJS: Initialized in settings discovery mode. API calls will be disabled.", file=sys.stderr)
 
         # --- Read script relative path from environment variable ---
         # This is crucial for the get_script_settings method.
@@ -309,6 +317,15 @@ class ObsidianPluginDevPythonToJS:
                                with status 'error'. Includes the failing action name.
             requests.exceptions.RequestException: For underlying HTTP request issues.
         """
+        # --- Prevent API calls during settings discovery ---
+        if self._execution_mode == "discovery":
+            error_message = (
+                "API calls are disabled during settings discovery mode. "
+                "Ensure your script handles the --get-settings-json argument "
+                "(e.g., using _handle_cli_args() before initializing ObsidianPluginDevPythonToJS)."
+            )
+            # Raise specific error to indicate the cause clearly
+            raise ObsidianCommError(error_message, action=action)
         request_data = {"action": action, "payload": payload if payload is not None else {}}
         request_timeout = timeout if timeout is not None else self.request_timeout
         response_text = "" # Initialize for potential use in error reporting

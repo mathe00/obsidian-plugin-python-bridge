@@ -301,9 +301,12 @@ Requests user input via a modal dialog in Obsidian. **Blocks** script execution.
 
 Operate on the currently focused note. Raise `ObsidianCommError` if no Markdown note is active.
 
-#### `get_active_note_content() -> str`
+#### `get_active_note_content(return_format: str = "string") -> Union[str, List[str]]`
 Retrieves the full Markdown content of the active note.
-*   **Returns:** (`str`) Note content.
+*   **Parameters:**
+    *   `return_format` (`str`, optional, default: `"string"`): Desired format: `"string"` (single string) or `"lines"` (list of strings).
+*   **Returns:** (`Union[str, List[str]]`) Note content in the specified format.
+*   **Raises:** `ValueError` if `return_format` is invalid.
 
 #### `get_active_note_frontmatter() -> Optional[Dict[str, Any]]`
 Retrieves the parsed YAML frontmatter of the active note.
@@ -427,8 +430,9 @@ Retrieves absolute path of the current vault.
 
 #### `get_all_note_paths(absolute: bool = False) -> List[str]`
 Retrieves paths of all Markdown notes.
-*   **Parameters:** `absolute` (`bool`, optional, default: `False`).
+*   **Parameters:** `absolute` (`bool`, optional, default: `False`): If `True`, returns absolute filesystem paths, otherwise vault-relative paths.
 *   **Returns:** (`List[str]`) List of note paths.
+*   **Raises:** `ObsidianCommError` if paths cannot be retrieved or vault path is needed but unavailable.
 
 #### `get_all_note_titles() -> List[str]`
 Retrieves titles of all Markdown notes.

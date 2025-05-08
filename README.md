@@ -11,10 +11,20 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 > Ever needed to build plugins for Obsidian but felt like JavaScript wasn't your cup of tea?
 > With **Obsidian Python Bridge**, you can now use your favorite language, **Python**, to create plugins for Obsidian. 🙌
 
+<a id="tldr"></a>
+## TL;DR (Too Long; Didn't Read)
+
+*   **What is this?** An Obsidian plugin that lets you run Python scripts to interact with your vault.
+*   **Why?** Makes extending Obsidian accessible if you prefer Python over JavaScript/TypeScript, especially for automation and data processing.
+*   **How?** The plugin runs your `.py` scripts. A companion Python library (`ObsidianPluginDevPythonToJS.py`) makes it easy to call Obsidian functions (get/modify notes, show notifications, use modals, etc.) from your script via a local HTTP connection.
+*   **Cool Features:** Cross-platform (Win/Mac/Linux), define UI settings for your scripts within Obsidian, trigger scripts from events, full vault access API, and more.
+*   **Basically:** Write Python, control Obsidian.
+
 ---
 
 **Table of Contents**
 
+-   [TL;DR](#tldr)
 -   [Description](#description)
     -   [Key Features](#key-features)
 -   [🌍 Internationalization](#internationalization)

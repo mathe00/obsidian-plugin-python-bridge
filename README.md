@@ -44,6 +44,7 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 -   [🛠️ Contributing / Developer Setup](#contributing)
 -   [⭐ Check out my other plugins](#other-plugins)
 -   [License](#license)
+-   [🤔 FAQ](#faq)
 
 ---
 
@@ -495,7 +496,55 @@ Feel free to check out my other plugins for Obsidian on my GitHub, like the **[B
 I've chosen the [MIT License](https://choosealicense.com/licenses/mit/) for this project because I believe in **freedom and open-source**.
 If anyone has opinions on other licenses, feel free to share! I've been creating repos for about a week, so I'm still figuring things out as I go along. 😊
 
-And yes, **JavaScript** is great too—let's not forget about it, even though this project is all about **Python**! 😄
+---
+
+<a id="faq"></a>
+## 🤔 FAQ (Frequently Asked Questions)
+
+Here are answers to some common questions and concerns about the Obsidian Python Bridge:
+
+**Q: Why use Python when Obsidian plugins are built with JavaScript/TypeScript? Isn't this just adding complexity?**
+
+**A:** Great question! This bridge isn't meant to replace traditional TS/JS plugin development, especially for complex UI integrations. Its main goals are:
+*   **Accessibility for Python Users:** Many people know Python for scripting, data science, or backend work but aren't familiar with the JS/TS web development ecosystem. This bridge lowers the barrier for them to automate and extend *their own* Obsidian vaults using a language they already know well.
+*   **Rapid Scripting & Automation:** For tasks involving note processing, interacting with external APIs, or personal workflow automation, writing a quick Python script using this bridge can often be much faster *for a Python user* than setting up a full TS plugin environment.
+*   **Leveraging Python's Ecosystem:** Easily use powerful Python libraries (`requests`, `pandas`, data analysis tools, etc.) to process information and interact with your Obsidian notes.
+*   **Focus on Logic:** Ideal for automating tasks "behind the scenes" without needing to build custom UI elements in Obsidian.
+
+It's about providing a **familiar and efficient alternative** for specific use cases and user groups.
+
+**Q: Is this secure? Isn't running Python scripts a security risk or a "backdoor"?**
+
+**A:** Security is a valid concern when running external code. Here's how the bridge addresses it:
+*   **Localhost Only:** The communication bridge (HTTP server) listens **only on `127.0.0.1` (your local machine)**. It's not exposed to your network or the internet.
+*   **User Control:** *You* control everything. You specify the *only* folder where executable Python scripts are located. You choose which scripts to run via commands or shortcuts. You can enable/disable individual scripts in the settings. You configure any auto-start behavior.
+*   **The Real Risk = The Script Itself:** The bridge *executes* Python scripts you provide. The security fundamentally relies on **you trusting the scripts you choose to run**. This is the same risk as running *any* script downloaded from the internet or even using complex community plugins that might have extensive permissions.
+*   **No Hidden Access:** It's not a "backdoor" in the sense of hidden, unauthorized access. It's a tool that runs code *you* provide, at *your* explicit request (or configuration).
+*   **Plugin Warnings:** The plugin settings include an explicit security warning reminding users of this responsibility.
+
+**Q: How can a Python "plugin" be accepted into the official Obsidian store? Do I need to bundle the bridge?**
+
+**A:** You don't submit your Python *scripts* to the Obsidian store. What gets submitted (and is currently pending review) is the **"Obsidian Python Bridge" plugin itself**. This core plugin *is* written in TypeScript/JavaScript and uses the standard Obsidian API.
+*   Once the **Bridge plugin** is installed (either manually or from the community store when approved), *you* simply place your `.py` scripts in the folder you configured.
+*   You **don't** bundle the bridge with your scripts. Users install the bridge once, then add any Python scripts they want.
+
+**Q: Does this convert Python to JavaScript? Can I use Python libraries?**
+
+**A:** No, there's **no code conversion**. Your Python script runs as pure Python using your system's Python interpreter in a separate process. That's the whole point! You can use standard Python syntax, libraries (`requests`, `pandas`, `numpy`, your own modules, etc.), and logic just like any other Python script. The bridge simply facilitates communication *between* your running Python script and Obsidian.
+
+**Q: The codebase was heavily AI-assisted. Is it reliable?**
+
+**A:** Yes, I've been transparent about using AI extensively, primarily because I'm much stronger in Python than JS/TS, and English isn't my first language. It was the practical way to build this complex bridge.
+*   **Open Source:** The *entire* codebase (TypeScript plugin and Python library) is open source on GitHub precisely so it can be reviewed, audited, and improved by the community.
+*   **Testing & Refinement:** While AI helped generate structure and boilerplate, the core logic, API interactions, and bug fixes involved significant manual testing and refinement (as seen in the commit history and recent fixes).
+*   **Community Review:** The submission to the official plugin store involves a code review process by the Obsidian team.
+*   **Contributions Welcome:** I absolutely welcome contributions, code reviews, and pull requests from experienced JS/TS developers to improve code quality, security, and robustness.
+
+**Q: Why do my scripts need `define_settings` and `_handle_cli_args` even if they don't have settings?**
+
+**A:** This is **strongly recommended** for reliable interaction with the plugin's settings discovery process. When the plugin looks for scripts that *might* have settings, it runs them with `--get-settings-json`.
+*   `_handle_cli_args()` detects this flag and makes your script exit cleanly *before* it tries to run its main logic or initialize the API client.
+*   If you *don't* include this structure, your script might run unintended code during discovery. The library will block API calls in this "discovery mode" (raising an error), but using the helpers provides a cleaner exit and avoids these errors in the logs. It ensures the plugin knows your script doesn't define settings, rather than assuming discovery failed.
 
 ---
 

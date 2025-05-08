@@ -118,31 +118,72 @@ export async function dispatchAction(plugin: ObsidianPythonBridge, request: Json
 
 			// --- Note Modification/Opening ---
 			case "modify_note_content": // Kept for backward compatibility
-				if (typeof payload?.filePath !== "string" || typeof payload?.content !== "string") return { status: "error", error: "Invalid payload: 'filePath' (absolute path string) and 'content' (string) required." }; // Expecting absolute path here
-				try {
-					// Convert absolute path to relative for the preferred function
-					const vaultAbsPath = getCurrentVaultAbsolutePath(plugin);
-					if (!vaultAbsPath) throw new Error("Vault path unavailable for conversion.");
-					const normalizedFilePath = normalizePath(payload.filePath);
-					if (!normalizedFilePath.startsWith(vaultAbsPath)) throw new Error("Path is outside the current vault.");
-					const relativePath = normalizePath(path.relative(vaultAbsPath, normalizedFilePath));
-					await modifyNoteContentByRelativePath(plugin, relativePath, payload.content);
-					return { status: "success", data: null };
-				} catch (modifyError) {
-					const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
-					plugin.logError(`Error in modifyNoteContent (compat) for ${payload.filePath}: ${errorMsg}`);
-					return { status: "error", error: `Failed to modify note: ${errorMsg}` };
+			// Check if payload and required fields exist and have the correct type
+			if (typeof payload?.filePath !== "string" || typeof payload?.content !== "string") {
+				return { status: "error", error: "Invalid payload: 'filePath' (absolute path string) and 'content' (string) required." };
+			}
+			try {
+				// Get the absolute path of the vault
+				const vaultAbsPath = getCurrentVaultAbsolutePath(plugin);
+				if (!vaultAbsPath) {
+					throw new Error("Vault path unavailable for conversion.");
 				}
+
+				// --- FIX: Do NOT normalize the absolute path received from Python ---
+				// Assume the path received from the Python client is already the correct absolute path for the OS.
+				const receivedFilePath = payload.filePath;
+				// Optional: Add a check here if needed, e.g., using path.isAbsolute(receivedFilePath)
+				// if (!path.isAbsolute(receivedFilePath)) {
+				//     plugin.logError(`Received non-absolute path in modify_note_content: ${receivedFilePath}`);
+				//     throw new Error(`Received non-absolute path: ${receivedFilePath}`);
+				// }
+
+				// Ensure the vault path ends with a path separator for reliable comparison
+				const vaultPathWithSeparator = vaultAbsPath.endsWith(path.sep) ? vaultAbsPath : vaultAbsPath + path.sep;
+
+				// Check if the received file path starts with the vault path (including separator)
+				// Use the received path directly, without normalizePath()
+				if (!receivedFilePath.startsWith(vaultPathWithSeparator)) {
+					plugin.logError(`Path Mismatch Debug: File='${receivedFilePath}' Vault='${vaultAbsPath}' VaultWithSep='${vaultPathWithSeparator}'`);
+					throw new Error("Path is outside the current vault.");
+				}
+
+				// Calculate the relative path from the vault root to the file
+				// Use the original vaultAbsPath and the received path here
+				const relativePath = normalizePath(path.relative(vaultAbsPath, receivedFilePath));
+
+				// Call the internal function that modifies content using the relative path
+				await modifyNoteContentByRelativePath(plugin, relativePath, payload.content);
+
+				// Return success if modification was successful
+				return { status: "success", data: null };
+
+			} catch (modifyError) {
+				// Catch any errors during the process
+				const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
+				plugin.logError(`Error in modifyNoteContent (compat) for ${payload.filePath}: ${errorMsg}`);
+				// Return an error response to the Python client
+				return { status: "error", error: `Failed to modify note: ${errorMsg}` };
+			}
+			// The case "modify_note_content_by_path" remains unchanged as it uses relative paths
 			case "modify_note_content_by_path": // Preferred action
-				if (typeof payload?.path !== "string" || typeof payload?.content !== "string") return { status: "error", error: "Invalid payload: 'path' (relative vault path string) and 'content' (string) required." }; // Expecting relative path here
+				// Check if payload and required fields exist and have the correct type
+				if (typeof payload?.path !== "string" || typeof payload?.content !== "string") {
+					return { status: "error", error: "Invalid payload: 'path' (relative vault path string) and 'content' (string) required." };
+				}
 				try {
+					// Directly call the modification function with the relative path
 					await modifyNoteContentByRelativePath(plugin, payload.path, payload.content);
+					// Return success
 					return { status: "success", data: null };
 				} catch (modifyError) {
+					// Catch errors during modification
 					const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
 					plugin.logError(`Error in modifyNoteContentByPath for ${payload.path}: ${errorMsg}`);
+					// Return an error response
 					return { status: "error", error: `Failed to modify note: ${errorMsg}` };
 				}
+
 			case "open_note":
 				if (typeof payload?.path !== "string") return { status: "error", error: "Invalid payload: 'path' (relative vault path string) required." };
 				const newLeaf = typeof payload?.new_leaf === "boolean" ? payload.new_leaf : false;

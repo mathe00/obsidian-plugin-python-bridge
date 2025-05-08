@@ -48,6 +48,8 @@ interface TranslationSet {
 // Register all available languages with their translation objects
 const translations: Record<string, TranslationSet> = {
 	en, fr, es, de, zh, ar, pt, ru, ja, hi, ko, it, tr, id, pl,
+	bn, ur, vi, th, fil, fa, ms, nl, uk, el, sv, fi, hu, ro, cs,
+	sw, ha, yo, ig, zht
 };
 
 // Define display names for languages (in their own language ideally)

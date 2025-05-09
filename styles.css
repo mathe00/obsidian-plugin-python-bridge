@@ -1,0 +1,11 @@
+/* styles.css */
+
+/* For UserInputModal and PythonBridgeSettingTab input errors */
+.python-bridge-input-error {
+    border-color: red !important;
+}
+
+/* For the security warning callout in PythonBridgeSettingTab */
+.python-bridge-security-warning-callout {
+    margin-bottom: 1.5em; /* Example style, adjust as needed */
+}

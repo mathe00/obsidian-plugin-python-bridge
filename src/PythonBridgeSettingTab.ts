@@ -75,11 +75,10 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// Security Warning
-		const warningContainer = containerEl.createDiv({ cls: "callout python-bridge-security-warning", attr: { "data-callout": "warning" } });
+		const warningContainer = containerEl.createDiv({ cls: "callout python-bridge-security-warning-callout", attr: { "data-callout": "warning" } });
 		warningContainer.createEl("strong", { text: t("SETTINGS_SECURITY_WARNING_TITLE") });
 		warningContainer.createEl("br");
 		warningContainer.appendText(t("SETTINGS_SECURITY_WARNING_TEXT"));
-		warningContainer.style.marginBottom = "1.5em";
 
 		// General Plugin Settings
 		containerEl.createEl("h2", { text: t("SETTINGS_TAB_TITLE") });
@@ -115,7 +114,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						const oldValue = this.plugin.settings.pythonScriptsFolder;
 						const isValidDirectory = await this.isPathValidDirectory(newValue);
 						if (isValidDirectory) {
-							search.inputEl.style.borderColor = ""; // Reset border
+							search.inputEl.classList.remove('python-bridge-input-error');
 							if (oldValue !== newValue) {
 								this.plugin.logDebug(`Saving valid folder path: ${newValue}`);
 								this.plugin.settings.pythonScriptsFolder = newValue;
@@ -145,12 +144,12 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 							// Path is invalid (doesn't exist or is a file)
 							// Only show error if the input field is not empty
 							if (newValue) {
-								search.inputEl.style.borderColor = "red";
+								search.inputEl.classList.add('python-bridge-input-error');
 								new Notice(t("NOTICE_INVALID_FOLDER_PATH"));
 								this.plugin.logWarn(`Invalid folder path entered: ${newValue}. Not saving.`);
 							} else {
 								// If field is empty, clear border and save empty path
-								search.inputEl.style.borderColor = "";
+								search.inputEl.classList.remove('python-bridge-input-error');
 								if (oldValue !== "") {
 									this.plugin.settings.pythonScriptsFolder = "";
 									await this.plugin.saveSettings();
@@ -170,7 +169,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 				// Initial validation check on display
 				const currentPath = this.plugin.settings.pythonScriptsFolder;
 				if (currentPath && !(await this.isPathValidDirectory(currentPath))) {
-					search.inputEl.style.borderColor = "red";
+					search.inputEl.classList.add('python-bridge-input-error');
 				}
 			});
 
@@ -186,6 +185,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						// Handle empty input: reset to default
 						if (portStr === "") {
 							this.plugin.logInfo("Port input cleared, resetting to default.");
+							text.inputEl.classList.remove('python-bridge-input-error');
 							text.inputEl.style.borderColor = ""; // Clear border
 							if (this.plugin.settings.httpPort !== DEFAULT_PORT) {
 								this.plugin.settings.httpPort = DEFAULT_PORT;
@@ -197,7 +197,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 						const port = parseInt(portStr, 10);
 						const isValidPort = !isNaN(port) && (port === 0 || (port >= 1024 && port <= 65535));
 						if (isValidPort) {
-							text.inputEl.style.borderColor = ""; // Clear border
+							text.inputEl.classList.remove('python-bridge-input-error');
 							if (this.plugin.settings.httpPort !== port) {
 								this.plugin.logDebug(`Saving valid port: ${port}`);
 								this.plugin.settings.httpPort = port;
@@ -205,7 +205,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 							}
 						} else {
 							// Invalid port number or range
-							text.inputEl.style.borderColor = "red";
+							text.inputEl.classList.add('python-bridge-input-error');
 							new Notice(t("NOTICE_INVALID_PORT_RANGE"));
 							this.plugin.logWarn(`Invalid port entered: ${value}. Must be 0 or between 1024 and 65535. Not saving invalid value.`);
 							// Do NOT save the invalid value. Keep the last valid one.
@@ -364,12 +364,12 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 										let delayNum = parseInt(delayStr, 10);
 										// Validate: must be a non-negative integer
 										if (isNaN(delayNum) || delayNum < 0) {
-											text.inputEl.style.borderColor = "red";
+											text.inputEl.classList.add('python-bridge-input-error');
 											this.plugin.logWarn(`Invalid auto-start delay entered: ${value}. Using 0.`);
 											delayNum = 0; // Reset to default if invalid
 											// text.setValue("0"); // This might interfere with typing
 										} else {
-											text.inputEl.style.borderColor = ""; // Clear border on valid input
+											text.inputEl.classList.remove('python-bridge-input-error');
 										}
 										// Save only if the valid number changed
 										if (autoStartDelay[relativePath] !== delayNum) {
@@ -420,7 +420,11 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 									text.setValue(String(currentValue ?? settingDef.default ?? "")).onChange(debounce(async (value) => {
 										const numValue = value === "" ? settingDef.default : parseFloat(value);
 										const isValidNumber = !isNaN(numValue);
-										text.inputEl.style.borderColor = isValidNumber ? "" : "red";
+										if (isValidNumber) {
+											text.inputEl.classList.remove('python-bridge-input-error');
+										} else {
+											text.inputEl.classList.add('python-bridge-input-error');
+										}
 										scriptValues[settingDef.key] = isValidNumber ? numValue : settingDef.default;
 										await this.plugin.saveSettings();
 									}, this.DEBOUNCE_DELAY));

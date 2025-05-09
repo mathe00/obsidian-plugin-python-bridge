@@ -62,6 +62,7 @@ export default class UserInputModal extends Modal {
 				// Handle different input types to get the correct value
 				if (this.inputType === 'boolean' || this.inputType === 'checkbox') {
 					inputValue = (this.inputEl as HTMLInputElement).checked;
+					this.inputEl.classList.remove('python-bridge-input-error'); // Reset border for checkbox/boolean
 					this.inputEl.style.borderColor = ""; // Reset border for checkbox/boolean
 				} else if (this.inputType === 'number' || this.inputType === 'range') {
 					inputValue = parseFloat(this.inputEl.value);
@@ -73,11 +74,11 @@ export default class UserInputModal extends Modal {
 						// Handle potential NaN if input is cleared or invalid for number/range
 						// Decide on behavior: default value? error? For now, let's show notice and prevent submit
 						new Notice("Invalid number input."); // Consider translating this if needed
-						this.inputEl.style.borderColor = "red";
+						this.inputEl.classList.add('python-bridge-input-error');
 						this.inputEl.focus();
 						validationPassed = false; // Mark validation as failed
 					} else {
-						this.inputEl.style.borderColor = ""; // Reset border if valid number
+						this.inputEl.classList.remove('python-bridge-input-error');
 					}
 				} else { // Includes 'text', 'date', etc.
 					inputValue = this.inputEl.value;
@@ -86,21 +87,21 @@ export default class UserInputModal extends Modal {
 						try {
 							const regex = new RegExp(this.validationRegex);
 							if (!regex.test(inputValue)) {
-								this.inputEl.style.borderColor = "red"; // Set border to red
+								this.inputEl.classList.add('python-bridge-input-error');
 								this.inputEl.focus(); // Set focus back to the input field
 								new Notice(t("NOTICE_INPUT_VALIDATION_FAILED")); // Show translated error
 								validationPassed = false; // Mark validation as failed
 							} else {
-								this.inputEl.style.borderColor = ""; // Reset border if valid
+								this.inputEl.classList.remove('python-bridge-input-error');
 							}
 						} catch (e) {
 							console.error("UserInputModal: Invalid validation regex provided:", this.validationRegex, e);
-							this.inputEl.style.borderColor = ""; // Reset border in case of regex error
+							this.inputEl.classList.remove('python-bridge-input-error');
 							// Proceed without validation if regex itself is bad
 						}
 					} else {
 						// Reset border for other types like 'date' or 'text' without regex
-						this.inputEl.style.borderColor = "";
+						this.inputEl.classList.remove('python-bridge-input-error');
 					}
 				}
 

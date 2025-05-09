@@ -240,18 +240,9 @@ async function runPythonScriptForEvent(
 			let stderrOutput = "";
 			pythonProcess.stderr?.on("data", (data) => {
 				stderrOutput += data.toString();
-				console.error(
-					`[stderr EVENT ${scriptFilename}]: ${data.toString().trim()}`,
-				);
-				plugin.logError(
-					`[stderr EVENT ${scriptFilename}]: ${data.toString().trim()}`,
-				);
 			});
 
 			pythonProcess.stdout?.on("data", (data) => {
-				console.log(
-					`[stdout EVENT ${scriptFilename}]: ${data.toString().trim()}`,
-				);
 				plugin.logDebug(
 					`[stdout EVENT ${scriptFilename}]: ${data.toString().trim()}`,
 				);

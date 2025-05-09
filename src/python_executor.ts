@@ -396,8 +396,8 @@ export async function runPythonScript(plugin: ObsidianPythonBridge, scriptPath: 
 			plugin.logDebug(`Executing: ${pythonCmd} ${fullArgs.join(" ")}`);
 			const pythonProcess = spawn(pythonCmd, fullArgs, { env, cwd: scriptDir }); // Set CWD to script's directory
 			let stderrOutput = "";
-			pythonProcess.stderr?.on("data", (data) => { const msg = data.toString(); stderrOutput += msg; console.error(`[stderr ${scriptFilename}]: ${msg.trim()}`); plugin.logError(`[stderr ${scriptFilename}]: ${msg.trim()}`); });
-			pythonProcess.stdout?.on("data", (data) => { const msg = data.toString(); console.log(`[stdout ${scriptFilename}]: ${msg.trim()}`); plugin.logDebug(`[stdout ${scriptFilename}]: ${msg.trim()}`); });
+			pythonProcess.stderr?.on("data", (data) => { const msg = data.toString(); stderrOutput += msg; plugin.logError(`[stderr ${scriptFilename}]: ${msg.trim()}`); });
+			pythonProcess.stdout?.on("data", (data) => { const msg = data.toString(); plugin.logDebug(`[stdout ${scriptFilename}]: ${msg.trim()}`); });
 			pythonProcess.on("error", (error) => {
 				plugin.logError(`Failed to start script (${context}) with command "${pythonCmd}": ${error.message}`);
 				if (context === "manual") new Notice(`${t("NOTICE_SCRIPT_ERROR_RUNNING_PREFIX")} ${scriptFilename} ${t("NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE")} ${pythonCmd}: ${error.message}`);

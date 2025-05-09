@@ -82,27 +82,27 @@ export function loadTranslations(plugin: ObsidianPythonBridge): void {
 	const userChoice = plugin.settings.pluginLanguage;
 	let targetLocale: string | null = null;
 
-	console.log(`Obsidian Python Bridge: User language choice: ${userChoice}`);
+	plugin.logDebug(`User language choice: ${userChoice}`);
 
 	// 1. Check user's explicit choice in settings
 	if (userChoice && userChoice !== 'auto' && translations[userChoice]) {
 		targetLocale = userChoice;
-		console.log(`Obsidian Python Bridge: Using locale from plugin setting: ${targetLocale}`);
+		plugin.logDebug(`Using locale from plugin setting: ${targetLocale}`);
 	}
 	// 2. If choice is 'auto' or invalid, use detection logic
 	else {
 		const storageLocale = window.localStorage.getItem("language");
 		const momentLocale = moment.locale();
-		console.log(`Obsidian Python Bridge: Debug Locales - localStorage: ${storageLocale}, moment.locale(): ${momentLocale}`);
+		plugin.logDebug(`Debug Locales - localStorage: ${storageLocale}, moment.locale(): ${momentLocale}`);
 
 		if (storageLocale && typeof storageLocale === "string") {
 			targetLocale = storageLocale;
-			console.log(`Obsidian Python Bridge: Using locale from localStorage: ${targetLocale}`);
+			plugin.logDebug(`Using locale from localStorage: ${targetLocale}`);
 		} else if (momentLocale) {
 			targetLocale = momentLocale;
-			console.log(`Obsidian Python Bridge: localStorage empty, using locale from moment.locale(): ${targetLocale}`);
+			plugin.logDebug(`localStorage empty, using locale from moment.locale(): ${targetLocale}`);
 		} else {
-			console.log(`Obsidian Python Bridge: Both localStorage and moment.locale() are unavailable.`);
+			plugin.logDebug(`Both localStorage and moment.locale() are unavailable.`);
 		}
 	}
 
@@ -110,22 +110,22 @@ export function loadTranslations(plugin: ObsidianPythonBridge): void {
 	if (targetLocale && translations[targetLocale]) {
 		// Exact match (e.g., 'fr', 'en')
 		activeTranslations = translations[targetLocale];
-		console.log(`Obsidian Python Bridge: Loaded translations for exact locale '${targetLocale}'`);
+		plugin.logDebug(`Loaded translations for exact locale '${targetLocale}'`);
 	} else if (targetLocale) {
 		// Try base language if exact match failed (e.g., 'en' from 'en-gb')
 		const baseLocale = targetLocale.split("-")[0];
 		if (translations[baseLocale]) {
 			activeTranslations = translations[baseLocale];
-			console.log(`Obsidian Python Bridge: Loaded translations for base locale '${baseLocale}' (from '${targetLocale}')`);
+			plugin.logDebug(`Loaded translations for base locale '${baseLocale}' (from '${targetLocale}')`);
 		} else {
 			// Fallback to English if neither exact nor base locale is found
 			activeTranslations = en;
-			console.log(`Obsidian Python Bridge: Locale '${targetLocale}' (or base '${baseLocale}') not found, falling back to 'en'.`);
+			plugin.logDebug(`Locale '${targetLocale}' (or base '${baseLocale}') not found, falling back to 'en'.`);
 		}
 	} else {
 		// Fallback to English if no locale could be determined
 		activeTranslations = en;
-		console.log(`Obsidian Python Bridge: No target locale determined, falling back to 'en'.`);
+		plugin.logDebug(`No target locale determined, falling back to 'en'.`);
 	}
 }
 

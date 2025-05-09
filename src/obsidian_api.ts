@@ -255,9 +255,15 @@ export async function deletePath(plugin: ObsidianPythonBridge, relativePath: str
 	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedPath);
 	if (!fileOrFolder) throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
 	try {
-		if (permanently) { plugin.logWarn(`Permanently deleting path: ${normalizedPath}`); await plugin.app.vault.delete(fileOrFolder, true); } // Force = true for permanent
-		else { await plugin.app.vault.trash(fileOrFolder, true); } // system = true
-		plugin.logInfo(`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`);
+		if (permanently) {
+			plugin.logWarn(`Permanently deleting path: ${normalizedPath}`);
+			await plugin.app.vault.delete(fileOrFolder, true); // true for 'force' permanent delete
+		} else {
+			plugin.logDebug(`Moving path to trash: ${normalizedPath}`);
+			// Use fileManager.trashFile for moving to Obsidian/system trash
+			await plugin.app.fileManager.trashFile(fileOrFolder);
+		}
+	plugin.logInfo(`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`);
 	} catch (error) {
 		plugin.logError(`Error deleting path ${normalizedPath}:`, error);
 		throw new Error(`Failed to delete path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`);

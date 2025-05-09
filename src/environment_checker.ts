@@ -1,7 +1,7 @@
 // --- src/environment_checker.ts ---
 // Handles checking the Python environment (executable, required libraries).
 
-import { Notice } from "obsidian";
+import { Notice, Platform } from "obsidian";
 import { spawn } from "child_process";
 import type ObsidianPythonBridge from "./main"; // Import the main plugin type
 import { t } from "./lang/translations"; // Import translation function
@@ -37,7 +37,7 @@ export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Prom
  * @returns The command string if found, otherwise null.
  */
 export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promise<string | null> {
-	const isWindows = process.platform === "win32";
+	const isWindows = Platform.isWin; // Use Obsidian's Platform API
 	const commandsToTry = isWindows ? ["py", "python3", "python"] : ["python3", "python"];
 	plugin.logDebug(`Attempting to find Python executable. Trying: ${commandsToTry.join(", ")}`);
 	for (const cmd of commandsToTry) {

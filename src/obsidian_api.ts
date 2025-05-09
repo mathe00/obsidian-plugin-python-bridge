@@ -376,14 +376,18 @@ export async function getBacklinks(plugin: ObsidianPythonBridge, targetPath: str
 	if (!(targetFile instanceof TFile)) throw new Error(`File not found at path: ${targetPath}`);
 	let backlinksResult: Record<string, LinkCache[]> | null = null;
 	let errorOccurred: string | null = null;
+	// @ts-ignore: Accessing internal 'plugins' property which is not part of the public API.
 	const isCachePluginEnabled = (plugin.app as any).plugins.enabledPlugins.has("backlink-cache");
 	const attemptCacheFeatures = useCacheIfAvailable && isCachePluginEnabled;
+	// @ts-ignore: Accessing 'getBacklinksForFile' which might be monkey-patched by 'backlink-cache' plugin.
 	const getBacklinksFn = (plugin.app.metadataCache as any).getBacklinksForFile;
 	if (typeof getBacklinksFn !== "function") { plugin.logError("Native function app.metadataCache.getBacklinksForFile not found!"); throw new Error("Obsidian's native getBacklinksForFile function is missing."); }
 	try {
 		if (attemptCacheFeatures && cacheMode === "safe") {
+			// @ts-ignore: Accessing '.safe' property potentially added by 'backlink-cache' plugin.
 			if (typeof getBacklinksFn.safe === "function") {
 				plugin.logDebug("Attempting to call getBacklinksForFile.safe() (provided by backlink-cache)");
+				// @ts-ignore: Calling potentially monkey-patched '.safe' method.
 				backlinksResult = await getBacklinksFn.safe.call(plugin.app.metadataCache, targetFile);
 				plugin.logDebug("Call to getBacklinksForFile.safe() completed.");
 			} else {
@@ -407,6 +411,7 @@ export async function getBacklinks(plugin: ObsidianPythonBridge, targetPath: str
 		try {
 			// The structure returned by the cache plugin seems to be { data: Map<string, LinkCache[]> }
 			// The native one might be different, adjust based on observation if needed.
+			// @ts-ignore: Accessing 'data' property which might exist on the result from 'backlink-cache'.
 			const backlinksMap = (backlinksResult as any)?.data;
 			if (backlinksMap instanceof Map) {
 				plugin.logDebug(`Iterating through Map with ${backlinksMap.size} entries.`);

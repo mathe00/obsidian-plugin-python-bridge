@@ -44,7 +44,7 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 -   [🛠️ Contributing / Developer Setup](#contributing)
 -   [⭐ Check out my other plugins](#other-plugins)
 -   [License](#license)
--   [🤔 FAQ](#faq)
+-   [🤔 FAQ (Frequently Asked Questions)](#faq)
 
 ---
 
@@ -86,7 +86,7 @@ In short, while some tasks are technically feasible without this plugin, they're
 -   **ℹ️ Obsidian Context**: Get the current Obsidian language setting, vault name, and theme mode (light/dark).
 -   **🛡️ Environment Checks & Guidance**: Automatically checks for Python and required libraries (`requests`, `PyYAML`) on startup and provides clear notifications if something is missing.
 -   **💻 Cross-Platform**: Works reliably on Windows, macOS, and Linux thanks to HTTP communication and robust Python detection.
--   **🌐 Internationalized Interface**: Plugin UI (settings, commands, notices) available in multiple languages.
+-   **🌐 Internationalized Interface**: Plugin UI (settings, commands, notices) available in multiple languages. (Note: Full Right-to-Left (RTL) layout support for languages like Arabic, Persian, Urdu is planned but not yet fully implemented - see [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25)).
 
 Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) provided with this plugin, you can write ultra-minimalist scripts to interact with Obsidian. **No need to deal with JSON** or manage complex API calls—everything is neatly wrapped for you. 🤖 (Note: The Python library requires the `requests` package, and `PyYAML` for some frontmatter property management functions). By default, the plugin automatically configures the environment so your scripts can directly `import ObsidianPluginDevPythonToJS` without needing to copy the library file.
 
@@ -107,7 +107,6 @@ This plugin aims to be accessible globally! The user interface (settings, comman
     *   🇪🇸 Spanish (es)
     *   🇩🇪 German (de)
     *   🇨🇳 Chinese - Simplified (zh)
-    *   (Note: Full Right-to-Left (RTL) layout support for languages like Arabic, Persian, Urdu is planned but not yet implemented.)
     *   🇸🇦 Arabic (ar)
     *   🇧🇷/🇵🇹 Portuguese (pt)
     *   🇷🇺 Russian (ru)
@@ -139,7 +138,7 @@ This plugin aims to be accessible globally! The user interface (settings, comman
     *   🇳🇬 Igbo (ig)
     *   🇹🇼/🇭🇰 Chinese - Traditional (zht)
 
-*(Phew! That's quite a list. If your language is *still* missing, feel free to open an issue or pull request, but I think we've covered a good chunk of the planet now! 😄)*
+*(Phew! That's quite a list. If your language is *still* missing, feel free to open an issue or pull request, but I think we've covered a good chunk of the planet now! 😄 Full Right-to-Left (RTL) layout support is planned, track progress at [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25).)*
 
 <a id="why-this-plugin"></a>
 ## Why this plugin? 🤔
@@ -339,7 +338,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 -   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. *(Partially addressed: Added file management, context info, linking)*
 -   🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 -   🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). *(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation).*
--   🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability.
+-   🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability. (Track progress: [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25))
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I'm open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
 -   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.

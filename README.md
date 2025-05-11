@@ -107,6 +107,7 @@ This plugin aims to be accessible globally! The user interface (settings, comman
     *   🇪🇸 Spanish (es)
     *   🇩🇪 German (de)
     *   🇨🇳 Chinese - Simplified (zh)
+    *   (Note: Full Right-to-Left (RTL) layout support for languages like Arabic, Persian, Urdu is planned but not yet implemented.)
     *   🇸🇦 Arabic (ar)
     *   🇧🇷/🇵🇹 Portuguese (pt)
     *   🇷🇺 Russian (ru)
@@ -338,6 +339,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 -   🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. *(Partially addressed: Added file management, context info, linking)*
 -   🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 -   🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). *(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation).*
+-   🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability.
 -   📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I'm open to it! 😅
 -   📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
 -   📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.

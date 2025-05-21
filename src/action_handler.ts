@@ -22,6 +22,8 @@ import {
 	getSelectedText,
 	replaceSelectedText,
 	openNote,
+	setTheme,
+	toggleTheme,
 	getObsidianLanguage,
 	createNote,
 	checkPathExists,
@@ -96,6 +98,35 @@ export async function dispatchAction(plugin: ObsidianPythonBridge, request: Json
 					const content = await getNoteContentByPath(plugin, payload.path);
 					return { status: "success", data: content };
 				} catch (error) { return { status: "error", error: error instanceof Error ? error.message : String(error) }; }
+			
+			// --- Theme Management Actions ---
+			case "set_theme_light":
+				try {
+					setTheme(plugin, "light");
+					return { status: "success", data: null };
+				} catch (error) {
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					plugin.logError(`Error in set_theme_light: ${errorMsg}`);
+					return { status: "error", error: `Failed to set theme to light: ${errorMsg}` };
+				}
+			case "set_theme_dark":
+				try {
+					setTheme(plugin, "dark");
+					return { status: "success", data: null };
+				} catch (error) {
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					plugin.logError(`Error in set_theme_dark: ${errorMsg}`);
+					return { status: "error", error: `Failed to set theme to dark: ${errorMsg}` };
+				}
+			case "toggle_theme":
+				try {
+					toggleTheme(plugin);
+					return { status: "success", data: null };
+				} catch (error) {
+					const errorMsg = error instanceof Error ? error.message : String(error);
+					plugin.logError(`Error in toggle_theme: ${errorMsg}`);
+					return { status: "error", error: `Failed to toggle theme: ${errorMsg}` };
+				}
 			case "get_note_frontmatter":
 				if (typeof payload?.path !== "string") return { status: "error", error: "Invalid payload: 'path' (string) required." };
 				try {

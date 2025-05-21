@@ -84,6 +84,7 @@ In short, while some tasks are technically feasible without this plugin, they're
 -   **🔗 Backlink Retrieval**: Get incoming links (backlinks) for a specific note. Optionally uses the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) for significantly improved performance in large vaults if installed.
 *   **👂 Event Listening**: Allow Python scripts to react to Obsidian events (like note modification, deletion, rename, etc.) by registering listeners.
 -   **ℹ️ Obsidian Context**: Get the current Obsidian language setting, vault name, and theme mode (light/dark).
+-   **🎨 Theme Control**: Programmatically set Obsidian to light mode, dark mode, or toggle the current theme.
 -   **🛡️ Environment Checks & Guidance**: Automatically checks for Python and required libraries (`requests`, `PyYAML`) on startup and provides clear notifications if something is missing.
 -   **💻 Cross-Platform**: Works reliably on Windows, macOS, and Linux thanks to HTTP communication and robust Python detection.
 -   **🌐 Internationalized Interface**: Plugin UI (settings, commands, notices) available in multiple languages. (Note: Full Right-to-Left (RTL) layout support for languages like Arabic, Persian, Urdu is planned but not yet fully implemented - see [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25)).

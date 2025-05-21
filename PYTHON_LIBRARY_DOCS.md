@@ -393,6 +393,30 @@ Replaces selected text or inserts at cursor.
 
 ---
 
+### Theme Management
+
+*(New)* Methods to control Obsidian's appearance.
+
+#### `set_theme_light() -> None`
+Sets the Obsidian theme to light mode.
+*   **Parameters:** None
+*   **Returns:** `None`
+*   **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
+
+#### `set_theme_dark() -> None`
+Sets the Obsidian theme to dark mode.
+*   **Parameters:** None
+*   **Returns:** `None`
+*   **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
+
+#### `toggle_theme() -> None`
+Toggles the Obsidian theme between the currently active mode and the other (light/dark).
+*   **Parameters:** None
+*   **Returns:** `None`
+*   **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
+
+---
+
 ### Vault Operations
 
 #### `get_current_vault_absolute_path() -> str`

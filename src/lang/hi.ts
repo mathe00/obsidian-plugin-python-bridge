@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "स्क्रिप्ट चलाते समय प्लगइन निर्देशिका को स्वचालित रूप से PYTHONPATH में जोड़ें, जिससे पायथन लाइब्रेरी का सीधा आयात संभव हो सके (अनुशंसित)। यदि अक्षम है, तो आपको ObsidianPluginDevPythonToJS.py को अपनी स्क्रिप्ट फ़ोल्डर में कॉपी करना होगा या sys.path को मैन्युअल रूप से प्रबंधित करना होगा।",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "स्वचालित PYTHONPATH अक्षम है। सुनिश्चित करें कि ObsidianPluginDevPythonToJS.py आपकी स्क्रिप्ट फ़ोल्डर में है या sys.path को मैन्युअल रूप से प्रबंधित करें।",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "पायथन निष्पादन योग्य पथ",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "उदा., /usr/bin/python3 या C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "पायथन निष्पादन योग्य पथ बदल गया है। स्क्रिप्ट रीफ्रेश हो रही हैं...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "कस्टम पायथन पथ अमान्य है, और कोई फ़ॉलबैक निष्पादन योग्य नहीं मिला। स्क्रिप्ट नहीं चल सकती हैं।",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "कस्टम पायथन पथ विफल",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "कस्टम पायथन निष्पादन योग्य पथ '{path}' अमान्य है या निष्पादित नहीं किया जा सका। स्वचालित पहचान पर वापस जा रहा है।",
+
 };

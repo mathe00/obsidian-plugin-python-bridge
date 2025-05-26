@@ -54,8 +54,21 @@ export async function discoverScriptSettings(plugin: ObsidianPythonBridge, scrip
 	if (!plugin.pythonExecutable) { plugin.logWarn(`Cannot discover settings for ${scriptName}: Python executable not found.`); return null; }
 	const discoveryTimeoutMs = SETTINGS_DISCOVERY_TIMEOUT;
 	return new Promise((resolve) => {
-		const args = [scriptAbsolutePath, "--get-settings-json"];
-		plugin.logDebug(`Running discovery command: ${plugin.pythonExecutable} ${args.join(" ")}`);
+		let commandArgs: string[];
+		let executableToRun = plugin.pythonExecutable!;
+
+		if (executableToRun === "uv") {
+			// For uv, the command is 'uv run script_path --get-settings-json'
+			// No direct equivalent for -B with 'uv run script.py'.
+			// The --get-settings-json flag is passed to the script itself.
+			commandArgs = ["run", scriptAbsolutePath, "--get-settings-json"];
+		} else {
+			// For standard python, it's 'python script_path --get-settings-json'
+			// The -B flag (disablePyCache) is handled by the main runPythonScript,
+			// not typically needed for discovery as it's a short-lived process.
+			commandArgs = [scriptAbsolutePath, "--get-settings-json"];
+		}
+		plugin.logDebug(`Running discovery command: ${executableToRun} ${commandArgs.join(" ")}`);
 		const scriptDir = path.dirname(scriptAbsolutePath);
 		// --- PYTHONPATH for discovery: Only needs script's dir for its own imports ---
 		const currentPYTHONPATH = process.env.PYTHONPATH;
@@ -88,7 +101,7 @@ export async function discoverScriptSettings(plugin: ObsidianPythonBridge, scrip
 		};
 		// --- End PYTHONPATH for discovery ---
 		plugin.logDebug(`Executing discovery with PYTHONPATH: ${discoveryPYTHONPATH} and cwd: ${scriptDir}`);
-		const pythonProcess = spawn(plugin.pythonExecutable!, args, { timeout: discoveryTimeoutMs, cwd: scriptDir, env: env }); // Set working directory to the script's folder // Pass modified environment
+		const pythonProcess = spawn(executableToRun, commandArgs, { timeout: discoveryTimeoutMs, cwd: scriptDir, env: env });
 		let stdoutData = "";
 		let stderrData = "";
 		pythonProcess.stdout?.on("data", (data) => { stdoutData += data.toString(); });
@@ -388,13 +401,27 @@ export async function runPythonScript(plugin: ObsidianPythonBridge, scriptPath: 
 	plugin.logDebug(`Setting cwd=${scriptDir}`);
 	if (plugin.settings.disablePyCache) plugin.logDebug(`Attempting to disable __pycache__ creation.`);
 	// Determine Python arguments
-	const pythonArgsBase = plugin.settings.disablePyCache ? ["-B"] : [];
-	const fullArgs = [...pythonArgsBase, scriptPath];
+	let executableToRun = pythonCmd;
+	let fullArgs: string[];
+
+	if (pythonCmd === "uv") {
+		if (plugin.settings.disablePyCache) {
+			// To pass -B to Python when using uv, we need 'uv run python -B script.py'
+			fullArgs = ["run", "python", "-B", scriptPath];
+		} else {
+			// Default 'uv run script.py'
+			fullArgs = ["run", scriptPath];
+		}
+	} else {
+		// Standard Python execution
+		const pythonArgsBase = plugin.settings.disablePyCache ? ["-B"] : [];
+		fullArgs = [...pythonArgsBase, scriptPath];
+	}
 	// Execute using the stored pythonCmd
 	try {
 		await new Promise<void>((resolve, reject) => {
-			plugin.logDebug(`Executing: ${pythonCmd} ${fullArgs.join(" ")}`);
-			const pythonProcess = spawn(pythonCmd, fullArgs, { env, cwd: scriptDir }); // Set CWD to script's directory
+			plugin.logDebug(`Executing: ${executableToRun} ${fullArgs.join(" ")}`);
+			const pythonProcess = spawn(executableToRun, fullArgs, { env, cwd: scriptDir });
 			let stderrOutput = "";
 			pythonProcess.stderr?.on("data", (data) => { const msg = data.toString(); stderrOutput += msg; plugin.logError(`[stderr ${scriptFilename}]: ${msg.trim()}`); });
 			pythonProcess.stdout?.on("data", (data) => { const msg = data.toString(); plugin.logDebug(`[stdout ${scriptFilename}]: ${msg.trim()}`); });

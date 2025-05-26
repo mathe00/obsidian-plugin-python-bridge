@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Tinye akpaghị aka ndekọ ngwa mgbakwunye na PYTHONPATH mgbe ị na-agba ọsọ edemede, na-enye ohere mbubata ozugbo nke ọba akwụkwọ Python (Akwadoro). Ọ bụrụ na nkwarụ, ị ga-edepụtaghachi ObsidianPluginDevPythonToJS.py na folda edemede gị ma ọ bụ jikwaa sys.path aka.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH akpaaka nwere nkwarụ. Gbaa mbọ hụ na ObsidianPluginDevPythonToJS.py dị na folda edemede gị ma ọ bụ jikwaa sys.path aka.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Ụzọ Failụ Python Nwere Ike Ịgba ọsọ",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Ụzọ zuru oke na faịlụ Python ma ọ bụ uv gị nwere ike ịgba ọsọ. Hapụ ya oghere maka nchọpụta onwe (uv, py, python3, python). Ọ chọrọ ntinyegharị ma ọ bụ mmalitegharị plugin ka o wee rụọ ọrụ zuru oke ma ọ bụrụ na agbanwere ya.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ọmụmaatụ, /usr/bin/python3 ma ọ bụ C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Agbanweela ụzọ faịlụ Python nwere ike ịgba ọsọ. Na-emegharị edemede...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Ụzọ Python omenala ezighi ezi, ọ nweghịkwa faịlụ nwere ike ịgba ọsọ achọpụtara. Ederede nwere ike ọ gaghị agba ọsọ.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Ụzọ Python Omenala Akụọla",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Ụzọ faịlụ Python omenala '{path}' ezighi ezi ma ọ bụ enweghị ike ịgba ọsọ. Na-alaghachi na nchọpụta onwe.",
+
 };

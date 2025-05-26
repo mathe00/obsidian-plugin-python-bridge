@@ -98,4 +98,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatically add the plugin directory to PYTHONPATH when running scripts, allowing direct import of the Python library (Recommended). If disabled, you must copy ObsidianPluginDevPythonToJS.py to your scripts folder or manage sys.path manually.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatic PYTHONPATH disabled. Ensure ObsidianPluginDevPythonToJS.py is in your script folder or manage sys.path manually.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python Executable Path",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "e.g., /usr/bin/python3 or C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python executable path changed. Refreshing scripts...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Custom Python path is invalid, and no fallback executable was found. Scripts may not run.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Custom Python Path Failed",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
+
 };

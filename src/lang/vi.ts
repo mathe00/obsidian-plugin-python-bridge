@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Tự động thêm thư mục plugin vào PYTHONPATH khi chạy script, cho phép nhập trực tiếp thư viện Python (Khuyến nghị). Nếu bị tắt, bạn phải sao chép ObsidianPluginDevPythonToJS.py vào thư mục script của mình hoặc quản lý sys.path thủ công.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH tự động đã bị tắt. Đảm bảo ObsidianPluginDevPythonToJS.py nằm trong thư mục script của bạn hoặc quản lý sys.path thủ công.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Đường dẫn Tệp Thực thi Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Đường dẫn tuyệt đối đến tệp thực thi Python hoặc uv của bạn. Để trống để tự động phát hiện (uv, py, python3, python). Yêu cầu tải lại hoặc khởi động lại plugin để có hiệu lực đầy đủ nếu thay đổi.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ví dụ: /usr/bin/python3 hoặc C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Đường dẫn tệp thực thi Python đã thay đổi. Đang làm mới tập lệnh...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Đường dẫn Python tùy chỉnh không hợp lệ và không tìm thấy tệp thực thi dự phòng nào. Tập lệnh có thể không chạy.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Đường dẫn Python Tùy chỉnh Không thành công",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Đường dẫn tệp thực thi Python tùy chỉnh '{path}' không hợp lệ hoặc không thể thực thi. Quay lại phát hiện tự động.",
+
 };

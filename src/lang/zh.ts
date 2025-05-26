@@ -91,4 +91,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "运行脚本时自动将插件目录添加到 PYTHONPATH，允许直接导入 Python 库（推荐）。如果禁用，您必须将 ObsidianPluginDevPythonToJS.py 复制到您的脚本文件夹或手动管理 sys.path。",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "自动 PYTHONPATH 已禁用。请确保 ObsidianPluginDevPythonToJS.py 在您的脚本文件夹中，或手动管理 sys.path。",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python 可执行文件路径",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Python 或 uv 可执行文件的绝对路径。留空以进行自动检测（uv、py、python3、python）。如果更改，需要重新加载或重新启动插件才能完全生效。",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "例如 /usr/bin/python3 或 C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python 可执行文件路径已更改。正在刷新脚本...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "自定义 Python 路径无效，且未找到备用可执行文件。脚本可能无法运行。",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "自定义 Python 路径失败",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "自定义 Python 可执行文件路径“{path}”无效或无法执行。将回退到自动检测。",
+
 };

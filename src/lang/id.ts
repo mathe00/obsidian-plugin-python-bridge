@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Secara otomatis menambahkan direktori plugin ke PYTHONPATH saat menjalankan skrip, memungkinkan impor langsung pustaka Python (Disarankan). Jika dinonaktifkan, Anda harus menyalin ObsidianPluginDevPythonToJS.py ke folder skrip Anda atau mengelola sys.path secara manual.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH otomatis dinonaktifkan. Pastikan ObsidianPluginDevPythonToJS.py ada di folder skrip Anda atau kelola sys.path secara manual.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Jalur Eksekusi Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Jalur absolut ke eksekusi Python atau uv Anda. Biarkan kosong untuk deteksi otomatis (uv, py, python3, python). Memerlukan muat ulang atau mulai ulang plugin agar berlaku penuh jika diubah.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "misalnya, /usr/bin/python3 atau C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Jalur eksekusi Python diubah. Memperbarui skrip...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Jalur Python kustom tidak valid, dan tidak ada eksekusi fallback yang ditemukan. Skrip mungkin tidak berjalan.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Jalur Python Kustom Gagal",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Jalur eksekusi Python kustom '{path}' tidak valid atau tidak dapat dieksekusi. Kembali ke deteksi otomatis.",
+
 };

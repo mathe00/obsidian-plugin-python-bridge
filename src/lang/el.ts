@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Προσθέτει αυτόματα τον κατάλογο του plugin στο PYTHONPATH κατά την εκτέλεση σεναρίων, επιτρέποντας την απευθείας εισαγωγή της βιβλιοθήκης Python (Συνιστάται). Εάν απενεργοποιηθεί, πρέπει να αντιγράψετε το ObsidianPluginDevPythonToJS.py στον φάκελο των σεναρίων σας ή να διαχειριστείτε μη αυτόματα το sys.path.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Η αυτόματη ρύθμιση PYTHONPATH απενεργοποιήθηκε. Βεβαιωθείτε ότι το ObsidianPluginDevPythonToJS.py βρίσκεται στον φάκελο των σεναρίων σας ή διαχειριστείτε το sys.path μη αυτόματα.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Διαδρομή Εκτελέσιμου Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "π.χ., /usr/bin/python3 ή C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Η διαδρομή εκτελέσιμου Python άλλαξε. Ανανέωση σεναρίων...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Η προσαρμοσμένη διαδρομή Python είναι μη έγκυρη και δεν βρέθηκε εφεδρικό εκτελέσιμο. Τα σενάρια ενδέχεται να μην εκτελεστούν.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Η προσαρμοσμένη διαδρομή Python απέτυχε",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
+
 };

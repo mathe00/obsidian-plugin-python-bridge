@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Ṣafikun itọsọna itanna si PYTHONPATH laifọwọyi nigbati o nṣiṣẹ awọn iwe afọwọkọ, gbigba gbigbe wọle taara ti ile-ikawe Python (Iṣeduro). Ti o ba jẹ alaabo, o gbọdọ daakọ ObsidianPluginDevPythonToJS.py si folda iwe afọwọkọ rẹ tabi ṣakoso sys.path pẹlu ọwọ.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH aifọwọyi alaabo. Rii daju pe ObsidianPluginDevPythonToJS.py wa ninu folda iwe afọwọkọ rẹ tabi ṣakoso sys.path pẹlu ọwọ.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Ọ̀nà Ètò Python Tí Ó Lè Ṣeéṣe",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Ọ̀nà pípé sí ètò Python tàbí uv rẹ tí ó ṣeéṣe. Fi sílẹ̀ ní òfo fún ìṣàwárí αυτόματη (uv, py, python3, python). Ó nílò ìtúnsílọ́ tàbí ìtúnsílẹ̀ plugin fún ipa pípé bí ó bá yípadà.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "àpẹẹrẹ, /usr/bin/python3 tàbí C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Ọ̀nà ètò Python tí ó ṣeéṣe ti yípadà. Àtúnsọ àwọn ìwé àfọwọ́kọ...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Ọ̀nà Python àdáni kò tọ́, kò sì sí ètò ìṣeégbépadà kankan tí a rí. Àwọn ìwé àfọwọ́kọ lè má ṣiṣẹ́.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Ọ̀nà Python Àdáni Kùnà",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Ọ̀nà ètò Python àdáni '{path}' kò tọ́ tàbí kò ṣeéṣe. Àtúnsọ sí ìṣàwárí αυτόματη.",
+
 };

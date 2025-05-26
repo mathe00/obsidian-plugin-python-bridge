@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Voegt automatisch de plug-inmap toe aan PYTHONPATH bij het uitvoeren van scripts, waardoor directe import van de Python-bibliotheek mogelijk is (Aanbevolen). Indien uitgeschakeld, moet u ObsidianPluginDevPythonToJS.py naar uw scriptmap kopiëren of sys.path handmatig beheren.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatische PYTHONPATH uitgeschakeld. Zorg ervoor dat ObsidianPluginDevPythonToJS.py zich in uw scriptmap bevindt of beheer sys.path handmatig.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Pad naar Python Uitvoerbaar Bestand",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absoluut pad naar uw Python- of uv-uitvoerbaar bestand. Laat leeg voor automatische detectie (uv, py, python3, python). Vereist herladen of opnieuw opstarten van de plug-in om volledig effect te hebben als dit wordt gewijzigd.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "bijv. /usr/bin/python3 of C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Pad naar Python uitvoerbaar bestand gewijzigd. Scripts vernieuwen...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Aangepast Python-pad is ongeldig en er is geen fallback uitvoerbaar bestand gevonden. Scripts werken mogelijk niet.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Aangepast Python-pad Mislukt",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Aangepast pad naar Python uitvoerbaar bestand '{path}' is ongeldig of kon niet worden uitgevoerd. Terugvallen op automatische detectie.",
+
 };

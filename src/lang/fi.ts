@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Lisää automaattisesti laajennushakemiston PYTHONPATHiin komentosarjoja suoritettaessa, mikä mahdollistaa Python-kirjaston suoran tuonnin (Suositus). Jos se on poistettu käytöstä, sinun on kopioitava ObsidianPluginDevPythonToJS.py komentosarjakansioosi tai hallittava sys.pathia manuaalisesti.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automaattinen PYTHONPATH pois käytöstä. Varmista, että ObsidianPluginDevPythonToJS.py on komentosarjakansiossasi tai hallitse sys.pathia manuaalisesti.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python-suoritustiedoston polku",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absoluuttinen polku Python- tai uv-suoritustiedostoon. Jätä tyhjäksi automaattista tunnistusta varten (uv, py, python3, python). Vaatii laajennuksen uudelleenlatauksen tai uudelleenkäynnistyksen, jotta muutos tulee täysin voimaan.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "esim. /usr/bin/python3 tai C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python-suoritustiedoston polku muuttui. Päivitetään skriptejä...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Mukautettu Python-polku on virheellinen, eikä varasuoritustiedostoa löytynyt. Skriptit eivät välttämättä toimi.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Mukautettu Python-polku epäonnistui",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Mukautettu Python-suoritustiedoston polku '{path}' on virheellinen tai sitä ei voitu suorittaa. Palataan automaattiseen tunnistukseen.",
+
 };

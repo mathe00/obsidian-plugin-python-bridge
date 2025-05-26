@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Komut dosyalarını çalıştırırken eklenti dizinini otomatik olarak PYTHONPATH'a ekleyerek Python kitaplığının doğrudan içe aktarılmasına izin verir (Önerilir). Devre dışı bırakılırsa, ObsidianPluginDevPythonToJS.py dosyasını komut dosyası klasörünüze kopyalamanız veya sys.path'i manuel olarak yönetmeniz gerekir.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Otomatik PYTHONPATH devre dışı bırakıldı. ObsidianPluginDevPythonToJS.py dosyasının komut dosyası klasörünüzde olduğundan emin olun veya sys.path'i manuel olarak yönetin.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python Çalıştırılabilir Dosya Yolu",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Python veya uv çalıştırılabilir dosyanızın mutlak yolu. Otomatik algılama için boş bırakın (uv, py, python3, python). Değiştirilirse tam olarak etkili olması için eklentinin yeniden yüklenmesi veya yeniden başlatılması gerekir.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ör: /usr/bin/python3 veya C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python çalıştırılabilir dosya yolu değiştirildi. Komut dosyaları yenileniyor...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Özel Python yolu geçersiz ve yedek çalıştırılabilir dosya bulunamadı. Komut dosyaları çalışmayabilir.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Özel Python Yolu Başarısız Oldu",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Özel Python çalıştırılabilir dosya yolu '{path}' geçersiz veya çalıştırılamadı. Otomatik algılamaya geri dönülüyor.",
+
 };

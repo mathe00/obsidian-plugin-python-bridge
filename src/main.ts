@@ -27,6 +27,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 	httpPort: DEFAULT_PORT,
 	disablePyCache: true,
 	pluginLanguage: "auto",
+	pythonExecutablePath: "", // Default to empty, meaning auto-detect
 	autoSetPYTHONPATH: true,
 	scriptSettingsDefinitions: {},
 	scriptSettingsValues: {},
@@ -128,6 +129,7 @@ export default class ObsidianPythonBridge extends Plugin {
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 		// Ensure new settings fields exist
+		this.settings.pythonExecutablePath = this.settings.pythonExecutablePath ?? ""; // Ensure default for existing users
 		this.settings.autoSetPYTHONPATH = this.settings.autoSetPYTHONPATH ?? true; // Ensure default for existing users
 		this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
 		this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};

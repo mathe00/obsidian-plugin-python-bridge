@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Adicionar automaticamente o diretório do plugin ao PYTHONPATH ao executar scripts, permitindo a importação direta da biblioteca Python (Recomendado). Se desativado, você deve copiar ObsidianPluginDevPythonToJS.py para sua pasta de scripts ou gerenciar sys.path manualmente.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automático desativado. Certifique-se de que ObsidianPluginDevPythonToJS.py está na sua pasta de scripts ou gerencie sys.path manually.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Caminho do Executável Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Caminho absoluto para o seu executável Python ou uv. Deixe em branco para deteção automática (uv, py, python3, python). Requer recarregar ou reiniciar o plugin para ter efeito total se alterado.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ex: /usr/bin/python3 ou C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Caminho do executável Python alterado. Atualizando scripts...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "O caminho personalizado do Python é inválido e nenhum executável de fallback foi encontrado. Os scripts podem não ser executados.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Falha no Caminho Personalizado do Python",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "O caminho personalizado do executável Python '{path}' é inválido ou não pôde ser executado. Voltando para a deteção automática.",
+
 };

@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatycznie dodaje katalog wtyczki do PYTHONPATH podczas uruchamiania skryptów, umożliwiając bezpośredni import biblioteki Python (Zalecane). Jeśli opcja jest wyłączona, musisz skopiować plik ObsidianPluginDevPythonToJS.py do folderu skryptów lub ręcznie zarządzać sys.path.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatyczne ustawianie PYTHONPATH wyłączone. Upewnij się, że plik ObsidianPluginDevPythonToJS.py znajduje się w folderze skryptów lub zarządzaj sys.path ręcznie.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Ścieżka Pliku Wykonywalnego Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Ścieżka bezwzględna do pliku wykonywalnego Python lub uv. Pozostaw puste dla automatycznego wykrywania (uv, py, python3, python). Wymaga ponownego załadowania lub ponownego uruchomienia wtyczki, aby w pełni zadziałało po zmianie.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "np. /usr/bin/python3 lub C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Zmieniono ścieżkę pliku wykonywalnego Python. Odświeżanie skryptów...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Niestandardowa ścieżka Python jest nieprawidłowa i nie znaleziono zapasowego pliku wykonywalnego. Skrypty mogą nie działać.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Niestandardowa Ścieżka Python Nie Powiodła Się",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Niestandardowa ścieżka pliku wykonywalnego Python '{path}' jest nieprawidłowa lub nie można jej wykonać. Przywracanie automatycznego wykrywania.",
+
 };

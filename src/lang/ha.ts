@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Ƙara babban fayil ɗin plugin ta atomatik zuwa PYTHONPATH lokacin gudanar da rubutun, yana ba da damar shigo da laburaren Python kai tsaye (An ba da shawarar). Idan an kashe, dole ne ka kwafi ObsidianPluginDevPythonToJS.py zuwa babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "An kashe PYTHONPATH ta atomatik. Tabbatar cewa ObsidianPluginDevPythonToJS.py yana cikin babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Hanyar Fayil Mai Gudun Aiki na Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Cikakken hanyar zuwa fayil ɗin Python ko uv mai aiwatarwa. Bar fanko don ganowa ta atomatik (uv, py, python3, python). Yana buƙatar sake kunna plugin ko sake farawa don yin tasiri sosai idan an canza.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "misali, /usr/bin/python3 ko C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "An canza hanyar fayil mai aiwatarwa na Python. Ana sabunta rubutun...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Hanyar Python na al'ada ba daidai ba ne, kuma ba a sami wani fayil mai aiwatarwa na baya ba. Rubutun na iya yin aiki ba.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Hanyar Python na Musamman Ya Kasa",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Hanyar fayil mai aiwatarwa na Python na al'ada '{path}' ba daidai ba ne ko kuma ba za a iya aiwatar da shi ba. Komawa zuwa ganowa ta atomatik.",
+
 };

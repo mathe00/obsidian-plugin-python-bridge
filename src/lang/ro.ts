@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Adaugă automat directorul pluginului la PYTHONPATH la rularea scripturilor, permițând importul direct al bibliotecii Python (Recomandat). Dacă este dezactivat, trebuie să copiați ObsidianPluginDevPythonToJS.py în folderul dvs. de scripturi sau să gestionați manual sys.path.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automat dezactivat. Asigurați-vă că ObsidianPluginDevPythonToJS.py se află în folderul dvs. de scripturi sau gestionați manual sys.path.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Calea către Executabilul Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Calea absolută către executabilul Python sau uv. Lăsați necompletat pentru detectare automată (uv, py, python3, python). Necesită reîncărcarea sau repornirea pluginului pentru a intra în vigoare complet dacă este modificat.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ex: /usr/bin/python3 sau C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Calea către executabilul Python a fost modificată. Se reîmprospătează scripturile...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Calea Python personalizată este invalidă și nu s-a găsit niciun executabil de rezervă. Este posibil ca scripturile să nu ruleze.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Calea Python Personalizată a Eșuat",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Calea personalizată a executabilului Python '{path}' este invalidă sau nu a putut fi executată. Se revine la detectarea automată.",
+
 };

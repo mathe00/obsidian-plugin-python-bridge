@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Automaticky přidá adresář pluginu do PYTHONPATH při spouštění skriptů, což umožňuje přímý import knihovny Python (Doporučeno). Pokud je zakázáno, musíte zkopírovat ObsidianPluginDevPythonToJS.py do složky se skripty nebo spravovat sys.path ručně.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatické nastavení PYTHONPATH zakázáno. Ujistěte se, že soubor ObsidianPluginDevPythonToJS.py je ve vaší složce skriptů, nebo spravujte sys.path ručně.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Cesta k spustitelnému souboru Pythonu",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absolutní cesta k vašemu spustitelnému souboru Pythonu nebo uv. Ponechte prázdné pro automatickou detekci (uv, py, python3, python). Pokud dojde ke změně, vyžaduje pro plný účinek opětovné načtení nebo restartování pluginu.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "např. /usr/bin/python3 nebo C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Cesta ke spustitelnému souboru Pythonu byla změněna. Aktualizují se skripty...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Vlastní cesta k Pythonu je neplatná a nebyl nalezen žádný záložní spustitelný soubor. Skripty nemusí fungovat.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Vlastní cesta k Pythonu se nezdařila",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Vlastní cesta ke spustitelnému souboru Pythonu '{path}' je neplatná nebo ji nelze spustit. Vrací se k automatické detekci.",
+
 };

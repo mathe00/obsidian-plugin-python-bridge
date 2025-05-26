@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Автоматически добавлять каталог плагина в PYTHONPATH при запуске скриптов, разрешая прямой импорт библиотеки Python (Рекомендуется). Если отключено, вы должны скопировать ObsidianPluginDevPythonToJS.py в папку со скриптами или управлять sys.path вручную.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Автоматический PYTHONPATH отключен. Убедитесь, что ObsidianPluginDevPythonToJS.py находится в вашей папке скриптов, или управляйте sys.path вручную.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Путь к исполняемому файлу Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Абсолютный путь к вашему исполняемому файлу Python или uv. Оставьте пустым для автоопределения (uv, py, python3, python). Требуется перезагрузка плагина или перезапуск для полного вступления в силу при изменении.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "например, /usr/bin/python3 или C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Путь к исполняемому файлу Python изменен. Обновление скриптов...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Пользовательский путь Python недействителен, и не найден резервный исполняемый файл. Скрипты могут не работать.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Ошибка пользовательского пути Python",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Пользовательский путь к исполняемому файлу Python '{path}' недействителен или не может быть выполнен. Возврат к автоматическому определению.",
+
 };

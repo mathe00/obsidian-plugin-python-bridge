@@ -353,6 +353,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 Before installing the plugin, please ensure you have the following installed on your system:
 
 1.  **Python 3.x**: Make sure Python is installed and, crucially, that its executable (`python`, `python3`, or `py` on Windows) is accessible via your system's **PATH environment variable**. The plugin will try to find it automatically.
+    *   **Alternative with `uv`:** As of version X.Y.Z (remplacez par la future version), the plugin can also detect and use [**`uv`**](https://github.com/astral-sh/uv) if it's installed and in your PATH. If `uv` is found, it will be preferred for running scripts. This allows you to manage Python versions and dependencies (like `requests` and `PyYAML`) within a `uv` virtual environment for your scripts folder. You are responsible for setting up your `uv` environment (e.g., `uv venv`, `uv pip install requests PyYAML`). The plugin will execute scripts via `uv run your_script.py` or `uv run python -B your_script.py` (if cache is disabled).
 2.  **Python `requests` Library**: This plugin requires the `requests` library for HTTP communication. Install it using pip:
     ```bash
     pip install requests
@@ -409,12 +410,13 @@ After installing and enabling the plugin:
 2.  **(Important!) Security Warning**: Read the security warning at the top. Only run scripts you trust!
 3.  **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
 4.  Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts. This is where the plugin will look for `.py` files to run and discover settings from.
-5.  Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
+5.  **(Optional) Python Executable Path**: If the automatic detection of Python (or `uv`) fails, or if you need to use a specific Python/uv executable not in your default PATH, you can provide an **absolute path** to it here. Leave this field empty to use automatic detection (tries `uv`, then `py`, `python3`, `python`). *Changing this setting may require a plugin reload or Obsidian restart to take full effect for all operations.*
+6.  Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
     *   **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (the plugin sets the `OBSIDIAN_HTTP_PORT` environment variable to the *actual* listening port when running scripts).
-6.  **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
+7.  **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
     You can also configure enabled scripts to **run automatically on Obsidian startup**, optionally setting a **delay** (in seconds) before execution.
-7.  **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
-8.  **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
+8.  **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
+9.  **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
 
 <a id="using-library"></a>
 ## 🐍 Using the Python Library (`ObsidianPluginDevPythonToJS.py`)
@@ -547,6 +549,17 @@ It's about providing a **familiar and efficient alternative** for specific use c
 **A:** This is **strongly recommended** for reliable interaction with the plugin's settings discovery process. When the plugin looks for scripts that *might* have settings, it runs them with `--get-settings-json`.
 *   `_handle_cli_args()` detects this flag and makes your script exit cleanly *before* it tries to run its main logic or initialize the API client.
 *   If you *don't* include this structure, your script might run unintended code during discovery. The library will block API calls in this "discovery mode" (raising an error), but using the helpers provides a cleaner exit and avoids these errors in the logs. It ensures the plugin knows your script doesn't define settings, rather than assuming discovery failed.
+
+**Q: Can I use `uv` (from Astral) to manage Python environments and dependencies for my scripts?**
+
+**A:** Yes! As of version 2.1.0, the Python Bridge plugin can detect if `uv` is installed and accessible in your system's PATH. If found, `uv` will be preferred over standard `python`/`python3` executables.
+*   **How it works:** The plugin will attempt to run your scripts using `uv run your_script.py`. If the "Disable Python Cache" setting is enabled, it will use `uv run python -B your_script.py` to pass the `-B` flag to the underlying Python interpreter managed by `uv`.
+*   **Your Responsibility:** You are responsible for setting up and managing your `uv` environment within your Python scripts folder. This typically involves:
+    1.  Initializing a virtual environment: `uv venv` (in your scripts folder).
+    2.  Activating it (for your terminal, not strictly needed for the plugin if `uv` is in PATH).
+    3.  Installing necessary dependencies like `requests` (required) and `PyYAML` (optional, for property management) into the `uv` environment: `uv pip install requests PyYAML`.
+*   **Benefits:** Using `uv` can simplify dependency management and ensure your scripts run with a consistent Python version and package set, isolated from your global Python installation.
+*   **Detection:** The plugin checks for `uv --version` to confirm its availability.
 
 ---
 

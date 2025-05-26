@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Lägg automatiskt till plugin-katalogen i PYTHONPATH när skript körs, vilket möjliggör direktimport av Python-biblioteket (Rekommenderas). Om inaktiverat måste du kopiera ObsidianPluginDevPythonToJS.py till din skriptmapp eller hantera sys.path manuellt.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatisk PYTHONPATH inaktiverad. Se till att ObsidianPluginDevPythonToJS.py finns i din skriptmapp eller hantera sys.path manuellt.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Sökväg till Python Exekverbar Fil",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absolut sökväg till din Python- eller uv-exekverbara fil. Lämna tomt för automatisk identifiering (uv, py, python3, python). Kräver omladdning eller omstart av insticksprogrammet för full effekt om det ändras.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "t.ex. /usr/bin/python3 eller C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Sökväg till Python exekverbar fil ändrad. Uppdaterar skript...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Anpassad Python-sökväg är ogiltig och ingen reserv-exekverbar fil hittades. Skript kanske inte körs.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Anpassad Python-sökväg misslyckades",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Anpassad sökväg till Python exekverbar fil '{path}' är ogiltig eller kunde inte köras. Återgår till automatisk identifiering.",
+
 };

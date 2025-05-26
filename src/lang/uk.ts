@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Автоматично додавати каталог плагіна до PYTHONPATH під час запуску скриптів, дозволяючи прямий імпорт бібліотеки Python (Рекомендовано). Якщо вимкнено, ви повинні скопіювати ObsidianPluginDevPythonToJS.py до вашої папки скриптів або керувати sys.path вручну.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Автоматичний PYTHONPATH вимкнено. Переконайтеся, що ObsidianPluginDevPythonToJS.py знаходиться у вашій папці скриптів, або керуйте sys.path вручну.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Шлях до виконуваного файлу Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Абсолютний шлях до вашого виконуваного файлу Python або uv. Залиште порожнім для автоматичного визначення (uv, py, python3, python). Потребує перезавантаження плагіна або перезапуску для повного набуття чинності у разі зміни.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "напр., /usr/bin/python3 або C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Шлях до виконуваного файлу Python змінено. Оновлення сценаріїв...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Настроюваний шлях Python недійсний, і не знайдено резервного виконуваного файлу. Сценарії можуть не працювати.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Помилка настроюваного шляху Python",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Настроюваний шлях до виконуваного файлу Python '{path}' недійсний або не може бути виконаний. Повернення до автоматичного визначення.",
+
 };

@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "เพิ่มไดเรกทอรีปลั๊กอินไปยัง PYTHONPATH โดยอัตโนมัติเมื่อเรียกใช้สคริปต์ ทำให้สามารถนำเข้าไลบรารี Python ได้โดยตรง (แนะนำ) หากปิดใช้งาน คุณต้องคัดลอก ObsidianPluginDevPythonToJS.py ไปยังโฟลเดอร์สคริปต์ของคุณ หรือจัดการ sys.path ด้วยตนเอง",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "ปิดใช้งาน PYTHONPATH อัตโนมัติแล้ว ตรวจสอบให้แน่ใจว่า ObsidianPluginDevPythonToJS.py อยู่ในโฟลเดอร์สคริปต์ของคุณ หรือจัดการ sys.path ด้วยตนเอง",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "เส้นทางไฟล์ Python ที่เรียกใช้งานได้",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "เส้นทางสัมบูรณ์ไปยังไฟล์ Python หรือ uv ที่เรียกใช้งานได้ของคุณ ปล่อยว่างไว้สำหรับการตรวจจับอัตโนมัติ (uv, py, python3, python) หากมีการเปลี่ยนแปลง จำเป็นต้องโหลดปลั๊กอินใหม่หรือรีสตาร์ทเพื่อให้มีผลสมบูรณ์",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "เช่น /usr/bin/python3 หรือ C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "เส้นทางไฟล์ Python ที่เรียกใช้งานได้มีการเปลี่ยนแปลง กำลังรีเฟรชสคริปต์...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "เส้นทาง Python ที่กำหนดเองไม่ถูกต้อง และไม่พบไฟล์ปฏิบัติการสำรอง สคริปต์อาจไม่ทำงาน",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "เส้นทาง Python ที่กำหนดเองล้มเหลว",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "เส้นทางไฟล์ Python ที่เรียกใช้งานได้ที่กำหนดเอง '{path}' ไม่ถูกต้องหรือไม่สามารถเรียกใช้งานได้ กำลังกลับไปใช้การตรวจจับอัตโนมัติ",
+
 };

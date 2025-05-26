@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatikusan hozzáadja a bővítménykönyvtárat a PYTHONPATH-hoz szkriptek futtatásakor, lehetővé téve a Python könyvtár közvetlen importálását (Ajánlott). Ha le van tiltva, át kell másolnia az ObsidianPluginDevPythonToJS.py fájlt a szkriptmappájába, vagy manuálisan kell kezelnie a sys.path-t.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatikus PYTHONPATH letiltva. Győződjön meg róla, hogy az ObsidianPluginDevPythonToJS.py a szkriptmappájában van, vagy kezelje manuálisan a sys.path-t.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python Futtatható Fájl Elérési Útja",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Abszolút elérési út a Python vagy uv futtatható fájlhoz. Hagyja üresen az automatikus észleléshez (uv, py, python3, python). A bővítmény újraindítása vagy újratöltése szükséges a teljes hatálybalépéshez, ha megváltozik.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "pl. /usr/bin/python3 vagy C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "A Python futtatható fájl elérési útja megváltozott. Szkriptek frissítése...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Az egyéni Python elérési út érvénytelen, és nem található tartalék futtatható fájl. A szkriptek möglicherweise nem futnak.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Egyéni Python Elérési Út Sikertelen",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Az egyéni Python futtatható fájl elérési útja ('{path}') érvénytelen, vagy nem lehetett végrehajtani. Visszatérés az automatikus észleléshez.",
+
 };

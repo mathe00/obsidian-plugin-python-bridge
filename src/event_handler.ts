@@ -227,12 +227,26 @@ async function runPythonScriptForEvent(
 	plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH} for event script`);
 	plugin.logDebug(`Setting cwd=${scriptDir} for event script`);
 
-	const pythonArgsBase = plugin.settings.disablePyCache ? ["-B"] : [];
-	const fullArgs = [...pythonArgsBase, scriptAbsolutePath];
+	let executableToRun = pythonCmd;
+	let fullArgs: string[];
+
+	if (pythonCmd === "uv") {
+		if (plugin.settings.disablePyCache) {
+			// 'uv run python -B script.py'
+			fullArgs = ["run", "python", "-B", scriptAbsolutePath];
+		} else {
+			// 'uv run script.py'
+			fullArgs = ["run", scriptAbsolutePath];
+		}
+	} else {
+		// Standard Python
+		const pythonArgsBase = plugin.settings.disablePyCache ? ["-B"] : [];
+		fullArgs = [...pythonArgsBase, scriptAbsolutePath];
+	}
 
 	try {
 		await new Promise<void>((resolve, reject) => {
-			const pythonProcess = spawn(pythonCmd, fullArgs, {
+			const pythonProcess = spawn(executableToRun, fullArgs, {
 				env, // Use the correctly defined env
 				cwd: scriptDir, // Set CWD
 			});

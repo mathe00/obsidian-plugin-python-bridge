@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "スクリプト実行時にプラグインディレクトリを自動的にPYTHONPATHに追加し、Pythonライブラリの直接インポートを可能にします（推奨）。無効にした場合、ObsidianPluginDevPythonToJS.pyをスクリプトフォルダにコピーするか、sys.pathを手動で管理する必要があります。",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "自動PYTHONPATHが無効になりました。ObsidianPluginDevPythonToJS.pyがスクリプトフォルダにあることを確認するか、sys.pathを手動で管理してください。",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python 実行可能ファイルのパス",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Python または uv 実行可能ファイルへの絶対パス。自動検出の場合は空のままにします (uv、py、python3、python)。変更された場合、完全に有効にするにはプラグインの再読み込みまたは再起動が必要です。",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "例: /usr/bin/python3 または C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python 実行可能ファイルのパスが変更されました。スクリプトを更新しています...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "カスタム Python パスが無効であるか、フォールバック実行可能ファイルが見つかりませんでした。スクリプトが実行されない可能性があります。",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "カスタム Python パスに失敗しました",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "カスタム Python 実行可能ファイルのパス「{path}」が無効であるか、実行できませんでした。自動検出にフォールバックします。",
+
 };

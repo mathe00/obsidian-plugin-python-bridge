@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "스크립트를 실행할 때 플러그인 디렉토리를 PYTHONPATH에 자동으로 추가하여 Python 라이브러리를 직접 가져올 수 있도록 합니다(권장). 비활성화된 경우 ObsidianPluginDevPythonToJS.py를 스크립트 폴더에 복사하거나 sys.path를 수동으로 관리해야 합니다.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "자동 PYTHONPATH가 비활성화되었습니다. ObsidianPluginDevPythonToJS.py가 스크립트 폴더에 있는지 확인하거나 sys.path를 수동으로 관리하십시오.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Python 실행 파일 경로",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Python 또는 uv 실행 파일의 절대 경로입니다. 자동 감지(uv, py, python3, python)를 위해 비워 두십시오. 변경된 경우 전체 효과를 적용하려면 플러그인을 다시 로드하거나 다시 시작해야 합니다.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "예: /usr/bin/python3 또는 C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Python 실행 파일 경로가 변경되었습니다. 스크립트를 새로 고치는 중...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "사용자 지정 Python 경로가 잘못되었거나 대체 실행 파일을 찾을 수 없습니다. 스크립트가 실행되지 않을 수 있습니다.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "사용자 지정 Python 경로 실패",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "사용자 지정 Python 실행 파일 경로 '{path}'가 잘못되었거나 실행할 수 없습니다. 자동 감지로 대체합니다.",
+
 };

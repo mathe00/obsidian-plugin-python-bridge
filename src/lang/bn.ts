@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "স্ক্রিপ্ট চালানোর সময় প্লাগইন ডিরেক্টরি স্বয়ংক্রিয়ভাবে PYTHONPATH-এ যোগ করুন, যা পাইথন লাইব্রেরির সরাসরি আমদানি সক্ষম করে (প্রস্তাবিত)। নিষ্ক্রিয় করা থাকলে, আপনাকে অবশ্যই ObsidianPluginDevPythonToJS.py আপনার স্ক্রিপ্ট ফোল্ডারে কপি করতে হবে অথবা sys.path ম্যানুয়ালি পরিচালনা করতে হবে।",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "স্বয়ংক্রিয় PYTHONPATH নিষ্ক্রিয় করা হয়েছে। নিশ্চিত করুন ObsidianPluginDevPythonToJS.py আপনার স্ক্রিপ্ট ফোল্ডারে আছে অথবা sys.path ম্যানুয়ালি পরিচালনা করুন।",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "পাইথন এক্সিকিউটেবল পাথ",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "আপনার পাইথন বা ইউভি এক্সিকিউটেবলের সম্পূর্ণ পাথ। স্বয়ংক্রিয় সনাক্তকরণের জন্য খালি রাখুন (uv, py, python3, python)। পরিবর্তন করা হলে সম্পূর্ণ প্রভাবের জন্য প্লাগইন পুনরায় লোড বা পুনরায় চালু করতে হবে।",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "যেমন, /usr/bin/python3 অথবা C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "পাইথন এক্সিকিউটেবল পাথ পরিবর্তিত হয়েছে। স্ক্রিপ্ট রিফ্রেশ করা হচ্ছে...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "কাস্টম পাইথন পাথ অবৈধ, এবং কোনও ফলব্যাক এক্সিকিউটেবল পাওয়া যায়নি। স্ক্রিপ্টগুলি নাও চলতে পারে।",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "কাস্টম পাইথন পাথ ব্যর্থ হয়েছে",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "কাস্টম পাইথন এক্সিকিউটেবল পাথ '{path}' অবৈধ অথবা চালানো যায়নি। স্বয়ংক্রিয় সনাক্তকরণে ফিরে যাওয়া হচ্ছে।",
+
 };

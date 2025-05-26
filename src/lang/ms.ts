@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Tambah direktori pemalam secara automatik ke PYTHONPATH semasa menjalankan skrip, membenarkan import terus pustaka Python (Disyorkan). Jika dilumpuhkan, anda mesti menyalin ObsidianPluginDevPythonToJS.py ke folder skrip anda atau mengurus sys.path secara manual.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automatik dilumpuhkan. Pastikan ObsidianPluginDevPythonToJS.py berada dalam folder skrip anda atau urus sys.path secara manual.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Laluan Boleh Laksana Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Laluan mutlak ke boleh laksana Python atau uv anda. Biarkan kosong untuk pengesanan automatik (uv, py, python3, python). Memerlukan muat semula atau mulakan semula plugin untuk berkuat kuasa sepenuhnya jika diubah.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "cth: /usr/bin/python3 atau C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Laluan boleh laksana Python ditukar. Menyegarkan skrip...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Laluan Python tersuai tidak sah, dan tiada boleh laksana sandaran ditemui. Skrip mungkin tidak berjalan.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Laluan Python Tersuai Gagal",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Laluan boleh laksana Python tersuai '{path}' tidak sah atau tidak dapat dilaksanakan. Kembali kepada pengesanan automatik.",
+
 };

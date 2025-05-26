@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "إضافة دليل المكون الإضافي تلقائيًا إلى PYTHONPATH عند تشغيل البرامج النصية، مما يسمح بالاستيراد المباشر لمكتبة Python (موصى به). إذا تم تعطيله، يجب عليك نسخ ObsidianPluginDevPythonToJS.py إلى مجلد البرامج النصية الخاص بك أو إدارة sys.path يدويًا.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "تم تعطيل PYTHONPATH التلقائي. تأكد من وجود ObsidianPluginDevPythonToJS.py في مجلد البرامج النصية الخاص بك أو قم بإدارة sys.path يدويًا.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "مسار ملف Python التنفيذي",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "المسار المطلق لملف Python أو uv التنفيذي الخاص بك. اتركه فارغًا للكشف التلقائي (uv, py, python3, python). يتطلب إعادة تحميل المكون الإضافي أو إعادة تشغيله ليصبح ساري المفعول بالكامل في حالة تغييره.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "مثال: /usr/bin/python3 أو C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "تم تغيير مسار ملف Python التنفيذي. جارٍ تحديث البرامج النصية...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "مسار Python المخصص غير صالح، ولم يتم العثور على ملف تنفيذي احتياطي. قد لا تعمل البرامج النصية.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "فشل مسار Python المخصص",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "مسار ملف Python التنفيذي المخصص '{path}' غير صالح أو لا يمكن تنفيذه. الرجوع إلى الكشف التلقائي.",
+
 };

@@ -95,4 +95,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Ajouter automatiquement le dossier du plugin à PYTHONPATH lors de l'exécution des scripts, permettant l'import direct de la librairie Python (Recommandé). Si désactivé, vous devez copier ObsidianPluginDevPythonToJS.py dans votre dossier de scripts ou gérer sys.path manuellement.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automatique désactivé. Assurez-vous que ObsidianPluginDevPythonToJS.py est dans votre dossier de scripts ou gérez sys.path manuellement.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Chemin de l'Exécutable Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Chemin absolu vers votre exécutable Python ou uv. Laissez vide pour la détection automatique (uv, py, python3, python). Nécessite un rechargement ou redémarrage du plugin pour plein effet si modifié.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "ex: /usr/bin/python3 ou C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Chemin de l'exécutable Python modifié. Rafraîchissement des scripts...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Le chemin Python personnalisé est invalide, et aucun exécutable de secours n'a été trouvé. Les scripts pourraient ne pas fonctionner.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Échec du Chemin Python Personnalisé",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Le chemin personnalisé de l'exécutable Python '{path}' est invalide ou n'a pas pu être exécuté. Retour à la détection automatique.",
+
 };

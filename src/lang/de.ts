@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Fügt das Plugin-Verzeichnis beim Ausführen von Skripten automatisch zu PYTHONPATH hinzu, was den direkten Import der Python-Bibliothek ermöglicht (Empfohlen). Wenn deaktiviert, müssen Sie ObsidianPluginDevPythonToJS.py in Ihren Skriptordner kopieren oder sys.path manuell verwalten.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatisches PYTHONPATH deaktiviert. Stellen Sie sicher, dass sich ObsidianPluginDevPythonToJS.py in Ihrem Skriptordner befindet oder verwalten Sie sys.path manuell.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Pfad zur Python-Ausführungsdatei",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Absoluter Pfad zu Ihrer Python- oder uv-Ausführungsdatei. Leer lassen für automatische Erkennung (uv, py, python3, python). Erfordert ein Neuladen oder Neustarten des Plugins, um bei Änderungen vollständig wirksam zu werden.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "z.B. /usr/bin/python3 oder C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Pfad zur Python-Ausführungsdatei geändert. Skripte werden aktualisiert...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Der benutzerdefinierte Python-Pfad ist ungültig, und es wurde keine Fallback-Ausführungsdatei gefunden. Skripte werden möglicherweise nicht ausgeführt.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Benutzerdefinierter Python-Pfad fehlgeschlagen",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Der benutzerdefinierte Pfad zur Python-Ausführungsdatei '{path}' ist ungültig oder konnte nicht ausgeführt werden. Rückgriff auf automatische Erkennung.",
+
 };

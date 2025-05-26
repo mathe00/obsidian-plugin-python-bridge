@@ -38,8 +38,35 @@ export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Prom
  */
 export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promise<string | null> {
 	const isWindows = Platform.isWin; // Use Obsidian's Platform API
-	const commandsToTry = isWindows ? ["py", "python3", "python"] : ["python3", "python"];
-	plugin.logDebug(`Attempting to find Python executable. Trying: ${commandsToTry.join(", ")}`);
+	// Add "uv" to the list of commands to try. It will be tried first.
+	let commandsToTry: string[];
+	const customPath = plugin.settings.pythonExecutablePath?.trim();
+
+	if (customPath) {
+		plugin.logInfo(`Attempting to use custom Python executable path: ${customPath}`);
+		try {
+			// Validate the custom path by trying to run '--version'
+			await new Promise<void>((resolve, reject) => {
+				const process = spawn(customPath, ["--version"]);
+				process.on("error", reject); // Failed to spawn
+				process.on("close", (code) => {
+					if (code === 0) resolve();
+					else reject(new Error(`Command ${customPath} --version exited with code ${code}`));
+				});
+			});
+			plugin.logInfo(`Custom Python executable path ${customPath} validated successfully.`);
+			return customPath; // Custom path is valid and working
+		} catch (error) {
+			plugin.logError(`Custom Python executable path '${customPath}' is invalid or failed version check: ${error instanceof Error ? error.message : String(error)}`);
+			new Notice(`${t("NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE") || "Custom Python Path Failed"}\n${t("NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC")?.replace("{path}", customPath) || `Path: ${customPath}. Error: ${error instanceof Error ? error.message : String(error)}. Falling back to auto-detection.`}`, 8000); // TODO: Add translations
+			// Fall through to auto-detection if custom path fails
+		}
+	}
+
+	// Auto-detection logic (if no custom path or custom path failed)
+	plugin.logInfo("No valid custom Python path set or custom path failed. Proceeding with auto-detection...");
+	commandsToTry = isWindows ? ["uv", "py", "python3", "python"] : ["uv", "python3", "python"];
+	plugin.logDebug(`Attempting to find Python executable via auto-detection. Trying: ${commandsToTry.join(", ")}`);
 	for (const cmd of commandsToTry) {
 		try {
 			// Try running 'command --version' which should be quick and safe
@@ -74,7 +101,15 @@ export async function checkPythonModule(plugin: ObsidianPythonBridge, pythonCmd:
 	try {
 		await new Promise<void>((resolve, reject) => {
 			// Use spawn, similar to findPythonExecutable and runPythonScript
-			const process = spawn(pythonCmd, ["-c", `import ${moduleName}`]);
+			let args: string[];
+			if (pythonCmd === "uv") {
+				// If using 'uv', the command is 'uv run python -c "import moduleName"'
+				args = ["run", "python", "-c", `import ${moduleName}`];
+			} else {
+				// For standard python interpreters
+				args = ["-c", `import ${moduleName}`];
+			}
+			const process = spawn(pythonCmd, args);
 			let stderrOutput = "";
 			process.stderr?.on("data", (data) => { stderrOutput += data.toString(); });
 			process.on("error", (error) => {

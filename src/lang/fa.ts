@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "هنگام اجرای اسکریپت‌ها، دایرکتوری افزونه را به‌طور خودکار به PYTHONPATH اضافه می‌کند و امکان وارد کردن مستقیم کتابخانه پایتون را فراهم می‌کند (توصیه می‌شود). اگر غیرفعال باشد، باید ObsidianPluginDevPythonToJS.py را در پوشه اسکریپت‌های خود کپی کنید یا sys.path را به‌صورت دستی مدیریت کنید.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH خودکار غیرفعال شد. اطمینان حاصل کنید که ObsidianPluginDevPythonToJS.py در پوشه اسکریپت شما قرار دارد یا sys.path را به صورت دستی مدیریت کنید.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "مسیر فایل اجرایی پایتون",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "مسیر مطلق به فایل اجرایی پایتون یا uv شما. برای تشخیص خودکار خالی بگذارید (uv، py، python3، python). در صورت تغییر، برای اعمال کامل اثر، نیاز به بارگذاری مجدد یا راه اندازی مجدد افزونه است.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "مثال: /usr/bin/python3 یا C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "مسیر فایل اجرایی پایتون تغییر کرد. در حال بازخوانی اسکریپت ها...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "مسیر سفارشی پایتون نامعتبر است و هیچ فایل اجرایی جایگزینی یافت نشد. اسکریپت ها ممکن است اجرا نشوند.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "مسیر سفارشی پایتون ناموفق بود",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "مسیر سفارشی فایل اجرایی پایتون '{path}' نامعتبر است یا قابل اجرا نیست. بازگشت به تشخیص خودکار.",
+
 };

@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Ongeza kiotomatiki saraka ya programu-jalizi kwenye PYTHONPATH wakati wa kuendesha hati, kuruhusu uagizaji wa moja kwa moja wa maktaba ya Python (Inapendekezwa). Ikiwa imezimwa, lazima unakili ObsidianPluginDevPythonToJS.py kwenye folda yako ya hati au udhibiti sys.path mwenyewe.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH otomatiki imezimwa. Hakikisha ObsidianPluginDevPythonToJS.py iko kwenye folda yako ya hati au dhibiti sys.path mwenyewe.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Njia ya Faili ya Python Inayoweza Kutekelezwa",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Njia kamili ya faili yako ya Python au uv inayoweza kutekelezwa. Acha tupu kwa utambuzi wa kiotomatiki (uv, py, python3, python). Inahitaji kupakia upya programu-jalizi au kuanzisha upya ili ianze kutumika kikamilifu ikibadilishwa.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "k.m. /usr/bin/python3 au C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Njia ya faili ya Python inayoweza kutekelezwa imebadilishwa. Inaburudisha hati...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Njia maalum ya Python si sahihi, na hakuna faili mbadala ya kutekelezeka iliyopatikana. Hati huenda zisifanye kazi.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Njia Maalum ya Python Imeshindwa",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Njia maalum ya faili ya Python inayoweza kutekelezwa '{path}' si sahihi au haikuweza kutekelezwa. Inarejea kwenye utambuzi wa kiotomatiki.",
+
 };

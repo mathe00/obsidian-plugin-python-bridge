@@ -93,4 +93,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Aggiunge automaticamente la directory del plugin a PYTHONPATH durante l'esecuzione degli script, consentendo l'importazione diretta della libreria Python (Consigliato). Se disabilitato, è necessario copiare ObsidianPluginDevPythonToJS.py nella cartella degli script o gestire manualmente sys.path.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH automatico disabilitato. Assicurati che ObsidianPluginDevPythonToJS.py sia nella tua cartella degli script o gestisci sys.path manualmente.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Percorso Eseguibile Python",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Percorso assoluto al tuo eseguibile Python o uv. Lascia vuoto per il rilevamento automatico (uv, py, python3, python). Richiede il ricaricamento o il riavvio del plugin per avere pieno effetto se modificato.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "es: /usr/bin/python3 o C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Percorso dell'eseguibile Python modificato. Aggiornamento degli script...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Il percorso Python personalizzato non è valido e non è stato trovato alcun eseguibile di fallback. Gli script potrebbero non essere eseguiti.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Percorso Python Personalizzato Fallito",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Il percorso personalizzato dell'eseguibile Python '{path}' non è valido o non è stato possibile eseguirlo. Ripristino del rilevamento automatico.",
+
 };

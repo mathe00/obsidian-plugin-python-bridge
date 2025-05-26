@@ -83,4 +83,12 @@ export default {
 	SETTINGS_AUTO_PYTHONPATH_DESC: "Awtomatikong idagdag ang direktoryo ng plugin sa PYTHONPATH kapag nagpapatakbo ng mga script, na nagpapahintulot sa direktang pag-import ng Python library (Inirerekomenda). Kung hindi pinagana, dapat mong kopyahin ang ObsidianPluginDevPythonToJS.py sa iyong folder ng mga script o manu-manong pamahalaan ang sys.path.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Hindi pinagana ang awtomatikong PYTHONPATH. Tiyaking nasa iyong script folder ang ObsidianPluginDevPythonToJS.py o manu-manong pamahalaan ang sys.path.",
 
+	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Landas ng Python Executable",
+	SETTINGS_PYTHON_EXEC_PATH_DESC: "Ganap na landas sa iyong Python o uv executable. Iwanang blangko para sa auto-detection (uv, py, python3, python). Nangangailangan ng plugin reload o restart para magkabisa nang buo kung binago.",
+	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "hal: /usr/bin/python3 o C:\Python39\python.exe",
+	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Binago ang landas ng Python executable. Nagre-refresh ng mga script...",
+	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Hindi wasto ang custom na landas ng Python, at walang nakitang fallback executable. Maaaring hindi tumakbo ang mga script.",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Nabigo ang Custom na Landas ng Python",
+	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Ang custom na landas ng Python executable '{path}' ay hindi wasto o hindi ma-execute. Babalik sa awtomatikong pagtuklas.",
+
 };

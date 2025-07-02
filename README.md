@@ -1,4 +1,4 @@
-# 🐍 Obsidian Python Bridge Plugin
+# 🐍 Python Bridge Plugin (for Obsidian)
 
 <p align="center">
   <img src="logo.png" alt="Obsidian Python Bridge Logo" width="150">

@@ -1,6 +1,6 @@
 {
-  "name": "obsidian-python-bridge",
-  "version": "0.1.0",
+  "name": "python-bridge",
+  "version": "2.0.0",
   "main": "main.js",
   "scripts": {
     "dev": "rollup -w -c",

@@ -81,7 +81,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 		warningContainer.appendText(t("SETTINGS_SECURITY_WARNING_TEXT"));
 
 		// General Plugin Settings
-		containerEl.createEl("h2", { text: t("SETTINGS_TAB_TITLE") });
+		// containerEl.createEl("h2", { text: t("SETTINGS_TAB_TITLE") }); // Removed as per guidelines
 
 		// Language Selection
 		new Setting(containerEl)
@@ -239,7 +239,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 			}));
 
 		// Script Specific Settings
-		containerEl.createEl("h2", { text: t("SETTINGS_SCRIPT_SETTINGS_TITLE") });
+		new Setting(containerEl)
+			.setName(t("SETTINGS_SCRIPT_SETTINGS_TITLE"))
+			.setHeading();
 
 		// Refresh Button
 		new Setting(containerEl)

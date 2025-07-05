@@ -148,7 +148,7 @@ export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute: boolean 
 }
 
 /**
- * Retrieves the full content of a note specified by its vault-relative path.
+ * Retrieves the full content of a specific note.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param relativePath The vault-relative path to the note.
  * @returns The content of the note.
@@ -156,13 +156,13 @@ export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute: boolean 
  */
 export async function getNoteContentByPath(plugin: ObsidianPythonBridge, relativePath: string): Promise<string> {
 	const normalizedPath = normalizePath(relativePath);
-	const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-	if (!(file instanceof TFile)) throw new Error(`File not found or is not a file at path: ${normalizedPath}`);
+	const file = plugin.app.vault.getFileByPath(normalizedPath); // Use getFileByPath
+	if (!file) throw new Error(`File not found at path: ${normalizedPath}`);
 	return plugin.app.vault.cachedRead(file); // Use cachedRead
 }
 
 /**
- * Retrieves the parsed frontmatter of a note specified by its vault-relative path.
+ * Retrieves the parsed frontmatter of a specific note.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param relativePath The vault-relative path to the note.
  * @returns The parsed frontmatter object, or null if no frontmatter exists or file not found.
@@ -171,7 +171,7 @@ export async function getNoteFrontmatterByPath(plugin: ObsidianPythonBridge, rel
 	const normalizedPath = normalizePath(relativePath);
 	const metadata = plugin.app.metadataCache.getCache(normalizedPath);
 	if (!metadata) {
-		const fileExists = !!plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		const fileExists = !!plugin.app.vault.getFileByPath(normalizedPath); // Use getFileByPath
 		if (!fileExists) { plugin.logDebug(`File not found at path for frontmatter lookup: ${normalizedPath}`); return null; }
 		plugin.logDebug(`No metadata cache found for existing file: ${normalizedPath}`);
 		return null;
@@ -188,8 +188,8 @@ export async function getNoteFrontmatterByPath(plugin: ObsidianPythonBridge, rel
  */
 export async function modifyNoteContentByRelativePath(plugin: ObsidianPythonBridge, relativePath: string, newContent: string): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
-	const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-	if (!(file instanceof TFile)) throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
+	const file = plugin.app.vault.getFileByPath(normalizedPath); // Use getFileByPath
+	if (!file) throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
 	plugin.logDebug(`Attempting to modify note via Vault API: ${normalizedPath}`);
 	try {
 		await plugin.app.vault.modify(file, newContent);
@@ -212,7 +212,7 @@ export async function createNote(plugin: ObsidianPythonBridge, relativePath: str
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to create note: ${normalizedPath}`);
 	try {
-		const existingFile = plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		const existingFile = plugin.app.vault.getFileByPath(normalizedPath); // Use getFileByPath
 		if (existingFile) throw new Error(`File already exists at path: ${normalizedPath}`);
 		const file = await plugin.app.vault.create(normalizedPath, content);
 		plugin.logInfo(`Note created successfully: ${normalizedPath}`);
@@ -252,7 +252,7 @@ export async function checkPathExists(plugin: ObsidianPythonBridge, relativePath
 export async function deletePath(plugin: ObsidianPythonBridge, relativePath: string, permanently: boolean = false): Promise<void> {
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`);
-	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedPath);
+	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedPath); // Keep getAbstractFileByPath here, as it can be either file or folder
 	if (!fileOrFolder) throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
 	try {
 		if (permanently) {
@@ -281,13 +281,16 @@ export async function renamePath(plugin: ObsidianPythonBridge, oldRelativePath: 
 	const normalizedOldPath = normalizePath(oldRelativePath);
 	const normalizedNewPath = normalizePath(newRelativePath);
 	plugin.logDebug(`Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`);
+
 	const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedOldPath);
 	if (!fileOrFolder) throw new Error(`Cannot rename: Source path not found at "${normalizedOldPath}"`);
 	if (normalizedOldPath === normalizedNewPath) throw new Error(`Cannot rename: Old path and new path are identical "${normalizedOldPath}"`);
 	const destinationExists = plugin.app.vault.getAbstractFileByPath(normalizedNewPath);
 	if (destinationExists) throw new Error(`Cannot rename: Destination path already exists "${normalizedNewPath}"`);
+
 	try {
-		await plugin.app.vault.rename(fileOrFolder, normalizedNewPath);
+		// Use fileManager.renameFile for updating links and respecting user preferences
+		await plugin.app.fileManager.renameFile(fileOrFolder, normalizedNewPath);
 		plugin.logInfo(`Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`);
 	} catch (error) {
 		plugin.logError(`Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`, error);
@@ -305,8 +308,8 @@ export async function createFolder(plugin: ObsidianPythonBridge, relativePath: s
 	const normalizedPath = normalizePath(relativePath);
 	plugin.logDebug(`Attempting to create folder: ${normalizedPath}`);
 	try {
-		const existingPath = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-		if (existingPath) throw new Error(`Path already exists at "${normalizedPath}" (cannot create folder).`);
+		const existingPath = plugin.app.vault.getFolderByPath(normalizedPath); // Use getFolderByPath
+		if (existingPath) throw new Error(`Folder already exists at "${normalizedPath}".`);
 		await plugin.app.vault.createFolder(normalizedPath);
 		plugin.logInfo(`Folder created successfully: ${normalizedPath}`);
 	} catch (error) {
@@ -349,7 +352,7 @@ export function getLinks(plugin: ObsidianPythonBridge, relativePath: string): st
 	plugin.logDebug(`Attempting to get outgoing links for: ${normalizedPath}`);
 	const metadata = plugin.app.metadataCache.getCache(normalizedPath);
 	if (!metadata) {
-		const fileExists = !!plugin.app.vault.getAbstractFileByPath(normalizedPath);
+		const fileExists = !!plugin.app.vault.getFileByPath(normalizedPath); // Use getFileByPath
 		if (!fileExists) throw new Error(`Cannot get links: File not found at path "${normalizedPath}"`);
 		else { plugin.logWarn(`No metadata cache found for file "${normalizedPath}" to get links.`); return []; }
 	}
@@ -372,8 +375,8 @@ export function getLinks(plugin: ObsidianPythonBridge, relativePath: string): st
  */
 export async function getBacklinks(plugin: ObsidianPythonBridge, targetPath: string, useCacheIfAvailable: boolean, cacheMode: "fast" | "safe"): Promise<Record<string, LinkCache[]>> {
 	plugin.logDebug(`Handling get_backlinks for: ${targetPath}, useCache: ${useCacheIfAvailable}, mode: ${cacheMode}`);
-	const targetFile = plugin.app.vault.getAbstractFileByPath(targetPath);
-	if (!(targetFile instanceof TFile)) throw new Error(`File not found at path: ${targetPath}`);
+	const targetFile = plugin.app.vault.getFileByPath(targetPath); // Use getFileByPath
+	if (!targetFile) throw new Error(`File not found at path: ${targetPath}`);
 	let backlinksResult: Record<string, LinkCache[]> | null = null;
 	let errorOccurred: string | null = null;
 	// @ts-ignore: Accessing internal 'plugins' property which is not part of the public API.

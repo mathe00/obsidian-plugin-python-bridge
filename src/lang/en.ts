@@ -2,7 +2,7 @@
 // English translations (default)
 export default {
 	// Settings Tab
-	SETTINGS_TAB_TITLE: "Obsidian Python Bridge Settings",
+	SETTINGS_TAB_TITLE: "Python bridge settings",
 	SETTINGS_FOLDER_TITLE: "Python Scripts Folder",
 	SETTINGS_FOLDER_DESC:
 		"Path to the folder containing your Python scripts (absolute or relative to the vault).",
@@ -13,8 +13,6 @@ export default {
 	SETTINGS_CACHE_TITLE: "Disable Python Cache (__pycache__)",
 	SETTINGS_CACHE_DESC:
 		'Run Python with the "-B" flag to prevent writing .pyc files.',
-	// SETTINGS_AUTO_PYTHONPATH_NAME: "Auto-set PYTHONPATH for Library", // <-- REMOVED FROM HERE
-	// SETTINGS_AUTO_PYTHONPATH_DESC: "...", // <-- REMOVED FROM HERE
 
 	// main.ts Notices
 	NOTICE_PLUGIN_NAME: "Python Bridge", // Added for prefixing notices
@@ -60,11 +58,11 @@ export default {
 
 	// ScriptSelectionModal (Placeholder - if needed later)
 	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Select a Python script to run...",
-	// MODAL_SELECT_SCRIPT_PLACEHOLDER: "Select a Python script to run...",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "Script-Specific Settings",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Refresh Script Settings",
+
+	SETTINGS_SCRIPT_SETTINGS_TITLE: "Script-specific options",
+	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Refresh script settings",
 	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "Rescan the scripts folder to discover or update settings defined within your Python scripts.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Refresh Definitions",
+	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Refresh definitions",
 	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "Refreshing...",
 	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "Python scripts folder is not configured. Please set the path above.",
 	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "No scripts with definable settings found in the configured folder, or settings discovery failed. Click 'Refresh Definitions' to try again.",
@@ -76,26 +74,26 @@ export default {
 	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Failed to refresh script settings definitions. Check logs for details.",
 	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Cannot run script: Python executable not found. Please check installation and PATH.",
 	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Refresh Python script settings definitions",
-	SETTINGS_SECURITY_WARNING_TITLE: "Security Warning",
+	SETTINGS_SECURITY_WARNING_TITLE: "Security warning",
 	SETTINGS_SECURITY_WARNING_TEXT: "Executing arbitrary Python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.",
-	SETTINGS_LANGUAGE_TITLE: "Plugin Language",
+	SETTINGS_LANGUAGE_TITLE: "Plugin language",
 	SETTINGS_LANGUAGE_DESC: "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Performance Tip: Backlink Cache",
+	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Performance tip: Backlink cache",
 	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "For improved performance when retrieving backlinks (using the get_backlinks function) in large vaults, consider installing the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin by @mnaoumov.",
 	NOTICE_INVALID_FOLDER_PATH: "Invalid folder path. Please select a valid folder in settings.",
 	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Configured Python scripts folder path '{path}' is invalid or not found. Clearing setting.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script Enabled",
+	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Script enabled",
 	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Allow this script to be executed via commands, shortcuts, or 'Run All'.",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Run on Startup",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Automatically run this script when Obsidian starts (only if 'Script Enabled' is also on).",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Startup Delay (seconds)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Wait this many seconds after Obsidian starts before running the script (only applies if 'Run on Startup' is on). Use 0 for no delay.",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Run on startup",
+	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Automatically run this script when Obsidian starts (only if 'Script enabled' is also on).",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Startup delay (seconds)",
+	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Wait this many seconds after Obsidian starts before running the script (only applies if 'Run on startup' is on). Use 0 for no delay.",
 	NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is disabled in settings and cannot be executed.",
 
 	// --- ADDED KEYS AT THE END ---
-	SETTINGS_AUTO_PYTHONPATH_NAME: "Auto-set PYTHONPATH for Library",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatically add the plugin directory to PYTHONPATH when running scripts, allowing direct import of the Python library (Recommended). If disabled, you must copy ObsidianPluginDevPythonToJS.py to your scripts folder or manage sys.path manually.",
+	SETTINGS_AUTO_PYTHONPATH_NAME: "Auto-set PYTHONPATH for library",
+	SETTINGS_AUTO_PYTHONPATH_DESC: "Automatically add the plugin directory to PYTHONPATH when running scripts, allowing direct import of the Python library (recommended). If disabled, you must copy ObsidianPluginDevPythonToJS.py to your scripts folder or manage sys.path manually.",
 	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automatic PYTHONPATH disabled. Ensure ObsidianPluginDevPythonToJS.py is in your script folder or manage sys.path manually.",
 
 };

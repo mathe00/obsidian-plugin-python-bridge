@@ -1,94 +1,126 @@
 // el.ts - el translations
 // WARNING: Auto-generated translations below. Please review and correct.
 export default {
-	SETTINGS_TAB_TITLE: "Ρυθμίσεις Obsidian Python Bridge",
-	SETTINGS_FOLDER_TITLE: "Φάκελος Python Scripts",
-	SETTINGS_FOLDER_DESC: "Διαδρομή προς το φάκελο που περιέχει τα Python scripts σας (απόλυτη ή σχετική με το vault).",
-	SETTINGS_FOLDER_PLACEHOLDER: "/διαδρομή/προς/τα/scripts σας ή ./scripts-python",
-	SETTINGS_PORT_TITLE: "Θύρα HTTP Server",
-	SETTINGS_PORT_DESC: "Θύρα για τον τοπικό HTTP server (1024-65535). Απαιτεί επανεκκίνηση ή αποθήκευση ρυθμίσεων για εφαρμογή.",
-	SETTINGS_CACHE_TITLE: "Απενεργοποίηση Cache Python (__pycache__)",
-	SETTINGS_CACHE_DESC: "Εκτελέστε την Python με τη σημαία \"-B\" για να αποτρέψετε την εγγραφή αρχείων .pyc.",
-	NOTICE_PLUGIN_NAME: "Python Bridge",
-	NOTICE_PORT_CHANGED_PREFIX: "Η θύρα HTTP άλλαξε σε",
-	NOTICE_PORT_CHANGED_SUFFIX: "Επανεκκίνηση διακομιστή...",
-	NOTICE_PYTHON_MISSING_TITLE: "Σφάλμα Python Bridge:",
-	NOTICE_PYTHON_MISSING_DESC: "Το εκτελέσιμο αρχείο Python δεν βρέθηκε στο PATH.\\nΠαρακαλώ εγκαταστήστε την Python και βεβαιωθείτε ότι έχει προστεθεί στη μεταβλητή περιβάλλοντος PATH του συστήματός σας για να μπορεί το plugin να εκτελεί scripts.\\nΟι λειτουργίες του plugin που απαιτούν Python δεν θα είναι διαθέσιμες.",
-	NOTICE_REQUESTS_MISSING_TITLE: "Σφάλμα Python Bridge:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Η απαιτούμενη βιβλιοθήκη Python 'requests' δεν είναι εγκατεστημένη για",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\\nΠαρακαλώ εγκαταστήστε την εκτελώντας:\\n{pythonCmd} -m pip install requests\\nΟι λειτουργίες του plugin που απαιτούν Python δεν θα είναι διαθέσιμες μέχρι να εγκατασταθεί.",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Μη έγκυρη θύρα HTTP έχει διαμορφωθεί:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Ο διακομιστής δεν ξεκίνησε. Παρακαλώ διαμορφώστε μια έγκυρη θύρα (1-65535) στις ρυθμίσεις.",
-	NOTICE_PORT_IN_USE_PREFIX: "Η θύρα",
-	NOTICE_PORT_IN_USE_SUFFIX: "χρησιμοποιείται ήδη. Παρακαλώ επιλέξτε άλλη θύρα στις ρυθμίσεις ή κλείστε την άλλη εφαρμογή που τη χρησιμοποιεί. Ο διακομιστής δεν ξεκίνησε.",
-	NOTICE_SERVER_START_FAILED_PREFIX: "Αποτυχία έναρξης διακομιστή στη θύρα",
-	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
-	NOTICE_INVALID_PORT_RANGE: "Μη έγκυρη θύρα. Εισαγάγετε έναν αριθμό μεταξύ 0 και 65535.",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Η θύρα HTTP άλλαξε (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Το script ενδέχεται να στοχεύει την παλιά θύρα εάν εκτελείται ήδη ή έχει εκκινηθεί εξωτερικά.",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Το script Python δεν βρέθηκε ή δεν είναι αρχείο:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Σφάλμα πρόσβασης στο αρχείο script:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "Εκτέλεση script Python:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Σφάλμα κατά την εκτέλεση",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "με",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "απέτυχε με κωδικό εξόδου",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Ελέγξτε τα αρχεία καταγραφής της κονσόλας.",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Δεν ήταν δυνατή η εύρεση έγκυρου εκτελέσιμου αρχείου Python. Προσπάθεια:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Βεβαιωθείτε ότι η Python είναι εγκατεστημένη και προσβάσιμη μέσω του PATH του συστήματός σας (ή του εκκινητή 'py' στα Windows).",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "Ο φάκελος Python scripts δεν βρέθηκε ή είναι μη έγκυρος. Ελέγξτε τις ρυθμίσεις του plugin.",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Σφάλμα ανάγνωσης φακέλου scripts:",
-	NOTICE_NO_SCRIPTS_FOUND: "Δεν βρέθηκαν scripts Python (.py) στον διαμορφωμένο φάκελο.",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Εκτέλεση",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "script(s) Python...",
-	NOTICE_INPUT_VALIDATION_FAILED: "Η είσοδος δεν ταιριάζει με την απαιτούμενη μορφή.",
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Εκτέλεση συγκεκριμένου script Python",
-	CMD_RUN_ALL_SCRIPTS_NAME: "Εκτέλεση όλων των scripts Python στο φάκελο",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "Υποβολή",
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Επιλέξτε ένα script Python για εκτέλεση...",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "Ρυθμίσεις Συγκεκριμένου Script",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Ανανέωση Ρυθμίσεων Script",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "Σαρώστε ξανά το φάκελο scripts για να ανακαλύψετε ή να ενημερώσετε τις ρυθμίσεις που ορίζονται στα Python scripts σας.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Ανανέωση Ορισμών",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "Ανανέωση...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "Ο φάκελος Python scripts δεν έχει διαμορφωθεί. Ορίστε τη διαδρομή παραπάνω.",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "Δεν βρέθηκαν scripts με ορίσιμες ρυθμίσεις στον διαμορφωμένο φάκελο ή η ανακάλυψη ρυθμίσεων απέτυχε. Κάντε κλικ στο 'Ανανέωση Ορισμών' για να δοκιμάσετε ξανά.",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "Ρυθμίσεις για:",
-	SETTINGS_LANGUAGE_AUTO: "Αυτόματο (Ταίριασμα με Obsidian)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "Δεν είναι δυνατή η ανανέωση των ρυθμίσεων: Το εκτελέσιμο αρχείο Python δεν βρέθηκε. Βεβαιωθείτε ότι η Python είναι εγκατεστημένη και βρίσκεται στο PATH.",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "Ανανέωση ορισμών ρυθμίσεων script...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "Οι ορισμοί ρυθμίσεων script ανανεώθηκαν με επιτυχία!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Αποτυχία ανανέωσης ορισμών ρυθμίσεων script. Ελέγξτε τα αρχεία καταγραφής για λεπτομέρειες.",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Δεν είναι δυνατή η εκτέλεση του script: Το εκτελέσιμο αρχείο Python δεν βρέθηκε. Ελέγξτε την εγκατάσταση και το PATH.",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Ανανέωση ορισμών ρυθμίσεων script Python",
-	SETTINGS_SECURITY_WARNING_TITLE: "Προειδοποίηση Ασφαλείας",
-	SETTINGS_SECURITY_WARNING_TEXT: "Η εκτέλεση αυθαίρετων scripts Python μπορεί να είναι επικίνδυνη. Βεβαιωθείτε ότι εμπιστεύεστε την πηγή οποιουδήποτε script εκτελείτε, καθώς μπορούν να έχουν πρόσβαση στο σύστημα και τα δεδομένα σας. Ο συγγραφέας του plugin και οι συγγραφείς των scripts δεν ευθύνονται για τυχόν απώλεια δεδομένων ή ζητήματα ασφαλείας που προκαλούνται από τα scripts που επιλέγετε να εκτελέσετε. Εκτελέστε τα scripts με δική σας ευθύνη.",
-	SETTINGS_LANGUAGE_TITLE: "Γλώσσα Plugin",
-	SETTINGS_LANGUAGE_DESC: "Επιλέξτε τη γλώσσα εμφάνισης για τη διεπαφή του plugin Python Bridge. Η επιλογή 'Αυτόματο' ακολουθεί τη ρύθμιση γλώσσας του Obsidian.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Συμβουλή απόδοσης: Προσωρινή μνήμη Backlink",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Για βελτιωμένη απόδοση κατά την ανάκτηση backlinks (χρησιμοποιώντας τη συνάρτηση get_backlinks) σε μεγάλα vaults, εξετάστε το ενδεχόμενο εγκατάστασης του κοινοτικού plugin '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' από τον @mnaoumov.",
-	NOTICE_INVALID_FOLDER_PATH: "Μη έγκυρη διαδρομή φακέλου. Επιλέξτε έναν έγκυρο φάκελο στις ρυθμίσεις.",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Η διαμορφωμένη διαδρομή φακέλου σεναρίων Python '{path}' είναι μη έγκυρη ή δεν βρέθηκε. Εκκαθάριση ρύθμισης.",
+  SETTINGS_TAB_TITLE: 'Ρυθμίσεις Obsidian Python Bridge',
+  SETTINGS_FOLDER_TITLE: 'Φάκελος Python Scripts',
+  SETTINGS_FOLDER_DESC:
+    'Διαδρομή προς το φάκελο που περιέχει τα Python scripts σας (απόλυτη ή σχετική με το vault).',
+  SETTINGS_FOLDER_PLACEHOLDER: '/διαδρομή/προς/τα/scripts σας ή ./scripts-python',
+  SETTINGS_PORT_TITLE: 'Θύρα HTTP Server',
+  SETTINGS_PORT_DESC:
+    'Θύρα για τον τοπικό HTTP server (1024-65535). Απαιτεί επανεκκίνηση ή αποθήκευση ρυθμίσεων για εφαρμογή.',
+  SETTINGS_CACHE_TITLE: 'Απενεργοποίηση Cache Python (__pycache__)',
+  SETTINGS_CACHE_DESC:
+    'Εκτελέστε την Python με τη σημαία "-B" για να αποτρέψετε την εγγραφή αρχείων .pyc.',
+  NOTICE_PLUGIN_NAME: 'Python Bridge',
+  NOTICE_PORT_CHANGED_PREFIX: 'Η θύρα HTTP άλλαξε σε',
+  NOTICE_PORT_CHANGED_SUFFIX: 'Επανεκκίνηση διακομιστή...',
+  NOTICE_PYTHON_MISSING_TITLE: 'Σφάλμα Python Bridge:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'Το εκτελέσιμο αρχείο Python δεν βρέθηκε στο PATH.\\nΠαρακαλώ εγκαταστήστε την Python και βεβαιωθείτε ότι έχει προστεθεί στη μεταβλητή περιβάλλοντος PATH του συστήματός σας για να μπορεί το plugin να εκτελεί scripts.\\nΟι λειτουργίες του plugin που απαιτούν Python δεν θα είναι διαθέσιμες.',
+  NOTICE_REQUESTS_MISSING_TITLE: 'Σφάλμα Python Bridge:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Η απαιτούμενη βιβλιοθήκη Python 'requests' δεν είναι εγκατεστημένη για",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    '.\\nΠαρακαλώ εγκαταστήστε την εκτελώντας:\\n{pythonCmd} -m pip install requests\\nΟι λειτουργίες του plugin που απαιτούν Python δεν θα είναι διαθέσιμες μέχρι να εγκατασταθεί.',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Μη έγκυρη θύρα HTTP έχει διαμορφωθεί:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'Ο διακομιστής δεν ξεκίνησε. Παρακαλώ διαμορφώστε μια έγκυρη θύρα (1-65535) στις ρυθμίσεις.',
+  NOTICE_PORT_IN_USE_PREFIX: 'Η θύρα',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'χρησιμοποιείται ήδη. Παρακαλώ επιλέξτε άλλη θύρα στις ρυθμίσεις ή κλείστε την άλλη εφαρμογή που τη χρησιμοποιεί. Ο διακομιστής δεν ξεκίνησε.',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'Αποτυχία έναρξης διακομιστή στη θύρα',
+  NOTICE_SERVER_START_FAILED_SUFFIX: '.',
+  NOTICE_INVALID_PORT_RANGE: 'Μη έγκυρη θύρα. Εισαγάγετε έναν αριθμό μεταξύ 0 και 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Η θύρα HTTP άλλαξε (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '). Το script ενδέχεται να στοχεύει την παλιά θύρα εάν εκτελείται ήδη ή έχει εκκινηθεί εξωτερικά.',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Το script Python δεν βρέθηκε ή δεν είναι αρχείο:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Σφάλμα πρόσβασης στο αρχείο script:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'Εκτέλεση script Python:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Σφάλμα κατά την εκτέλεση',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'με',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'απέτυχε με κωδικό εξόδου',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Ελέγξτε τα αρχεία καταγραφής της κονσόλας.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Δεν ήταν δυνατή η εύρεση έγκυρου εκτελέσιμου αρχείου Python. Προσπάθεια:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "Βεβαιωθείτε ότι η Python είναι εγκατεστημένη και προσβάσιμη μέσω του PATH του συστήματός σας (ή του εκκινητή 'py' στα Windows).",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'Ο φάκελος Python scripts δεν βρέθηκε ή είναι μη έγκυρος. Ελέγξτε τις ρυθμίσεις του plugin.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Σφάλμα ανάγνωσης φακέλου scripts:',
+  NOTICE_NO_SCRIPTS_FOUND: 'Δεν βρέθηκαν scripts Python (.py) στον διαμορφωμένο φάκελο.',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Εκτέλεση',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script(s) Python...',
+  NOTICE_INPUT_VALIDATION_FAILED: 'Η είσοδος δεν ταιριάζει με την απαιτούμενη μορφή.',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Εκτέλεση συγκεκριμένου script Python',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'Εκτέλεση όλων των scripts Python στο φάκελο',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'Υποβολή',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Επιλέξτε ένα script Python για εκτέλεση...',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Ρυθμίσεις Συγκεκριμένου Script',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Ανανέωση Ρυθμίσεων Script',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'Σαρώστε ξανά το φάκελο scripts για να ανακαλύψετε ή να ενημερώσετε τις ρυθμίσεις που ορίζονται στα Python scripts σας.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Ανανέωση Ορισμών',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'Ανανέωση...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'Ο φάκελος Python scripts δεν έχει διαμορφωθεί. Ορίστε τη διαδρομή παραπάνω.',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "Δεν βρέθηκαν scripts με ορίσιμες ρυθμίσεις στον διαμορφωμένο φάκελο ή η ανακάλυψη ρυθμίσεων απέτυχε. Κάντε κλικ στο 'Ανανέωση Ορισμών' για να δοκιμάσετε ξανά.",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Ρυθμίσεις για:',
+  SETTINGS_LANGUAGE_AUTO: 'Αυτόματο (Ταίριασμα με Obsidian)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'Δεν είναι δυνατή η ανανέωση των ρυθμίσεων: Το εκτελέσιμο αρχείο Python δεν βρέθηκε. Βεβαιωθείτε ότι η Python είναι εγκατεστημένη και βρίσκεται στο PATH.',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Ανανέωση ορισμών ρυθμίσεων script...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Οι ορισμοί ρυθμίσεων script ανανεώθηκαν με επιτυχία!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    'Αποτυχία ανανέωσης ορισμών ρυθμίσεων script. Ελέγξτε τα αρχεία καταγραφής για λεπτομέρειες.',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'Δεν είναι δυνατή η εκτέλεση του script: Το εκτελέσιμο αρχείο Python δεν βρέθηκε. Ελέγξτε την εγκατάσταση και το PATH.',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Ανανέωση ορισμών ρυθμίσεων script Python',
+  SETTINGS_SECURITY_WARNING_TITLE: 'Προειδοποίηση Ασφαλείας',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'Η εκτέλεση αυθαίρετων scripts Python μπορεί να είναι επικίνδυνη. Βεβαιωθείτε ότι εμπιστεύεστε την πηγή οποιουδήποτε script εκτελείτε, καθώς μπορούν να έχουν πρόσβαση στο σύστημα και τα δεδομένα σας. Ο συγγραφέας του plugin και οι συγγραφείς των scripts δεν ευθύνονται για τυχόν απώλεια δεδομένων ή ζητήματα ασφαλείας που προκαλούνται από τα scripts που επιλέγετε να εκτελέσετε. Εκτελέστε τα scripts με δική σας ευθύνη.',
+  SETTINGS_LANGUAGE_TITLE: 'Γλώσσα Plugin',
+  SETTINGS_LANGUAGE_DESC:
+    "Επιλέξτε τη γλώσσα εμφάνισης για τη διεπαφή του plugin Python Bridge. Η επιλογή 'Αυτόματο' ακολουθεί τη ρύθμιση γλώσσας του Obsidian.",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Συμβουλή απόδοσης: Προσωρινή μνήμη Backlink',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "Για βελτιωμένη απόδοση κατά την ανάκτηση backlinks (χρησιμοποιώντας τη συνάρτηση get_backlinks) σε μεγάλα vaults, εξετάστε το ενδεχόμενο εγκατάστασης του κοινοτικού plugin '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' από τον @mnaoumov.",
+  NOTICE_INVALID_FOLDER_PATH:
+    'Μη έγκυρη διαδρομή φακέλου. Επιλέξτε έναν έγκυρο φάκελο στις ρυθμίσεις.',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "Η διαμορφωμένη διαδρομή φακέλου σεναρίων Python '{path}' είναι μη έγκυρη ή δεν βρέθηκε. Εκκαθάριση ρύθμισης.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Ενεργοποιημένο Σενάριο",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Να επιτρέπεται η εκτέλεση αυτού του σεναρίου μέσω εντολών, συντομεύσεων ή 'Εκτέλεση Όλων'.",
-	NOTICE_SCRIPT_DISABLED: "Το σενάριο '{scriptName}' είναι απενεργοποιημένο στις ρυθμίσεις και δεν είναι δυνατό να εκτελεστεί.",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Ενεργοποιημένο Σενάριο',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    "Να επιτρέπεται η εκτέλεση αυτού του σεναρίου μέσω εντολών, συντομεύσεων ή 'Εκτέλεση Όλων'.",
+  NOTICE_SCRIPT_DISABLED:
+    "Το σενάριο '{scriptName}' είναι απενεργοποιημένο στις ρυθμίσεις και δεν είναι δυνατό να εκτελεστεί.",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Εκτέλεση κατά την εκκίνηση",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Αυτόματη εκτέλεση αυτού του σεναρίου κατά την εκκίνηση του Obsidian (μόνο εάν είναι ενεργοποιημένο και το 'Σενάριο Ενεργοποιημένο').",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Καθυστέρηση εκκίνησης (δευτερόλεπτα)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Περιμένετε τόσα δευτερόλεπτα μετά την εκκίνηση του Obsidian πριν εκτελέσετε το σενάριο (ισχύει μόνο εάν είναι ενεργοποιημένο το 'Εκτέλεση κατά την εκκίνηση'). Χρησιμοποιήστε 0 για καμία καθυστέρηση.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Εκτέλεση κατά την εκκίνηση',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "Αυτόματη εκτέλεση αυτού του σεναρίου κατά την εκκίνηση του Obsidian (μόνο εάν είναι ενεργοποιημένο και το 'Σενάριο Ενεργοποιημένο').",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Καθυστέρηση εκκίνησης (δευτερόλεπτα)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "Περιμένετε τόσα δευτερόλεπτα μετά την εκκίνηση του Obsidian πριν εκτελέσετε το σενάριο (ισχύει μόνο εάν είναι ενεργοποιημένο το 'Εκτέλεση κατά την εκκίνηση'). Χρησιμοποιήστε 0 για καμία καθυστέρηση.",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "Αυτόματη ρύθμιση PYTHONPATH για τη Βιβλιοθήκη",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "Προσθέτει αυτόματα τον κατάλογο του plugin στο PYTHONPATH κατά την εκτέλεση σεναρίων, επιτρέποντας την απευθείας εισαγωγή της βιβλιοθήκης Python (Συνιστάται). Εάν απενεργοποιηθεί, πρέπει να αντιγράψετε το ObsidianPluginDevPythonToJS.py στον φάκελο των σεναρίων σας ή να διαχειριστείτε μη αυτόματα το sys.path.",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Η αυτόματη ρύθμιση PYTHONPATH απενεργοποιήθηκε. Βεβαιωθείτε ότι το ObsidianPluginDevPythonToJS.py βρίσκεται στον φάκελο των σεναρίων σας ή διαχειριστείτε το sys.path μη αυτόματα.",
+  SETTINGS_AUTO_PYTHONPATH_NAME: 'Αυτόματη ρύθμιση PYTHONPATH για τη Βιβλιοθήκη',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'Προσθέτει αυτόματα τον κατάλογο του plugin στο PYTHONPATH κατά την εκτέλεση σεναρίων, επιτρέποντας την απευθείας εισαγωγή της βιβλιοθήκης Python (Συνιστάται). Εάν απενεργοποιηθεί, πρέπει να αντιγράψετε το ObsidianPluginDevPythonToJS.py στον φάκελο των σεναρίων σας ή να διαχειριστείτε μη αυτόματα το sys.path.',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'Η αυτόματη ρύθμιση PYTHONPATH απενεργοποιήθηκε. Βεβαιωθείτε ότι το ObsidianPluginDevPythonToJS.py βρίσκεται στον φάκελο των σεναρίων σας ή διαχειριστείτε το sys.path μη αυτόματα.',
 
-	SETTINGS_PYTHON_EXEC_PATH_TITLE: "Διαδρομή Εκτελέσιμου Python",
-	SETTINGS_PYTHON_EXEC_PATH_DESC: "Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.",
-	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "π.χ., /usr/bin/python3 ή C:\Python39\python.exe",
-	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "Η διαδρομή εκτελέσιμου Python άλλαξε. Ανανέωση σεναρίων...",
-	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "Η προσαρμοσμένη διαδρομή Python είναι μη έγκυρη και δεν βρέθηκε εφεδρικό εκτελέσιμο. Τα σενάρια ενδέχεται να μην εκτελεστούν.",
-	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "Η προσαρμοσμένη διαδρομή Python απέτυχε",
-	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
-
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Διαδρομή Εκτελέσιμου Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'π.χ., /usr/bin/python3 ή C:\Python39\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'Η διαδρομή εκτελέσιμου Python άλλαξε. Ανανέωση σεναρίων...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    'Η προσαρμοσμένη διαδρομή Python είναι μη έγκυρη και δεν βρέθηκε εφεδρικό εκτελέσιμο. Τα σενάρια ενδέχεται να μην εκτελεστούν.',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Η προσαρμοσμένη διαδρομή Python απέτυχε',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
 };

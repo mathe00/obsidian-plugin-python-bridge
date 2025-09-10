@@ -9,19 +9,11 @@
     "importHelpers": true,
     "isolatedModules": true,
     "strictNullChecks": true,
-    "lib": [
-      "DOM",
-      "ESNext"
-    ],
-    "types": [
-      "node",
-      "obsidian"
-    ],
+    "lib": ["DOM", "ESNext"],
+    "types": ["node", "obsidian"],
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }

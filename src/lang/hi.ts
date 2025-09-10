@@ -1,104 +1,133 @@
 // --- src/lang/hi.ts ---
 // Hindi translations
 export default {
-	// Settings Tab
-	SETTINGS_TAB_TITLE: "ऑब्सिडियन पाइथन ब्रिज सेटिंग्स",
-	SETTINGS_FOLDER_TITLE: "पाइथन स्क्रिप्ट्स फ़ोल्डर",
-	SETTINGS_FOLDER_DESC:
-		"आपकी पाइथन स्क्रिप्ट्स वाले फ़ोल्डर का पथ (पूर्ण या वॉल्ट के सापेक्ष)।",
-	SETTINGS_FOLDER_PLACEHOLDER: "/path/to/your/scripts या ./scripts-python",
-	SETTINGS_PORT_TITLE: "HTTP सर्वर पोर्ट",
-	SETTINGS_PORT_DESC:
-		"स्थानीय HTTP सर्वर के लिए पोर्ट (1024-65535)। लागू करने के लिए पुनरारंभ या सेटिंग्स सहेजने की आवश्यकता है।",
-	SETTINGS_CACHE_TITLE: "पाइथन कैश अक्षम करें (__pycache__)",
-	SETTINGS_CACHE_DESC:
-		'".pyc" फ़ाइलों को लिखने से रोकने के लिए "-B" ध्वज के साथ पाइथन चलाएँ।',
+  // Settings Tab
+  SETTINGS_TAB_TITLE: 'ऑब्सिडियन पाइथन ब्रिज सेटिंग्स',
+  SETTINGS_FOLDER_TITLE: 'पाइथन स्क्रिप्ट्स फ़ोल्डर',
+  SETTINGS_FOLDER_DESC: 'आपकी पाइथन स्क्रिप्ट्स वाले फ़ोल्डर का पथ (पूर्ण या वॉल्ट के सापेक्ष)।',
+  SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts या ./scripts-python',
+  SETTINGS_PORT_TITLE: 'HTTP सर्वर पोर्ट',
+  SETTINGS_PORT_DESC:
+    'स्थानीय HTTP सर्वर के लिए पोर्ट (1024-65535)। लागू करने के लिए पुनरारंभ या सेटिंग्स सहेजने की आवश्यकता है।',
+  SETTINGS_CACHE_TITLE: 'पाइथन कैश अक्षम करें (__pycache__)',
+  SETTINGS_CACHE_DESC: '".pyc" फ़ाइलों को लिखने से रोकने के लिए "-B" ध्वज के साथ पाइथन चलाएँ।',
 
-	// main.ts Notices
-	NOTICE_PLUGIN_NAME: "पाइथन ब्रिज",
-	NOTICE_PORT_CHANGED_PREFIX: "HTTP पोर्ट बदल कर",
-	NOTICE_PORT_CHANGED_SUFFIX: "कर दिया गया है। सर्वर पुनरारंभ हो रहा है...",
-	NOTICE_PYTHON_MISSING_TITLE: "पाइथन ब्रिज त्रुटि:",
-	NOTICE_PYTHON_MISSING_DESC: "PATH में पाइथन निष्पादन योग्य नहीं मिला।\nकृपया पाइथन स्थापित करें और सुनिश्चित करें कि यह आपके सिस्टम के PATH पर्यावरण चर में जोड़ा गया है ताकि प्लगइन स्क्रिप्ट चला सके।\nपाइथन की आवश्यकता वाले प्लगइन सुविधाएँ अनुपलब्ध रहेंगी।",
-	NOTICE_REQUESTS_MISSING_TITLE: "पाइथन ब्रिज त्रुटि:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "आवश्यक पाइथन लाइब्रेरी 'requests' इसके लिए स्थापित नहीं है:",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: "।\nकृपया इसे चलाकर स्थापित करें:\n{pythonCmd} -m pip install requests\nस्थापित होने तक पाइथन की आवश्यकता वाले प्लगइन सुविधाएँ अनुपलब्ध रहेंगी।",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "अमान्य HTTP पोर्ट कॉन्फ़िगर किया गया:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "सर्वर शुरू नहीं हुआ। कृपया सेटिंग्स में एक मान्य पोर्ट (1-65535) कॉन्फ़िगर करें।",
-	NOTICE_PORT_IN_USE_PREFIX: "पोर्ट",
-	NOTICE_PORT_IN_USE_SUFFIX: "पहले से उपयोग में है। कृपया सेटिंग्स में दूसरा पोर्ट चुनें या इसका उपयोग करने वाले अन्य एप्लिकेशन को बंद करें। सर्वर शुरू नहीं हुआ।",
-	NOTICE_SERVER_START_FAILED_PREFIX: "पोर्ट पर सर्वर शुरू करने में विफल:",
-	NOTICE_SERVER_START_FAILED_SUFFIX: "।",
-	NOTICE_INVALID_PORT_RANGE: "अमान्य पोर्ट। कृपया 0 और 65535 के बीच एक संख्या दर्ज करें।",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ पाइथन ब्रिज: HTTP पोर्ट बदला (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: ")। यदि स्क्रिप्ट पहले से चल रही है या बाहरी रूप से लॉन्च की गई है तो वह पुराने पोर्ट को लक्षित कर सकती है।",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "पाइथन स्क्रिप्ट नहीं मिली या फ़ाइल नहीं है:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "स्क्रिप्ट फ़ाइल तक पहुँचने में त्रुटि:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "पाइथन स्क्रिप्ट चल रही है:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "चलाने में त्रुटि",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "के साथ",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "निकास कोड के साथ विफल:",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "कंसोल लॉग जांचें।",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "कोई मान्य पाइथन निष्पादन योग्य नहीं मिला। कोशिश की:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "कृपया सुनिश्चित करें कि पाइथन स्थापित है और आपके सिस्टम के PATH (या विंडोज पर 'py' लॉन्चर) के माध्यम से पहुँचा जा सकता है।",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "पाइथन स्क्रिप्ट फ़ोल्डर नहीं मिला या अमान्य है। कृपया प्लगइन सेटिंग्स जांचें।",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "स्क्रिप्ट फ़ोल्डर पढ़ने में त्रुटि:",
-	NOTICE_NO_SCRIPTS_FOUND: "कॉन्फ़िगर किए गए फ़ोल्डर में कोई पाइथन स्क्रिप्ट (.py) नहीं मिली।",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "चल रहा है",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "पाइथन स्क्रिप्ट...",
-	NOTICE_INPUT_VALIDATION_FAILED: "इनपुट आवश्यक प्रारूप से मेल नहीं खाता।",
+  // main.ts Notices
+  NOTICE_PLUGIN_NAME: 'पाइथन ब्रिज',
+  NOTICE_PORT_CHANGED_PREFIX: 'HTTP पोर्ट बदल कर',
+  NOTICE_PORT_CHANGED_SUFFIX: 'कर दिया गया है। सर्वर पुनरारंभ हो रहा है...',
+  NOTICE_PYTHON_MISSING_TITLE: 'पाइथन ब्रिज त्रुटि:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'PATH में पाइथन निष्पादन योग्य नहीं मिला।\nकृपया पाइथन स्थापित करें और सुनिश्चित करें कि यह आपके सिस्टम के PATH पर्यावरण चर में जोड़ा गया है ताकि प्लगइन स्क्रिप्ट चला सके।\nपाइथन की आवश्यकता वाले प्लगइन सुविधाएँ अनुपलब्ध रहेंगी।',
+  NOTICE_REQUESTS_MISSING_TITLE: 'पाइथन ब्रिज त्रुटि:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "आवश्यक पाइथन लाइब्रेरी 'requests' इसके लिए स्थापित नहीं है:",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    '।\nकृपया इसे चलाकर स्थापित करें:\n{pythonCmd} -m pip install requests\nस्थापित होने तक पाइथन की आवश्यकता वाले प्लगइन सुविधाएँ अनुपलब्ध रहेंगी।',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'अमान्य HTTP पोर्ट कॉन्फ़िगर किया गया:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'सर्वर शुरू नहीं हुआ। कृपया सेटिंग्स में एक मान्य पोर्ट (1-65535) कॉन्फ़िगर करें।',
+  NOTICE_PORT_IN_USE_PREFIX: 'पोर्ट',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'पहले से उपयोग में है। कृपया सेटिंग्स में दूसरा पोर्ट चुनें या इसका उपयोग करने वाले अन्य एप्लिकेशन को बंद करें। सर्वर शुरू नहीं हुआ।',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'पोर्ट पर सर्वर शुरू करने में विफल:',
+  NOTICE_SERVER_START_FAILED_SUFFIX: '।',
+  NOTICE_INVALID_PORT_RANGE: 'अमान्य पोर्ट। कृपया 0 और 65535 के बीच एक संख्या दर्ज करें।',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ पाइथन ब्रिज: HTTP पोर्ट बदला (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    ')। यदि स्क्रिप्ट पहले से चल रही है या बाहरी रूप से लॉन्च की गई है तो वह पुराने पोर्ट को लक्षित कर सकती है।',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'पाइथन स्क्रिप्ट नहीं मिली या फ़ाइल नहीं है:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'स्क्रिप्ट फ़ाइल तक पहुँचने में त्रुटि:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'पाइथन स्क्रिप्ट चल रही है:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'चलाने में त्रुटि',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'के साथ',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'निकास कोड के साथ विफल:',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'कंसोल लॉग जांचें।',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'कोई मान्य पाइथन निष्पादन योग्य नहीं मिला। कोशिश की:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "कृपया सुनिश्चित करें कि पाइथन स्थापित है और आपके सिस्टम के PATH (या विंडोज पर 'py' लॉन्चर) के माध्यम से पहुँचा जा सकता है।",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'पाइथन स्क्रिप्ट फ़ोल्डर नहीं मिला या अमान्य है। कृपया प्लगइन सेटिंग्स जांचें।',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'स्क्रिप्ट फ़ोल्डर पढ़ने में त्रुटि:',
+  NOTICE_NO_SCRIPTS_FOUND: 'कॉन्फ़िगर किए गए फ़ोल्डर में कोई पाइथन स्क्रिप्ट (.py) नहीं मिली।',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'चल रहा है',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'पाइथन स्क्रिप्ट...',
+  NOTICE_INPUT_VALIDATION_FAILED: 'इनपुट आवश्यक प्रारूप से मेल नहीं खाता।',
 
-	// main.ts Commands
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "एक विशिष्ट पाइथन स्क्रिप्ट चलाएँ",
-	CMD_RUN_ALL_SCRIPTS_NAME: "फ़ोल्डर में सभी पाइथन स्क्रिप्ट चलाएँ",
+  // main.ts Commands
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'एक विशिष्ट पाइथन स्क्रिप्ट चलाएँ',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'फ़ोल्डर में सभी पाइथन स्क्रिप्ट चलाएँ',
 
-	// UserInputModal
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "चलाने के लिए एक पाइथन स्क्रिप्ट चुनें...",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "प्रस्तुत करें",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "स<094d>क<094d>रिप<094d>ट-विशिष<094d>ट स<0947>टिंग<094d>स",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स ताज़ा कर<0947><0902>",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "आपक<0947> पाइथन स<094d>क<094d>रिप<094d>ट म<0947><0902> परिभाष<094d>त स<0947>टिंग<094d>स को खोजन<0947> या अपड<0947>ट करन<0947> क<0947> लिए स<094d>क<094d>रिप<094d>ट फ<093c>ोल<094d>डर को फिर स<0947> स<094d>क<0948>न कर<0947><0902>।",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "परिभाषाएँ ताज़ा कर<0947><0902>",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "ताज़ा हो रहा ह<0948>...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "पाइथन स<094d>क<094d>रिप<094d>ट फ<093c>ोल<094d>डर निर<094d>धारित नह<0940><0902> ह<0948>। कृपया ऊपर पथ निर<094d>धारित कर<0947><0902>।",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "निर<094d>धारित फ<093c>ोल<094d>डर म<0947><0902> परिभाष<094d>य स<0947>टिंग<094d>स वाल<0947> कोई स<094d>क<094d>रिप<094d>ट नह<0940><0902> मिल<0947>, या स<0947>टिंग<094d>स खोजन<0947> म<0947><0902> विफल रह<0947>। फिर स<0947> कोशिश करन<0947> क<0947> लिए 'परिभाषाएँ ताज़ा कर<0947><0902>' पर क<094d>लिक कर<0947><0902>।",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "क<0947> लिए स<0947>टिंग<094d>स:",
-	SETTINGS_LANGUAGE_AUTO: "सव<094d>चालित (Obsidian क<0947> समान)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "स<0947>टिंग<094d>स ताज़ा नह<0940><0902> कर सकत<0947>: पाइथन एक<094d>जिक<094d>य<0942>ट<0947>बल नह<0940><0902> मिला। कृपया स<0941>निश<094d>चित कर<0947><0902> कि पाइथन स<094d>थापित ह<0948> और PATH म<0947><0902> ह<0948>।",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा की जा रह<0940> ह<0948><0902>...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ सफलताप<0942>र<094d>वक ताज़ा हो गई<0902>!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा करन<0947> म<0947><0902> विफल। विवरण क<0947> लिए लॉग जाँच<0947><0902>।",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "स<094d>क<094d>रिप<094d>ट नह<0940><0902> चला सकत<0947>: पाइथन एक<094d>जिक<094d>य<0942>ट<0947>बल नह<0940><0902> मिला। कृपया स<094d>थापना और PATH जाँच<0947><0902>।",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "पाइथन स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा कर<0947><0902>",
-	SETTINGS_SECURITY_WARNING_TITLE: "स<0941>रक<094d>षा च<0947>तावनी",
-	SETTINGS_SECURITY_WARNING_TEXT: "मनमान<0947> पाइथन स<094d>क<094d>रिप<094d>ट चलाना जोखिम भरा हो सकता ह<0948>। स<0941>निश<094d>चित कर<0947><0902> कि आप किसी भी स<094d>क<094d>रिप<094d>ट क<0947> स<094d>रोत पर भरोसा करत<0947> ह<0948><0902> जिस<0947> आप चलाते ह<0948><0902>, क<094d>यो<0902>कि व<0947> आपक<0947> सिस<094d>टम और ड<0947>टा तक पहुँच सकत<0947> ह<0948><0902>। प<094d>लगइन ल<0947>खक और स<094d>क<094d>रिप<094d>ट ल<0947>खक आपक<0947> द<094d>वारा निष्<094d>पादित करन<0947> क<0947> लिए च<0941>न<0947> गए स<094d>क<094d>रिप<094d>ट क<0947> कारण होन<0947> वाल<0947> किसी भी ड<0947>टा हानि या स<0941>रक<094d>षा समस<094d>याओं क<0947> लिए जिम<094d>म<0947>दार नह<0940><0902> ह<0948><0902>। अपन<0947> जोखिम पर स<094d>क<094d>रिप<094d>ट चलाएँ।",
-	SETTINGS_LANGUAGE_TITLE: "प्लगइन भाषा",
-	SETTINGS_LANGUAGE_DESC: "पाइथन ब<094d>रिज प<094d>लगइन इंटरफ<0947>स क<0947> लिए प<094d>रदर<094d>शन भाषा च<0941>न<0947><0902>। 'सव<094d>चालित' ओब<094d>सिडियन की भाषा स<0947>टिंग का पालन करता ह<0948>।",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "प्रदर्शन युक्ति: बैकलिंक कैश",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "बड़े वॉल्ट में बैकलिंक्स पुनर्प्राप्त करते समय (get_backlinks फ़ंक्शन का उपयोग करके) बेहतर प्रदर्शन के लिए, @mnaoumov द्वारा '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' सामुदायिक प्लगइन स्थापित करने पर विचार करें।",
-	NOTICE_INVALID_FOLDER_PATH: "अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "कॉन्फ़िगर किया गया पाइथन स्क्रिप्ट फ़ोल्डर पथ '{path}' अमान्य है या नहीं मिला। सेटिंग साफ़ की जा रही है।",
+  // UserInputModal
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'चलाने के लिए एक पाइथन स्क्रिप्ट चुनें...',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'प्रस्तुत करें',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'स<094d>क<094d>रिप<094d>ट-विशिष<094d>ट स<0947>टिंग<094d>स',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME:
+    'स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स ताज़ा कर<0947><0902>',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'आपक<0947> पाइथन स<094d>क<094d>रिप<094d>ट म<0947><0902> परिभाष<094d>त स<0947>टिंग<094d>स को खोजन<0947> या अपड<0947>ट करन<0947> क<0947> लिए स<094d>क<094d>रिप<094d>ट फ<093c>ोल<094d>डर को फिर स<0947> स<094d>क<0948>न कर<0947><0902>।',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'परिभाषाएँ ताज़ा कर<0947><0902>',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'ताज़ा हो रहा ह<0948>...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'पाइथन स<094d>क<094d>रिप<094d>ट फ<093c>ोल<094d>डर निर<094d>धारित नह<0940><0902> ह<0948>। कृपया ऊपर पथ निर<094d>धारित कर<0947><0902>।',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "निर<094d>धारित फ<093c>ोल<094d>डर म<0947><0902> परिभाष<094d>य स<0947>टिंग<094d>स वाल<0947> कोई स<094d>क<094d>रिप<094d>ट नह<0940><0902> मिल<0947>, या स<0947>टिंग<094d>स खोजन<0947> म<0947><0902> विफल रह<0947>। फिर स<0947> कोशिश करन<0947> क<0947> लिए 'परिभाषाएँ ताज़ा कर<0947><0902>' पर क<094d>लिक कर<0947><0902>।",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'क<0947> लिए स<0947>टिंग<094d>स:',
+  SETTINGS_LANGUAGE_AUTO: 'सव<094d>चालित (Obsidian क<0947> समान)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'स<0947>टिंग<094d>स ताज़ा नह<0940><0902> कर सकत<0947>: पाइथन एक<094d>जिक<094d>य<0942>ट<0947>बल नह<0940><0902> मिला। कृपया स<0941>निश<094d>चित कर<0947><0902> कि पाइथन स<094d>थापित ह<0948> और PATH म<0947><0902> ह<0948>।',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा की जा रह<0940> ह<0948><0902>...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ सफलताप<0942>र<094d>वक ताज़ा हो गई<0902>!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    'स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा करन<0947> म<0947><0902> विफल। विवरण क<0947> लिए लॉग जाँच<0947><0902>।',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'स<094d>क<094d>रिप<094d>ट नह<0940><0902> चला सकत<0947>: पाइथन एक<094d>जिक<094d>य<0942>ट<0947>बल नह<0940><0902> मिला। कृपया स<094d>थापना और PATH जाँच<0947><0902>।',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'पाइथन स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स परिभाषाएँ ताज़ा कर<0947><0902>',
+  SETTINGS_SECURITY_WARNING_TITLE: 'स<0941>रक<094d>षा च<0947>तावनी',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'मनमान<0947> पाइथन स<094d>क<094d>रिप<094d>ट चलाना जोखिम भरा हो सकता ह<0948>। स<0941>निश<094d>चित कर<0947><0902> कि आप किसी भी स<094d>क<094d>रिप<094d>ट क<0947> स<094d>रोत पर भरोसा करत<0947> ह<0948><0902> जिस<0947> आप चलाते ह<0948><0902>, क<094d>यो<0902>कि व<0947> आपक<0947> सिस<094d>टम और ड<0947>टा तक पहुँच सकत<0947> ह<0948><0902>। प<094d>लगइन ल<0947>खक और स<094d>क<094d>रिप<094d>ट ल<0947>खक आपक<0947> द<094d>वारा निष्<094d>पादित करन<0947> क<0947> लिए च<0941>न<0947> गए स<094d>क<094d>रिप<094d>ट क<0947> कारण होन<0947> वाल<0947> किसी भी ड<0947>टा हानि या स<0941>रक<094d>षा समस<094d>याओं क<0947> लिए जिम<094d>म<0947>दार नह<0940><0902> ह<0948><0902>। अपन<0947> जोखिम पर स<094d>क<094d>रिप<094d>ट चलाएँ।',
+  SETTINGS_LANGUAGE_TITLE: 'प्लगइन भाषा',
+  SETTINGS_LANGUAGE_DESC:
+    "पाइथन ब<094d>रिज प<094d>लगइन इंटरफ<0947>स क<0947> लिए प<094d>रदर<094d>शन भाषा च<0941>न<0947><0902>। 'सव<094d>चालित' ओब<094d>सिडियन की भाषा स<0947>टिंग का पालन करता ह<0948>।",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'प्रदर्शन युक्ति: बैकलिंक कैश',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "बड़े वॉल्ट में बैकलिंक्स पुनर्प्राप्त करते समय (get_backlinks फ़ंक्शन का उपयोग करके) बेहतर प्रदर्शन के लिए, @mnaoumov द्वारा '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' सामुदायिक प्लगइन स्थापित करने पर विचार करें।",
+  NOTICE_INVALID_FOLDER_PATH: 'अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "कॉन्फ़िगर किया गया पाइथन स्क्रिप्ट फ़ोल्डर पथ '{path}' अमान्य है या नहीं मिला। सेटिंग साफ़ की जा रही है।",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "स्क्रिप्ट सक्षम",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "इस स्क्रिप्ट को कमांड, शॉर्टकट, या 'सभी चलाएँ' के माध्यम से निष्पादित करने की अनुमति दें।",
-	NOTICE_SCRIPT_DISABLED: "स्क्रिप्ट '{scriptName}' सेटिंग्स में अक्षम है और इसे निष्पादित नहीं किया जा सकता है।",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'स्क्रिप्ट सक्षम',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    "इस स्क्रिप्ट को कमांड, शॉर्टकट, या 'सभी चलाएँ' के माध्यम से निष्पादित करने की अनुमति दें।",
+  NOTICE_SCRIPT_DISABLED:
+    "स्क्रिप्ट '{scriptName}' सेटिंग्स में अक्षम है और इसे निष्पादित नहीं किया जा सकता है।",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "स्टार्टअप पर चलाएँ",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "जब ओब्सीडियन शुरू होता है तो इस स्क्रिप्ट को स्वचालित रूप से चलाएं (केवल तभी जब 'स्क्रिप्ट सक्षम' भी चालू हो)।",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "स्टार्टअप विलंब (सेकंड)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "ओब्सीडियन शुरू होने के बाद स्क्रिप्ट चलाने से पहले इतने सेकंड प्रतीक्षा करें ('स्टार्टअप पर चलाएँ' चालू होने पर ही लागू होता है)। कोई विलंब नहीं के लिए 0 का उपयोग करें।",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'स्टार्टअप पर चलाएँ',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "जब ओब्सीडियन शुरू होता है तो इस स्क्रिप्ट को स्वचालित रूप से चलाएं (केवल तभी जब 'स्क्रिप्ट सक्षम' भी चालू हो)।",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'स्टार्टअप विलंब (सेकंड)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "ओब्सीडियन शुरू होने के बाद स्क्रिप्ट चलाने से पहले इतने सेकंड प्रतीक्षा करें ('स्टार्टअप पर चलाएँ' चालू होने पर ही लागू होता है)। कोई विलंब नहीं के लिए 0 का उपयोग करें।",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "लाइब्रेरी के लिए PYTHONPATH स्वतः सेट करें",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "स्क्रिप्ट चलाते समय प्लगइन निर्देशिका को स्वचालित रूप से PYTHONPATH में जोड़ें, जिससे पायथन लाइब्रेरी का सीधा आयात संभव हो सके (अनुशंसित)। यदि अक्षम है, तो आपको ObsidianPluginDevPythonToJS.py को अपनी स्क्रिप्ट फ़ोल्डर में कॉपी करना होगा या sys.path को मैन्युअल रूप से प्रबंधित करना होगा।",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "स्वचालित PYTHONPATH अक्षम है। सुनिश्चित करें कि ObsidianPluginDevPythonToJS.py आपकी स्क्रिप्ट फ़ोल्डर में है या sys.path को मैन्युअल रूप से प्रबंधित करें।",
+  SETTINGS_AUTO_PYTHONPATH_NAME: 'लाइब्रेरी के लिए PYTHONPATH स्वतः सेट करें',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'स्क्रिप्ट चलाते समय प्लगइन निर्देशिका को स्वचालित रूप से PYTHONPATH में जोड़ें, जिससे पायथन लाइब्रेरी का सीधा आयात संभव हो सके (अनुशंसित)। यदि अक्षम है, तो आपको ObsidianPluginDevPythonToJS.py को अपनी स्क्रिप्ट फ़ोल्डर में कॉपी करना होगा या sys.path को मैन्युअल रूप से प्रबंधित करना होगा।',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'स्वचालित PYTHONPATH अक्षम है। सुनिश्चित करें कि ObsidianPluginDevPythonToJS.py आपकी स्क्रिप्ट फ़ोल्डर में है या sys.path को मैन्युअल रूप से प्रबंधित करें।',
 
-	SETTINGS_PYTHON_EXEC_PATH_TITLE: "पायथन निष्पादन योग्य पथ",
-	SETTINGS_PYTHON_EXEC_PATH_DESC: "आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।",
-	SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: "उदा., /usr/bin/python3 या C:\Python39\python.exe",
-	NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: "पायथन निष्पादन योग्य पथ बदल गया है। स्क्रिप्ट रीफ्रेश हो रही हैं...",
-	NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK: "कस्टम पायथन पथ अमान्य है, और कोई फ़ॉलबैक निष्पादन योग्य नहीं मिला। स्क्रिप्ट नहीं चल सकती हैं।",
-	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: "कस्टम पायथन पथ विफल",
-	NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC: "कस्टम पायथन निष्पादन योग्य पथ '{path}' अमान्य है या निष्पादित नहीं किया जा सका। स्वचालित पहचान पर वापस जा रहा है।",
-
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'पायथन निष्पादन योग्य पथ',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'उदा., /usr/bin/python3 या C:\Python39\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'पायथन निष्पादन योग्य पथ बदल गया है। स्क्रिप्ट रीफ्रेश हो रही हैं...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    'कस्टम पायथन पथ अमान्य है, और कोई फ़ॉलबैक निष्पादन योग्य नहीं मिला। स्क्रिप्ट नहीं चल सकती हैं।',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'कस्टम पायथन पथ विफल',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "कस्टम पायथन निष्पादन योग्य पथ '{path}' अमान्य है या निष्पादित नहीं किया जा सका। स्वचालित पहचान पर वापस जा रहा है।",
 };

@@ -142,7 +142,9 @@ export function getCurrentVaultAbsolutePath(plugin: ObsidianPythonBridge): strin
 /**
  * Gets the list of all Markdown file paths in the vault.
  * @param plugin The ObsidianPythonBridge plugin instance.
- * @returns An array of vault-relative paths.
+ * @param absolute If true, returns absolute paths. Defaults to false (vault-relative).
+ * @returns An array of vault-relative or absolute paths.
+ * @throws Error if `absolute` is true but vault path is unavailable.
  */
 export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute: boolean = false): string[] {
   const relativePaths = plugin.app.vault.getMarkdownFiles().map(f => f.path);
@@ -799,30 +801,33 @@ export function toggleTheme(plugin: ObsidianPythonBridge): void {
 // Keep these placeholders to avoid breaking imports if they are re-enabled later
 
 /**
- * Executes an Obsidian command by its ID. (Temporarily Disabled)
+ * Executes an Obsidian command by its ID.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param commandId The ID of the command to execute.
- * @throws Error always (feature disabled).
+ * @throws Error if command execution fails.
  */
-export function runObsidianCommand(_plugin: ObsidianPythonBridge): void {
-  _plugin.logError('run_obsidian_command is temporarily disabled due to build issues.');
-  throw new Error('run_obsidian_command is temporarily disabled.');
-  // Original logic:
-  // plugin.logDebug(`Attempting to execute command ID: ${commandId}`);
-  // try {
-  //  const success = plugin.app.commands.executeCommandById(commandId);
-  //  if (!success) {
-  //      const commandExists = !!plugin.app.commands.commands[commandId];
-  //      if (!commandExists) throw new Error(`Command with ID "${commandId}" not found.`);
-  //      else throw new Error(`Command "${commandId}" could not be executed (possibly disabled or inactive).`);
-  //  }
-  //  plugin.logInfo(`Command executed successfully: ${commandId}`);
-  // } catch (error) {
-  //  plugin.logError(`Error executing command ${commandId}:`, error);
-  //  throw new Error(`Failed to execute command "${commandId}": ${error instanceof Error ? error.message : String(error)}`);
-  // }
+export function runObsidianCommand(plugin: ObsidianPythonBridge, commandId: string): void {
+  plugin.logDebug(`Attempting to execute command ID: ${commandId}`);
+  try {
+    // @ts-ignore - executeCommandById might not be in typings
+    const success = plugin.app.commands.executeCommandById(commandId);
+    if (!success) {
+      // @ts-ignore - accessing commands object which may not be in typings
+      const commandExists = !!plugin.app.commands.commands[commandId];
+      if (!commandExists) throw new Error(`Command with ID "${commandId}" not found.`);
+      else
+        throw new Error(
+          `Command "${commandId}" could not be executed (possibly disabled or inactive).`
+        );
+    }
+    plugin.logInfo(`Command executed successfully: ${commandId}`);
+  } catch (error) {
+    plugin.logError(`Error executing command ${commandId}:`, error);
+    throw new Error(
+      `Failed to execute command "${commandId}": ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 }
-
 /**
  * Retrieves all unique tags from the Obsidian metadata cache. (Temporarily Disabled)
  * @param plugin The ObsidianPythonBridge plugin instance.

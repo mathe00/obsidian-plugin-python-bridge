@@ -19,7 +19,7 @@ export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Prom
   const pythonCmd = await findPythonExecutable(plugin);
   if (!pythonCmd) {
     plugin.logError('Python executable not found during environment check.');
-    showPythonMissingNotification(plugin);
+    showPythonMissingNotification();
     return false;
   } // Indicate failure
   plugin.logInfo(`Found Python executable: ${pythonCmd}`);
@@ -177,7 +177,6 @@ export async function checkPythonModule(
 
 /**
  * Shows a persistent notification if Python executable is missing.
- * @param plugin The ObsidianPythonBridge plugin instance.
  */
 export function showPythonMissingNotification(): void {
   // Delay notice slightly to ensure Obsidian UI is ready

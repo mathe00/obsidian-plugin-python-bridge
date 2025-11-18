@@ -25,6 +25,7 @@ import {
 } from './lang/translations'; // Import helpers
 import * as path from 'path'; // Import path for relative path calculation
 import * as fs from 'fs'; // Import fs for absolute path check
+import ActivationWarningModal from './ActivationWarningModal';
 
 // Inline FolderSuggest class definition
 // Inspired by Obsidian's internal file suggester and AutoNoteMover example
@@ -559,12 +560,33 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           .setDesc(t('SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC'))
           .addToggle((toggle) =>
             toggle.setValue(isScriptActive).onChange(async (value) => {
-              activationStatus[relativePath] = value;
-              await this.plugin.saveSettings();
-              this.plugin.logInfo(
-                `Script '${relativePath}' activation status set to: ${value}`
-              );
-              this.display(); // Redraw needed to show/hide auto-start options
+              // If toggling from false to true, show warning modal
+              if (value && !isScriptActive) {
+                // Prevent immediate state change, show warning modal first
+                toggle.setValue(false); // Reset toggle to false
+
+                new ActivationWarningModal(
+                  this.app,
+                  scriptFilename,
+                  async () => {
+                    // Callback executed only on "Activate Anyway" click
+                    activationStatus[relativePath] = true;
+                    await this.plugin.saveSettings();
+                    this.plugin.logInfo(
+                      `Script '${relativePath}' activation status set to: true`
+                    );
+                    this.display(); // Redraw needed to show/hide auto-start options
+                  }
+                ).open();
+              } else if (!value && isScriptActive) {
+                // If toggling from true to false, update directly
+                activationStatus[relativePath] = false;
+                await this.plugin.saveSettings();
+                this.plugin.logInfo(
+                  `Script '${relativePath}' activation status set to: false`
+                );
+                this.display(); // Redraw needed to show/hide auto-start options
+              }
             })
           );
 

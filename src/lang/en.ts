@@ -139,4 +139,18 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom Python Path Failed',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Security Warning',
+  ACTIVATION_WARNING_MESSAGE:
+    'You are about to enable the Python script "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Access and modify files on your system',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Make network requests to external services',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Execute system commands and access system resources',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Only enable scripts from sources you trust. The plugin author is not responsible for any damage caused by malicious scripts.',
+  ACTIVATION_WARNING_READMORE: 'Read more about security considerations',
+  ACTIVATION_WARNING_CANCEL: 'Cancel',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Activate Anyway',
 };

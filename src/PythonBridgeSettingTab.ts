@@ -286,15 +286,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           }
         };
 
-<<<<<<< HEAD
-		// Script Specific Settings
-		new Setting(containerEl)
-			.setName(t("SETTINGS_SCRIPT_SETTINGS_TITLE"))
-			.setHeading();
-=======
         // Apply initial visual validation in case an invalid path is already saved from previous settings
         performVisualValidation(this.plugin.settings.pythonExecutablePath);
->>>>>>> develop
 
         // Visual validation on 'input' event, debounced to run after user stops typing
         const debouncedVisualValidation = debounce(

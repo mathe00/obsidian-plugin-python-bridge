@@ -893,26 +893,29 @@ export async function runAutoStartScripts(
               plugin.logInfo(
                 ` -> Delaying execution by ${delaySeconds} second(s).`
               );
-              setTimeout(async () => {
-                // Make callback async to reload settings
-                // Re-check status just before delayed execution
-                await plugin.loadSettings(); // Reload again
-                const latestActivationStatus =
-                  plugin.settings.scriptActivationStatus[relativePath] !==
-                  false;
-                const latestAutoStartStatus =
-                  plugin.settings.scriptAutoStartStatus[relativePath] === true;
+              setTimeout(() => {
+                // Use IIFE to handle async operations
+                (async () => {
+                  // Re-check status just before delayed execution
+                  await plugin.loadSettings(); // Reload again
+                  const latestActivationStatus =
+                    plugin.settings.scriptActivationStatus[relativePath] !==
+                    false;
+                  const latestAutoStartStatus =
+                    plugin.settings.scriptAutoStartStatus[relativePath] ===
+                    true;
 
-                if (latestActivationStatus && latestAutoStartStatus) {
-                  plugin.logInfo(
-                    `Executing delayed auto-start script: ${relativePath}`
-                  );
-                  runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
-                } else {
-                  plugin.logWarn(
-                    `Skipping delayed auto-start for ${relativePath}: Script status changed during delay (Active: ${latestActivationStatus}, AutoStart: ${latestAutoStartStatus}).`
-                  );
-                }
+                  if (latestActivationStatus && latestAutoStartStatus) {
+                    plugin.logInfo(
+                      `Executing delayed auto-start script: ${relativePath}`
+                    );
+                    runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
+                  } else {
+                    plugin.logWarn(
+                      `Skipping delayed auto-start for ${relativePath}: Script status changed during delay (Active: ${latestActivationStatus}, AutoStart: ${latestAutoStartStatus}).`
+                    );
+                  }
+                })();
               }, delayMs);
             } else {
               // Immediate execution (no need to re-check here as we just loaded settings)

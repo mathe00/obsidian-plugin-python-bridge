@@ -319,7 +319,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         text.inputEl.addEventListener('input', debouncedVisualValidation);
 
         // Logic for saving settings and re-checking environment on 'blur' (loss of focus)
-        text.inputEl.addEventListener('blur', async (event) => {
+        text.inputEl.addEventListener('blur', (event) => {
           const newPath = (event.target as HTMLInputElement).value.trim();
 
           // Perform final visual validation on blur, without debounce, to ensure correct state
@@ -327,34 +327,36 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
           // Only save and re-check if the path has actually changed from what's currently stored
           if (this.plugin.settings.pythonExecutablePath !== newPath) {
-            this.plugin.settings.pythonExecutablePath = newPath;
-            await this.plugin.saveSettings();
-            this.plugin.logInfo(
-              `Custom Python executable path set to: '${newPath}'. Re-checking environment.`
-            );
-
-            // This re-check is important as it updates plugin.pythonExecutable
-            // and provides Notices if the chosen path (custom or auto-detected fallback) is ultimately unusable.
-            await checkPythonEnvironment(this.plugin);
-
-            const scriptsFolder = getScriptsFolderPath(this.plugin);
-            if (scriptsFolder && this.plugin.pythonExecutable) {
-              // If a valid executable (custom or fallback) is now set and scripts folder is valid,
-              // refresh scripts.
-              new Notice(
-                t('NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING') ||
-                  'Python path changed, refreshing scripts...'
+            (async () => {
+              this.plugin.settings.pythonExecutablePath = newPath;
+              await this.plugin.saveSettings();
+              this.plugin.logInfo(
+                `Custom Python executable path set to: '${newPath}'. Re-checking environment.`
               );
-              await updateAndSyncCommands(this.plugin, scriptsFolder);
-            } else if (newPath && !this.plugin.pythonExecutable) {
-              // If a custom path was provided but it (and any fallback) failed.
-              new Notice(
-                t('NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK') ||
-                  'Custom Python path is invalid, and no fallback found. Scripts may not run.'
-              );
-            }
-            // Consider if this.display() is needed if checkPythonEnvironment changes state that affects UI
-            // For now, assuming Notices are sufficient for feedback on this specific setting change.
+
+              // This re-check is important as it updates plugin.pythonExecutable
+              // and provides Notices if the chosen path (custom or auto-detected fallback) is ultimately unusable.
+              await checkPythonEnvironment(this.plugin);
+
+              const scriptsFolder = getScriptsFolderPath(this.plugin);
+              if (scriptsFolder && this.plugin.pythonExecutable) {
+                // If a valid executable (custom or fallback) is now set and scripts folder is valid,
+                // refresh scripts.
+                new Notice(
+                  t('NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING') ||
+                    'Python path changed, refreshing scripts...'
+                );
+                await updateAndSyncCommands(this.plugin, scriptsFolder);
+              } else if (newPath && !this.plugin.pythonExecutable) {
+                // If a custom path was provided but it (and any fallback) failed.
+                new Notice(
+                  t('NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK') ||
+                    'Custom Python path is invalid, and no fallback found. Scripts may not run.'
+                );
+              }
+              // Consider if this.display() is needed if checkPythonEnvironment changes state that affects UI
+              // For now, assuming Notices are sufficient for feedback on this specific setting change.
+            })();
           }
         });
       }); // This was the missing closing parenthesis for .addText()

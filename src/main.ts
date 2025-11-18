@@ -346,7 +346,7 @@ export default class ObsidianPythonBridge extends Plugin {
       return;
     }
     this.server = http.createServer(
-      async (req: http.IncomingMessage, res: http.ServerResponse) => {
+      (req: http.IncomingMessage, res: http.ServerResponse) => {
         const { method, url } = req;
         const remoteAddress = req.socket.remoteAddress || 'unknown';
         this.logDebug(
@@ -394,50 +394,52 @@ export default class ObsidianPythonBridge extends Plugin {
         req.on('data', (chunk) => {
           body += chunk.toString();
         });
-        req.on('end', async () => {
-          let request: JsonRequest;
-          let response: JsonResponse;
-          let statusCode = 200; // Assume success initially
-          try {
-            this.logDebug(`Attempting to parse JSON request body: ${body}`);
-            request = JSON.parse(body);
-            if (
-              !request ||
-              typeof request !== 'object' ||
-              typeof request.action !== 'string' ||
-              !request.action
-            ) {
-              throw new Error(
-                "Invalid JSON request structure. 'action' (non-empty string) is required."
+        req.on('end', () => {
+          (async () => {
+            let request: JsonRequest;
+            let response: JsonResponse;
+            let statusCode = 200; // Assume success initially
+            try {
+              this.logDebug(`Attempting to parse JSON request body: ${body}`);
+              request = JSON.parse(body);
+              if (
+                !request ||
+                typeof request !== 'object' ||
+                typeof request.action !== 'string' ||
+                !request.action
+              ) {
+                throw new Error(
+                  "Invalid JSON request structure. 'action' (non-empty string) is required."
+                );
+              }
+              // --- Delegate action handling ---
+              response = await dispatchAction(this, request);
+              // --- End Delegation ---
+              this.logDebug(
+                `Action ${request.action} handled, sending response:`,
+                response
               );
+            } catch (error) {
+              const errorMessage =
+                error instanceof Error ? error.message : String(error);
+              this.logError('Error processing request:', errorMessage);
+              statusCode = error instanceof SyntaxError ? 400 : 500; // Bad Request for JSON parse errors
+              response = {
+                status: 'error',
+                error: `Failed to process request: ${errorMessage}`,
+              };
             }
-            // --- Delegate action handling ---
-            response = await dispatchAction(this, request);
-            // --- End Delegation ---
-            this.logDebug(
-              `Action ${request.action} handled, sending response:`,
-              response
-            );
-          } catch (error) {
-            const errorMessage =
-              error instanceof Error ? error.message : String(error);
-            this.logError('Error processing request:', errorMessage);
-            statusCode = error instanceof SyntaxError ? 400 : 500; // Bad Request for JSON parse errors
-            response = {
-              status: 'error',
-              error: `Failed to process request: ${errorMessage}`,
-            };
-          }
-          // Send response
-          if (!res.writableEnded) {
-            const responseJson = JSON.stringify(response);
-            res.writeHead(statusCode, {
-              'Content-Type': 'application/json',
-              'Content-Length': Buffer.byteLength(responseJson),
-            });
-            res.end(responseJson);
-            this.logDebug(`HTTP Response sent (Status ${statusCode}).`);
-          }
+            // Send response
+            if (!res.writableEnded) {
+              const responseJson = JSON.stringify(response);
+              res.writeHead(statusCode, {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(responseJson),
+              });
+              res.end(responseJson);
+              this.logDebug(`HTTP Response sent (Status ${statusCode}).`);
+            }
+          })();
         });
         req.on('error', (err) => {
           this.logError('Error reading request stream:', err.message);

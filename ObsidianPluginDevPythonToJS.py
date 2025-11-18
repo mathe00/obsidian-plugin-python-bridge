@@ -1309,31 +1309,15 @@ class ObsidianPluginDevPythonToJS:
 
     # --- NEW: Event Listener Methods ---
     
-    # --- NEW: Theme Management Methods ---
+    # --- Theme Management Methods ---
+    # Note: Due to Obsidian API changes, only toggle_theme is available.
+    # set_theme_light and set_theme_dark are no longer supported.
 
-    def set_theme_light(self) -> None:
-        """
-        Sets the Obsidian theme to light mode.
-
-        Raises:
-            ObsidianCommError: If the request fails or Obsidian reports an error.
-        """
-        self._send_receive("set_theme_light")
-        print("Request sent to set theme to light.")
-
-    def set_theme_dark(self) -> None:
-        """
-        Sets the Obsidian theme to dark mode.
-
-        Raises:
-            ObsidianCommError: If the request fails or Obsidian reports an error.
-        """
-        self._send_receive("set_theme_dark")
-        print("Request sent to set theme to dark.")
-
+    
     def toggle_theme(self) -> None:
         """
         Toggles the Obsidian theme between light and dark mode.
+        This is the only theme method available due to Obsidian API changes.
 
         Raises:
             ObsidianCommError: If the request fails or Obsidian reports an error.

@@ -21,7 +21,6 @@ import {
   getSelectedText,
   replaceSelectedText,
   openNote,
-  setTheme,
   toggleTheme,
   getObsidianLanguage,
   createNote,
@@ -123,24 +122,7 @@ export async function dispatchAction(
         }
 
       // --- Theme Management Actions ---
-      case 'set_theme_light':
-        try {
-          setTheme(plugin, 'light');
-          return { status: 'success', data: null };
-        } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
-          plugin.logError(`Error in set_theme_light: ${errorMsg}`);
-          return { status: 'error', error: `Failed to set theme to light: ${errorMsg}` };
-        }
-      case 'set_theme_dark':
-        try {
-          setTheme(plugin, 'dark');
-          return { status: 'success', data: null };
-        } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
-          plugin.logError(`Error in set_theme_dark: ${errorMsg}`);
-          return { status: 'error', error: `Failed to set theme to dark: ${errorMsg}` };
-        }
+      // Note: Due to Obsidian API changes, only toggle_theme is supported.
       case 'toggle_theme':
         try {
           toggleTheme(plugin);

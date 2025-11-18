@@ -30,7 +30,7 @@ export { openNote } from './api/note-opening';
 
 // Theme Operations
 export { getThemeMode } from './api/theme-mode';
-export { setTheme, toggleTheme } from './api/theme-control';
+export { toggleTheme } from './api/theme-control';
 
 // Utility Operations
 export { getObsidianLanguage } from './api/obsidian-info';

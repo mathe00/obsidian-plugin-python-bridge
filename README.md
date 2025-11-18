@@ -28,6 +28,7 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 - [TL;DR](#tldr)
 - [Description](#description)
   - [Key Features](#key-features)
+- [⚠️ Security Considerations](#security-considerations)
 - [🌍 Internationalization](#internationalization)
 - [Why this plugin? 🤔](#why-this-plugin)
   - [Feature Highlight: Graphical `input()` in Obsidian via Modals! 🚀](#graphical-input-feature)
@@ -46,6 +47,45 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 - [⭐ Check out my other plugins](#other-plugins)
 - [License](#license)
 - [🤔 FAQ (Frequently Asked Questions)](#faq)
+
+---
+
+<a id="security-considerations"></a>
+
+## ⚠️ Security Considerations
+
+**Security is a top priority** for the Obsidian Python Bridge plugin. The plugin includes multiple layers of protection to ensure safe script execution:
+
+### 🔒 Built-in Security Features
+
+- **Localhost-Only Communication**: The HTTP server listens **only on `127.0.0.1`** - never exposed to your network or the internet
+- **Script Activation Controls**: Individual scripts can be **enabled or disabled** in the plugin settings. Disabled scripts are completely blocked from execution
+- **Settings Discovery Protection**: Scripts marked as disabled are **skipped during settings discovery**, preventing unnecessary process execution
+- **Security Warnings**: Clear warnings in the UI remind users to only run scripts they trust
+- **Safe Script Structure**: The plugin enforces proper script structure with `define_settings()` and `_handle_cli_args()` to prevent unintended code execution during discovery
+
+### 🛡️ Security Best Practices
+
+1. **Only run scripts you trust** - review code before execution
+2. **Keep scripts disabled when not in use** - use the activation toggles in settings
+3. **Use the recommended script structure** - always include `define_settings([])` and `_handle_cli_args()` even for scripts without settings
+4. **Monitor script activity** - check console logs for security-related messages
+5. **Regular security audits** - periodically review which scripts are enabled and their permissions
+
+### 📋 Security Logging
+
+The plugin provides detailed logging for security events:
+
+- Script execution attempts (success/failure)
+- Settings discovery failures with specific error reasons
+- Security warnings about potential unintended code execution
+- Disabled script execution attempts
+
+### 🔐 Default Secure State
+
+- **Scripts are disabled by default** - you must explicitly enable each script
+- **Settings discovery is blocked for disabled scripts**
+- **API calls are blocked during discovery mode** to prevent unintended operations
 
 ---
 
@@ -352,6 +392,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 - 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. _(Partially addressed: Added file management, context info, linking)_
 - 🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 - 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
+- 📋 **Security Audit Log**: Implement comprehensive audit logging system to track script execution, settings discovery, and security events for monitoring and compliance purposes.
 - 🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability. (Track progress: [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25))
 - 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I'm open to it! 😅
 - 📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
@@ -425,14 +466,19 @@ If the plugin is not yet available in the Community Plugins list or you prefer m
 After installing and enabling the plugin:
 
 1.  Go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
-2.  **(Important!) Security Warning**: Read the security warning at the top. Only run scripts you trust!
+2.  **⚠️ Security Warning**: Read the prominent security warning at the top of the settings page. This warning reminds you that the plugin executes Python scripts and you should only run scripts you trust and review.
 3.  **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
 4.  Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts. This is where the plugin will look for `.py` files to run and discover settings from.
 5.  **(Optional) Python Executable Path**: If the automatic detection of Python (or `uv`) fails, or if you need to use a specific Python/uv executable not in your default PATH, you can provide an **absolute path** to it here. Leave this field empty to use automatic detection (tries `uv`, then `py`, `python3`, `python`). _Changing this setting may require a plugin reload or Obsidian restart to take full effect for all operations._
 6.  Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).
     - **Note on Multiple Vaults:** If you use this plugin in multiple Obsidian vaults simultaneously, you **must** configure a **unique HTTP Port** for each vault in its respective plugin settings to avoid conflicts. Your Python scripts will then need to target the correct port for the intended vault (the plugin sets the `OBSIDIAN_HTTP_PORT` environment variable to the _actual_ listening port when running scripts).
-7.  **(New!) Script-Specific Settings & Activation**: If you have scripts that define settings (using `define_settings`), click the "Refresh Definitions" button. Sections for your scripts should appear below, allowing you to configure them. **You can also enable or disable individual scripts using the toggle provided for each script.**
-    You can also configure enabled scripts to **run automatically on Obsidian startup**, optionally setting a **delay** (in seconds) before execution.
+7.  **🔒 Script-Specific Settings & Activation**:
+    - Click the **"Refresh Definitions"** button to discover scripts and their settings.
+    - Each discovered script appears in its own section with:
+      - **Activation Toggle**: **Enable/disable individual scripts**. Scripts are **disabled by default** for security. Disabled scripts cannot be executed and are skipped during settings discovery.
+      - **Settings Configuration**: If the script defines settings using `define_settings()`, they appear here for user configuration.
+      - **Auto-start Options**: Configure enabled scripts to run automatically on Obsidian startup, optionally with a delay.
+    - **Security Note**: When you try to enable a script for the first time, you may see a confirmation modal reminding you to review the script code before enabling it.
 8.  **(New!) Performance Tip**: Note the recommendation regarding the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) if you plan to use the `get_backlinks` feature frequently in large vaults.
 9.  **(New & Recommended!) Auto-set PYTHONPATH for Library**: This setting is **enabled by default**. It allows your Python scripts to directly import the bridge's Python library (`ObsidianPluginDevPythonToJS.py`) without needing to copy the file into your scripts folder. If you disable this, you'll need to manage library access manually (see "Using the Python Library" below).
 

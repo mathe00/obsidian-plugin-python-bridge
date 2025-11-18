@@ -1,6 +1,104 @@
 # Obsidian Python Bridge - Python Client Library Documentation
 
-This document provides instructions and API reference for using the `ObsidianPluginDevPythonToJS.py` client library to interact with the Obsidian Python Bridge plugin from your Python scripts.
+This document provides instructions and API reference for using `ObsidianPluginDevPythonToJS.py` client library to interact with the Obsidian Python Bridge plugin from your Python scripts.
+
+## 🔒 Security Considerations for Script Authors
+
+As a script author using the Obsidian Python Bridge library, you have a responsibility to ensure your scripts are secure and follow best practices. This section covers security implications and recommendations.
+
+### 🛡️ Security Responsibilities
+
+**You are responsible for:**
+
+- Reviewing and understanding any third-party code you include
+- Implementing proper input validation and sanitization
+- Following secure coding practices
+- Ensuring your scripts don't expose sensitive data
+- Testing your scripts thoroughly before distribution
+
+### ⚠️ Security Risks to Consider
+
+1. **File System Access**: Your scripts can read, modify, create, and delete files in the user's vault
+2. **Network Access**: Scripts can make HTTP requests to external services
+3. **Code Execution**: Scripts can execute system commands and run other programs
+4. **Data Exposure**: Scripts have access to all vault content, including sensitive notes
+
+### 🔐 Security Best Practices
+
+#### Input Validation
+
+```python
+# Always validate user input from modals
+user_input = obsidian.request_user_input("My Script", "text", "Enter filename:")
+if not user_input or not user_input.isalnum():
+    obsidian.show_notification("Invalid filename!", duration=3000)
+    return
+```
+
+#### File Operations
+
+```python
+# Use vault-relative paths when possible
+# Avoid absolute paths that could access system files
+safe_path = "notes/" + filename + ".md"
+if not safe_path.startswith("notes/"):
+    raise ValueError("Path traversal attempt detected")
+```
+
+#### Error Handling
+
+```python
+# Never expose sensitive information in error messages
+try:
+    result = some_operation()
+except Exception as e:
+    obsidian.show_notification("Operation failed. Check logs for details.")
+    print(f"Debug: {e}", file=sys.stderr)  # Only in stderr, not user-facing
+```
+
+#### Data Protection
+
+```python
+# Be careful with API keys and sensitive data
+# Don't log or expose sensitive information
+api_key = settings.get("api_key")
+if api_key:
+    # Use API key, but don't log it or show it in notifications
+    pass
+```
+
+### 🚫 What to Avoid
+
+- **Don't** execute arbitrary user input as system commands
+- **Don't** expose file paths or system information in user-facing messages
+- **Don't** hardcode sensitive data in your scripts
+- **Don't** make network requests without user consent
+- **Don't** modify files outside the intended scope
+
+### 📋 Security Checklist
+
+Before distributing your script, ensure:
+
+- [ ] All user input is validated and sanitized
+- [ ] File operations use safe, vault-relative paths
+- [ ] Error messages don't expose sensitive information
+- [ ] API keys and secrets are handled securely
+- [ ] Script follows the mandatory structure with `define_settings()` and `_handle_cli_args()`
+- [ ] No hardcoded credentials or sensitive data
+- [ ] Proper error handling is implemented
+- [ ] Script has been tested with various inputs
+
+### 🔍 Monitoring and Auditing
+
+The plugin provides security logging that can help you monitor your script's behavior:
+
+- Script execution attempts and results
+- Settings discovery failures
+- Security-related warnings
+
+Check the Obsidian developer console for these logs when testing your scripts.
+
+---
 
 ## Overview
 
@@ -57,28 +155,59 @@ For most users interacting with scripts _through the Obsidian plugin_, relying o
 
 When the Obsidian Python Bridge plugin starts or when you manually "Refresh Definitions" in its settings, it runs each of your Python scripts with a special `--get-settings-json` argument. This is done to discover any settings your script might define.
 
-**It is strongly recommended that all your scripts, even those without custom settings, correctly handle this discovery process.** The easiest way is to use the `define_settings()` and `_handle_cli_args()` helper functions from this library at the beginning of your script, _before_ initializing the `ObsidianPluginDevPythonToJS` client:
+**🔒 MANDATORY: All scripts MUST use the proper structure** - This is a **critical security requirement** to prevent unintended code execution during plugin startup and settings discovery.
+
+### Required Script Structure
+
+**Every Python script** (even those without settings) **MUST** include the following pattern at the beginning:
 
 ```python
-# At the beginning of your script:
+# === MANDATORY SCRIPT STRUCTURE ===
+import sys
+import os
 from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args
 # ... other imports ...
 
-# (Optional: Event handling code here, exiting if event_name_from_env is set)
+# --- Event Check (Recommended for event-handling scripts) ---
+event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
+if event_name_from_env:
+    print(f"Event triggered: {event_name_from_env}. Exiting.")
+    sys.exit(0)
 
-MY_SCRIPT_SETTINGS: list = [] # Use an empty list if no settings
-define_settings(MY_SCRIPT_SETTINGS)
-_handle_cli_args() # This will exit if --get-settings-json is passed
+# --- Settings Definition & Discovery Handling (MANDATORY) ---
+MY_SCRIPT_SETTINGS: list = [] # Use empty list if no settings
+define_settings(MY_SCRIPT_SETTINGS)  # MANDATORY - even for empty list
+_handle_cli_args()  # MANDATORY - handles --get-settings-json and exits
+
+# === END MANDATORY STRUCTURE ===
 
 # Your main script logic and ObsidianPluginDevPythonToJS() initialization
 # should come AFTER _handle_cli_args().
 ```
 
+### Why This Structure is Mandatory
+
+1. **Security Protection**: Prevents unintended code execution during settings discovery
+2. **Clean Exit**: `_handle_cli_args()` ensures your script exits cleanly when the plugin checks for settings
+3. **Discovery Success**: Without this structure, settings discovery will fail and generate errors
+4. **Performance**: Disabled scripts are completely skipped during discovery, improving security and performance
+
+### What Happens Without This Structure
+
 If a script does not use `_handle_cli_args()` to exit during discovery:
 
-- It might execute its main logic unintentionally during plugin startup/refresh.
-- If it initializes `ObsidianPluginDevPythonToJS` and attempts API calls, these calls will be **blocked** by the library (raising an `ObsidianCommError`) because the library detects it's in "discovery mode". This is a safeguard but will result in errors in your script's `stderr` log.
-- Settings discovery for that script will likely fail.
+- **Security Risk**: It might execute its main logic unintentionally during plugin startup/refresh
+- **API Blocking**: If it initializes `ObsidianPluginDevPythonToJS` and attempts API calls, these calls will be **blocked** by the library (raising an `ObsidianCommError`) because the library detects it's in "discovery mode"
+- **Log Errors**: This safeguard will result in errors in your script's `stderr` log
+- **Discovery Failure**: Settings discovery for that script will likely fail
+- **Disabled Script Bypass**: The script might run even when marked as disabled in the plugin settings
+
+### Security Benefits
+
+- **Disabled Script Enforcement**: Scripts marked as disabled are completely skipped during discovery
+- **No Unintended Execution**: Main script logic never runs during discovery process
+- **Clean Error Handling**: Proper exit codes and error messages for debugging
+- **Audit Trail**: Clear logging of discovery attempts and failures
 
 Using the `define_settings([])` and `_handle_cli_args()` pattern ensures your script behaves correctly during discovery, even if it doesn't have any settings to define. See the "Script-Specific Settings" section for a more complete example.
 

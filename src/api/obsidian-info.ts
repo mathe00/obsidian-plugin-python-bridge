@@ -9,7 +9,7 @@ import type ObsidianPythonBridge from '../main';
  * @returns The language code (e.g., 'en', 'fr') or 'en' as default.
  */
 export function getObsidianLanguage(plugin: ObsidianPythonBridge): string {
-  const obsidianLang = localStorage.getItem('language');
+  const obsidianLang = plugin.app.loadLocalStorage('language');
   if (obsidianLang) {
     plugin.logDebug(`Obsidian language from localStorage: ${obsidianLang}`);
     return obsidianLang;

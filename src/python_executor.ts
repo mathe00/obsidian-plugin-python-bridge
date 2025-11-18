@@ -282,6 +282,32 @@ export async function updateScriptSettingsCache(
     currentScriptPaths.add(relativePath);
     let discoveryFailed = false; // Flag to track failure for the current script
 
+    // Check if script is disabled - skip settings discovery for security
+    if (plugin.settings.scriptActivationStatus[relativePath] === false) {
+      plugin.logInfo(
+        `Skipping settings discovery for disabled script: ${relativePath}`
+      );
+
+      // Clear any previously cached settings definitions and values for this disabled script
+      if (
+        plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)
+      ) {
+        plugin.logInfo(
+          `Removing cached settings definitions for disabled script: ${relativePath}`
+        );
+        changesMade = true;
+      }
+      if (plugin.settings.scriptSettingsValues.hasOwnProperty(relativePath)) {
+        plugin.logInfo(
+          `Clearing settings values for disabled script: ${relativePath}`
+        );
+        delete plugin.settings.scriptSettingsValues[relativePath];
+        changesMade = true;
+      }
+
+      continue; // Skip to next script
+    }
+
     try {
       // Attempt to discover settings by running the script with --get-settings-json
       const definitions = await discoverScriptSettings(

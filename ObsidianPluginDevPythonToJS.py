@@ -1585,6 +1585,110 @@ class ObsidianPluginDevPythonToJS:
         """
         return self._send_receive("get_editor_context")
 
+    def set_cursor(self, line: int, ch: int) -> None:
+        """
+        Sets the cursor position in the active editor.
+
+        Args:
+            line (int): The line number (0-based).
+            ch (int): The character position within the line (0-based).
+
+        Raises:
+            ObsidianCommError: If the request fails or no editor is active.
+        """
+        payload = {"line": line, "ch": ch}
+        self._send_receive("set_cursor", payload)
+
+    def get_line(self, line_number: int) -> str:
+        """
+        Gets the content of a specific line in the active editor.
+
+        Args:
+            line_number (int): The line number (0-based).
+
+        Returns:
+            str: The content of the specified line.
+
+        Raises:
+            ObsidianCommError: If the request fails or no editor is active.
+        """
+        payload = {"line_number": line_number}
+        return self._send_receive("get_line", payload)
+
+    def set_line(self, line_number: int, text: str) -> None:
+        """
+        Replaces the entire content of a specific line in the active editor.
+
+        Args:
+            line_number (int): The line number (0-based).
+            text (str): The new text content for the line.
+
+        Raises:
+            ObsidianCommError: If the request fails or no editor is active.
+        """
+        payload = {"line_number": line_number, "text": text}
+        self._send_receive("set_line", payload)
+
+    def replace_range(
+        self,
+        replacement: str,
+        from_line: int,
+        from_ch: int,
+        to_line: int = None,
+        to_ch: int = None,
+    ) -> None:
+        """
+        Replaces text in a specific range in the active editor.
+
+        Args:
+            replacement (str): The text to insert.
+            from_line (int): The starting line number (0-based).
+            from_ch (int): The starting character position (0-based).
+            to_line (int, optional): The ending line number (0-based). If omitted, uses from_line.
+            to_ch (int, optional): The ending character position (0-based). If omitted, uses from_ch.
+
+        Raises:
+            ObsidianCommError: If the request fails or no editor is active.
+        """
+        payload = {
+            "replacement": replacement,
+            "from_line": from_line,
+            "from_ch": from_ch,
+        }
+        if to_line is not None:
+            payload["to_line"] = to_line
+        if to_ch is not None:
+            payload["to_ch"] = to_ch
+        self._send_receive("replace_range", payload)
+
+    def scroll_into_view(
+        self,
+        from_line: int,
+        from_ch: int,
+        to_line: int = None,
+        to_ch: int = None,
+        center: bool = False,
+    ) -> None:
+        """
+        Scrolls a specific range into view in the active editor.
+
+        Args:
+            from_line (int): The starting line number (0-based).
+            from_ch (int): The starting character position (0-based).
+            to_line (int, optional): The ending line number (0-based). If omitted, uses from_line.
+            to_ch (int, optional): The ending character position (0-based). If omitted, uses from_ch.
+            center (bool, optional): Whether to center the range in view. Default is False.
+
+        Raises:
+            ObsidianCommError: If the request fails or no editor is active.
+        """
+        payload = {"from_line": from_line, "from_ch": from_ch, "center": center}
+        if to_line is not None:
+            payload["to_line"] = to_line
+        if to_ch is not None:
+            payload["to_ch"] = to_ch
+        self._send_receive("scroll_into_view", payload)
+
     # --- NEW: Event Listener Methods ---
 
     # --- Theme Management Methods ---

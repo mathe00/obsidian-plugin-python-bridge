@@ -20,6 +20,12 @@ import {
   getNoteFrontmatterByPath,
   getSelectedText,
   replaceSelectedText,
+  getEditorContext,
+  setCursor,
+  getLine,
+  setLine,
+  replaceRange,
+  scrollIntoView,
   openNote,
   toggleTheme,
   getObsidianLanguage,
@@ -34,7 +40,6 @@ import {
   createFolder,
   listFolder,
   getLinks,
-  getEditorContext,
   getBacklinks,
   modifyNoteContentByRelativePath,
 } from './obsidian_api';
@@ -679,6 +684,117 @@ export async function dispatchAction(
           const context = getEditorContext(plugin);
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: context };
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+      case 'set_cursor':
+        if (
+          typeof payload?.line !== 'number' ||
+          typeof payload?.ch !== 'number'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'line' and 'ch' (numbers) required.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        try {
+          setCursor(plugin, payload.line, payload.ch);
+          await logApiAction(plugin, action, 'success', sourceScript);
+          return { status: 'success', data: null };
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+      case 'get_line':
+        if (typeof payload?.line_number !== 'number') {
+          const errorMsg = "Invalid payload: 'line_number' (number) required.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        try {
+          const lineContent = getLine(plugin, payload.line_number);
+          await logApiAction(plugin, action, 'success', sourceScript);
+          return { status: 'success', data: lineContent };
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+      case 'set_line':
+        if (
+          typeof payload?.line_number !== 'number' ||
+          typeof payload?.text !== 'string'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'line_number' (number) and 'text' (string) required.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        try {
+          setLine(plugin, payload.line_number, payload.text);
+          await logApiAction(plugin, action, 'success', sourceScript);
+          return { status: 'success', data: null };
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+      case 'replace_range':
+        if (
+          typeof payload?.replacement !== 'string' ||
+          typeof payload?.from_line !== 'number' ||
+          typeof payload?.from_ch !== 'number'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'replacement' (string), 'from_line' and 'from_ch' (numbers) required.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        try {
+          replaceRange(
+            plugin,
+            payload.replacement,
+            payload.from_line,
+            payload.from_ch,
+            payload.to_line,
+            payload.to_ch
+          );
+          await logApiAction(plugin, action, 'success', sourceScript);
+          return { status: 'success', data: null };
+        } catch (error) {
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+      case 'scroll_into_view':
+        if (
+          typeof payload?.from_line !== 'number' ||
+          typeof payload?.from_ch !== 'number'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'from_line' and 'from_ch' (numbers) required.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        try {
+          scrollIntoView(
+            plugin,
+            payload.from_line,
+            payload.from_ch,
+            payload.to_line,
+            payload.to_ch,
+            payload.center
+          );
+          await logApiAction(plugin, action, 'success', sourceScript);
+          return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);

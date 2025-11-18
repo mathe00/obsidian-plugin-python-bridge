@@ -38,6 +38,13 @@ export { getBacklinks } from './api/backlinks';
 // Editor Operations
 export { getSelectedText, replaceSelectedText } from './api/editor-selection';
 export { getEditorContext } from './api/editor-context';
+export {
+  setCursor,
+  getLine,
+  setLine,
+  replaceRange,
+  scrollIntoView,
+} from './api/advanced-editor';
 export { openNote } from './api/note-opening';
 
 // Theme Operations

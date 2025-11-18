@@ -1,5 +1,5 @@
 {
-  "name": "python-bridge",
+  "name": "obsidian-python-bridge",
   "version": "2.0.0",
   "description": "🐍 A plugin that lets you write plugins in Python! Yes, it's as crazy as it sounds!",
   "main": "main.js",

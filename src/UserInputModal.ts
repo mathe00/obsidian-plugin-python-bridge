@@ -75,7 +75,10 @@ export default class UserInputModal extends Modal {
       this.inputEl = contentEl.createEl('input', { type: 'date' });
     else {
       contentEl.createEl('p', {
-        text: `Error: Unknown input type '${this.inputType}' requested.`,
+        text: t('ERROR_UNKNOWN_INPUT_TYPE').replace(
+          '{inputType}',
+          this.inputType
+        ),
       });
       return;
     } // Handle unknown input types gracefully // Don't add submit button if input type is invalid
@@ -108,7 +111,7 @@ export default class UserInputModal extends Modal {
           if (isNaN(inputValue)) {
             // Handle potential NaN if input is cleared or invalid for number/range
             // Decide on behavior: default value? error? For now, let's show notice and prevent submit
-            new Notice('Invalid number input.'); // Consider translating this if needed
+            new Notice(t('ERROR_INVALID_NUMBER_INPUT'));
             this.inputEl.classList.add('python-bridge-input-error');
             this.inputEl.focus();
             validationPassed = false; // Mark validation as failed

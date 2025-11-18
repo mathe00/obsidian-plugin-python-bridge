@@ -89,9 +89,20 @@ export async function findPythonExecutable(
         `Custom Python executable path '${customPath}' is invalid or failed version check: ${error instanceof Error ? error.message : String(error)}`
       );
       new Notice(
-        `${t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE') || 'Custom Python Path Failed'}\n${t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC')?.replace('{path}', customPath) || `Path: ${customPath}. Error: ${error instanceof Error ? error.message : String(error)}. Falling back to auto-detection.`}`,
+        `${t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE') || t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK')}\n${
+          t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC')?.replace(
+            '{path}',
+            customPath
+          ) ||
+          t('NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK')
+            .replace('{path}', customPath)
+            .replace(
+              '{error}',
+              error instanceof Error ? error.message : String(error)
+            )
+        }`,
         8000
-      ); // TODO: Add translations
+      );
       // Fall through to auto-detection if custom path fails
     }
   }

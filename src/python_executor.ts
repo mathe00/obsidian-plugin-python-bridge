@@ -461,7 +461,9 @@ export async function updateScriptSettingsCache(
 
   // Show notice for manual refresh if there were failures
   if (isManualRefresh && failedScripts.length > 0) {
-    const failureMessage = `Settings discovery failed for ${failedScripts.length} script(s): ${failedScripts.join(', ')}. Check console for details.`;
+    const failureMessage = t('ERROR_SCRIPT_DISCOVERY_FAILED')
+      .replace('{count}', String(failedScripts.length))
+      .replace('{scripts}', failedScripts.join(', '));
     new Notice(failureMessage, 8000);
     plugin.logWarn(
       `Manual refresh completed with ${failedScripts.length} discovery failures: ${failedScripts.join(', ')}`

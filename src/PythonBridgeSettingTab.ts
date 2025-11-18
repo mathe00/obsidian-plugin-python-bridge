@@ -240,17 +240,20 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
     // Custom Python Executable Path
     new Setting(containerEl)
-      .setName(t('SETTINGS_PYTHON_EXEC_PATH_TITLE') || 'Python Executable Path')
+      .setName(
+        t('SETTINGS_PYTHON_EXEC_PATH_TITLE') ||
+          t('SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK')
+      )
       .setDesc(
         t('SETTINGS_PYTHON_EXEC_PATH_DESC') ||
-          'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.'
+          t('SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK')
       )
       .setClass('python-bridge-setting-item')
       .addText((text) => {
         text
           .setPlaceholder(
             t('SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER') ||
-              'e.g., /usr/bin/python3 or C:\\Python39\\python.exe'
+              t('SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK')
           )
           .setValue(this.plugin.settings.pythonExecutablePath); // Semicolon to terminate the .setValue() call.
 
@@ -440,14 +443,12 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       );
 
     // Audit Log Settings
-    containerEl.createEl('h2', { text: 'Audit Log' });
+    containerEl.createEl('h2', { text: t('SETTINGS_AUDIT_LOG_TITLE') });
 
     // Enable Audit Log Toggle
     new Setting(containerEl)
-      .setName('Enable Audit Log')
-      .setDesc(
-        'Enable audit logging for script executions and API actions for security monitoring and debugging.'
-      )
+      .setName(t('SETTINGS_AUDIT_LOG_ENABLE_NAME'))
+      .setDesc(t('SETTINGS_AUDIT_LOG_ENABLE_DESC'))
       .setClass('python-bridge-setting-item')
       .addToggle((toggle) =>
         toggle
@@ -461,14 +462,12 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
     // Audit Log File Path
     new Setting(containerEl)
-      .setName('Audit Log File Path')
-      .setDesc(
-        'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.'
-      )
+      .setName(t('SETTINGS_AUDIT_LOG_FILE_PATH_NAME'))
+      .setDesc(t('SETTINGS_AUDIT_LOG_FILE_PATH_DESC'))
       .setClass('python-bridge-setting-item')
       .addText((text) =>
         text
-          .setPlaceholder('e.g., /path/to/audit.log')
+          .setPlaceholder(t('SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER'))
           .setValue(this.plugin.settings.auditLog.logFilePath || '')
           .onChange(async (value) => {
             this.plugin.settings.auditLog.logFilePath =
@@ -479,17 +478,15 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
     // Maximum Log File Size
     new Setting(containerEl)
-      .setName('Maximum Log File Size (MB)')
-      .setDesc(
-        'Maximum size of a single log file before rotation. Default: 10MB'
-      )
+      .setName(t('SETTINGS_AUDIT_LOG_MAX_SIZE_NAME'))
+      .setDesc(t('SETTINGS_AUDIT_LOG_MAX_SIZE_DESC'))
       .setClass('python-bridge-setting-item')
       .addText((text) => {
         text.inputEl.type = 'number';
         text.inputEl.min = '1';
         text.inputEl.max = '1000';
         text
-          .setPlaceholder('10')
+          .setPlaceholder(t('SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER'))
           .setValue(
             String(
               (this.plugin.settings.auditLog.maxLogFileSize || 10485760) /
@@ -510,17 +507,15 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
     // Maximum Log Files
     new Setting(containerEl)
-      .setName('Maximum Log Files')
-      .setDesc(
-        'Maximum number of log files to keep during rotation. Default: 5'
-      )
+      .setName(t('SETTINGS_AUDIT_LOG_MAX_FILES_NAME'))
+      .setDesc(t('SETTINGS_AUDIT_LOG_MAX_FILES_DESC'))
       .setClass('python-bridge-setting-item')
       .addText((text) => {
         text.inputEl.type = 'number';
         text.inputEl.min = '1';
         text.inputEl.max = '50';
         text
-          .setPlaceholder('5')
+          .setPlaceholder(t('SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER'))
           .setValue(String(this.plugin.settings.auditLog.maxLogFiles || 5))
           .onChange(async (value) => {
             const files = parseInt(value.trim());
@@ -730,7 +725,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                 text.inputEl.type = 'number';
                 text.inputEl.min = '0'; // Minimum delay is 0
                 text
-                  .setPlaceholder('0')
+                  .setPlaceholder(
+                    t('SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER')
+                  )
                   .setValue(String(currentDelay))
                   .onChange(
                     debounce(async (value) => {
@@ -903,7 +900,12 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   text
                     .setValue(String(currentValue ?? ''))
                     .setDisabled(true)
-                    .setPlaceholder(`Unknown setting type: ${settingDef.type}`)
+                    .setPlaceholder(
+                      t('ERROR_UNKNOWN_SETTING_TYPE').replace(
+                        '{type}',
+                        settingDef.type
+                      )
+                    )
                 );
                 this.plugin.logWarn(
                   `Unknown setting type "${settingDef.type}" for key "${settingDef.key}" in script "${relativePath}"`

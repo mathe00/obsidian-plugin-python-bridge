@@ -140,6 +140,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit Log',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Enable Audit Log',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Enable audit logging for script executions and API actions for security monitoring and debugging.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit Log File Path',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'e.g., /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximum Log File Size (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximum size of a single log file before rotation. Default: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximum Log Files',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximum number of log files to keep during rotation. Default: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Error: Unknown input type '{inputType}' requested.",
+  ERROR_INVALID_NUMBER_INPUT: 'Invalid number input.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Settings discovery failed for {count} script(s): {scripts}. Check console for details.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Unknown setting type: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python Executable Path',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'e.g., /usr/bin/python3 or C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Custom Python Path Failed',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Path: {path}. Error: {error}. Falling back to auto-detection.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Security Warning',
   ACTIVATION_WARNING_MESSAGE:

@@ -465,7 +465,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
               );
             new Notice(t('NOTICE_REFRESHING_SCRIPT_SETTINGS'));
             try {
-              await updateAndSyncCommands(this.plugin, scriptsFolder); // Call updateAndSyncCommands
+              await updateAndSyncCommands(this.plugin, scriptsFolder, true); // Call updateAndSyncCommands
               new Notice(t('NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS'));
               this.display(); // Redraw to show updated settings/scripts
             } catch (error) {

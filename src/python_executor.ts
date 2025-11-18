@@ -162,27 +162,37 @@ export async function discoverScriptSettings(
       stderrData += data.toString();
     });
     pythonProcess.on('error', (error) => {
+      plugin.logError(
+        `Settings discovery failed for script '${scriptAbsolutePath}': Failed to start process - ${error.message}`
+      );
       plugin.logWarn(
-        `Failed to start settings discovery for ${scriptName}: ${error.message}`
+        `Security Note: If the script '${scriptName}' doesn't handle --get-settings-json, it may execute unintended code. Consider using the define_settings/_handle_cli_args structure.`
       );
       resolve(null);
     });
     pythonProcess.on('close', (code, signal) => {
       if (signal === 'SIGTERM' || (pythonProcess.killed && signal === null)) {
+        plugin.logError(
+          `Settings discovery failed for script '${scriptAbsolutePath}': Timed out after ${discoveryTimeoutMs}ms`
+        );
         plugin.logWarn(
-          `Settings discovery for ${scriptName} timed out after ${discoveryTimeoutMs}ms.`
+          `Security Note: If the script '${scriptName}' doesn't handle --get-settings-json, it may execute unintended code. Consider using the define_settings/_handle_cli_args structure.`
         );
         resolve(null);
         return;
       }
       if (code !== 0) {
-        plugin.logWarn(
-          `Settings discovery process for ${scriptName} failed with exit code ${code}.`
+        plugin.logError(
+          `Settings discovery failed for script '${scriptAbsolutePath}': Process exited with code ${code}`
         );
-        if (stderrData.trim())
-          plugin.logWarn(
+        if (stderrData.trim()) {
+          plugin.logError(
             `Stderr from ${scriptName} discovery: ${stderrData.trim()}`
           );
+        }
+        plugin.logWarn(
+          `Security Note: If the script '${scriptName}' doesn't handle --get-settings-json, it may execute unintended code. Consider using the define_settings/_handle_cli_args structure.`
+        );
         resolve(null);
         return;
       }
@@ -201,7 +211,13 @@ export async function discoverScriptSettings(
         const definitions = JSON.parse(trimmedStdout);
         if (!Array.isArray(definitions)) {
           plugin.logError(
-            `Parsed settings definitions from ${scriptName} is not an array. Output: ${trimmedStdout}`
+            `Settings discovery failed for script '${scriptAbsolutePath}': Parsed output is not a valid settings array`
+          );
+          plugin.logError(
+            `Expected JSON array from ${scriptName}, but received: ${trimmedStdout}`
+          );
+          plugin.logWarn(
+            `Security Note: If the script '${scriptName}' doesn't handle --get-settings-json properly, it may execute unintended code. Consider using the define_settings/_handle_cli_args structure.`
           );
           resolve(null);
           return;
@@ -213,11 +229,14 @@ export async function discoverScriptSettings(
         resolve(definitions as ScriptSettingDefinition[]);
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
-        plugin.logDebug(
-          `Could not parse settings JSON from ${scriptName}: ${errorMsg}. This is expected for scripts without settings.`
+        plugin.logError(
+          `Settings discovery failed for script '${scriptAbsolutePath}': JSON parse error - ${errorMsg}`
         );
-        plugin.logDebug(
+        plugin.logError(
           `Stdout from ${scriptName} that failed parsing was: ${stdoutData.trim()}`
+        );
+        plugin.logWarn(
+          `Security Note: If the script '${scriptName}' doesn't handle --get-settings-json, it may execute unintended code. Consider using the define_settings/_handle_cli_args structure.`
         );
         resolve(null); // Discovery failed due to parsing error
       }
@@ -233,7 +252,8 @@ export async function discoverScriptSettings(
  */
 export async function updateScriptSettingsCache(
   plugin: ObsidianPythonBridge,
-  scriptsFolder: string
+  scriptsFolder: string,
+  isManualRefresh = false
 ): Promise<void> {
   plugin.logInfo('Updating script settings definitions cache...');
   if (!plugin.pythonExecutable) {
@@ -248,6 +268,9 @@ export async function updateScriptSettingsCache(
     );
     return;
   }
+
+  // Track failed scripts for potential notice display
+  const failedScripts: string[] = [];
 
   let pythonFiles: string[];
   try {
@@ -318,9 +341,7 @@ export async function updateScriptSettingsCache(
       // discoverScriptSettings returns null on failure (timeout, non-zero exit, parse error, etc.)
       if (definitions === null) {
         discoveryFailed = true;
-        plugin.logWarn(
-          `Settings discovery failed for script: ${relativePath}.`
-        );
+        failedScripts.push(relativePath);
       } else {
         // Discovery succeeded (definitions can be an empty array if no settings are defined)
         newDefinitions[relativePath] = definitions;
@@ -416,6 +437,15 @@ export async function updateScriptSettingsCache(
     await plugin.saveSettings();
   } else {
     plugin.logInfo('Script settings definitions cache is up to date.');
+  }
+
+  // Show notice for manual refresh if there were failures
+  if (isManualRefresh && failedScripts.length > 0) {
+    const failureMessage = `Settings discovery failed for ${failedScripts.length} script(s): ${failedScripts.join(', ')}. Check console for details.`;
+    new Notice(failureMessage, 8000);
+    plugin.logWarn(
+      `Manual refresh completed with ${failedScripts.length} discovery failures: ${failedScripts.join(', ')}`
+    );
   }
 }
 
@@ -975,11 +1005,13 @@ export async function updateDynamicScriptCommands(
  * Updates script settings cache AND synchronizes dynamic commands.
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param scriptsFolder Absolute path to the Python scripts folder.
+ * @param isManualRefresh Whether this update was triggered by a manual refresh.
  */
 export async function updateAndSyncCommands(
   plugin: ObsidianPythonBridge,
-  scriptsFolder: string
+  scriptsFolder: string,
+  isManualRefresh = false
 ): Promise<void> {
-  await updateScriptSettingsCache(plugin, scriptsFolder);
+  await updateScriptSettingsCache(plugin, scriptsFolder, isManualRefresh);
   await updateDynamicScriptCommands(plugin, scriptsFolder);
 }

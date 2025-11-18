@@ -294,7 +294,7 @@ export default class ObsidianPythonBridge extends Plugin {
         }
         new Notice(t('NOTICE_REFRESHING_SCRIPT_SETTINGS'));
         try {
-          await updateAndSyncCommands(this, scriptsFolder); // Use the combined update function from python_executor
+          await updateAndSyncCommands(this, scriptsFolder, true); // Use the combined update function from python_executor
           new Notice(t('NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS'));
           // Force redraw settings tab if open? (Complex, maybe defer)
         } catch (error) {

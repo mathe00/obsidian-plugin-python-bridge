@@ -124,6 +124,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_LANGUAGE_TITLE'))
       .setDesc(t('SETTINGS_LANGUAGE_DESC'))
+      .setClass('python-bridge-setting-item')
       .addDropdown((dropdown) => {
         const languages = getAvailableLanguages();
         dropdown.addOption('auto', t('SETTINGS_LANGUAGE_AUTO') || 'Automatic');
@@ -144,6 +145,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_FOLDER_TITLE'))
       .setDesc(t('SETTINGS_FOLDER_DESC'))
+      .setClass('python-bridge-setting-item')
       .addSearch(async (search: SearchComponent) => {
         new FolderSuggest(this.app, search.inputEl);
         search
@@ -243,6 +245,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         t('SETTINGS_PYTHON_EXEC_PATH_DESC') ||
           'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.'
       )
+      .setClass('python-bridge-setting-item')
       .addText((text) => {
         text
           .setPlaceholder(
@@ -347,6 +350,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_PORT_TITLE'))
       .setDesc(t('SETTINGS_PORT_DESC'))
+      .setClass('python-bridge-setting-item')
       .addText((text: TextComponent) => {
         // Added type annotation
         text
@@ -404,6 +408,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_CACHE_TITLE'))
       .setDesc(t('SETTINGS_CACHE_DESC'))
+      .setClass('python-bridge-setting-item')
       .addToggle((toggle) =>
         toggle
           .setValue(this.plugin.settings.disablePyCache)
@@ -417,6 +422,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_AUTO_PYTHONPATH_NAME'))
       .setDesc(t('SETTINGS_AUTO_PYTHONPATH_DESC'))
+      .setClass('python-bridge-setting-item')
       .addToggle((toggle) =>
         toggle
           .setValue(this.plugin.settings.autoSetPYTHONPATH)
@@ -442,6 +448,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       .setDesc(
         'Enable audit logging for script executions and API actions for security monitoring and debugging.'
       )
+      .setClass('python-bridge-setting-item')
       .addToggle((toggle) =>
         toggle
           .setValue(this.plugin.settings.auditLog.enabled)
@@ -458,6 +465,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       .setDesc(
         'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.'
       )
+      .setClass('python-bridge-setting-item')
       .addText((text) =>
         text
           .setPlaceholder('e.g., /path/to/audit.log')
@@ -475,6 +483,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       .setDesc(
         'Maximum size of a single log file before rotation. Default: 10MB'
       )
+      .setClass('python-bridge-setting-item')
       .addText((text) => {
         text.inputEl.type = 'number';
         text.inputEl.min = '1';
@@ -505,6 +514,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       .setDesc(
         'Maximum number of log files to keep during rotation. Default: 5'
       )
+      .setClass('python-bridge-setting-item')
       .addText((text) => {
         text.inputEl.type = 'number';
         text.inputEl.min = '1';
@@ -533,6 +543,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME'))
       .setDesc(t('SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC'))
+      .setClass('python-bridge-setting-item')
       .addButton((button: ButtonComponent) => {
         button
           .setButtonText(t('SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT'))
@@ -649,6 +660,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         new Setting(containerEl)
           .setName(t('SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME'))
           .setDesc(t('SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC'))
+          .setClass('python-bridge-setting-item')
           .addToggle((toggle) =>
             toggle.setValue(isScriptActive).onChange(async (value) => {
               // If toggling from false to true, show warning modal
@@ -691,6 +703,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           new Setting(containerEl)
             .setName(t('SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME')) // New translation key
             .setDesc(t('SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC')) // New translation key
+            .setClass('python-bridge-setting-item')
             .addToggle((toggle) =>
               toggle.setValue(isAutoStartEnabled).onChange(async (value) => {
                 autoStartStatus[relativePath] = value;
@@ -712,6 +725,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
             new Setting(containerEl)
               .setName(t('SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME')) // New translation key
               .setDesc(t('SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC')) // New translation key
+              .setClass('python-bridge-setting-item')
               .addText((text) => {
                 text.inputEl.type = 'number';
                 text.inputEl.min = '0'; // Minimum delay is 0
@@ -760,7 +774,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           for (const settingDef of scriptDefs) {
             const setting = new Setting(containerEl)
               .setName(settingDef.label || settingDef.key)
-              .setDesc(settingDef.description || '');
+              .setDesc(settingDef.description || '')
+              .setClass('python-bridge-setting-item');
             const currentValue = scriptValues.hasOwnProperty(settingDef.key)
               ? scriptValues[settingDef.key]
               : settingDef.default;

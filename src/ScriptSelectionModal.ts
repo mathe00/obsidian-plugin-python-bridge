@@ -33,6 +33,12 @@ export default class ScriptSelectionModal extends SuggestModal<ScriptChoice> {
     this.setPlaceholder(t('MODAL_SELECT_SCRIPT_PLACEHOLDER'));
   }
 
+  onOpen() {
+    super.onOpen();
+    // Add CSS class for RTL styling
+    this.modalEl.addClass('python-bridge-script-selection');
+  }
+
   /**
    * Returns suggestions matching the user's query.
    * Filters the choices based on the label (filename).

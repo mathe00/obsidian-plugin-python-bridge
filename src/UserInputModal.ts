@@ -38,6 +38,8 @@ export default class UserInputModal extends Modal {
 
   onOpen() {
     const { contentEl } = this;
+    contentEl.addClass('python-bridge-user-input-modal');
+
     // Title and message come from the Python script via payload
     contentEl.createEl('h2', { text: this.scriptName });
     contentEl.createEl('p', { text: this.message });
@@ -60,6 +62,7 @@ export default class UserInputModal extends Modal {
       if (this.inputType === 'range') {
         const valueDisplay = contentEl.createEl('span', {
           text: this.inputEl.value,
+          cls: 'python-bridge-range-value',
         });
         valueDisplay.style.marginLeft = '10px'; // Add some spacing
         this.inputEl.addEventListener('input', () => {

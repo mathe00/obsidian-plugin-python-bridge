@@ -9,3 +9,91 @@
 .python-bridge-security-warning-callout {
   margin-bottom: 1.5em; /* Example style, adjust as needed */
 }
+
+/* RTL Support Styles */
+/* Global RTL styles when body.has-rtl class is present (Obsidian's RTL indicator) */
+body.is-rtl .python-bridge-security-warning-callout {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL styles for UserInputModal */
+body.is-rtl .python-bridge-user-input-modal h2,
+body.is-rtl .python-bridge-user-input-modal p {
+  direction: rtl;
+  text-align: right;
+}
+
+body.is-rtl .python-bridge-user-input-modal input[type='text'],
+body.is-rtl .python-bridge-user-input-modal input[type='number'],
+body.is-rtl .python-bridge-user-input-modal input[type='date'],
+body.is-rtl .python-bridge-user-input-modal input[type='range'] {
+  direction: rtl;
+  text-align: right;
+}
+
+body.is-rtl .python-bridge-user-input-modal .python-bridge-range-value {
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+/* RTL styles for ActivationWarningModal */
+body.is-rtl .python-bridge-warning-text,
+body.is-rtl .python-bridge-security-note {
+  direction: rtl;
+  text-align: right;
+}
+
+body.is-rtl .python-bridge-warning-text ul {
+  text-align: right;
+  padding-right: 20px;
+  padding-left: 0;
+}
+
+body.is-rtl .python-bridge-modal-buttons {
+  direction: rtl;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* RTL styles for ScriptSelectionModal */
+body.is-rtl .python-bridge-script-selection .suggestion-item {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL styles for settings tab */
+body.is-rtl .python-bridge-setting-item {
+  direction: rtl;
+}
+
+body.is-rtl .python-bridge-setting-item .setting-item-info {
+  text-align: right;
+}
+
+body.is-rtl .python-bridge-setting-item .setting-item-control {
+  text-align: left;
+}
+
+/* RTL styles for folder suggestions */
+body.is-rtl .suggestion-container .suggestion-item {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL logical properties for better spacing control */
+body.is-rtl .python-bridge-security-warning-callout {
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+
+body.is-rtl .python-bridge-modal-buttons > * {
+  margin-inline-start: 10px;
+  margin-inline-end: 0;
+}
+
+body.is-rtl .python-bridge-modal-buttons > *:first-child {
+  margin-inline-start: 0;
+}

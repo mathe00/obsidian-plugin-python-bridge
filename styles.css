@@ -1,8 +1,12 @@
 /* styles.css */
 
-/* For UserInputModal and PythonBridgeSettingTab input errors */
+/* For UserInputModal and PythonBridgeSettingTab input states */
 .python-bridge-input-error {
   border-color: red !important;
+}
+
+.python-bridge-input-normal {
+  border-color: var(--background-modifier-border) !important;
 }
 
 /* For the security warning callout in PythonBridgeSettingTab */

@@ -45,13 +45,15 @@ export default class UserInputModal extends Modal {
     contentEl.createEl('p', { text: this.message });
 
     // Create input element based on type
-    if (this.inputType === 'text')
+    if (this.inputType === 'text') {
       this.inputEl = contentEl.createEl('input', { type: 'text' });
-    else if (this.inputType === 'number' || this.inputType === 'range') {
+      this.inputEl.classList.add('python-bridge-input-normal');
+    } else if (this.inputType === 'number' || this.inputType === 'range') {
       // Treat 'number' and 'range' similarly for input element
       this.inputEl = contentEl.createEl('input', {
         type: this.inputType === 'range' ? 'range' : 'number',
       }); // Use 'range' or 'number' type
+      this.inputEl.classList.add('python-bridge-input-normal');
       if (this.minValue !== undefined)
         this.inputEl.setAttribute('min', this.minValue.toString());
       if (this.maxValue !== undefined)
@@ -69,11 +71,13 @@ export default class UserInputModal extends Modal {
           valueDisplay.textContent = (this.inputEl as HTMLInputElement).value;
         });
       }
-    } else if (this.inputType === 'boolean' || this.inputType === 'checkbox')
+    } else if (this.inputType === 'boolean' || this.inputType === 'checkbox') {
       this.inputEl = contentEl.createEl('input', { type: 'checkbox' }); // Accept both 'boolean' and 'checkbox'
-    else if (this.inputType === 'date')
+      this.inputEl.classList.add('python-bridge-input-normal');
+    } else if (this.inputType === 'date') {
       this.inputEl = contentEl.createEl('input', { type: 'date' });
-    else {
+      this.inputEl.classList.add('python-bridge-input-normal');
+    } else {
       contentEl.createEl('p', {
         text: t('ERROR_UNKNOWN_INPUT_TYPE').replace(
           '{inputType}',
@@ -99,7 +103,7 @@ export default class UserInputModal extends Modal {
         if (this.inputType === 'boolean' || this.inputType === 'checkbox') {
           inputValue = (this.inputEl as HTMLInputElement).checked;
           this.inputEl.classList.remove('python-bridge-input-error'); // Reset border for checkbox/boolean
-          this.inputEl.style.borderColor = ''; // Reset border for checkbox/boolean
+          this.inputEl.classList.add('python-bridge-input-normal');
         } else if (this.inputType === 'number' || this.inputType === 'range') {
           inputValue = parseFloat(this.inputEl.value);
           // Basic validation if min/max are set
@@ -112,11 +116,13 @@ export default class UserInputModal extends Modal {
             // Handle potential NaN if input is cleared or invalid for number/range
             // Decide on behavior: default value? error? For now, let's show notice and prevent submit
             new Notice(t('ERROR_INVALID_NUMBER_INPUT'));
+            this.inputEl.classList.remove('python-bridge-input-normal');
             this.inputEl.classList.add('python-bridge-input-error');
             this.inputEl.focus();
             validationPassed = false; // Mark validation as failed
           } else {
             this.inputEl.classList.remove('python-bridge-input-error');
+            this.inputEl.classList.add('python-bridge-input-normal');
           }
         } else {
           // Includes 'text', 'date', etc.
@@ -126,12 +132,14 @@ export default class UserInputModal extends Modal {
             try {
               const regex = new RegExp(this.validationRegex);
               if (!regex.test(inputValue)) {
+                this.inputEl.classList.remove('python-bridge-input-normal');
                 this.inputEl.classList.add('python-bridge-input-error');
                 this.inputEl.focus(); // Set focus back to the input field
                 new Notice(t('NOTICE_INPUT_VALIDATION_FAILED')); // Show translated error
                 validationPassed = false; // Mark validation as failed
               } else {
                 this.inputEl.classList.remove('python-bridge-input-error');
+                this.inputEl.classList.add('python-bridge-input-normal');
               }
             } catch (e) {
               console.error(
@@ -140,11 +148,13 @@ export default class UserInputModal extends Modal {
                 e
               );
               this.inputEl.classList.remove('python-bridge-input-error');
+              this.inputEl.classList.add('python-bridge-input-normal');
               // Proceed without validation if regex itself is bad
             }
           } else {
             // Reset border for other types like 'date' or 'text' without regex
             this.inputEl.classList.remove('python-bridge-input-error');
+            this.inputEl.classList.add('python-bridge-input-normal');
           }
         }
 

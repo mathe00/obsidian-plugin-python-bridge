@@ -161,6 +161,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   await this.isPathValidDirectory(newValue);
                 if (isValidDirectory) {
                   search.inputEl.classList.remove('python-bridge-input-error');
+                  search.inputEl.classList.add('python-bridge-input-normal');
                   if (oldValue !== newValue) {
                     this.plugin.logDebug(
                       `Saving valid folder path: ${newValue}`
@@ -201,6 +202,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   // Path is invalid (doesn't exist or is a file)
                   // Only show error if the input field is not empty
                   if (newValue) {
+                    search.inputEl.classList.remove(
+                      'python-bridge-input-normal'
+                    );
                     search.inputEl.classList.add('python-bridge-input-error');
                     new Notice(t('NOTICE_INVALID_FOLDER_PATH'));
                     this.plugin.logWarn(
@@ -211,6 +215,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     search.inputEl.classList.remove(
                       'python-bridge-input-error'
                     );
+                    search.inputEl.classList.add('python-bridge-input-normal');
                     if (oldValue !== '') {
                       this.plugin.settings.pythonScriptsFolder = '';
                       await this.plugin.saveSettings();
@@ -257,6 +262,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           )
           .setValue(this.plugin.settings.pythonExecutablePath); // Semicolon to terminate the .setValue() call.
 
+        // Initialize with normal styling
+        text.inputEl.classList.add('python-bridge-input-normal');
+
         // Function to handle the visual validation (red border)
         const performVisualValidation = (currentValue: string) => {
           const currentTrimmedPath = currentValue.trim();
@@ -287,9 +295,11 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           }
 
           if (showVisualError) {
+            text.inputEl.classList.remove('python-bridge-input-normal');
             text.inputEl.classList.add('python-bridge-input-error');
           } else {
             text.inputEl.classList.remove('python-bridge-input-error');
+            text.inputEl.classList.add('python-bridge-input-normal');
           }
         };
 
@@ -358,53 +368,58 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         // Added type annotation
         text
           .setPlaceholder(String(DEFAULT_PORT))
-          .setValue(String(this.plugin.settings.httpPort))
-          // Use debounced validation/saving
-          .onChange(
-            debounce(
-              async (value: string) => {
-                const portStr = value.trim();
-                // Handle empty input: reset to default
-                if (portStr === '') {
-                  this.plugin.logInfo(
-                    'Port input cleared, resetting to default.'
-                  );
-                  text.inputEl.classList.remove('python-bridge-input-error');
-                  text.inputEl.style.borderColor = ''; // Clear border
-                  if (this.plugin.settings.httpPort !== DEFAULT_PORT) {
-                    this.plugin.settings.httpPort = DEFAULT_PORT;
-                    text.setValue(String(DEFAULT_PORT)); // Update UI
-                    await this.plugin.saveSettings();
-                  }
-                  return; // Stop processing if empty
+          .setValue(String(this.plugin.settings.httpPort));
+
+        // Initialize with normal styling
+        text.inputEl.classList.add('python-bridge-input-normal');
+
+        // Use debounced validation/saving
+        text.onChange(
+          debounce(
+            async (value: string) => {
+              const portStr = value.trim();
+              // Handle empty input: reset to default
+              if (portStr === '') {
+                this.plugin.logInfo(
+                  'Port input cleared, resetting to default.'
+                );
+                text.inputEl.classList.remove('python-bridge-input-error');
+                text.inputEl.classList.add('python-bridge-input-normal');
+                if (this.plugin.settings.httpPort !== DEFAULT_PORT) {
+                  this.plugin.settings.httpPort = DEFAULT_PORT;
+                  text.setValue(String(DEFAULT_PORT)); // Update UI
+                  await this.plugin.saveSettings();
                 }
-                const port = parseInt(portStr, 10);
-                const isValidPort =
-                  !isNaN(port) &&
-                  (port === 0 || (port >= 1024 && port <= 65535));
-                if (isValidPort) {
-                  text.inputEl.classList.remove('python-bridge-input-error');
-                  if (this.plugin.settings.httpPort !== port) {
-                    this.plugin.logDebug(`Saving valid port: ${port}`);
-                    this.plugin.settings.httpPort = port;
-                    await this.plugin.saveSettings(); // saveSettings handles restart
-                  }
-                } else {
-                  // Invalid port number or range
-                  text.inputEl.classList.add('python-bridge-input-error');
-                  new Notice(t('NOTICE_INVALID_PORT_RANGE'));
-                  this.plugin.logWarn(
-                    `Invalid port entered: ${value}. Must be 0 or between 1024 and 65535. Not saving invalid value.`
-                  );
-                  // Do NOT save the invalid value. Keep the last valid one.
-                  // Optionally revert the input field visually, but might conflict with user typing
-                  // text.setValue(String(this.plugin.settings.httpPort));
+                return; // Stop processing if empty
+              }
+              const port = parseInt(portStr, 10);
+              const isValidPort =
+                !isNaN(port) && (port === 0 || (port >= 1024 && port <= 65535));
+              if (isValidPort) {
+                text.inputEl.classList.remove('python-bridge-input-error');
+                text.inputEl.classList.add('python-bridge-input-normal');
+                if (this.plugin.settings.httpPort !== port) {
+                  this.plugin.logDebug(`Saving valid port: ${port}`);
+                  this.plugin.settings.httpPort = port;
+                  await this.plugin.saveSettings(); // saveSettings handles restart
                 }
-              },
-              this.DEBOUNCE_DELAY,
-              true
-            )
-          ); // Debounce onChange
+              } else {
+                // Invalid port number or range
+                text.inputEl.classList.remove('python-bridge-input-normal');
+                text.inputEl.classList.add('python-bridge-input-error');
+                new Notice(t('NOTICE_INVALID_PORT_RANGE'));
+                this.plugin.logWarn(
+                  `Invalid port entered: ${value}. Must be 0 or between 1024 and 65535. Not saving invalid value.`
+                );
+                // Do NOT save the invalid value. Keep the last valid one.
+                // Optionally revert the input field visually, but might conflict with user typing
+                // text.setValue(String(this.plugin.settings.httpPort));
+              }
+            },
+            this.DEBOUNCE_DELAY,
+            true
+          )
+        ); // Debounce onChange
       });
 
     // Disable Python Cache
@@ -492,17 +507,23 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
               (this.plugin.settings.auditLog.maxLogFileSize || 10485760) /
                 1048576
             )
-          )
-          .onChange(async (value) => {
-            const sizeMB = parseInt(value.trim());
-            if (!isNaN(sizeMB) && sizeMB >= 1 && sizeMB <= 1000) {
-              this.plugin.settings.auditLog.maxLogFileSize = sizeMB * 1048576;
-              await this.plugin.saveSettings();
-              text.inputEl.classList.remove('python-bridge-input-error');
-            } else {
-              text.inputEl.classList.add('python-bridge-input-error');
-            }
-          });
+          );
+
+        // Initialize with normal styling
+        text.inputEl.classList.add('python-bridge-input-normal');
+
+        text.onChange(async (value) => {
+          const sizeMB = parseInt(value.trim());
+          if (!isNaN(sizeMB) && sizeMB >= 1 && sizeMB <= 1000) {
+            this.plugin.settings.auditLog.maxLogFileSize = sizeMB * 1048576;
+            await this.plugin.saveSettings();
+            text.inputEl.classList.remove('python-bridge-input-error');
+            text.inputEl.classList.add('python-bridge-input-normal');
+          } else {
+            text.inputEl.classList.remove('python-bridge-input-normal');
+            text.inputEl.classList.add('python-bridge-input-error');
+          }
+        });
       });
 
     // Maximum Log Files
@@ -516,17 +537,23 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         text.inputEl.max = '50';
         text
           .setPlaceholder(t('SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER'))
-          .setValue(String(this.plugin.settings.auditLog.maxLogFiles || 5))
-          .onChange(async (value) => {
-            const files = parseInt(value.trim());
-            if (!isNaN(files) && files >= 1 && files <= 50) {
-              this.plugin.settings.auditLog.maxLogFiles = files;
-              await this.plugin.saveSettings();
-              text.inputEl.classList.remove('python-bridge-input-error');
-            } else {
-              text.inputEl.classList.add('python-bridge-input-error');
-            }
-          });
+          .setValue(String(this.plugin.settings.auditLog.maxLogFiles || 5));
+
+        // Initialize with normal styling
+        text.inputEl.classList.add('python-bridge-input-normal');
+
+        text.onChange(async (value) => {
+          const files = parseInt(value.trim());
+          if (!isNaN(files) && files >= 1 && files <= 50) {
+            this.plugin.settings.auditLog.maxLogFiles = files;
+            await this.plugin.saveSettings();
+            text.inputEl.classList.remove('python-bridge-input-error');
+            text.inputEl.classList.add('python-bridge-input-normal');
+          } else {
+            text.inputEl.classList.remove('python-bridge-input-normal');
+            text.inputEl.classList.add('python-bridge-input-error');
+          }
+        });
       });
 
     // Script Specific Settings
@@ -728,34 +755,42 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   .setPlaceholder(
                     t('SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER')
                   )
-                  .setValue(String(currentDelay))
-                  .onChange(
-                    debounce(async (value) => {
-                      const delayStr = value.trim();
-                      let delayNum = parseInt(delayStr, 10);
-                      // Validate: must be a non-negative integer
-                      if (isNaN(delayNum) || delayNum < 0) {
-                        text.inputEl.classList.add('python-bridge-input-error');
-                        this.plugin.logWarn(
-                          `Invalid auto-start delay entered: ${value}. Using 0.`
-                        );
-                        delayNum = 0; // Reset to default if invalid
-                        // text.setValue("0"); // This might interfere with typing
-                      } else {
-                        text.inputEl.classList.remove(
-                          'python-bridge-input-error'
-                        );
-                      }
-                      // Save only if the valid number changed
-                      if (autoStartDelay[relativePath] !== delayNum) {
-                        autoStartDelay[relativePath] = delayNum;
-                        await this.plugin.saveSettings();
-                        this.plugin.logInfo(
-                          `Script '${relativePath}' auto-start delay set to: ${delayNum} seconds.`
-                        );
-                      }
-                    }, this.DEBOUNCE_DELAY)
-                  ); // Use debounce
+                  .setValue(String(currentDelay));
+
+                // Initialize with normal styling
+                text.inputEl.classList.add('python-bridge-input-normal');
+
+                text.onChange(
+                  debounce(async (value) => {
+                    const delayStr = value.trim();
+                    let delayNum = parseInt(delayStr, 10);
+                    // Validate: must be a non-negative integer
+                    if (isNaN(delayNum) || delayNum < 0) {
+                      text.inputEl.classList.remove(
+                        'python-bridge-input-normal'
+                      );
+                      text.inputEl.classList.add('python-bridge-input-error');
+                      this.plugin.logWarn(
+                        `Invalid auto-start delay entered: ${value}. Using 0.`
+                      );
+                      delayNum = 0; // Reset to default if invalid
+                      // text.setValue("0"); // This might interfere with typing
+                    } else {
+                      text.inputEl.classList.remove(
+                        'python-bridge-input-error'
+                      );
+                      text.inputEl.classList.add('python-bridge-input-normal');
+                    }
+                    // Save only if the valid number changed
+                    if (autoStartDelay[relativePath] !== delayNum) {
+                      autoStartDelay[relativePath] = delayNum;
+                      await this.plugin.saveSettings();
+                      this.plugin.logInfo(
+                        `Script '${relativePath}' auto-start delay set to: ${delayNum} seconds.`
+                      );
+                    }
+                  }, this.DEBOUNCE_DELAY)
+                ); // Use debounce
               });
           }
         }
@@ -780,14 +815,19 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
             // Switch statement for different setting types (unchanged from previous version)
             switch (settingDef.type) {
               case 'text':
-                setting.addText((text) =>
-                  text.setValue(String(currentValue ?? '')).onChange(
+                setting.addText((text) => {
+                  text.setValue(String(currentValue ?? ''));
+
+                  // Initialize with normal styling
+                  text.inputEl.classList.add('python-bridge-input-normal');
+
+                  text.onChange(
                     debounce(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();
                     }, this.DEBOUNCE_DELAY)
-                  )
-                );
+                  );
+                });
                 break;
               case 'textarea':
                 setting.addTextArea((text) => {
@@ -809,28 +849,37 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     text.inputEl.max = String(settingDef.max);
                   if (settingDef.step !== undefined && settingDef.step !== null)
                     text.inputEl.step = String(settingDef.step);
-                  text
-                    .setValue(String(currentValue ?? settingDef.default ?? ''))
-                    .onChange(
-                      debounce(async (value) => {
-                        const numValue =
-                          value === '' ? settingDef.default : parseFloat(value);
-                        const isValidNumber = !isNaN(numValue);
-                        if (isValidNumber) {
-                          text.inputEl.classList.remove(
-                            'python-bridge-input-error'
-                          );
-                        } else {
-                          text.inputEl.classList.add(
-                            'python-bridge-input-error'
-                          );
-                        }
-                        scriptValues[settingDef.key] = isValidNumber
-                          ? numValue
-                          : settingDef.default;
-                        await this.plugin.saveSettings();
-                      }, this.DEBOUNCE_DELAY)
-                    );
+                  text.setValue(
+                    String(currentValue ?? settingDef.default ?? '')
+                  );
+
+                  // Initialize with normal styling
+                  text.inputEl.classList.add('python-bridge-input-normal');
+
+                  text.onChange(
+                    debounce(async (value) => {
+                      const numValue =
+                        value === '' ? settingDef.default : parseFloat(value);
+                      const isValidNumber = !isNaN(numValue);
+                      if (isValidNumber) {
+                        text.inputEl.classList.remove(
+                          'python-bridge-input-error'
+                        );
+                        text.inputEl.classList.add(
+                          'python-bridge-input-normal'
+                        );
+                      } else {
+                        text.inputEl.classList.remove(
+                          'python-bridge-input-normal'
+                        );
+                        text.inputEl.classList.add('python-bridge-input-error');
+                      }
+                      scriptValues[settingDef.key] = isValidNumber
+                        ? numValue
+                        : settingDef.default;
+                      await this.plugin.saveSettings();
+                    }, this.DEBOUNCE_DELAY)
+                  );
                 });
                 break;
               case 'slider':

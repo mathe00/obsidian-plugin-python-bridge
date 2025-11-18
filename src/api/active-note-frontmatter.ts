@@ -9,9 +9,9 @@ import type ObsidianPythonBridge from '../main';
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The frontmatter object or null.
  */
-export async function getActiveNoteFrontmatter(
+export function getActiveNoteFrontmatter(
   plugin: ObsidianPythonBridge
-): Promise<Record<string, any> | null> {
+): Record<string, any> | null {
   const file = getActiveNoteFile(plugin);
   if (!file) return null;
   const metadata = plugin.app.metadataCache.getFileCache(file);

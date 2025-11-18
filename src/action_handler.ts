@@ -163,7 +163,7 @@ export async function dispatchAction(
         }
       case 'get_active_note_frontmatter':
         try {
-          const activeFrontmatter = await getActiveNoteFrontmatter(plugin);
+          const activeFrontmatter = getActiveNoteFrontmatter(plugin);
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: activeFrontmatter };
         } catch (error) {
@@ -213,10 +213,7 @@ export async function dispatchAction(
           return { status: 'error', error: errorMsg };
         }
         try {
-          const frontmatter = await getNoteFrontmatterByPath(
-            plugin,
-            payload.path
-          );
+          const frontmatter = getNoteFrontmatterByPath(plugin, payload.path);
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: frontmatter };
         } catch (error) {

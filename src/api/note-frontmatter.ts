@@ -10,10 +10,10 @@ import type ObsidianPythonBridge from '../main';
  * @param relativePath The vault-relative path to the note.
  * @returns The parsed frontmatter object, or null if no frontmatter exists or file not found.
  */
-export async function getNoteFrontmatterByPath(
+export function getNoteFrontmatterByPath(
   plugin: ObsidianPythonBridge,
   relativePath: string
-): Promise<Record<string, any> | null> {
+): Record<string, any> | null {
   const normalizedPath = normalizePath(relativePath);
   const metadata = plugin.app.metadataCache.getCache(normalizedPath);
   if (!metadata) {

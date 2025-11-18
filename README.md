@@ -173,6 +173,7 @@ In short, while some tasks are technically feasible without this plugin, they're
 
 - **🔔 Native Obsidian Notifications**: Display notifications directly within Obsidian, making it more integrated and fluid compared to terminal outputs.
 - **📝 Access/Modify Active Note & Selection**: Easily get content (as a single string or list of lines), frontmatter, path, or title of the currently open note, and get or replace selected text in the editor. Get basic editor context (cursor position, line count).
+- **🛠️ **Advanced Editor Operations\*\*: Fine-grained editor control with methods like `setCursor`, `getLine`, `setLine`, `replaceRange`, and `scrollIntoView` for precise text manipulation and navigation.
 - **📂 Vault Interaction & File Management**: Get the vault path, list all note paths (relative or absolute), open specific notes, read/modify any note's content or frontmatter (by path). **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
 - **🔗 Backlink Retrieval**: Get incoming links (backlinks) for a specific note. Optionally uses the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) for significantly improved performance in large vaults if installed.
 - **🏷️ Tag Management**: Retrieve all unique tags from your vault using `get_all_tags()`.
@@ -441,7 +442,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ### 🔥 High Priority
 
-- 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
+- ~~🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation.)_~~ ✅ **COMPLETED**
 
 ### 🔧 Medium Priority
 

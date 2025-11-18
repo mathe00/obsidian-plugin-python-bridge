@@ -769,9 +769,7 @@ export async function runPythonScript(
  * Opens a modal for the user to select a Python script from the configured folder, then runs it.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export async function chooseAndRunPythonScript(
-  plugin: ObsidianPythonBridge
-): Promise<void> {
+export function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): void {
   const scriptsFolder = getScriptsFolderPath(plugin);
   if (!scriptsFolder) {
     new Notice(t('NOTICE_SCRIPTS_FOLDER_INVALID'), 5000);

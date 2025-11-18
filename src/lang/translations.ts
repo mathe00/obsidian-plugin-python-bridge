@@ -1,6 +1,6 @@
 // --- src/lang/translations.ts ---
 // import { Notice } from 'obsidian'; // Notice is not used in this file
-import * as moment from 'moment';
+import { moment } from 'obsidian';
 import type ObsidianPythonBridge from '../main'; // Use import type
 
 // Import language files

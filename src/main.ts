@@ -66,13 +66,13 @@ export default class ObsidianPythonBridge extends Plugin {
   // --- Logging Helpers ---
   // (Keep these methods as they are used by other modules via the plugin instance)
   logDebug(message: string, ...optionalParams: any[]) {
-    console.log(
+    console.debug(
       `plugin:obsidian-python-bridge:DEBUG: ${message}`,
       ...optionalParams
     );
   }
   logInfo(message: string, ...optionalParams: any[]) {
-    console.log(
+    console.warn(
       `plugin:obsidian-python-bridge:INFO: ${message}`,
       ...optionalParams
     );

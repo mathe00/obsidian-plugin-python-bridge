@@ -110,3 +110,11 @@ main.js
 # Personal data of plugin settings
 data.json
 .prettierrc.json
+
+# Ruff
+.ruff_cache/
+
+# Python Virtual Environment
+venv/
+.env/
+.envrc

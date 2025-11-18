@@ -111,7 +111,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Đường dẫn Tệp Thực thi Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Đường dẫn tuyệt đối đến tệp thực thi Python hoặc uv của bạn. Để trống để tự động phát hiện (uv, py, python3, python). Yêu cầu tải lại hoặc khởi động lại plugin để có hiệu lực đầy đủ nếu thay đổi.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ví dụ: /usr/bin/python3 hoặc C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ví dụ: /usr/bin/python3 hoặc C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Đường dẫn tệp thực thi Python đã thay đổi. Đang làm mới tập lệnh...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -114,7 +114,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Njia ya Faili ya Python Inayoweza Kutekelezwa',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Njia kamili ya faili yako ya Python au uv inayoweza kutekelezwa. Acha tupu kwa utambuzi wa kiotomatiki (uv, py, python3, python). Inahitaji kupakia upya programu-jalizi au kuanzisha upya ili ianze kutumika kikamilifu ikibadilishwa.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'k.m. /usr/bin/python3 au C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'k.m. /usr/bin/python3 au C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Njia ya faili ya Python inayoweza kutekelezwa imebadilishwa. Inaburudisha hati...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

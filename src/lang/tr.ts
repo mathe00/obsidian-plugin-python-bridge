@@ -120,7 +120,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python Çalıştırılabilir Dosya Yolu',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python veya uv çalıştırılabilir dosyanızın mutlak yolu. Otomatik algılama için boş bırakın (uv, py, python3, python). Değiştirilirse tam olarak etkili olması için eklentinin yeniden yüklenmesi veya yeniden başlatılması gerekir.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ör: /usr/bin/python3 veya C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ör: /usr/bin/python3 veya C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python çalıştırılabilir dosya yolu değiştirildi. Komut dosyaları yenileniyor...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

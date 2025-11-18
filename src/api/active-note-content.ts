@@ -12,7 +12,7 @@ import type ObsidianPythonBridge from '../main';
  */
 export async function getActiveNoteContent(
   plugin: ObsidianPythonBridge,
-  returnFormat: string = 'string'
+  returnFormat = 'string'
 ): Promise<string | string[] | null> {
   const file = getActiveNoteFile(plugin);
   if (!file) return null;

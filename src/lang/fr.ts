@@ -125,7 +125,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: "Chemin de l'Exécutable Python",
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Chemin absolu vers votre exécutable Python ou uv. Laissez vide pour la détection automatique (uv, py, python3, python). Nécessite un rechargement ou redémarrage du plugin pour plein effet si modifié.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 ou C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 ou C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     "Chemin de l'exécutable Python modifié. Rafraîchissement des scripts...",
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

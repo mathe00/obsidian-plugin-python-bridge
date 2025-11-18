@@ -108,7 +108,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 可执行文件路径',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python 或 uv 可执行文件的绝对路径。留空以进行自动检测（uv、py、python3、python）。如果更改，需要重新加载或重新启动插件才能完全生效。',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例如 /usr/bin/python3 或 C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例如 /usr/bin/python3 或 C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: 'Python 可执行文件路径已更改。正在刷新脚本...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     '自定义 Python 路径无效，且未找到备用可执行文件。脚本可能无法运行。',

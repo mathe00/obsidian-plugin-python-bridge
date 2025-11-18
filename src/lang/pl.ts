@@ -123,7 +123,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Ścieżka Pliku Wykonywalnego Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ścieżka bezwzględna do pliku wykonywalnego Python lub uv. Pozostaw puste dla automatycznego wykrywania (uv, py, python3, python). Wymaga ponownego załadowania lub ponownego uruchomienia wtyczki, aby w pełni zadziałało po zmianie.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'np. /usr/bin/python3 lub C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'np. /usr/bin/python3 lub C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Zmieniono ścieżkę pliku wykonywalnego Python. Odświeżanie skryptów...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -116,7 +116,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 실행 파일 경로',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python 또는 uv 실행 파일의 절대 경로입니다. 자동 감지(uv, py, python3, python)를 위해 비워 두십시오. 변경된 경우 전체 효과를 적용하려면 플러그인을 다시 로드하거나 다시 시작해야 합니다.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '예: /usr/bin/python3 또는 C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '예: /usr/bin/python3 또는 C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python 실행 파일 경로가 변경되었습니다. 스크립트를 새로 고치는 중...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

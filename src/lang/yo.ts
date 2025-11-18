@@ -109,7 +109,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Ọ̀nà Ètò Python Tí Ó Lè Ṣeéṣe',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ọ̀nà pípé sí ètò Python tàbí uv rẹ tí ó ṣeéṣe. Fi sílẹ̀ ní òfo fún ìṣàwárí αυτόματη (uv, py, python3, python). Ó nílò ìtúnsílọ́ tàbí ìtúnsílẹ̀ plugin fún ipa pípé bí ó bá yípadà.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'àpẹẹrẹ, /usr/bin/python3 tàbí C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'àpẹẹrẹ, /usr/bin/python3 tàbí C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Ọ̀nà ètò Python tí ó ṣeéṣe ti yípadà. Àtúnsọ àwọn ìwé àfọwọ́kọ...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

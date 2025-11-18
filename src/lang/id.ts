@@ -122,7 +122,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Jalur Eksekusi Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Jalur absolut ke eksekusi Python atau uv Anda. Biarkan kosong untuk deteksi otomatis (uv, py, python3, python). Memerlukan muat ulang atau mulai ulang plugin agar berlaku penuh jika diubah.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'misalnya, /usr/bin/python3 atau C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'misalnya, /usr/bin/python3 atau C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: 'Jalur eksekusi Python diubah. Memperbarui skrip...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Jalur Python kustom tidak valid, dan tidak ada eksekusi fallback yang ditemukan. Skrip mungkin tidak berjalan.',

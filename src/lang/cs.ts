@@ -112,7 +112,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Cesta k spustitelnému souboru Pythonu',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolutní cesta k vašemu spustitelnému souboru Pythonu nebo uv. Ponechte prázdné pro automatickou detekci (uv, py, python3, python). Pokud dojde ke změně, vyžaduje pro plný účinek opětovné načtení nebo restartování pluginu.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'např. /usr/bin/python3 nebo C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'např. /usr/bin/python3 nebo C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Cesta ke spustitelnému souboru Pythonu byla změněna. Aktualizují se skripty...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

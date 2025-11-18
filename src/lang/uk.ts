@@ -114,7 +114,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Шлях до виконуваного файлу Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Абсолютний шлях до вашого виконуваного файлу Python або uv. Залиште порожнім для автоматичного визначення (uv, py, python3, python). Потребує перезавантаження плагіна або перезапуску для повного набуття чинності у разі зміни.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'напр., /usr/bin/python3 або C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'напр., /usr/bin/python3 або C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Шлях до виконуваного файлу Python змінено. Оновлення сценаріїв...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

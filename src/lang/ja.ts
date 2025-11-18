@@ -119,7 +119,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 実行可能ファイルのパス',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python または uv 実行可能ファイルへの絶対パス。自動検出の場合は空のままにします (uv、py、python3、python)。変更された場合、完全に有効にするにはプラグインの再読み込みまたは再起動が必要です。',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例: /usr/bin/python3 または C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例: /usr/bin/python3 または C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python 実行可能ファイルのパスが変更されました。スクリプトを更新しています...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

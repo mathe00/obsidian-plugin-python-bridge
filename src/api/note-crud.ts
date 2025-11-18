@@ -67,7 +67,7 @@ export async function checkPathExists(
 export async function deletePath(
   plugin: ObsidianPythonBridge,
   relativePath: string,
-  permanently: boolean = false
+  permanently = false
 ): Promise<void> {
   const normalizedPath = normalizePath(relativePath);
   plugin.logDebug(`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`);

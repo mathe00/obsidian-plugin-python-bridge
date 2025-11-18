@@ -113,7 +113,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Sökväg till Python Exekverbar Fil',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolut sökväg till din Python- eller uv-exekverbara fil. Lämna tomt för automatisk identifiering (uv, py, python3, python). Kräver omladdning eller omstart av insticksprogrammet för full effekt om det ändras.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 't.ex. /usr/bin/python3 eller C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 't.ex. /usr/bin/python3 eller C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Sökväg till Python exekverbar fil ändrad. Uppdaterar skript...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

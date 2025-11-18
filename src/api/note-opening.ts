@@ -14,7 +14,7 @@ import type ObsidianPythonBridge from '../main';
 export async function openNote(
   plugin: ObsidianPythonBridge,
   relativePath: string,
-  newLeaf: boolean = false
+  newLeaf = false
 ): Promise<void> {
   const normalizedPath = normalizePath(relativePath);
   plugin.logDebug(`Requesting to open note: ${normalizedPath} (newLeaf: ${newLeaf})`);

@@ -109,7 +109,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'مسیر فایل اجرایی پایتون',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'مسیر مطلق به فایل اجرایی پایتون یا uv شما. برای تشخیص خودکار خالی بگذارید (uv، py، python3، python). در صورت تغییر، برای اعمال کامل اثر، نیاز به بارگذاری مجدد یا راه اندازی مجدد افزونه است.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'مثال: /usr/bin/python3 یا C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'مثال: /usr/bin/python3 یا C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'مسیر فایل اجرایی پایتون تغییر کرد. در حال بازخوانی اسکریپت ها...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

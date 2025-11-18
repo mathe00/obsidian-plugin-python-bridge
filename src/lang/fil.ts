@@ -116,7 +116,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Landas ng Python Executable',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ganap na landas sa iyong Python o uv executable. Iwanang blangko para sa auto-detection (uv, py, python3, python). Nangangailangan ng plugin reload o restart para magkabisa nang buo kung binago.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'hal: /usr/bin/python3 o C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'hal: /usr/bin/python3 o C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Binago ang landas ng Python executable. Nagre-refresh ng mga script...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

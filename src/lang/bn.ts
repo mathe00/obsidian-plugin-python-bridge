@@ -112,7 +112,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'পাইথন এক্সিকিউটেবল পাথ',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'আপনার পাইথন বা ইউভি এক্সিকিউটেবলের সম্পূর্ণ পাথ। স্বয়ংক্রিয় সনাক্তকরণের জন্য খালি রাখুন (uv, py, python3, python)। পরিবর্তন করা হলে সম্পূর্ণ প্রভাবের জন্য প্লাগইন পুনরায় লোড বা পুনরায় চালু করতে হবে।',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'যেমন, /usr/bin/python3 অথবা C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'যেমন, /usr/bin/python3 অথবা C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'পাইথন এক্সিকিউটেবল পাথ পরিবর্তিত হয়েছে। স্ক্রিপ্ট রিফ্রেশ করা হচ্ছে...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

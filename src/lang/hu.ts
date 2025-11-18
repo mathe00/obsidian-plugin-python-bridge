@@ -115,7 +115,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python Futtatható Fájl Elérési Útja',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Abszolút elérési út a Python vagy uv futtatható fájlhoz. Hagyja üresen az automatikus észleléshez (uv, py, python3, python). A bővítmény újraindítása vagy újratöltése szükséges a teljes hatálybalépéshez, ha megváltozik.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'pl. /usr/bin/python3 vagy C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'pl. /usr/bin/python3 vagy C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'A Python futtatható fájl elérési útja megváltozott. Szkriptek frissítése...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

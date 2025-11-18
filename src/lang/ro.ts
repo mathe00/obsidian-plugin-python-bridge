@@ -114,7 +114,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Calea către Executabilul Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Calea absolută către executabilul Python sau uv. Lăsați necompletat pentru detectare automată (uv, py, python3, python). Necesită reîncărcarea sau repornirea pluginului pentru a intra în vigoare complet dacă este modificat.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 sau C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 sau C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Calea către executabilul Python a fost modificată. Se reîmprospătează scripturile...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

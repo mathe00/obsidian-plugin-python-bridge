@@ -115,7 +115,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Διαδρομή Εκτελέσιμου Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'π.χ., /usr/bin/python3 ή C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'π.χ., /usr/bin/python3 ή C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Η διαδρομή εκτελέσιμου Python άλλαξε. Ανανέωση σεναρίων...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

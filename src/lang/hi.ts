@@ -122,7 +122,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'पायथन निष्पादन योग्य पथ',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'उदा., /usr/bin/python3 या C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'उदा., /usr/bin/python3 या C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'पायथन निष्पादन योग्य पथ बदल गया है। स्क्रिप्ट रीफ्रेश हो रही हैं...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

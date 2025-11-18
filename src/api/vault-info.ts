@@ -24,7 +24,7 @@ export function getCurrentVaultAbsolutePath(plugin: ObsidianPythonBridge): strin
  * @returns An array of vault-relative or absolute paths.
  * @throws Error if `absolute` is true but vault path is unavailable.
  */
-export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute: boolean = false): string[] {
+export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute = false): string[] {
   const relativePaths = plugin.app.vault.getMarkdownFiles().map(f => f.path);
   if (absolute) {
     const vaultPath = getCurrentVaultAbsolutePath(plugin);

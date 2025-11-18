@@ -114,7 +114,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Pad naar Python Uitvoerbaar Bestand',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absoluut pad naar uw Python- of uv-uitvoerbaar bestand. Laat leeg voor automatische detectie (uv, py, python3, python). Vereist herladen of opnieuw opstarten van de plug-in om volledig effect te hebben als dit wordt gewijzigd.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'bijv. /usr/bin/python3 of C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'bijv. /usr/bin/python3 of C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Pad naar Python uitvoerbaar bestand gewijzigd. Scripts vernieuwen...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

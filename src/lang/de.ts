@@ -122,7 +122,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Pfad zur Python-Ausführungsdatei',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absoluter Pfad zu Ihrer Python- oder uv-Ausführungsdatei. Leer lassen für automatische Erkennung (uv, py, python3, python). Erfordert ein Neuladen oder Neustarten des Plugins, um bei Änderungen vollständig wirksam zu werden.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'z.B. /usr/bin/python3 oder C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'z.B. /usr/bin/python3 oder C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Pfad zur Python-Ausführungsdatei geändert. Skripte werden aktualisiert...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

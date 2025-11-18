@@ -113,7 +113,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python-suoritustiedoston polku',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absoluuttinen polku Python- tai uv-suoritustiedostoon. Jätä tyhjäksi automaattista tunnistusta varten (uv, py, python3, python). Vaatii laajennuksen uudelleenlatauksen tai uudelleenkäynnistyksen, jotta muutos tulee täysin voimaan.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'esim. /usr/bin/python3 tai C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'esim. /usr/bin/python3 tai C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python-suoritustiedoston polku muuttui. Päivitetään skriptejä...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

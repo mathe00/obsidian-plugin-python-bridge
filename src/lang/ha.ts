@@ -114,7 +114,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Hanyar Fayil Mai Gudun Aiki na Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Cikakken hanyar zuwa fayil ɗin Python ko uv mai aiwatarwa. Bar fanko don ganowa ta atomatik (uv, py, python3, python). Yana buƙatar sake kunna plugin ko sake farawa don yin tasiri sosai idan an canza.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'misali, /usr/bin/python3 ko C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'misali, /usr/bin/python3 ko C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'An canza hanyar fayil mai aiwatarwa na Python. Ana sabunta rubutun...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

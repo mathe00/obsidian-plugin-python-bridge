@@ -101,7 +101,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 可執行檔案路徑',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     '您的 Python 或 uv 可執行檔案的絕對路徑。留空以進行自動偵測（uv、py、python3、python）。如果變更，需要重新載入或重新啟動外掛程式才能完全生效。',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例如 /usr/bin/python3 或 C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例如 /usr/bin/python3 或 C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: 'Python 可執行檔案路徑已變更。正在重新整理腳本...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     '自訂 Python 路徑無效，且找不到備用可執行檔案。腳本可能無法執行。',

@@ -45,7 +45,7 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
 export default class ObsidianPythonBridge extends Plugin {
   settings!: PythonBridgeSettings;
   server: http.Server | null = null;
-  initialHttpPort: number = 0; // Store the port used at server start
+  initialHttpPort = 0; // Store the port used at server start
   pythonExecutable: string | null = null; // Managed by environment_checker
   dynamicScriptCommands: Map<string, Command> = new Map(); // Managed by python_executor
   eventListeners: Map<string, Set<string>> = new Map(); // Managed by event_handler
@@ -433,7 +433,7 @@ export default class ObsidianPythonBridge extends Plugin {
   // Keep helpers needed directly by main.ts or UI components (like modals)
 
   // Keep showNotification as it's called directly by action_handler
-  showNotification(message: string, duration: number = 4000) {
+  showNotification(message: string, duration = 4000) {
     new Notice(message, duration);
   }
 

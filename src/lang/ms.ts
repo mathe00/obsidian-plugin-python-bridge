@@ -113,7 +113,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Laluan Boleh Laksana Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Laluan mutlak ke boleh laksana Python atau uv anda. Biarkan kosong untuk pengesanan automatik (uv, py, python3, python). Memerlukan muat semula atau mulakan semula plugin untuk berkuat kuasa sepenuhnya jika diubah.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'cth: /usr/bin/python3 atau C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'cth: /usr/bin/python3 atau C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Laluan boleh laksana Python ditukar. Menyegarkan skrip...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

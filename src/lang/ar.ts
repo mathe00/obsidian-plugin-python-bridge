@@ -117,7 +117,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'مسار ملف Python التنفيذي',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'المسار المطلق لملف Python أو uv التنفيذي الخاص بك. اتركه فارغًا للكشف التلقائي (uv, py, python3, python). يتطلب إعادة تحميل المكون الإضافي أو إعادة تشغيله ليصبح ساري المفعول بالكامل في حالة تغييره.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'مثال: /usr/bin/python3 أو C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'مثال: /usr/bin/python3 أو C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'تم تغيير مسار ملف Python التنفيذي. جارٍ تحديث البرامج النصية...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

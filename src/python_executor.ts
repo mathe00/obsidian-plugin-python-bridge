@@ -347,7 +347,7 @@ export async function updateScriptSettingsCache(
 export async function runPythonScript(
   plugin: ObsidianPythonBridge,
   scriptPath: string,
-  context: string = 'manual'
+  context = 'manual'
 ) {
   // Add context for logging
   if (!plugin.pythonExecutable) {

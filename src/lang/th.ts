@@ -110,7 +110,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'เส้นทางไฟล์ Python ที่เรียกใช้งานได้',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'เส้นทางสัมบูรณ์ไปยังไฟล์ Python หรือ uv ที่เรียกใช้งานได้ของคุณ ปล่อยว่างไว้สำหรับการตรวจจับอัตโนมัติ (uv, py, python3, python) หากมีการเปลี่ยนแปลง จำเป็นต้องโหลดปลั๊กอินใหม่หรือรีสตาร์ทเพื่อให้มีผลสมบูรณ์',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'เช่น /usr/bin/python3 หรือ C:\Python39\python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'เช่น /usr/bin/python3 หรือ C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'เส้นทางไฟล์ Python ที่เรียกใช้งานได้มีการเปลี่ยนแปลง กำลังรีเฟรชสคริปต์...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -110,7 +110,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ụzọ zuru oke na faịlụ Python ma ọ bụ uv gị nwere ike ịgba ọsọ. Hapụ ya oghere maka nchọpụta onwe (uv, py, python3, python). Ọ chọrọ ntinyegharị ma ọ bụ mmalitegharị plugin ka o wee rụọ ọrụ zuru oke ma ọ bụrụ na agbanwere ya.',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
-    'ọmụmaatụ, /usr/bin/python3 ma ọ bụ C:\Python39\python.exe',
+    'ọmụmaatụ, /usr/bin/python3 ma ọ bụ C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Agbanweela ụzọ faịlụ Python nwere ike ịgba ọsọ. Na-emegharị edemede...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

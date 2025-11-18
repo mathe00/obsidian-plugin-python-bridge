@@ -112,7 +112,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'آپ کے پائیتھن یا یووی ایگزیکیوٹیبل کا مطلق راستہ۔ خودکار شناخت (یووی، پی وائی، پائیتھن 3، پائیتھن) کے لیے خالی چھوڑ دیں۔ اگر تبدیل کیا جائے تو مکمل اثر کے لیے پلگ ان کو دوبارہ لوڈ یا دوبارہ شروع کرنے کی ضرورت ہے۔',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
-    'مثال کے طور پر، /usr/bin/python3 یا C:\Python39\python.exe',
+    'مثال کے طور پر، /usr/bin/python3 یا C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'پائیتھن ایگزیکیوٹیبل کا راستہ تبدیل کر دیا گیا ہے۔ اسکرپٹس کو ریفریش کیا جا رہا ہے۔۔۔',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

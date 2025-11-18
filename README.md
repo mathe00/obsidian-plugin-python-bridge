@@ -437,14 +437,28 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ## 🚀 Future Features (roadmap)
 
-- 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. _(Partially addressed: Added file management, context info, linking)_
+### 🔥 High Priority
+
 - 🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 - 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
-- ✅ **Security Audit Log**: Implemented comprehensive audit logging system to track script execution, settings discovery, and security events for monitoring and compliance purposes.
-- 🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability. (Track progress: [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25))
-- 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I'm open to it! 😅
+
+### 🔧 Medium Priority
+
+- 🔐 **Enhanced Security Features**: Script sandboxing, digital signature verification for scripts, execution time limits and resource quotas.
+- ⚡ **Performance Optimizations**: Caching mechanisms for frequent API calls, lazy loading for large vault operations, connection pooling.
+- 🔌 **Extended API Capabilities**: File watching and real-time sync, advanced search and filtering, integration with popular Obsidian plugins.
+- 🛠️ **Developer Experience**: Python script debugging interface, script templates and scaffolding, integrated testing framework.
+- 📊 **Analytics & Monitoring**: Script usage statistics, performance metrics dashboard, error tracking and reporting.
+- 🌐 **Enhanced Integration**: WebSocket support for real-time communication, support for async/await patterns in Python, batch processing capabilities.
+
+### 📦 Low Priority
+
+- 📦 **Code Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, contributions are welcome! 😅
 - 📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
-- 📥 **Plugin Submission**: The plugin will be submitted to the Obsidian community plugins directory, making it easily downloadable from within Obsidian.
+
+### 📥 Status
+
+- 📥 **Plugin Submission**: The plugin (v2.0.0) has been submitted to the Obsidian Community Plugin list and is currently awaiting review and approval by the Obsidian team.
 
 <a id="installation"></a>
 

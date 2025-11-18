@@ -333,14 +333,22 @@ export async function updateScriptSettingsCache(
 
       // Clear any previously cached settings definitions and values for this disabled script
       if (
-        plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptSettingsDefinitions,
+          relativePath
+        )
       ) {
         plugin.logInfo(
           `Removing cached settings definitions for disabled script: ${relativePath}`
         );
         changesMade = true;
       }
-      if (plugin.settings.scriptSettingsValues.hasOwnProperty(relativePath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptSettingsValues,
+          relativePath
+        )
+      ) {
         plugin.logInfo(
           `Clearing settings values for disabled script: ${relativePath}`
         );
@@ -389,7 +397,10 @@ export async function updateScriptSettingsCache(
     if (discoveryFailed) {
       // If discovery failed, check if there were old definitions cached
       if (
-        plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptSettingsDefinitions,
+          relativePath
+        )
       ) {
         plugin.logInfo(
           `Removing cached settings definitions for ${relativePath} due to discovery failure.`
@@ -414,23 +425,50 @@ export async function updateScriptSettingsCache(
       );
       // Definition is already absent from newDefinitions because it wasn't in currentScriptPaths.
       // Clean up associated values and statuses.
-      if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptSettingsValues,
+          cachedPath
+        )
+      ) {
         delete plugin.settings.scriptSettingsValues[cachedPath];
       }
-      if (plugin.settings.scriptActivationStatus.hasOwnProperty(cachedPath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptActivationStatus,
+          cachedPath
+        )
+      ) {
         delete plugin.settings.scriptActivationStatus[cachedPath];
       }
-      if (plugin.settings.scriptAutoStartStatus.hasOwnProperty(cachedPath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptAutoStartStatus,
+          cachedPath
+        )
+      ) {
         delete plugin.settings.scriptAutoStartStatus[cachedPath];
       }
-      if (plugin.settings.scriptAutoStartDelay.hasOwnProperty(cachedPath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptAutoStartDelay,
+          cachedPath
+        )
+      ) {
         delete plugin.settings.scriptAutoStartDelay[cachedPath];
       }
-    } else if (!newDefinitions.hasOwnProperty(cachedPath)) {
+    } else if (
+      !Object.prototype.hasOwnProperty.call(newDefinitions, cachedPath)
+    ) {
       // Script file exists, but discovery failed (and it was previously cached)
       // The definition was already omitted from newDefinitions above.
       // Also remove any stored values for this script.
-      if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
+      if (
+        Object.prototype.hasOwnProperty.call(
+          plugin.settings.scriptSettingsValues,
+          cachedPath
+        )
+      ) {
         plugin.logInfo(
           `Clearing settings values for ${cachedPath} due to discovery failure.`
         );

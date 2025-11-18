@@ -469,7 +469,10 @@ export async function dispatchAction(
             plugin.settings.scriptSettingsValues[relativePath] || {};
           const finalValues: Record<string, any> = {};
           for (const def of definitions) {
-            finalValues[def.key] = storedValues.hasOwnProperty(def.key)
+            finalValues[def.key] = Object.prototype.hasOwnProperty.call(
+              storedValues,
+              def.key
+            )
               ? storedValues[def.key]
               : def.default;
           }

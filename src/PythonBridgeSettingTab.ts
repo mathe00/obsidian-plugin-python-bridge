@@ -433,6 +433,97 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           })
       );
 
+    // Audit Log Settings
+    containerEl.createEl('h2', { text: 'Audit Log' });
+
+    // Enable Audit Log Toggle
+    new Setting(containerEl)
+      .setName('Enable Audit Log')
+      .setDesc(
+        'Enable audit logging for script executions and API actions for security monitoring and debugging.'
+      )
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.auditLog.enabled)
+          .onChange(async (value) => {
+            this.plugin.settings.auditLog.enabled = value;
+            await this.plugin.saveSettings();
+            this.plugin.logInfo(`Audit log setting changed to: ${value}`);
+          })
+      );
+
+    // Audit Log File Path
+    new Setting(containerEl)
+      .setName('Audit Log File Path')
+      .setDesc(
+        'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.'
+      )
+      .addText((text) =>
+        text
+          .setPlaceholder('e.g., /path/to/audit.log')
+          .setValue(this.plugin.settings.auditLog.logFilePath || '')
+          .onChange(async (value) => {
+            this.plugin.settings.auditLog.logFilePath =
+              value.trim() || undefined;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    // Maximum Log File Size
+    new Setting(containerEl)
+      .setName('Maximum Log File Size (MB)')
+      .setDesc(
+        'Maximum size of a single log file before rotation. Default: 10MB'
+      )
+      .addText((text) => {
+        text.inputEl.type = 'number';
+        text.inputEl.min = '1';
+        text.inputEl.max = '1000';
+        text
+          .setPlaceholder('10')
+          .setValue(
+            String(
+              (this.plugin.settings.auditLog.maxLogFileSize || 10485760) /
+                1048576
+            )
+          )
+          .onChange(async (value) => {
+            const sizeMB = parseInt(value.trim());
+            if (!isNaN(sizeMB) && sizeMB >= 1 && sizeMB <= 1000) {
+              this.plugin.settings.auditLog.maxLogFileSize = sizeMB * 1048576;
+              await this.plugin.saveSettings();
+              text.inputEl.classList.remove('python-bridge-input-error');
+            } else {
+              text.inputEl.classList.add('python-bridge-input-error');
+            }
+          });
+      });
+
+    // Maximum Log Files
+    new Setting(containerEl)
+      .setName('Maximum Log Files')
+      .setDesc(
+        'Maximum number of log files to keep during rotation. Default: 5'
+      )
+      .addText((text) => {
+        text.inputEl.type = 'number';
+        text.inputEl.min = '1';
+        text.inputEl.max = '50';
+        text
+          .setPlaceholder('5')
+          .setValue(String(this.plugin.settings.auditLog.maxLogFiles || 5))
+          .onChange(async (value) => {
+            const files = parseInt(value.trim());
+            if (!isNaN(files) && files >= 1 && files <= 50) {
+              this.plugin.settings.auditLog.maxLogFiles = files;
+              await this.plugin.saveSettings();
+              text.inputEl.classList.remove('python-bridge-input-error');
+            } else {
+              text.inputEl.classList.add('python-bridge-input-error');
+            }
+          });
+      });
+
     // Script Specific Settings
     containerEl.createEl('h2', {
       text: t('SETTINGS_SCRIPT_SETTINGS_TITLE'),

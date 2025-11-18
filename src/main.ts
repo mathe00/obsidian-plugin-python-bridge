@@ -45,6 +45,12 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
   scriptActivationStatus: {},
   scriptAutoStartStatus: {},
   scriptAutoStartDelay: {},
+  auditLog: {
+    enabled: false,
+    logFilePath: undefined,
+    maxLogFileSize: 10485760, // 10MB in bytes
+    maxLogFiles: 5,
+  },
 };
 
 // --- Main Plugin Class ---

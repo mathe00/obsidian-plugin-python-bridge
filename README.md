@@ -81,6 +81,54 @@ The plugin provides detailed logging for security events:
 - Security warnings about potential unintended code execution
 - Disabled script execution attempts
 
+### 🔍 Audit Log Feature
+
+The plugin includes a comprehensive **Audit Log** feature for security monitoring and debugging:
+
+#### Features:
+
+- **Optional Audit Logging**: Toggle to enable/disable audit logging in plugin settings
+- **Custom Log File Path**: Optional custom path for audit log file (defaults to plugin directory)
+- **Log Rotation**: Automatic log file rotation when size limits are reached
+- **Configurable Limits**: Set maximum log file size (1-1000MB) and number of rotated files (1-50)
+
+#### Logged Events:
+
+- **Script Executions**: Timestamp, script name, trigger type (manual/auto-start/event), exit code, and error details
+- **API Actions**: Timestamp, action name, response status, source script (when available), and error details
+- **Security Events**: Failed execution attempts, settings discovery failures, and disabled script access attempts
+
+#### Log Format:
+
+All audit entries are logged in structured JSON format for easy parsing and analysis:
+
+```json
+{
+  "timestamp": "2025-01-15T10:30:00.000Z",
+  "type": "script_execution",
+  "scriptName": "my_script.py",
+  "triggerType": "manual",
+  "status": "success",
+  "exitCode": 0
+}
+```
+
+#### Configuration:
+
+Access audit log settings in **Settings > Community Plugins > Python Bridge > Audit Log**:
+
+- Enable/disable audit logging
+- Configure custom log file path (optional)
+- Set maximum log file size (default: 10MB)
+- Set maximum number of log files to keep (default: 5)
+
+#### Security Benefits:
+
+- **Monitoring**: Track all script executions and API interactions for security auditing
+- **Debugging**: Detailed logs help troubleshoot script issues and API problems
+- **Compliance**: Maintain audit trail for security and compliance requirements
+- **Forensics**: Historical record of all plugin activities for incident analysis
+
 ### 🔐 Default Secure State
 
 - **Scripts are disabled by default** - you must explicitly enable each script
@@ -392,7 +440,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 - 🛠️ **More Interactions with Obsidian**: Add more methods for interacting with Obsidian, like retrieving information on all notes, getting vault statistics, and more. _(Partially addressed: Added file management, context info, linking)_
 - 🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
 - 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
-- 📋 **Security Audit Log**: Implement comprehensive audit logging system to track script execution, settings discovery, and security events for monitoring and compliance purposes.
+- ✅ **Security Audit Log**: Implemented comprehensive audit logging system to track script execution, settings discovery, and security events for monitoring and compliance purposes.
 - 🌍 **Implement Full Right-to-Left (RTL) Layout Support**: Adapt the plugin's UI (settings, modals, etc.) for languages like Arabic, Persian, and Urdu to ensure proper display and usability. (Track progress: [Issue #25](https://github.com/mathe00/obsidian-plugin-python-bridge/issues/25))
 - 📦 **Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, I'm open to it! 😅
 - 📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**

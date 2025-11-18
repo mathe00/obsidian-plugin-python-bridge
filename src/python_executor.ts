@@ -14,6 +14,7 @@ import {
 } from './constants';
 import type { ScriptSettingDefinition } from './types'; // Import types
 import ScriptSelectionModal from './ScriptSelectionModal'; // Import modal
+import { logScriptExecution } from './audit_logger'; // Import audit logger
 
 /**
  * Resolves the absolute path to the Python scripts folder based on settings.
@@ -565,6 +566,9 @@ export async function runPythonScript(
   plugin.logInfo(
     `Attempting to run Python script (${context}): ${scriptPath} using ${pythonCmd}`
   );
+
+  // Log script execution start
+  await logScriptExecution(plugin, scriptFilename, context, 'start');
   // Prepare environment variables
   const currentPYTHONPATH = process.env.PYTHONPATH;
   const pathsForPythonPath: string[] = [];
@@ -660,7 +664,7 @@ export async function runPythonScript(
           );
         reject(error);
       });
-      pythonProcess.on('close', (code) => {
+      pythonProcess.on('close', async (code) => {
         plugin.logDebug(
           `${scriptFilename} (${context}, using ${pythonCmd}) finished with exit code ${code}.`
         );
@@ -674,8 +678,29 @@ export async function runPythonScript(
             plugin.logError(
               `[Error Summary ${scriptFilename}]: ${stderrOutput.trim()}`
             );
+
+          // Log script execution error
+          await logScriptExecution(
+            plugin,
+            scriptFilename,
+            context,
+            'error',
+            code || undefined,
+            stderrOutput.trim()
+          );
+
           reject(new Error(`Script exited with non-zero code: ${code}`));
-        } else resolve(); // Success
+        } else {
+          // Log script execution success
+          await logScriptExecution(
+            plugin,
+            scriptFilename,
+            context,
+            'success',
+            code || undefined
+          );
+          resolve(); // Success
+        }
       });
     });
     plugin.logInfo(
@@ -685,6 +710,17 @@ export async function runPythonScript(
     plugin.logWarn(
       `Script ${scriptFilename} (${context}) execution failed or exited with error: ${error instanceof Error ? error.message : String(error)}`
     );
+
+    // Log script execution error for exceptions
+    await logScriptExecution(
+      plugin,
+      scriptFilename,
+      context,
+      'error',
+      undefined,
+      error instanceof Error ? error.message : String(error)
+    );
+
     // Notices are handled inside the promise callbacks/rejections for manual context
   }
 }

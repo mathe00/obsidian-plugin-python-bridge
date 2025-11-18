@@ -35,6 +35,13 @@ export interface PythonBridgeSettings {
   /** User-configured auto-start delay (in seconds) for scripts. Key: relative script path, Value: number */
   scriptAutoStartDelay: Record<string, number>;
   autoSetPYTHONPATH: boolean; // Setting to control automatic PYTHONPATH modification
+  /** Audit log settings */
+  auditLog: {
+    enabled: boolean;
+    logFilePath?: string;
+    maxLogFileSize?: number; // in bytes
+    maxLogFiles?: number;
+  };
 }
 
 // Structure for JSON responses sent TO the Python client
@@ -53,4 +60,17 @@ export interface JsonRequest {
     // Add other potential payload structures here as a union if they become more defined
     [key: string]: any; // Allow other arbitrary keys for now
   };
+}
+
+// Audit log entry structure
+export interface AuditLogEntry {
+  timestamp: string;
+  type: 'script_execution' | 'api_action';
+  action?: string;
+  scriptName?: string;
+  triggerType?: string;
+  exitCode?: number;
+  status?: 'success' | 'error';
+  error?: string;
+  sourceScript?: string;
 }

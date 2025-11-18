@@ -18,7 +18,9 @@ export async function getNoteContentByPath(
   const normalizedPath = normalizePath(relativePath);
   const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
   if (!(file instanceof TFile))
-    throw new Error(`File not found or is not a file at path: ${normalizedPath}`);
+    throw new Error(
+      `File not found or is not a file at path: ${normalizedPath}`
+    );
   return plugin.app.vault.cachedRead(file); // Use cachedRead
 }
 
@@ -37,13 +39,18 @@ export async function modifyNoteContentByRelativePath(
   const normalizedPath = normalizePath(relativePath);
   const file = plugin.app.vault.getAbstractFileByPath(normalizedPath);
   if (!(file instanceof TFile))
-    throw new Error(`Cannot modify note: File not found in vault at path: ${normalizedPath}`);
+    throw new Error(
+      `Cannot modify note: File not found in vault at path: ${normalizedPath}`
+    );
   plugin.logDebug(`Attempting to modify note via Vault API: ${normalizedPath}`);
   try {
     await plugin.app.vault.modify(file, newContent);
     plugin.logInfo(`Note modified successfully: ${normalizedPath}`);
   } catch (error) {
-    plugin.logError(`Error during app.vault.modify for ${normalizedPath}:`, error);
+    plugin.logError(
+      `Error during app.vault.modify for ${normalizedPath}:`,
+      error
+    );
     throw new Error(
       `Vault API failed to modify ${normalizedPath}: ${error instanceof Error ? error.message : String(error)}`
     );

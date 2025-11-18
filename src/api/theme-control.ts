@@ -10,14 +10,19 @@ import { getThemeMode } from './theme-mode';
  * @param mode The desired theme mode: 'light' or 'dark'.
  * @throws Error if setting the theme fails.
  */
-export function setTheme(plugin: ObsidianPythonBridge, mode: 'light' | 'dark'): void {
+export function setTheme(
+  plugin: ObsidianPythonBridge,
+  mode: 'light' | 'dark'
+): void {
   plugin.logDebug(`Attempting to set theme to: ${mode}`);
 
   const lightThemeName = 'moonstone'; // Default light theme
   const darkThemeName = 'obsidian'; // Default dark theme (confusingly named 'obsidian')
 
-  const targetThemeToSetConfig = mode === 'light' ? lightThemeName : darkThemeName;
-  const targetThemeToApplyVisual = mode === 'light' ? lightThemeName : darkThemeName;
+  const targetThemeToSetConfig =
+    mode === 'light' ? lightThemeName : darkThemeName;
+  const targetThemeToApplyVisual =
+    mode === 'light' ? lightThemeName : darkThemeName;
 
   try {
     // 1. Set the visual theme using app.setTheme (if available) or app.changeTheme
@@ -49,15 +54,21 @@ export function setTheme(plugin: ObsidianPythonBridge, mode: 'light' | 'dark'): 
     // This assumes the methods exist but are not typed.
     // @ts-ignore TS2339: Property 'getConfig' does not exist on type 'Vault'.
     const currentConfiguredTheme = plugin.app.vault.getConfig('theme');
-    plugin.logDebug(`Current configured theme in vault: ${currentConfiguredTheme}`);
+    plugin.logDebug(
+      `Current configured theme in vault: ${currentConfiguredTheme}`
+    );
 
     // @ts-ignore TS2339: Property 'setConfig' does not exist on type 'Vault'.
     if (currentConfiguredTheme !== targetThemeToSetConfig) {
       // @ts-ignore TS2339: Property 'setConfig' does not exist on type 'Vault'.
       plugin.app.vault.setConfig('theme', targetThemeToSetConfig);
-      plugin.logInfo(`Persistent theme config set to: ${targetThemeToSetConfig}`);
+      plugin.logInfo(
+        `Persistent theme config set to: ${targetThemeToSetConfig}`
+      );
     } else {
-      plugin.logDebug(`Persistent theme config already matched: ${targetThemeToSetConfig}.`);
+      plugin.logDebug(
+        `Persistent theme config already matched: ${targetThemeToSetConfig}.`
+      );
     }
 
     // 3. Trigger a CSS change to ensure UI updates

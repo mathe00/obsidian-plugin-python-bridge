@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Portul pentru serverul HTTP local (1024-65535). Necesită repornire sau salvarea setărilor pentru a aplica.',
   SETTINGS_CACHE_TITLE: 'Dezactivare Cache Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Rulați Python cu flag-ul "-B" pentru a preveni scrierea fișierelor .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Rulați Python cu flag-ul "-B" pentru a preveni scrierea fișierelor .pyc.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'Portul HTTP a fost schimbat în',
   NOTICE_PORT_CHANGED_SUFFIX: 'Se repornește serverul...',
@@ -30,25 +31,31 @@ export default {
     'este deja utilizat. Vă rugăm să alegeți alt port în setări sau să închideți cealaltă aplicație care îl folosește. Serverul nu a pornit.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Nu s-a putut porni serverul pe portul',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Port invalid. Vă rugăm să introduceți un număr între 0 și 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Portul HTTP s-a schimbat (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Port invalid. Vă rugăm să introduceți un număr între 0 și 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Portul HTTP s-a schimbat (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Scriptul ar putea viza portul vechi dacă rulează deja sau a fost lansat extern.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Scriptul Python nu a fost găsit sau nu este un fișier:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Scriptul Python nu a fost găsit sau nu este un fișier:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Eroare la accesarea fișierului script:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Se rulează scriptul Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Eroare la rularea',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'cu',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'a eșuat cu codul de ieșire',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Verificați logurile consolei.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Nu s-a putut găsi un executabil Python valid. Încercat:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Nu s-a putut găsi un executabil Python valid. Încercat:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Vă rugăm să vă asigurați că Python este instalat și accesibil prin PATH-ul sistemului (sau lansatorul 'py' pe Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Folderul scripturilor Python nu a fost găsit sau este invalid. Verificați setările pluginului.',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Eroare la citirea folderului scripturilor:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Nu s-au găsit scripturi Python (.py) în folderul configurat.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Eroare la citirea folderului scripturilor:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Nu s-au găsit scripturi Python (.py) în folderul configurat.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Se rulează',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script(uri) Python...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Intrarea nu corespunde formatului necesar.',
@@ -70,21 +77,24 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automat (Potrivire Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Nu se pot reîmprospăta setările: Executabilul Python nu a fost găsit. Vă rugăm să vă asigurați că Python este instalat și în PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Se reîmprospătează definițiile setărilor scriptului...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Se reîmprospătează definițiile setărilor scriptului...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Definițiile setărilor scriptului au fost reîmprospătate cu succes!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Nu s-au putut reîmprospăta definițiile setărilor scriptului. Verificați logurile pentru detalii.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Nu se poate rula scriptul: Executabilul Python nu a fost găsit. Verificați instalarea și PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Reîmprospătare definiții setări script Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Reîmprospătare definiții setări script Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Avertisment de Securitate',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Executarea scripturilor Python arbitrare poate fi riscantă. Asigurați-vă că aveți încredere în sursa oricărui script pe care îl rulați, deoarece acestea pot accesa sistemul și datele dvs. Autorul pluginului și autorii scripturilor nu sunt responsabili pentru nicio pierdere de date sau probleme de securitate cauzate de scripturile pe care alegeți să le executați. Rulați scripturile pe propriul risc.',
   SETTINGS_LANGUAGE_TITLE: 'Limba Pluginului',
   SETTINGS_LANGUAGE_DESC:
     "Alegeți limba de afișare pentru interfața pluginului Python Bridge. 'Automat' urmează setarea de limbă a Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Sfat de performanță: Cache Backlink',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Sfat de performanță: Cache Backlink',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Pentru performanțe îmbunătățite la preluarea backlink-urilor (folosind funcția get_backlinks) în vault-uri mari, luați în considerare instalarea pluginului comunitar '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -114,12 +124,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Calea către Executabilul Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Calea absolută către executabilul Python sau uv. Lăsați necompletat pentru detectare automată (uv, py, python3, python). Necesită reîncărcarea sau repornirea pluginului pentru a intra în vigoare complet dacă este modificat.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 sau C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'ex: /usr/bin/python3 sau C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Calea către executabilul Python a fost modificată. Se reîmprospătează scripturile...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Calea Python personalizată este invalidă și nu s-a găsit niciun executabil de rezervă. Este posibil ca scripturile să nu ruleze.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Calea Python Personalizată a Eșuat',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Calea Python Personalizată a Eșuat',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Calea personalizată a executabilului Python '{path}' este invalidă sau nu a putut fi executată. Se revine la detectarea automată.",
 };

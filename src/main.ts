@@ -1,5 +1,11 @@
 // --- src/main.ts ---
-import { Notice, Plugin, Command, FileSystemAdapter, normalizePath } from 'obsidian';
+import {
+  Notice,
+  Plugin,
+  Command,
+  FileSystemAdapter,
+  normalizePath,
+} from 'obsidian';
 import * as http from 'http';
 import * as path from 'path';
 import { AddressInfo } from 'net';
@@ -54,16 +60,28 @@ export default class ObsidianPythonBridge extends Plugin {
   // --- Logging Helpers ---
   // (Keep these methods as they are used by other modules via the plugin instance)
   logDebug(message: string, ...optionalParams: any[]) {
-    console.log(`plugin:obsidian-python-bridge:DEBUG: ${message}`, ...optionalParams);
+    console.log(
+      `plugin:obsidian-python-bridge:DEBUG: ${message}`,
+      ...optionalParams
+    );
   }
   logInfo(message: string, ...optionalParams: any[]) {
-    console.log(`plugin:obsidian-python-bridge:INFO: ${message}`, ...optionalParams);
+    console.log(
+      `plugin:obsidian-python-bridge:INFO: ${message}`,
+      ...optionalParams
+    );
   }
   logWarn(message: string, ...optionalParams: any[]) {
-    console.warn(`plugin:obsidian-python-bridge:WARN: ${message}`, ...optionalParams);
+    console.warn(
+      `plugin:obsidian-python-bridge:WARN: ${message}`,
+      ...optionalParams
+    );
   }
   logError(message: string, ...optionalParams: any[]) {
-    console.error(`plugin:obsidian-python-bridge:ERROR: ${message}`, ...optionalParams);
+    console.error(
+      `plugin:obsidian-python-bridge:ERROR: ${message}`,
+      ...optionalParams
+    );
   }
 
   // --- Plugin Lifecycle ---
@@ -93,7 +111,9 @@ export default class ObsidianPythonBridge extends Plugin {
         // Prepend slash if missing, remove any multiple leading slashes first just in case
         this.pluginDirAbsPath = '/' + this.pluginDirAbsPath.replace(/^\/+/, '');
       }
-      this.logInfo(`Plugin absolute directory path determined: ${this.pluginDirAbsPath}`);
+      this.logInfo(
+        `Plugin absolute directory path determined: ${this.pluginDirAbsPath}`
+      );
     } else {
       this.logError(
         'Could not determine plugin absolute directory path. Automatic PYTHONPATH for the bridge library might not work correctly.'
@@ -117,8 +137,11 @@ export default class ObsidianPythonBridge extends Plugin {
       if (scriptsFolder && this.pythonExecutable) {
         // Run discovery and command sync asynchronously
         updateAndSyncCommands(this, scriptsFolder)
-          .catch(err => {
-            this.logError('Initial script settings discovery and command sync failed:', err);
+          .catch((err) => {
+            this.logError(
+              'Initial script settings discovery and command sync failed:',
+              err
+            );
           })
           .then(() => {
             runAutoStartScripts(this);
@@ -158,13 +181,19 @@ export default class ObsidianPythonBridge extends Plugin {
   async loadSettings() {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
     // Ensure new settings fields exist
-    this.settings.pythonExecutablePath = this.settings.pythonExecutablePath ?? ''; // Ensure default for existing users
+    this.settings.pythonExecutablePath =
+      this.settings.pythonExecutablePath ?? ''; // Ensure default for existing users
     this.settings.autoSetPYTHONPATH = this.settings.autoSetPYTHONPATH ?? true; // Ensure default for existing users
-    this.settings.scriptSettingsDefinitions = this.settings.scriptSettingsDefinitions || {};
-    this.settings.scriptSettingsValues = this.settings.scriptSettingsValues || {};
-    this.settings.scriptActivationStatus = this.settings.scriptActivationStatus || {};
-    this.settings.scriptAutoStartStatus = this.settings.scriptAutoStartStatus || {};
-    this.settings.scriptAutoStartDelay = this.settings.scriptAutoStartDelay || {};
+    this.settings.scriptSettingsDefinitions =
+      this.settings.scriptSettingsDefinitions || {};
+    this.settings.scriptSettingsValues =
+      this.settings.scriptSettingsValues || {};
+    this.settings.scriptActivationStatus =
+      this.settings.scriptActivationStatus || {};
+    this.settings.scriptAutoStartStatus =
+      this.settings.scriptAutoStartStatus || {};
+    this.settings.scriptAutoStartDelay =
+      this.settings.scriptAutoStartDelay || {};
     // Validate loaded port
     if (
       typeof this.settings.httpPort !== 'number' ||
@@ -187,7 +216,10 @@ export default class ObsidianPythonBridge extends Plugin {
       ? ((this.server.address() as AddressInfo)?.port ?? this.initialHttpPort)
       : this.initialHttpPort;
     if (this.server && currentPortSetting !== actualListeningPort) {
-      if (currentPortSetting === 0 || (currentPortSetting >= 1024 && currentPortSetting <= 65535)) {
+      if (
+        currentPortSetting === 0 ||
+        (currentPortSetting >= 1024 && currentPortSetting <= 65535)
+      ) {
         this.logInfo(
           `HTTP port setting changed or differs from listening port (${actualListeningPort} -> ${currentPortSetting}). Restarting server...`
         );
@@ -210,13 +242,20 @@ export default class ObsidianPythonBridge extends Plugin {
   async validateScriptsFolderPathSetting(): Promise<void> {
     const configuredPath = this.settings.pythonScriptsFolder;
     if (!configuredPath || !configuredPath.trim()) return;
-    this.logDebug(`Validating configured scripts folder path on startup: ${configuredPath}`);
+    this.logDebug(
+      `Validating configured scripts folder path on startup: ${configuredPath}`
+    );
     const resolvedPath = getScriptsFolderPath(this); // Use helper from python_executor
     if (!resolvedPath) {
       this.logWarn(
         `Configured Python scripts folder path "${configuredPath}" is invalid or not found/directory. Clearing setting.`
       );
-      new Notice(t('NOTICE_INVALID_STARTUP_FOLDER_PATH').replace('{path}', configuredPath));
+      new Notice(
+        t('NOTICE_INVALID_STARTUP_FOLDER_PATH').replace(
+          '{path}',
+          configuredPath
+        )
+      );
       this.settings.pythonScriptsFolder = '';
       await this.saveSettings();
     } else {
@@ -271,7 +310,7 @@ export default class ObsidianPythonBridge extends Plugin {
   stopHttpServer() {
     if (this.server) {
       this.logInfo('Stopping HTTP server...');
-      this.server.close(err => {
+      this.server.close((err) => {
         if (err) this.logError('Error closing HTTP server:', err);
         else this.logInfo('HTTP server stopped.');
         this.server = null;
@@ -300,96 +339,114 @@ export default class ObsidianPythonBridge extends Plugin {
       new Notice(`${t('NOTICE_PLUGIN_NAME')}: ${errorMsg}`, 7000);
       return;
     }
-    this.server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse) => {
-      const { method, url } = req;
-      const remoteAddress = req.socket.remoteAddress || 'unknown';
-      this.logDebug(`HTTP Request received: ${method} ${url} from ${remoteAddress}`);
-      // Basic validation (POST, root path, localhost)
-      if (
-        url !== '/' ||
-        method !== 'POST' ||
-        !['127.0.0.1', '::1', 'localhost'].includes(remoteAddress)
-      ) {
-        this.logWarn(
-          `Ignoring request: Invalid method/path/origin (${method} ${url} from ${remoteAddress})`
+    this.server = http.createServer(
+      async (req: http.IncomingMessage, res: http.ServerResponse) => {
+        const { method, url } = req;
+        const remoteAddress = req.socket.remoteAddress || 'unknown';
+        this.logDebug(
+          `HTTP Request received: ${method} ${url} from ${remoteAddress}`
         );
-        res.writeHead(method !== 'POST' || url !== '/' ? 404 : 403, {
-          'Content-Type': 'application/json',
+        // Basic validation (POST, root path, localhost)
+        if (
+          url !== '/' ||
+          method !== 'POST' ||
+          !['127.0.0.1', '::1', 'localhost'].includes(remoteAddress)
+        ) {
+          this.logWarn(
+            `Ignoring request: Invalid method/path/origin (${method} ${url} from ${remoteAddress})`
+          );
+          res.writeHead(method !== 'POST' || url !== '/' ? 404 : 403, {
+            'Content-Type': 'application/json',
+          });
+          res.end(
+            JSON.stringify({
+              status: 'error',
+              error:
+                method !== 'POST' || url !== '/'
+                  ? 'Not Found: Please POST to /'
+                  : 'Forbidden: Access only allowed from localhost',
+            })
+          );
+          return;
+        }
+        // Check Content-Type
+        if (req.headers['content-type'] !== 'application/json') {
+          this.logWarn(
+            `Ignoring request: Invalid Content-Type (${req.headers['content-type']})`
+          );
+          res.writeHead(415, { 'Content-Type': 'application/json' });
+          res.end(
+            JSON.stringify({
+              status: 'error',
+              error: 'Invalid Content-Type: application/json required',
+            })
+          );
+          return;
+        }
+        // Process request body
+        let body = '';
+        req.on('data', (chunk) => {
+          body += chunk.toString();
         });
-        res.end(
-          JSON.stringify({
-            status: 'error',
-            error:
-              method !== 'POST' || url !== '/'
-                ? 'Not Found: Please POST to /'
-                : 'Forbidden: Access only allowed from localhost',
-          })
-        );
-        return;
-      }
-      // Check Content-Type
-      if (req.headers['content-type'] !== 'application/json') {
-        this.logWarn(`Ignoring request: Invalid Content-Type (${req.headers['content-type']})`);
-        res.writeHead(415, { 'Content-Type': 'application/json' });
-        res.end(
-          JSON.stringify({
-            status: 'error',
-            error: 'Invalid Content-Type: application/json required',
-          })
-        );
-        return;
-      }
-      // Process request body
-      let body = '';
-      req.on('data', chunk => {
-        body += chunk.toString();
-      });
-      req.on('end', async () => {
-        let request: JsonRequest;
-        let response: JsonResponse;
-        let statusCode = 200; // Assume success initially
-        try {
-          this.logDebug(`Attempting to parse JSON request body: ${body}`);
-          request = JSON.parse(body);
-          if (
-            !request ||
-            typeof request !== 'object' ||
-            typeof request.action !== 'string' ||
-            !request.action
-          ) {
-            throw new Error(
-              "Invalid JSON request structure. 'action' (non-empty string) is required."
+        req.on('end', async () => {
+          let request: JsonRequest;
+          let response: JsonResponse;
+          let statusCode = 200; // Assume success initially
+          try {
+            this.logDebug(`Attempting to parse JSON request body: ${body}`);
+            request = JSON.parse(body);
+            if (
+              !request ||
+              typeof request !== 'object' ||
+              typeof request.action !== 'string' ||
+              !request.action
+            ) {
+              throw new Error(
+                "Invalid JSON request structure. 'action' (non-empty string) is required."
+              );
+            }
+            // --- Delegate action handling ---
+            response = await dispatchAction(this, request);
+            // --- End Delegation ---
+            this.logDebug(
+              `Action ${request.action} handled, sending response:`,
+              response
+            );
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error ? error.message : String(error);
+            this.logError('Error processing request:', errorMessage);
+            statusCode = error instanceof SyntaxError ? 400 : 500; // Bad Request for JSON parse errors
+            response = {
+              status: 'error',
+              error: `Failed to process request: ${errorMessage}`,
+            };
+          }
+          // Send response
+          if (!res.writableEnded) {
+            const responseJson = JSON.stringify(response);
+            res.writeHead(statusCode, {
+              'Content-Type': 'application/json',
+              'Content-Length': Buffer.byteLength(responseJson),
+            });
+            res.end(responseJson);
+            this.logDebug(`HTTP Response sent (Status ${statusCode}).`);
+          }
+        });
+        req.on('error', (err) => {
+          this.logError('Error reading request stream:', err.message);
+          if (!res.writableEnded) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(
+              JSON.stringify({
+                status: 'error',
+                error: 'Error reading request data',
+              })
             );
           }
-          // --- Delegate action handling ---
-          response = await dispatchAction(this, request);
-          // --- End Delegation ---
-          this.logDebug(`Action ${request.action} handled, sending response:`, response);
-        } catch (error) {
-          const errorMessage = error instanceof Error ? error.message : String(error);
-          this.logError('Error processing request:', errorMessage);
-          statusCode = error instanceof SyntaxError ? 400 : 500; // Bad Request for JSON parse errors
-          response = { status: 'error', error: `Failed to process request: ${errorMessage}` };
-        }
-        // Send response
-        if (!res.writableEnded) {
-          const responseJson = JSON.stringify(response);
-          res.writeHead(statusCode, {
-            'Content-Type': 'application/json',
-            'Content-Length': Buffer.byteLength(responseJson),
-          });
-          res.end(responseJson);
-          this.logDebug(`HTTP Response sent (Status ${statusCode}).`);
-        }
-      });
-      req.on('error', err => {
-        this.logError('Error reading request stream:', err.message);
-        if (!res.writableEnded) {
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ status: 'error', error: 'Error reading request data' }));
-        }
-      });
-    });
+        });
+      }
+    );
     this.server.on('error', (err: NodeJS.ErrnoException) => {
       let errorMsg = `HTTP server error: ${err.message}`;
       if (err.code === 'EADDRINUSE')
@@ -404,7 +461,9 @@ export default class ObsidianPythonBridge extends Plugin {
         const actualPort = address?.port || this.settings.httpPort;
         this.logInfo(`HTTP server listening on http://127.0.0.1:${actualPort}`);
         if (this.settings.httpPort === 0 && actualPort !== 0) {
-          this.logInfo(`Server assigned dynamic port: ${actualPort}. Updating internal reference.`);
+          this.logInfo(
+            `Server assigned dynamic port: ${actualPort}. Updating internal reference.`
+          );
           this.initialHttpPort = actualPort; // Update the actual listening port reference
           // Optionally update setting in memory for display, but don't save
           // this.settings.httpPort = actualPort;
@@ -413,7 +472,8 @@ export default class ObsidianPythonBridge extends Plugin {
         }
       });
     } catch (listenErr) {
-      const errorMsg = listenErr instanceof Error ? listenErr.message : String(listenErr);
+      const errorMsg =
+        listenErr instanceof Error ? listenErr.message : String(listenErr);
       this.logError('Failed to listen on HTTP port:', errorMsg);
       new Notice(
         `${t('NOTICE_PLUGIN_NAME')}: ${t('NOTICE_SERVER_START_FAILED_PREFIX')} ${this.settings.httpPort}${t('NOTICE_SERVER_START_FAILED_SUFFIX')} ${errorMsg}`,
@@ -447,13 +507,13 @@ export default class ObsidianPythonBridge extends Plugin {
     maxValue?: number,
     step?: number
   ): Promise<any> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const modal = new UserInputModal(
         this.app,
         scriptName,
         inputType,
         message,
-        input => resolve(input),
+        (input) => resolve(input),
         validationRegex,
         minValue,
         maxValue,
@@ -470,15 +530,18 @@ export default class ObsidianPythonBridge extends Plugin {
   // Keep getAllNotePaths if used directly (e.g., by settings tab?), otherwise remove
   // It's now primarily called via action_handler -> obsidian_api
   getAllNotePaths(): string[] {
-    return this.app.vault.getMarkdownFiles().map(f => f.path);
+    return this.app.vault.getMarkdownFiles().map((f) => f.path);
   }
 
   // Keep getCurrentVaultAbsolutePath if used directly (e.g., by settings tab?), otherwise remove
   // It's now primarily called via action_handler -> obsidian_api
   getCurrentVaultAbsolutePath(): string | null {
     const adapter = this.app.vault.adapter;
-    if (adapter instanceof FileSystemAdapter && adapter.getBasePath) return adapter.getBasePath();
-    this.logWarn('Vault adapter is not FileSystemAdapter or lacks getBasePath method.');
+    if (adapter instanceof FileSystemAdapter && adapter.getBasePath)
+      return adapter.getBasePath();
+    this.logWarn(
+      'Vault adapter is not FileSystemAdapter or lacks getBasePath method.'
+    );
     return null;
   }
 

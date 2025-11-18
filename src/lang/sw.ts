@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Lango la seva ya HTTP ya ndani (1024-65535). Inahitaji kuanzisha upya au kuhifadhi mipangilio ili kutumika.',
   SETTINGS_CACHE_TITLE: 'Zima Kashe ya Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Endesha Python na bendera ya "-B" kuzuia uandishi wa faili za .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Endesha Python na bendera ya "-B" kuzuia uandishi wa faili za .pyc.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'Lango la HTTP limebadilishwa kuwa',
   NOTICE_PORT_CHANGED_SUFFIX: 'Inaanzisha upya seva...',
@@ -30,8 +31,10 @@ export default {
     'tayari linatumika. Tafadhali chagua lango lingine katika mipangilio au funga programu nyingine inayolitumia. Seva haikuanzishwa.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Imeshindwa kuanzisha seva kwenye lango',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Lango batili. Tafadhali weka nambari kati ya 0 na 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Lango la HTTP limebadilika (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Lango batili. Tafadhali weka nambari kati ya 0 na 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Lango la HTTP limebadilika (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Hati inaweza kulenga lango la zamani ikiwa tayari inaendeshwa au ilizinduliwa kutoka nje.',
@@ -49,10 +52,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Folda ya hati za Python haikupatikana au si sahihi. Tafadhali angalia mipangilio ya programu-jalizi.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Hitilafu kusoma folda ya hati:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Hakuna hati za Python (.py) zilizopatikana kwenye folda iliyoundwa.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Hakuna hati za Python (.py) zilizopatikana kwenye folda iliyoundwa.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Inaendesha',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'hati za Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Ingizo halilingani na umbizo linalohitajika.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Ingizo halilingani na umbizo linalohitajika.',
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Endesha hati maalum ya Python',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Endesha hati zote za Python kwenye folda',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Wasilisha',
@@ -71,21 +76,24 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Otomatiki (Linganisha na Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Haiwezi kuonyesha upya mipangilio: Faili tekelezi ya Python haikupatikana. Tafadhali hakikisha Python imesakinishwa na iko kwenye PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Inaonyesha upya ufafanuzi wa mipangilio ya hati...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Inaonyesha upya ufafanuzi wa mipangilio ya hati...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Ufafanuzi wa mipangilio ya hati umeonyeshwa upya kwa mafanikio!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Imeshindwa kuonyesha upya ufafanuzi wa mipangilio ya hati. Angalia kumbukumbu kwa maelezo.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Haiwezi kuendesha hati: Faili tekelezi ya Python haikupatikana. Tafadhali angalia usakinishaji na PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Onyesha upya ufafanuzi wa mipangilio ya hati ya Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Onyesha upya ufafanuzi wa mipangilio ya hati ya Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Onyo la Usalama',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Kuendesha hati holela za Python kunaweza kuwa hatari. Hakikisha unaamini chanzo cha hati yoyote unayoendesha, kwani zinaweza kufikia mfumo na data yako. Mwandishi wa programu-jalizi na waandishi wa hati hawawajibikii upotevu wowote wa data au masuala ya usalama yanayosababishwa na hati unazochagua kutekeleza. Endesha hati kwa hatari yako mwenyewe.',
   SETTINGS_LANGUAGE_TITLE: 'Lugha ya Programu-jalizi',
   SETTINGS_LANGUAGE_DESC:
     "Chagua lugha ya kuonyesha kwa kiolesura cha programu-jalizi ya Python Bridge. 'Otomatiki' hufuata mpangilio wa lugha wa Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Kidokezo cha Utendaji: Kashe ya Viungo vya Nyuma',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Kidokezo cha Utendaji: Kashe ya Viungo vya Nyuma',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Kwa utendakazi ulioboreshwa wakati wa kurejesha viungo vya nyuma (kwa kutumia chaguo la kukokotoa la get_backlinks) katika kuba kubwa, zingatia kusakinisha programu-jalizi ya jumuiya ya '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' na @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -96,7 +104,8 @@ export default {
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Hati Imewashwa',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "Ruhusu hati hii itekelezwe kupitia amri, njia za mkato, au 'Endesha Zote'.",
-  NOTICE_SCRIPT_DISABLED: "Hati '{scriptName}' imezimwa katika mipangilio na haiwezi kutekelezwa.",
+  NOTICE_SCRIPT_DISABLED:
+    "Hati '{scriptName}' imezimwa katika mipangilio na haiwezi kutekelezwa.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Endesha Wakati wa Kuanza',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -111,15 +120,18 @@ export default {
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
     'PYTHONPATH otomatiki imezimwa. Hakikisha ObsidianPluginDevPythonToJS.py iko kwenye folda yako ya hati au dhibiti sys.path mwenyewe.',
 
-  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Njia ya Faili ya Python Inayoweza Kutekelezwa',
+  SETTINGS_PYTHON_EXEC_PATH_TITLE:
+    'Njia ya Faili ya Python Inayoweza Kutekelezwa',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Njia kamili ya faili yako ya Python au uv inayoweza kutekelezwa. Acha tupu kwa utambuzi wa kiotomatiki (uv, py, python3, python). Inahitaji kupakia upya programu-jalizi au kuanzisha upya ili ianze kutumika kikamilifu ikibadilishwa.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'k.m. /usr/bin/python3 au C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'k.m. /usr/bin/python3 au C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Njia ya faili ya Python inayoweza kutekelezwa imebadilishwa. Inaburudisha hati...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Njia maalum ya Python si sahihi, na hakuna faili mbadala ya kutekelezeka iliyopatikana. Hati huenda zisifanye kazi.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Njia Maalum ya Python Imeshindwa',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Njia Maalum ya Python Imeshindwa',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Njia maalum ya faili ya Python inayoweza kutekelezwa '{path}' si sahihi au haikuweza kutekelezwa. Inarejea kwenye utambuzi wa kiotomatiki.",
 };

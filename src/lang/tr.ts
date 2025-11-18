@@ -4,8 +4,10 @@ export default {
   // Settings Tab
   SETTINGS_TAB_TITLE: 'Obsidian Python Bridge Ayarları',
   SETTINGS_FOLDER_TITLE: 'Python Betikleri Klasörü',
-  SETTINGS_FOLDER_DESC: 'Python betiklerinizi içeren klasörün yolu (mutlak veya kasaya göreceli).',
-  SETTINGS_FOLDER_PLACEHOLDER: '/komut/dosyalarınızın/yolu veya ./scripts-python',
+  SETTINGS_FOLDER_DESC:
+    'Python betiklerinizi içeren klasörün yolu (mutlak veya kasaya göreceli).',
+  SETTINGS_FOLDER_PLACEHOLDER:
+    '/komut/dosyalarınızın/yolu veya ./scripts-python',
   SETTINGS_PORT_TITLE: 'HTTP Sunucu Portu',
   SETTINGS_PORT_DESC:
     'Yerel HTTP sunucusu için port (1024-65535). Uygulamak için yeniden başlatma veya ayarları kaydetme gerekir.',
@@ -31,7 +33,8 @@ export default {
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
   NOTICE_PORT_IN_USE_SUFFIX:
     'zaten kullanılıyor. Lütfen ayarlarda başka bir port seçin veya onu kullanan diğer uygulamayı kapatın. Sunucu başlatılmadı.',
-  NOTICE_SERVER_START_FAILED_PREFIX: 'Sunucuyu port üzerinde başlatma başarısız:',
+  NOTICE_SERVER_START_FAILED_PREFIX:
+    'Sunucuyu port üzerinde başlatma başarısız:',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
   NOTICE_INVALID_PORT_RANGE:
     'Geçersiz bağlantı noktası. Lütfen 0 ile 65535 arasında bir sayı girin.',
@@ -39,7 +42,8 @@ export default {
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Betik zaten çalışıyorsa veya harici olarak başlatıldıysa eski portu hedefleyebilir.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python betiği bulunamadı veya bir dosya değil:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python betiği bulunamadı veya bir dosya değil:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Betik dosyasına erişim hatası:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Python betiği çalıştırılıyor:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Çalıştırma hatası:',
@@ -53,7 +57,8 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python betikleri klasörü bulunamadı veya geçersiz. Lütfen eklenti ayarlarını kontrol edin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Betik klasörünü okuma hatası:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Yapılandırılmış klasörde Python betiği (.py) bulunamadı.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Yapılandırılmış klasörde Python betiği (.py) bulunamadı.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: '',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: ' Python betiği çalıştırılıyor...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Girdi gerekli biçimle eşleşmiyor.',
@@ -63,7 +68,8 @@ export default {
   CMD_RUN_ALL_SCRIPTS_NAME: 'Klasördeki tüm Python betiklerini çalıştır',
 
   // UserInputModal
-  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Çalıştırmak için bir Python betiği seçin...',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER:
+    'Çalıştırmak için bir Python betiği seçin...',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Gönder',
   SETTINGS_SCRIPT_SETTINGS_TITLE: 'Betik Özel Ayarları',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Betik Ayarlarını Yenile',
@@ -80,7 +86,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     "Ayarlar yenilenemiyor: Python yürütülebilir dosyası bulunamadı. Lütfen Python'un kurulu olduğundan ve PATH'de olduğundan emin olun.",
   NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Betik ayar tanımları yenileniyor...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Betik ayar tanımları başarıyla yenilendi!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Betik ayar tanımları başarıyla yenilendi!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Betik ayar tanımları yenilenemedi. Ayrıntılar için günlüklere bakın.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -92,17 +99,20 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'Eklenti Dili',
   SETTINGS_LANGUAGE_DESC:
     "Python Bridge eklenti arayüzü için görüntüleme dilini seçin. 'Otomatik', Obsidian'ın dil ayarını takip eder.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Performans İpucu: Geri Bağlantı Önbelleği',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Performans İpucu: Geri Bağlantı Önbelleği',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Büyük kasalarda geri bağlantıları alırken (get_backlinks işlevini kullanarak) daha iyi performans için @mnaoumov tarafından geliştirilen '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' topluluk eklentisini yüklemeyi düşünün.",
-  NOTICE_INVALID_FOLDER_PATH: 'Geçersiz klasör yolu. Lütfen ayarlarda geçerli bir klasör seçin.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Geçersiz klasör yolu. Lütfen ayarlarda geçerli bir klasör seçin.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Yapılandırılmış Python betikleri klasör yolu '{path}' geçersiz veya bulunamadı. Ayar temizleniyor.",
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Betik Etkin',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "Bu betiğin komutlar, kısayollar veya 'Tümünü Çalıştır' aracılığıyla yürütülmesine izin verin.",
-  NOTICE_SCRIPT_DISABLED: "'{scriptName}' betiği ayarlarda devre dışı bırakıldı ve yürütülemez.",
+  NOTICE_SCRIPT_DISABLED:
+    "'{scriptName}' betiği ayarlarda devre dışı bırakıldı ve yürütülemez.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Başlangıçta Çalıştır',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -120,12 +130,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python Çalıştırılabilir Dosya Yolu',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python veya uv çalıştırılabilir dosyanızın mutlak yolu. Otomatik algılama için boş bırakın (uv, py, python3, python). Değiştirilirse tam olarak etkili olması için eklentinin yeniden yüklenmesi veya yeniden başlatılması gerekir.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ör: /usr/bin/python3 veya C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'ör: /usr/bin/python3 veya C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python çalıştırılabilir dosya yolu değiştirildi. Komut dosyaları yenileniyor...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Özel Python yolu geçersiz ve yedek çalıştırılabilir dosya bulunamadı. Komut dosyaları çalışmayabilir.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Özel Python Yolu Başarısız Oldu',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Özel Python Yolu Başarısız Oldu',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Özel Python çalıştırılabilir dosya yolu '{path}' geçersiz veya çalıştırılamadı. Otomatik algılamaya geri dönülüyor.",
 };

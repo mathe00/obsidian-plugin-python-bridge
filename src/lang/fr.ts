@@ -34,40 +34,49 @@ export default {
   NOTICE_PORT_IN_USE_PREFIX: 'Le port',
   NOTICE_PORT_IN_USE_SUFFIX:
     "est déjà utilisé. Veuillez choisir un autre port dans les réglages ou fermer l'autre application l'utilisant. Serveur non démarré.",
-  NOTICE_SERVER_START_FAILED_PREFIX: 'Échec du démarrage du serveur sur le port',
+  NOTICE_SERVER_START_FAILED_PREFIX:
+    'Échec du démarrage du serveur sur le port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Port invalide. Veuillez entrer un nombre entre 0 et 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Port invalide. Veuillez entrer un nombre entre 0 et 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge : Port HTTP changé (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     "). Le script pourrait cibler l'ancien port s'il est déjà en cours d'exécution ou lancé extérieurement.",
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Script Python introuvable ou n'est pas un fichier :",
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    "Script Python introuvable ou n'est pas un fichier :",
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Erreur d'accès au fichier de script :",
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Exécution du script Python :',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Erreur lors de l'exécution de",
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'avec',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'a échoué avec le code de sortie',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Vérifiez les logs de la console.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Impossible de trouver un exécutable Python valide. Essai :',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Impossible de trouver un exécutable Python valide. Essai :',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Veuillez vous assurer que Python est installé et accessible via le PATH de votre système (ou le lanceur 'py' sous Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Dossier des scripts Python introuvable ou invalide. Veuillez vérifier les réglages du plugin.',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Erreur de lecture du dossier des scripts :',
-  NOTICE_NO_SCRIPTS_FOUND: 'Aucun script Python (.py) trouvé dans le dossier configuré.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Erreur de lecture du dossier des scripts :',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Aucun script Python (.py) trouvé dans le dossier configuré.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Exécution de',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script(s) Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: "L'entrée ne correspond pas au format requis.",
+  NOTICE_INPUT_VALIDATION_FAILED:
+    "L'entrée ne correspond pas au format requis.",
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Exécuter un script Python spécifique',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Exécuter tous les scripts Python du dossier',
 
   // UserInputModal
-  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Sélectionnez un script Python à exécuter...',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER:
+    'Sélectionnez un script Python à exécuter...',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Valider',
   SETTINGS_SCRIPT_SETTINGS_TITLE: 'Paramètres Spécifiques aux Scripts',
-  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Rafraîchir les Paramètres des Scripts',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME:
+    'Rafraîchir les Paramètres des Scripts',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
     'Réanalyser le dossier des scripts pour découvrir ou mettre à jour les paramètres définis dans vos scripts Python.',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Rafraîchir les Définitions',
@@ -88,14 +97,16 @@ export default {
     'Échec du rafraîchissement des définitions de paramètres des scripts. Vérifiez les logs.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     "Impossible d'exécuter le script : Exécutable Python introuvable. Vérifiez l'installation et le PATH.",
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Rafraîchir les définitions des paramètres des scripts Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Rafraîchir les définitions des paramètres des scripts Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Avertissement de Sécurité',
   SETTINGS_SECURITY_WARNING_TEXT:
     "L'exécution de scripts Python arbitraires peut être risquée. Assurez-vous de faire confiance à la source de tout script que vous exécutez, car ils peuvent accéder à votre système et à vos données. L'auteur du plugin et les auteurs des scripts ne sont pas responsables des pertes de données ou des problèmes de sécurité causés par les scripts que vous choisissez d'exécuter. Exécutez les scripts à vos propres risques.",
   SETTINGS_LANGUAGE_TITLE: 'Langue du Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Choisissez la langue d'affichage pour l'interface du plugin Python Bridge. 'Automatique' suit le réglage de langue d'Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Conseil Performance : Cache de Backlinks',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Conseil Performance : Cache de Backlinks',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Pour des performances améliorées lors de la récupération des backlinks (via la fonction get_backlinks) dans les grands coffres, envisagez d'installer l'extension communautaire '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -125,12 +136,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: "Chemin de l'Exécutable Python",
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Chemin absolu vers votre exécutable Python ou uv. Laissez vide pour la détection automatique (uv, py, python3, python). Nécessite un rechargement ou redémarrage du plugin pour plein effet si modifié.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 ou C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'ex: /usr/bin/python3 ou C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     "Chemin de l'exécutable Python modifié. Rafraîchissement des scripts...",
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     "Le chemin Python personnalisé est invalide, et aucun exécutable de secours n'a été trouvé. Les scripts pourraient ne pas fonctionner.",
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Échec du Chemin Python Personnalisé',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Échec du Chemin Python Personnalisé',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Le chemin personnalisé de l'exécutable Python '{path}' est invalide ou n'a pas pu être exécuté. Retour à la détection automatique.",
 };

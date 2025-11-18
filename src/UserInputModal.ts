@@ -43,18 +43,24 @@ export default class UserInputModal extends Modal {
     contentEl.createEl('p', { text: this.message });
 
     // Create input element based on type
-    if (this.inputType === 'text') this.inputEl = contentEl.createEl('input', { type: 'text' });
+    if (this.inputType === 'text')
+      this.inputEl = contentEl.createEl('input', { type: 'text' });
     else if (this.inputType === 'number' || this.inputType === 'range') {
       // Treat 'number' and 'range' similarly for input element
       this.inputEl = contentEl.createEl('input', {
         type: this.inputType === 'range' ? 'range' : 'number',
       }); // Use 'range' or 'number' type
-      if (this.minValue !== undefined) this.inputEl.setAttribute('min', this.minValue.toString());
-      if (this.maxValue !== undefined) this.inputEl.setAttribute('max', this.maxValue.toString());
-      if (this.step !== undefined) this.inputEl.setAttribute('step', this.step.toString());
+      if (this.minValue !== undefined)
+        this.inputEl.setAttribute('min', this.minValue.toString());
+      if (this.maxValue !== undefined)
+        this.inputEl.setAttribute('max', this.maxValue.toString());
+      if (this.step !== undefined)
+        this.inputEl.setAttribute('step', this.step.toString());
       // Optionally add a display for the current value for range inputs
       if (this.inputType === 'range') {
-        const valueDisplay = contentEl.createEl('span', { text: this.inputEl.value });
+        const valueDisplay = contentEl.createEl('span', {
+          text: this.inputEl.value,
+        });
         valueDisplay.style.marginLeft = '10px'; // Add some spacing
         this.inputEl.addEventListener('input', () => {
           valueDisplay.textContent = (this.inputEl as HTMLInputElement).value;
@@ -65,7 +71,9 @@ export default class UserInputModal extends Modal {
     else if (this.inputType === 'date')
       this.inputEl = contentEl.createEl('input', { type: 'date' });
     else {
-      contentEl.createEl('p', { text: `Error: Unknown input type '${this.inputType}' requested.` });
+      contentEl.createEl('p', {
+        text: `Error: Unknown input type '${this.inputType}' requested.`,
+      });
       return;
     } // Handle unknown input types gracefully // Don't add submit button if input type is invalid
 
@@ -89,8 +97,10 @@ export default class UserInputModal extends Modal {
         } else if (this.inputType === 'number' || this.inputType === 'range') {
           inputValue = parseFloat(this.inputEl.value);
           // Basic validation if min/max are set
-          if (this.minValue !== undefined && inputValue < this.minValue) inputValue = this.minValue;
-          if (this.maxValue !== undefined && inputValue > this.maxValue) inputValue = this.maxValue;
+          if (this.minValue !== undefined && inputValue < this.minValue)
+            inputValue = this.minValue;
+          if (this.maxValue !== undefined && inputValue > this.maxValue)
+            inputValue = this.maxValue;
           // Check if the result is a valid number (e.g., if input was empty or non-numeric)
           if (isNaN(inputValue)) {
             // Handle potential NaN if input is cleared or invalid for number/range
@@ -144,9 +154,11 @@ export default class UserInputModal extends Modal {
     // Allow submitting with Enter key on text/number/date inputs
     if (
       this.inputEl &&
-      (this.inputType === 'text' || this.inputType === 'number' || this.inputType === 'date')
+      (this.inputType === 'text' ||
+        this.inputType === 'number' ||
+        this.inputType === 'date')
     ) {
-      this.inputEl.addEventListener('keypress', event => {
+      this.inputEl.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
           event.preventDefault(); // Prevent default form submission behavior
           submitButton.click(); // Trigger the submit button's click handler

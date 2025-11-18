@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Paikallisen HTTP-palvelimen portti (1024-65535). Vaatii uudelleenkäynnistyksen tai asetusten tallentamisen penerapan.',
   SETTINGS_CACHE_TITLE: 'Poista Python-välimuisti käytöstä (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Aja Python "-B"-lipulla estääksesi .pyc-tiedostojen kirjoittamisen.',
+  SETTINGS_CACHE_DESC:
+    'Aja Python "-B"-lipulla estääksesi .pyc-tiedostojen kirjoittamisen.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'HTTP-portti vaihdettu porttiin',
   NOTICE_PORT_CHANGED_SUFFIX: 'Käynnistetään palvelin uudelleen...',
@@ -30,12 +31,15 @@ export default {
     'on jo käytössä. Valitse toinen portti asetuksista tai sulje sitä käyttävä sovellus. Palvelinta ei käynnistetty.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Palvelimen käynnistäminen portissa',
   NOTICE_SERVER_START_FAILED_SUFFIX: 'epäonnistui.',
-  NOTICE_INVALID_PORT_RANGE: 'Virheellinen portti. Anna numero väliltä 0–65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP-portti muuttui (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Virheellinen portti. Anna numero väliltä 0–65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: HTTP-portti muuttui (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Skripti saattaa kohdistaa vanhaan porttiin, jos se on jo käynnissä tai käynnistetty ulkoisesti.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python-skriptiä ei löytynyt tai se ei ole tiedosto:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python-skriptiä ei löytynyt tai se ei ole tiedosto:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Virhe skriptitiedoston käytössä:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Suoritetaan Python-skriptiä:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Virhe suoritettaessa',
@@ -49,7 +53,8 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python-skriptien kansiota ei löytynyt tai se on virheellinen. Tarkista lisäosan asetukset.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Virhe luettaessa skriptikansiota:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Määritetystä kansiosta ei löytynyt Python-skriptejä (.py).',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Määritetystä kansiosta ei löytynyt Python-skriptejä (.py).',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Suoritetaan',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python-skripti(ä)...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Syöte ei vastaa vaadittua muotoa.',
@@ -71,23 +76,28 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automaattinen (Vastaa Obsidiania)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Asetuksia ei voi päivittää: Python-suoritettavaa tiedostoa ei löytynyt. Varmista, että Python on asennettu ja PATH-muuttujassa.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Päivitetään skriptiasetusten määrittelyjä...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Skriptiasetusten määrittelyt päivitetty onnistuneesti!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Päivitetään skriptiasetusten määrittelyjä...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Skriptiasetusten määrittelyt päivitetty onnistuneesti!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Skriptiasetusten määrittelyjen päivitys epäonnistui. Tarkista lokit lisätietoja varten.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Skriptiä ei voi suorittaa: Python-suoritettavaa tiedostoa ei löytynyt. Tarkista asennus ja PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Päivitä Python-skriptiasetusten määrittelyt',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Päivitä Python-skriptiasetusten määrittelyt',
   SETTINGS_SECURITY_WARNING_TITLE: 'Turvallisuusvaroitus',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Mielivaltaisten Python-skriptien suorittaminen voi olla riskialtista. Varmista, että luotat minkä tahansa suorittamasi skriptin lähteeseen, sillä ne voivat käyttää järjestelmääsi ja tietojasi. Lisäosan tekijä ja skriptien tekijät eivät ole vastuussa mistään tietojen menetyksestä tai tietoturvaongelmista, jotka johtuvat valitsemistasi skripteistä. Suorita skriptit omalla vastuullasi.',
   SETTINGS_LANGUAGE_TITLE: 'Lisäosan Kieli',
   SETTINGS_LANGUAGE_DESC:
     "Valitse Python Bridge -lisäosan käyttöliittymän näyttökieli. 'Automaattinen' noudattaa Obsidianin kieliasetusta.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Suorituskykyvinkki: Palautuslinkkien välimuisti',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Suorituskykyvinkki: Palautuslinkkien välimuisti',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Parantaaksesi suorituskykyä palautuslinkkejä haettaessa (käyttäen get_backlinks-funktiota) suurissa holveissa, harkitse @mnaoumov:n kehittämän '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' -yhteisölaajennuksen asentamista.",
-  NOTICE_INVALID_FOLDER_PATH: 'Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Määritetty Python-skriptikansion polku '{path}' on virheellinen tai sitä ei löydy. Tyhjennetään asetusta.",
 
@@ -113,12 +123,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python-suoritustiedoston polku',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absoluuttinen polku Python- tai uv-suoritustiedostoon. Jätä tyhjäksi automaattista tunnistusta varten (uv, py, python3, python). Vaatii laajennuksen uudelleenlatauksen tai uudelleenkäynnistyksen, jotta muutos tulee täysin voimaan.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'esim. /usr/bin/python3 tai C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'esim. /usr/bin/python3 tai C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python-suoritustiedoston polku muuttui. Päivitetään skriptejä...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Mukautettu Python-polku on virheellinen, eikä varasuoritustiedostoa löytynyt. Skriptit eivät välttämättä toimi.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Mukautettu Python-polku epäonnistui',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Mukautettu Python-polku epäonnistui',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Mukautettu Python-suoritustiedoston polku '{path}' on virheellinen tai sitä ei voitu suorittaa. Palataan automaattiseen tunnistukseen.",
 };

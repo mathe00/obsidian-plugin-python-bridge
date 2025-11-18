@@ -8,7 +8,10 @@ import * as path from 'path';
 import * as os from 'os';
 import type ObsidianPythonBridge from './main'; // Import the main plugin type
 import { t } from './lang/translations'; // Import translation function
-import { SETTINGS_DISCOVERY_TIMEOUT, PYTHON_LIBRARY_FILENAME } from './constants';
+import {
+  SETTINGS_DISCOVERY_TIMEOUT,
+  PYTHON_LIBRARY_FILENAME,
+} from './constants';
 import type { ScriptSettingDefinition } from './types'; // Import types
 import ScriptSelectionModal from './ScriptSelectionModal'; // Import modal
 
@@ -32,7 +35,9 @@ export function getScriptsFolderPath(plugin: ObsidianPythonBridge): string {
     plugin.logDebug(`Configured path is relative: ${pythonScriptsFolder}`);
     const vaultPath = plugin.getCurrentVaultAbsolutePath(); // Assumes getCurrentVaultAbsolutePath is moved or accessible
     if (!vaultPath) {
-      plugin.logError('Cannot resolve relative script path: Vault path unavailable.');
+      plugin.logError(
+        'Cannot resolve relative script path: Vault path unavailable.'
+      );
       return '';
     }
     resolvedPath = path.resolve(vaultPath, pythonScriptsFolder);
@@ -40,7 +45,10 @@ export function getScriptsFolderPath(plugin: ObsidianPythonBridge): string {
     plugin.logDebug(`Resolved relative path to: ${resolvedPath}`);
   }
   try {
-    if (fs.existsSync(resolvedPath) && fs.statSync(resolvedPath).isDirectory()) {
+    if (
+      fs.existsSync(resolvedPath) &&
+      fs.statSync(resolvedPath).isDirectory()
+    ) {
       plugin.logInfo(`Scripts folder path validated: ${resolvedPath}`);
       return resolvedPath;
     } else {
@@ -52,7 +60,10 @@ export function getScriptsFolderPath(plugin: ObsidianPythonBridge): string {
       return '';
     }
   } catch (error) {
-    plugin.logError(`Error accessing resolved scripts folder path ${resolvedPath}:`, error);
+    plugin.logError(
+      `Error accessing resolved scripts folder path ${resolvedPath}:`,
+      error
+    );
     return '';
   }
 }
@@ -70,11 +81,13 @@ export async function discoverScriptSettings(
   const scriptName = path.basename(scriptAbsolutePath);
   plugin.logDebug(`Discovering settings for script: ${scriptName}`);
   if (!plugin.pythonExecutable) {
-    plugin.logWarn(`Cannot discover settings for ${scriptName}: Python executable not found.`);
+    plugin.logWarn(
+      `Cannot discover settings for ${scriptName}: Python executable not found.`
+    );
     return null;
   }
   const discoveryTimeoutMs = SETTINGS_DISCOVERY_TIMEOUT;
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let commandArgs: string[];
     const executableToRun = plugin.pythonExecutable!;
 
@@ -89,7 +102,9 @@ export async function discoverScriptSettings(
       // not typically needed for discovery as it's a short-lived process.
       commandArgs = [scriptAbsolutePath, '--get-settings-json'];
     }
-    plugin.logDebug(`Running discovery command: ${executableToRun} ${commandArgs.join(' ')}`);
+    plugin.logDebug(
+      `Running discovery command: ${executableToRun} ${commandArgs.join(' ')}`
+    );
     const scriptDir = path.dirname(scriptAbsolutePath);
     // --- PYTHONPATH for discovery: Only needs script's dir for its own imports ---
     const currentPYTHONPATH = process.env.PYTHONPATH;
@@ -97,7 +112,9 @@ export async function discoverScriptSettings(
     const pathsForPythonPath: string[] = [];
     // 1. Add the script's own directory
     pathsForPythonPath.push(scriptDir);
-    plugin.logDebug(`Discovery PYTHONPATH: Adding script's own directory: ${scriptDir}`);
+    plugin.logDebug(
+      `Discovery PYTHONPATH: Adding script's own directory: ${scriptDir}`
+    );
     // 2. Conditionally add the plugin's directory based on setting
     if (plugin.settings.autoSetPYTHONPATH) {
       // <-- Respect the setting
@@ -138,14 +155,16 @@ export async function discoverScriptSettings(
     });
     let stdoutData = '';
     let stderrData = '';
-    pythonProcess.stdout?.on('data', data => {
+    pythonProcess.stdout?.on('data', (data) => {
       stdoutData += data.toString();
     });
-    pythonProcess.stderr?.on('data', data => {
+    pythonProcess.stderr?.on('data', (data) => {
       stderrData += data.toString();
     });
-    pythonProcess.on('error', error => {
-      plugin.logWarn(`Failed to start settings discovery for ${scriptName}: ${error.message}`);
+    pythonProcess.on('error', (error) => {
+      plugin.logWarn(
+        `Failed to start settings discovery for ${scriptName}: ${error.message}`
+      );
       resolve(null);
     });
     pythonProcess.on('close', (code, signal) => {
@@ -161,13 +180,17 @@ export async function discoverScriptSettings(
           `Settings discovery process for ${scriptName} failed with exit code ${code}.`
         );
         if (stderrData.trim())
-          plugin.logWarn(`Stderr from ${scriptName} discovery: ${stderrData.trim()}`);
+          plugin.logWarn(
+            `Stderr from ${scriptName} discovery: ${stderrData.trim()}`
+          );
         resolve(null);
         return;
       }
       try {
         const trimmedStdout = stdoutData.trim();
-        plugin.logDebug(`Raw settings JSON from ${scriptName}: ${trimmedStdout}`);
+        plugin.logDebug(
+          `Raw settings JSON from ${scriptName}: ${trimmedStdout}`
+        );
         if (!trimmedStdout) {
           plugin.logDebug(
             `Script ${scriptName} provided no settings output (empty stdout). Assuming no settings.`
@@ -184,14 +207,18 @@ export async function discoverScriptSettings(
           return;
         }
         // Optional: Add more validation for each definition object structure here
-        plugin.logInfo(`Successfully discovered ${definitions.length} settings for ${scriptName}.`);
+        plugin.logInfo(
+          `Successfully discovered ${definitions.length} settings for ${scriptName}.`
+        );
         resolve(definitions as ScriptSettingDefinition[]);
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : String(error);
         plugin.logDebug(
           `Could not parse settings JSON from ${scriptName}: ${errorMsg}. This is expected for scripts without settings.`
         );
-        plugin.logDebug(`Stdout from ${scriptName} that failed parsing was: ${stdoutData.trim()}`);
+        plugin.logDebug(
+          `Stdout from ${scriptName} that failed parsing was: ${stdoutData.trim()}`
+        );
         resolve(null); // Discovery failed due to parsing error
       }
     });
@@ -210,7 +237,9 @@ export async function updateScriptSettingsCache(
 ): Promise<void> {
   plugin.logInfo('Updating script settings definitions cache...');
   if (!plugin.pythonExecutable) {
-    plugin.logError('Cannot update script settings cache: Python executable not found.');
+    plugin.logError(
+      'Cannot update script settings cache: Python executable not found.'
+    );
     return;
   }
   if (!scriptsFolder || !fs.existsSync(scriptsFolder)) {
@@ -226,10 +255,16 @@ export async function updateScriptSettingsCache(
     pythonFiles = fs
       .readdirSync(scriptsFolder)
       .filter(
-        f => f.toLowerCase().endsWith('.py') && !f.startsWith('.') && f !== PYTHON_LIBRARY_FILENAME
+        (f) =>
+          f.toLowerCase().endsWith('.py') &&
+          !f.startsWith('.') &&
+          f !== PYTHON_LIBRARY_FILENAME
       );
   } catch (err) {
-    plugin.logError(`Error reading scripts folder for settings discovery ${scriptsFolder}:`, err);
+    plugin.logError(
+      `Error reading scripts folder for settings discovery ${scriptsFolder}:`,
+      err
+    );
     return;
   }
 
@@ -241,25 +276,34 @@ export async function updateScriptSettingsCache(
   for (const file of pythonFiles) {
     const scriptAbsolutePath = path.join(scriptsFolder, file);
     // Use normalized relative path as the key for settings objects
-    const relativePath = normalizePath(path.relative(scriptsFolder, scriptAbsolutePath));
+    const relativePath = normalizePath(
+      path.relative(scriptsFolder, scriptAbsolutePath)
+    );
     currentScriptPaths.add(relativePath);
     let discoveryFailed = false; // Flag to track failure for the current script
 
     try {
       // Attempt to discover settings by running the script with --get-settings-json
-      const definitions = await discoverScriptSettings(plugin, scriptAbsolutePath);
+      const definitions = await discoverScriptSettings(
+        plugin,
+        scriptAbsolutePath
+      );
 
       // discoverScriptSettings returns null on failure (timeout, non-zero exit, parse error, etc.)
       if (definitions === null) {
         discoveryFailed = true;
-        plugin.logWarn(`Settings discovery failed for script: ${relativePath}.`);
+        plugin.logWarn(
+          `Settings discovery failed for script: ${relativePath}.`
+        );
       } else {
         // Discovery succeeded (definitions can be an empty array if no settings are defined)
         newDefinitions[relativePath] = definitions;
         // Check if the discovered definitions differ from the cached ones
         if (
           JSON.stringify(definitions) !==
-          JSON.stringify(plugin.settings.scriptSettingsDefinitions[relativePath])
+          JSON.stringify(
+            plugin.settings.scriptSettingsDefinitions[relativePath]
+          )
         ) {
           changesMade = true;
           plugin.logDebug(`Definitions updated or added for ${relativePath}`);
@@ -267,14 +311,19 @@ export async function updateScriptSettingsCache(
       }
     } catch (error) {
       // Catch unexpected errors during the discoverScriptSettings call itself
-      plugin.logError(`Unexpected error during settings discovery call for ${file}:`, error);
+      plugin.logError(
+        `Unexpected error during settings discovery call for ${file}:`,
+        error
+      );
       discoveryFailed = true;
     }
 
     // --- Handle Cache Clearing on Discovery Failure ---
     if (discoveryFailed) {
       // If discovery failed, check if there were old definitions cached
-      if (plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)) {
+      if (
+        plugin.settings.scriptSettingsDefinitions.hasOwnProperty(relativePath)
+      ) {
         plugin.logInfo(
           `Removing cached settings definitions for ${relativePath} due to discovery failure.`
         );
@@ -286,12 +335,16 @@ export async function updateScriptSettingsCache(
   } // --- End of script file loop ---
 
   // --- Final Cleanup: Remove data for scripts no longer present and orphaned values ---
-  const previouslyCachedPaths = Object.keys(plugin.settings.scriptSettingsDefinitions);
+  const previouslyCachedPaths = Object.keys(
+    plugin.settings.scriptSettingsDefinitions
+  );
   for (const cachedPath of previouslyCachedPaths) {
     if (!currentScriptPaths.has(cachedPath)) {
       // Script file was deleted from the folder
       changesMade = true;
-      plugin.logInfo(`Script ${cachedPath} removed, clearing its settings definitions and values.`);
+      plugin.logInfo(
+        `Script ${cachedPath} removed, clearing its settings definitions and values.`
+      );
       // Definition is already absent from newDefinitions because it wasn't in currentScriptPaths.
       // Clean up associated values and statuses.
       if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
@@ -311,7 +364,9 @@ export async function updateScriptSettingsCache(
       // The definition was already omitted from newDefinitions above.
       // Also remove any stored values for this script.
       if (plugin.settings.scriptSettingsValues.hasOwnProperty(cachedPath)) {
-        plugin.logInfo(`Clearing settings values for ${cachedPath} due to discovery failure.`);
+        plugin.logInfo(
+          `Clearing settings values for ${cachedPath} due to discovery failure.`
+        );
         delete plugin.settings.scriptSettingsValues[cachedPath];
         changesMade = true; // Ensure change is marked
       }
@@ -321,7 +376,8 @@ export async function updateScriptSettingsCache(
 
   // Check if the overall structure of definitions changed (covers additions/removals)
   if (
-    JSON.stringify(newDefinitions) !== JSON.stringify(plugin.settings.scriptSettingsDefinitions)
+    JSON.stringify(newDefinitions) !==
+    JSON.stringify(plugin.settings.scriptSettingsDefinitions)
   ) {
     changesMade = true;
   }
@@ -359,7 +415,9 @@ export async function runPythonScript(
       new Notice(t('NOTICE_PYTHON_EXEC_MISSING_FOR_RUN'));
       const envOk = await plugin.checkPythonEnvironment(); // Re-check env
       if (!envOk || !plugin.pythonExecutable) return;
-      plugin.logInfo('Python executable found after re-check, proceeding with script execution.');
+      plugin.logInfo(
+        'Python executable found after re-check, proceeding with script execution.'
+      );
     } else return; // Don't proceed if Python missing in non-manual contexts
   }
   const pythonCmd = plugin.pythonExecutable;
@@ -382,14 +440,23 @@ export async function runPythonScript(
   try {
     if (!fs.existsSync(scriptPath) || !fs.statSync(scriptPath).isFile()) {
       if (context === 'manual')
-        new Notice(`${t('NOTICE_SCRIPT_NOT_FOUND_PREFIX')} ${path.basename(scriptPath)}`);
-      plugin.logError(`Python script not found or is not a file (${context}): ${scriptPath}`);
+        new Notice(
+          `${t('NOTICE_SCRIPT_NOT_FOUND_PREFIX')} ${path.basename(scriptPath)}`
+        );
+      plugin.logError(
+        `Python script not found or is not a file (${context}): ${scriptPath}`
+      );
       return;
     }
   } catch (error) {
     if (context === 'manual')
-      new Notice(`${t('NOTICE_SCRIPT_ACCESS_ERROR_PREFIX')} ${path.basename(scriptPath)}`);
-    plugin.logError(`Error accessing script file ${scriptPath} (${context}):`, error);
+      new Notice(
+        `${t('NOTICE_SCRIPT_ACCESS_ERROR_PREFIX')} ${path.basename(scriptPath)}`
+      );
+    plugin.logError(
+      `Error accessing script file ${scriptPath} (${context}):`,
+      error
+    );
     return;
   }
   const scriptFilename = path.basename(scriptPath);
@@ -404,17 +471,25 @@ export async function runPythonScript(
       `Could not determine relative path for script ${scriptPath} relative to folder ${scriptsFolder}. Script settings might not be retrievable.`
     );
   // Check if script is active
-  if (relativePath && plugin.settings.scriptActivationStatus[relativePath] === false) {
+  if (
+    relativePath &&
+    plugin.settings.scriptActivationStatus[relativePath] === false
+  ) {
     plugin.logInfo(
       `Skipping execution (${context}): Script ${scriptFilename} is disabled in settings.`
     );
     if (context === 'manual')
-      new Notice(t('NOTICE_SCRIPT_DISABLED').replace('{scriptName}', scriptFilename));
+      new Notice(
+        t('NOTICE_SCRIPT_DISABLED').replace('{scriptName}', scriptFilename)
+      );
     return;
   }
   // Show "Running" notice only for manual runs
-  if (context === 'manual') new Notice(`${t('NOTICE_RUNNING_SCRIPT_PREFIX')} ${scriptFilename}`);
-  plugin.logInfo(`Attempting to run Python script (${context}): ${scriptPath} using ${pythonCmd}`);
+  if (context === 'manual')
+    new Notice(`${t('NOTICE_RUNNING_SCRIPT_PREFIX')} ${scriptFilename}`);
+  plugin.logInfo(
+    `Attempting to run Python script (${context}): ${scriptPath} using ${pythonCmd}`
+  );
   // Prepare environment variables
   const currentPYTHONPATH = process.env.PYTHONPATH;
   const pathsForPythonPath: string[] = [];
@@ -436,7 +511,9 @@ export async function runPythonScript(
       );
     }
   } else {
-    plugin.logDebug('Skipping adding plugin directory to PYTHONPATH (autoSetPYTHONPATH disabled).');
+    plugin.logDebug(
+      'Skipping adding plugin directory to PYTHONPATH (autoSetPYTHONPATH disabled).'
+    );
   }
 
   let newPYTHONPATH = pathsForPythonPath.join(path.delimiter);
@@ -454,8 +531,11 @@ export async function runPythonScript(
     ...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }),
     ...(plugin.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }),
   };
-  plugin.logDebug(`Setting OBSIDIAN_HTTP_PORT=${plugin.initialHttpPort} for script.`);
-  if (relativePath) plugin.logDebug(`Setting OBSIDIAN_SCRIPT_RELATIVE_PATH=${relativePath}`);
+  plugin.logDebug(
+    `Setting OBSIDIAN_HTTP_PORT=${plugin.initialHttpPort} for script.`
+  );
+  if (relativePath)
+    plugin.logDebug(`Setting OBSIDIAN_SCRIPT_RELATIVE_PATH=${relativePath}`);
   plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH}`);
   plugin.logDebug(`Setting cwd=${scriptDir}`);
   if (plugin.settings.disablePyCache)
@@ -481,18 +561,21 @@ export async function runPythonScript(
   try {
     await new Promise<void>((resolve, reject) => {
       plugin.logDebug(`Executing: ${executableToRun} ${fullArgs.join(' ')}`);
-      const pythonProcess = spawn(executableToRun, fullArgs, { env, cwd: scriptDir });
+      const pythonProcess = spawn(executableToRun, fullArgs, {
+        env,
+        cwd: scriptDir,
+      });
       let stderrOutput = '';
-      pythonProcess.stderr?.on('data', data => {
+      pythonProcess.stderr?.on('data', (data) => {
         const msg = data.toString();
         stderrOutput += msg;
         plugin.logError(`[stderr ${scriptFilename}]: ${msg.trim()}`);
       });
-      pythonProcess.stdout?.on('data', data => {
+      pythonProcess.stdout?.on('data', (data) => {
         const msg = data.toString();
         plugin.logDebug(`[stdout ${scriptFilename}]: ${msg.trim()}`);
       });
-      pythonProcess.on('error', error => {
+      pythonProcess.on('error', (error) => {
         plugin.logError(
           `Failed to start script (${context}) with command "${pythonCmd}": ${error.message}`
         );
@@ -502,7 +585,7 @@ export async function runPythonScript(
           );
         reject(error);
       });
-      pythonProcess.on('close', code => {
+      pythonProcess.on('close', (code) => {
         plugin.logDebug(
           `${scriptFilename} (${context}, using ${pythonCmd}) finished with exit code ${code}.`
         );
@@ -513,12 +596,16 @@ export async function runPythonScript(
               5000
             );
           if (stderrOutput.trim())
-            plugin.logError(`[Error Summary ${scriptFilename}]: ${stderrOutput.trim()}`);
+            plugin.logError(
+              `[Error Summary ${scriptFilename}]: ${stderrOutput.trim()}`
+            );
           reject(new Error(`Script exited with non-zero code: ${code}`));
         } else resolve(); // Success
       });
     });
-    plugin.logInfo(`Script ${scriptFilename} (${context}) execution completed successfully.`);
+    plugin.logInfo(
+      `Script ${scriptFilename} (${context}) execution completed successfully.`
+    );
   } catch (error) {
     plugin.logWarn(
       `Script ${scriptFilename} (${context}) execution failed or exited with error: ${error instanceof Error ? error.message : String(error)}`
@@ -531,7 +618,9 @@ export async function runPythonScript(
  * Opens a modal for the user to select a Python script from the configured folder, then runs it.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export async function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): Promise<void> {
+export async function chooseAndRunPythonScript(
+  plugin: ObsidianPythonBridge
+): Promise<void> {
   const scriptsFolder = getScriptsFolderPath(plugin);
   if (!scriptsFolder) {
     new Notice(t('NOTICE_SCRIPTS_FOLDER_INVALID'), 5000);
@@ -542,7 +631,10 @@ export async function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): Pr
     pythonFiles = fs
       .readdirSync(scriptsFolder)
       .filter(
-        f => f.toLowerCase().endsWith('.py') && !f.startsWith('.') && f !== PYTHON_LIBRARY_FILENAME
+        (f) =>
+          f.toLowerCase().endsWith('.py') &&
+          !f.startsWith('.') &&
+          f !== PYTHON_LIBRARY_FILENAME
       );
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
@@ -554,9 +646,12 @@ export async function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): Pr
     new Notice(t('NOTICE_NO_SCRIPTS_FOUND'), 5000);
     return;
   }
-  const scriptChoices = pythonFiles.map(f => ({ label: f, value: path.join(scriptsFolder, f) }));
+  const scriptChoices = pythonFiles.map((f) => ({
+    label: f,
+    value: path.join(scriptsFolder, f),
+  }));
   scriptChoices.sort((a, b) => a.label.localeCompare(b.label));
-  new ScriptSelectionModal(plugin.app, scriptChoices, selectedPath => {
+  new ScriptSelectionModal(plugin.app, scriptChoices, (selectedPath) => {
     if (selectedPath) {
       plugin.logDebug(`User selected script: ${selectedPath}`);
       runPythonScript(plugin, selectedPath, 'manual');
@@ -569,7 +664,9 @@ export async function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): Pr
  * Runs all active Python scripts found in the configured folder sequentially.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise<void> {
+export async function runAllPythonScripts(
+  plugin: ObsidianPythonBridge
+): Promise<void> {
   const scriptsFolder = getScriptsFolderPath(plugin);
   if (!scriptsFolder) {
     new Notice(t('NOTICE_SCRIPTS_FOLDER_INVALID'), 5000);
@@ -580,7 +677,10 @@ export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise
     pythonFiles = fs
       .readdirSync(scriptsFolder)
       .filter(
-        f => f.toLowerCase().endsWith('.py') && !f.startsWith('.') && f !== PYTHON_LIBRARY_FILENAME
+        (f) =>
+          f.toLowerCase().endsWith('.py') &&
+          !f.startsWith('.') &&
+          f !== PYTHON_LIBRARY_FILENAME
       );
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : String(err);
@@ -593,7 +693,7 @@ export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise
     return;
   }
   pythonFiles.sort((a, b) => a.localeCompare(b));
-  const activeScriptsToRun = pythonFiles.filter(file => {
+  const activeScriptsToRun = pythonFiles.filter((file) => {
     const relativePath = normalizePath(
       path.relative(scriptsFolder, path.join(scriptsFolder, file))
     );
@@ -607,7 +707,9 @@ export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise
   new Notice(
     `${t('NOTICE_RUNNING_ALL_SCRIPTS_PREFIX')} ${activeScriptsToRun.length} ${t('NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX')}`
   );
-  plugin.logInfo(`Starting batch run of ${activeScriptsToRun.length} active scripts...`);
+  plugin.logInfo(
+    `Starting batch run of ${activeScriptsToRun.length} active scripts...`
+  );
   for (const file of activeScriptsToRun) {
     const scriptPath = path.join(scriptsFolder, file);
     plugin.logInfo(`Run All: Running next script: ${file}`);
@@ -621,7 +723,9 @@ export async function runAllPythonScripts(plugin: ObsidianPythonBridge): Promise
  * Called after plugin load, server start, and initial settings sync.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise<void> {
+export async function runAutoStartScripts(
+  plugin: ObsidianPythonBridge
+): Promise<void> {
   // Make async to await loadData
   plugin.logInfo('Checking for scripts to run on startup...');
 
@@ -632,13 +736,21 @@ export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise
 
   const scriptsFolder = getScriptsFolderPath(plugin); // Uses plugin.settings which was just reloaded
   if (!scriptsFolder) {
-    plugin.logWarn('Cannot run auto-start scripts: Scripts folder path is invalid.');
+    plugin.logWarn(
+      'Cannot run auto-start scripts: Scripts folder path is invalid.'
+    );
     return;
   }
 
   let scriptsRunCount = 0;
-  plugin.logDebug('Current AutoStart Status:', currentSettings.scriptAutoStartStatus);
-  plugin.logDebug('Current Activation Status:', currentSettings.scriptActivationStatus);
+  plugin.logDebug(
+    'Current AutoStart Status:',
+    currentSettings.scriptAutoStartStatus
+  );
+  plugin.logDebug(
+    'Current Activation Status:',
+    currentSettings.scriptActivationStatus
+  );
 
   // Iterate over scripts that have an entry in scriptAutoStartStatus
   for (const relativePath in currentSettings.scriptAutoStartStatus) {
@@ -646,7 +758,8 @@ export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise
     // Explicitly check if shouldAutoStart is true
     if (shouldAutoStart === true) {
       // Then check if the script is active
-      const isScriptActive = currentSettings.scriptActivationStatus[relativePath] !== false;
+      const isScriptActive =
+        currentSettings.scriptActivationStatus[relativePath] !== false;
       plugin.logDebug(
         `Checking script ${relativePath}: shouldAutoStart=${shouldAutoStart}, isScriptActive=${isScriptActive}`
       );
@@ -654,24 +767,33 @@ export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise
       if (isScriptActive) {
         const absolutePath = path.join(scriptsFolder, relativePath);
         try {
-          if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
+          if (
+            fs.existsSync(absolutePath) &&
+            fs.statSync(absolutePath).isFile()
+          ) {
             plugin.logInfo(`Auto-starting script: ${relativePath}`);
-            const delaySeconds = currentSettings.scriptAutoStartDelay[relativePath] ?? 0;
+            const delaySeconds =
+              currentSettings.scriptAutoStartDelay[relativePath] ?? 0;
             const delayMs = Math.max(0, delaySeconds) * 1000;
 
             if (delayMs > 0) {
-              plugin.logInfo(` -> Delaying execution by ${delaySeconds} second(s).`);
+              plugin.logInfo(
+                ` -> Delaying execution by ${delaySeconds} second(s).`
+              );
               setTimeout(async () => {
                 // Make callback async to reload settings
                 // Re-check status just before delayed execution
                 await plugin.loadSettings(); // Reload again
                 const latestActivationStatus =
-                  plugin.settings.scriptActivationStatus[relativePath] !== false;
+                  plugin.settings.scriptActivationStatus[relativePath] !==
+                  false;
                 const latestAutoStartStatus =
                   plugin.settings.scriptAutoStartStatus[relativePath] === true;
 
                 if (latestActivationStatus && latestAutoStartStatus) {
-                  plugin.logInfo(`Executing delayed auto-start script: ${relativePath}`);
+                  plugin.logInfo(
+                    `Executing delayed auto-start script: ${relativePath}`
+                  );
                   runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
                 } else {
                   plugin.logWarn(
@@ -696,17 +818,25 @@ export async function runAutoStartScripts(plugin: ObsidianPythonBridge): Promise
           );
         }
       } else {
-        plugin.logDebug(`Skipping auto-start for ${relativePath}: Script is not active.`);
+        plugin.logDebug(
+          `Skipping auto-start for ${relativePath}: Script is not active.`
+        );
       }
     } else {
-      plugin.logDebug(`Skipping auto-start for ${relativePath}: Auto-start setting is false.`);
+      plugin.logDebug(
+        `Skipping auto-start for ${relativePath}: Auto-start setting is false.`
+      );
     }
   } // End for loop
 
   if (scriptsRunCount > 0) {
-    plugin.logInfo(`Finished launching ${scriptsRunCount} auto-start script(s).`);
+    plugin.logInfo(
+      `Finished launching ${scriptsRunCount} auto-start script(s).`
+    );
   } else {
-    plugin.logInfo('No active scripts configured for auto-start based on current settings.');
+    plugin.logInfo(
+      'No active scripts configured for auto-start based on current settings.'
+    );
   }
 }
 
@@ -735,7 +865,9 @@ export async function updateDynamicScriptCommands(
   plugin.logDebug('Updating dynamic script commands...');
   const activeScriptPaths = new Set<string>();
   if (!plugin.pythonExecutable) {
-    plugin.logWarn('Cannot update dynamic commands: Python executable not found.');
+    plugin.logWarn(
+      'Cannot update dynamic commands: Python executable not found.'
+    );
     return activeScriptPaths;
   }
   let pythonFiles: string[];
@@ -743,32 +875,47 @@ export async function updateDynamicScriptCommands(
     pythonFiles = fs
       .readdirSync(scriptsFolder)
       .filter(
-        f => f.toLowerCase().endsWith('.py') && !f.startsWith('.') && f !== PYTHON_LIBRARY_FILENAME
+        (f) =>
+          f.toLowerCase().endsWith('.py') &&
+          !f.startsWith('.') &&
+          f !== PYTHON_LIBRARY_FILENAME
       );
   } catch (err) {
-    plugin.logError(`Error reading scripts folder for command update ${scriptsFolder}:`, err);
+    plugin.logError(
+      `Error reading scripts folder for command update ${scriptsFolder}:`,
+      err
+    );
     return activeScriptPaths;
   }
   for (const file of pythonFiles) {
     const scriptAbsolutePath = path.join(scriptsFolder, file);
-    const relativePath = normalizePath(path.relative(scriptsFolder, scriptAbsolutePath));
+    const relativePath = normalizePath(
+      path.relative(scriptsFolder, scriptAbsolutePath)
+    );
     activeScriptPaths.add(relativePath);
     const commandId = getCommandIdForScript(relativePath);
     const commandName = `Run Script: ${file}`; // Simple name
     if (!plugin.dynamicScriptCommands.has(commandId)) {
-      plugin.logDebug(`Registering new command: ${commandId} ('${commandName}')`);
+      plugin.logDebug(
+        `Registering new command: ${commandId} ('${commandName}')`
+      );
       const command = plugin.addCommand({
         id: commandId,
         name: commandName,
         callback: () => {
-          const isActive = plugin.settings.scriptActivationStatus[relativePath] !== false;
+          const isActive =
+            plugin.settings.scriptActivationStatus[relativePath] !== false;
           if (isActive) {
             plugin.logInfo(`Executing script via command: ${relativePath}`);
             runPythonScript(plugin, scriptAbsolutePath, 'manual');
           } // Don't await
           else {
-            plugin.logInfo(`Skipping execution via command: Script ${relativePath} is disabled.`);
-            new Notice(t('NOTICE_SCRIPT_DISABLED').replace('{scriptName}', file));
+            plugin.logInfo(
+              `Skipping execution via command: Script ${relativePath} is disabled.`
+            );
+            new Notice(
+              t('NOTICE_SCRIPT_DISABLED').replace('{scriptName}', file)
+            );
           }
         },
       });
@@ -781,13 +928,17 @@ export async function updateDynamicScriptCommands(
   // Clean up commands for scripts that no longer exist
   const commandIdsToRemove: string[] = [];
   for (const [commandId] of plugin.dynamicScriptCommands.entries()) {
-    const scriptPathFromId = commandId.substring('python-bridge:run-script:'.length);
+    const scriptPathFromId = commandId.substring(
+      'python-bridge:run-script:'.length
+    );
     if (!activeScriptPaths.has(scriptPathFromId)) {
-      plugin.logDebug(`Command ${commandId} is stale (script removed), marking for removal.`);
+      plugin.logDebug(
+        `Command ${commandId} is stale (script removed), marking for removal.`
+      );
       commandIdsToRemove.push(commandId);
     } // Obsidian API lacks unregister. We just remove from our map.
   }
-  commandIdsToRemove.forEach(id => plugin.dynamicScriptCommands.delete(id));
+  commandIdsToRemove.forEach((id) => plugin.dynamicScriptCommands.delete(id));
   plugin.logDebug(
     `Dynamic script command update complete. Active commands: ${plugin.dynamicScriptCommands.size}`
   );

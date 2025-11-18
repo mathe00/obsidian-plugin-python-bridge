@@ -11,7 +11,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Porta para o servidor HTTP local (1024-65535). Requer reinicialização ou salvamento das configurações para aplicar.',
   SETTINGS_CACHE_TITLE: 'Desativar Cache do Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Executa o Python com a flag "-B" para impedir a escrita de arquivos .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Executa o Python com a flag "-B" para impedir a escrita de arquivos .pyc.',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'Python Bridge',
@@ -33,12 +34,15 @@ export default {
     'já está em uso. Escolha outra porta nas configurações ou feche o outro aplicativo que a está usando. Servidor não iniciado.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Falha ao iniciar o servidor na porta',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Porta inválida. Por favor, insira um número between 0 e 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Porta HTTP alterada (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Porta inválida. Por favor, insira um número between 0 e 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Porta HTTP alterada (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). O script pode estar direcionado à porta antiga se já estiver em execução ou tiver sido iniciado externamente.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Script Python não encontrado ou não é um arquivo:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Script Python não encontrado ou não é um arquivo:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Erro ao acessar o arquivo de script:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Executando script Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Erro ao executar',
@@ -52,17 +56,20 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Pasta de scripts Python não encontrada ou inválida. Verifique as configurações do plugin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Erro ao ler a pasta de scripts:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Nenhum script Python (.py) encontrado na pasta configurada.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Nenhum script Python (.py) encontrado na pasta configurada.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Executando',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script(s) Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'A entrada não corresponde ao formato exigido.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'A entrada não corresponde ao formato exigido.',
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Executar um script Python específico',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Executar todos os scripts Python na pasta',
 
   // UserInputModal
-  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Selecione um script Python para executar...',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER:
+    'Selecione um script Python para executar...',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Enviar',
   SETTINGS_SCRIPT_SETTINGS_TITLE: 'Configurações Específicas do Script',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Atualizar Configurações do Script',
@@ -78,21 +85,24 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automático (Como Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Não é possível atualizar as configurações: Executável Python não encontrado. Certifique-se de que o Python está instalado e no PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Atualizando definições de configurações do script...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Atualizando definições de configurações do script...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Definições de configurações do script atualizadas com sucesso!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Falha ao atualizar as definições de configurações do script. Verifique os logs para detalhes.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Não é possível executar o script: Executável Python não encontrado. Verifique a instalação e o PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Atualizar definições de configurações de script Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Atualizar definições de configurações de script Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Aviso de Segurança',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Executar scripts Python arbitrários pode ser arriscado. Certifique-se de confiar na fonte de qualquer script que você executar, pois eles podem acessar seu sistema e dados. O autor do plugin e os autores dos scripts não são responsáveis por qualquer perda de dados ou problemas de segurança causados pelos scripts que você escolher executar. Execute os scripts por sua conta e risco.',
   SETTINGS_LANGUAGE_TITLE: 'Idioma do Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Escolha o idioma de exibição para a interface do plugin Python Bridge. 'Automático' segue a configuração de idioma do Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Dica de Desempenho: Cache de Backlinks',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Dica de Desempenho: Cache de Backlinks',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Para melhor desempenho ao recuperar backlinks (usando a função get_backlinks) em cofres grandes, considere instalar o plugin comunitário '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' de @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -113,7 +123,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Aguarde este número de segundos após o Obsidian iniciar antes de executar o script (aplica-se apenas se 'Executar ao Iniciar' estiver ligado). Use 0 para nenhum atraso.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Definir PYTHONPATH automaticamente para a Biblioteca',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Definir PYTHONPATH automaticamente para a Biblioteca',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Adicionar automaticamente o diretório do plugin ao PYTHONPATH ao executar scripts, permitindo a importação direta da biblioteca Python (Recomendado). Se desativado, você deve copiar ObsidianPluginDevPythonToJS.py para sua pasta de scripts ou gerenciar sys.path manualmente.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -122,12 +133,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Caminho do Executável Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Caminho absoluto para o seu executável Python ou uv. Deixe em branco para deteção automática (uv, py, python3, python). Requer recarregar ou reiniciar o plugin para ter efeito total se alterado.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ex: /usr/bin/python3 ou C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'ex: /usr/bin/python3 ou C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Caminho do executável Python alterado. Atualizando scripts...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'O caminho personalizado do Python é inválido e nenhum executável de fallback foi encontrado. Os scripts podem não ser executados.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Falha no Caminho Personalizado do Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Falha no Caminho Personalizado do Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "O caminho personalizado do executável Python '{path}' é inválido ou não pôde ser executado. Voltando para a deteção automática.",
 };

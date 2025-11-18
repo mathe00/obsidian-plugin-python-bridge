@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Port untuk pelayan HTTP tempatan (1024-65535). Memerlukan mulakan semula atau simpan tetapan untuk digunakan.',
   SETTINGS_CACHE_TITLE: 'Lumpuhkan Cache Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Jalankan Python dengan bendera "-B" untuk mengelakkan penulisan fail .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Jalankan Python dengan bendera "-B" untuk mengelakkan penulisan fail .pyc.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'Port HTTP ditukar kepada',
   NOTICE_PORT_CHANGED_SUFFIX: 'Memulakan semula pelayan...',
@@ -22,7 +23,8 @@ export default {
     "Pustaka Python yang diperlukan 'requests' tidak dipasang untuk",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nSila pasangkannya dengan menjalankan:\\n{pythonCmd} -m pip install requests\\nCiri plugin yang memerlukan Python tidak akan tersedia sehingga dipasang.',
-  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Port HTTP yang dikonfigurasikan tidak sah:',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX:
+    'Port HTTP yang dikonfigurasikan tidak sah:',
   NOTICE_INVALID_PORT_CONFIG_SUFFIX:
     'Pelayan tidak dimulakan. Sila konfigurasikan port yang sah (1-65535) dalam tetapan.',
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
@@ -30,7 +32,8 @@ export default {
     'sudah digunakan. Sila pilih port lain dalam tetapan atau tutup aplikasi lain yang menggunakannya. Pelayan tidak dimulakan.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Gagal memulakan pelayan pada port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Port tidak sah. Sila masukkan nombor antara 0 dan 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Port tidak sah. Sila masukkan nombor antara 0 dan 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Port HTTP berubah (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
@@ -49,10 +52,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Folder skrip Python tidak ditemui atau tidak sah. Sila semak tetapan plugin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Ralat membaca folder skrip:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Tiada skrip Python (.py) ditemui dalam folder yang dikonfigurasikan.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Tiada skrip Python (.py) ditemui dalam folder yang dikonfigurasikan.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Menjalankan',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'skrip Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Input tidak sepadan dengan format yang diperlukan.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Input tidak sepadan dengan format yang diperlukan.',
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Jalankan skrip Python tertentu',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Jalankan semua skrip Python dalam folder',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Hantar',
@@ -71,23 +76,28 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automatik (Padankan Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Tidak dapat menyegarkan semula tetapan: Fail boleh laku Python tidak ditemui. Sila pastikan Python dipasang dan berada dalam PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Menyegarkan semula definisi tetapan skrip...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Definisi tetapan skrip berjaya disegarkan semula!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Menyegarkan semula definisi tetapan skrip...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Definisi tetapan skrip berjaya disegarkan semula!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Gagal menyegarkan semula definisi tetapan skrip. Semak log untuk butiran.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Tidak dapat menjalankan skrip: Fail boleh laku Python tidak ditemui. Sila semak pemasangan dan PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Segarkan semula definisi tetapan skrip Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Segarkan semula definisi tetapan skrip Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Amaran Keselamatan',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Menjalankan skrip Python sewenang-wenangnya boleh berisiko. Pastikan anda mempercayai sumber mana-mana skrip yang anda jalankan, kerana ia boleh mengakses sistem dan data anda. Pengarang plugin dan pengarang skrip tidak bertanggungjawab atas sebarang kehilangan data atau isu keselamatan yang disebabkan oleh skrip yang anda pilih untuk dijalankan. Jalankan skrip atas risiko anda sendiri.',
   SETTINGS_LANGUAGE_TITLE: 'Bahasa Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Pilih bahasa paparan untuk antara muka plugin Python Bridge. 'Automatik' mengikut tetapan bahasa Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Petua Prestasi: Cache Pautan Balik',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Petua Prestasi: Cache Pautan Balik',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Untuk prestasi yang lebih baik semasa mendapatkan pautan balik (menggunakan fungsi get_backlinks) dalam vault besar, pertimbangkan untuk memasang plugin komuniti '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' oleh @mnaoumov.",
-  NOTICE_INVALID_FOLDER_PATH: 'Laluan folder tidak sah. Sila pilih folder yang sah dalam tetapan.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Laluan folder tidak sah. Sila pilih folder yang sah dalam tetapan.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Laluan folder skrip Python yang dikonfigurasikan '{path}' tidak sah atau tidak ditemui. Mengosongkan tetapan.",
 
@@ -104,7 +114,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Tunggu beberapa saat selepas Obsidian dimulakan sebelum menjalankan skrip (hanya terpakai jika 'Jalankan semasa Permulaan' dihidupkan). Gunakan 0 untuk tiada kelewatan.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Tetapkan PYTHONPATH secara automatik untuk Perpustakaan',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Tetapkan PYTHONPATH secara automatik untuk Perpustakaan',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Tambah direktori pemalam secara automatik ke PYTHONPATH semasa menjalankan skrip, membenarkan import terus pustaka Python (Disyorkan). Jika dilumpuhkan, anda mesti menyalin ObsidianPluginDevPythonToJS.py ke folder skrip anda atau mengurus sys.path secara manual.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -113,7 +124,8 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Laluan Boleh Laksana Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Laluan mutlak ke boleh laksana Python atau uv anda. Biarkan kosong untuk pengesanan automatik (uv, py, python3, python). Memerlukan muat semula atau mulakan semula plugin untuk berkuat kuasa sepenuhnya jika diubah.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'cth: /usr/bin/python3 atau C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'cth: /usr/bin/python3 atau C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Laluan boleh laksana Python ditukar. Menyegarkan skrip...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -18,7 +18,8 @@ export default {
   NOTICE_PYTHON_MISSING_DESC:
     'Không tìm thấy tệp thực thi Python trong PATH.\\nVui lòng cài đặt Python và đảm bảo nó được thêm vào biến môi trường PATH của hệ thống để plugin chạy script.\\nCác tính năng plugin yêu cầu Python sẽ không khả dụng.',
   NOTICE_REQUESTS_MISSING_TITLE: 'Lỗi Python Bridge:',
-  NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Thư viện Python bắt buộc 'requests' chưa được cài đặt cho",
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Thư viện Python bắt buộc 'requests' chưa được cài đặt cho",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nVui lòng cài đặt bằng cách chạy:\\n{pythonCmd} -m pip install requests\\nCác tính năng plugin yêu cầu Python sẽ không khả dụng cho đến khi được cài đặt.',
   NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Cổng HTTP được cấu hình không hợp lệ:',
@@ -29,25 +30,30 @@ export default {
     'đã được sử dụng. Vui lòng chọn một cổng khác trong cài đặt hoặc đóng ứng dụng khác đang sử dụng nó. Máy chủ chưa được khởi động.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Không thể khởi động máy chủ trên cổng',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Cổng không hợp lệ. Vui lòng nhập một số từ 0 đến 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Cổng HTTP đã thay đổi (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Cổng không hợp lệ. Vui lòng nhập một số từ 0 đến 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Cổng HTTP đã thay đổi (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Script có thể nhắm mục tiêu cổng cũ nếu đã chạy hoặc được khởi chạy từ bên ngoài.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Không tìm thấy script Python hoặc không phải là tệp:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Không tìm thấy script Python hoặc không phải là tệp:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Lỗi truy cập tệp script:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Đang chạy script Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Lỗi khi chạy',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'với',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'thất bại với mã thoát',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Kiểm tra nhật ký console.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Không thể tìm thấy tệp thực thi Python hợp lệ. Đã thử:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Không thể tìm thấy tệp thực thi Python hợp lệ. Đã thử:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Vui lòng đảm bảo Python được cài đặt và có thể truy cập thông qua PATH của hệ thống (hoặc trình khởi chạy 'py' trên Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Không tìm thấy thư mục script Python hoặc không hợp lệ. Vui lòng kiểm tra cài đặt plugin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Lỗi đọc thư mục script:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Không tìm thấy script Python (.py) nào trong thư mục đã cấu hình.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Không tìm thấy script Python (.py) nào trong thư mục đã cấu hình.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Đang chạy',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script Python...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Đầu vào không khớp với định dạng yêu cầu.',
@@ -69,8 +75,10 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Tự động (Khớp với Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Không thể làm mới cài đặt: Không tìm thấy tệp thực thi Python. Vui lòng đảm bảo Python được cài đặt và nằm trong PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Đang làm mới định nghĩa cài đặt script...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Đã làm mới thành công định nghĩa cài đặt script!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Đang làm mới định nghĩa cài đặt script...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Đã làm mới thành công định nghĩa cài đặt script!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Không thể làm mới định nghĩa cài đặt script. Kiểm tra nhật ký để biết chi tiết.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -82,7 +90,8 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'Ngôn ngữ Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Chọn ngôn ngữ hiển thị cho giao diện plugin Python Bridge. 'Tự động' tuân theo cài đặt ngôn ngữ của Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Mẹo hiệu suất: Bộ đệm Backlink',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Mẹo hiệu suất: Bộ đệm Backlink',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Để cải thiện hiệu suất khi truy xuất backlink (sử dụng hàm get_backlinks) trong các kho lớn, hãy cân nhắc cài đặt plugin cộng đồng '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' của @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -93,7 +102,8 @@ export default {
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Script Đã Bật',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "Cho phép script này được thực thi thông qua lệnh, phím tắt hoặc 'Chạy Tất cả'.",
-  NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' đã bị tắt trong cài đặt và không thể thực thi.",
+  NOTICE_SCRIPT_DISABLED:
+    "Script '{scriptName}' đã bị tắt trong cài đặt và không thể thực thi.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Chạy khi khởi động',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -111,12 +121,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Đường dẫn Tệp Thực thi Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Đường dẫn tuyệt đối đến tệp thực thi Python hoặc uv của bạn. Để trống để tự động phát hiện (uv, py, python3, python). Yêu cầu tải lại hoặc khởi động lại plugin để có hiệu lực đầy đủ nếu thay đổi.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'ví dụ: /usr/bin/python3 hoặc C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'ví dụ: /usr/bin/python3 hoặc C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Đường dẫn tệp thực thi Python đã thay đổi. Đang làm mới tập lệnh...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Đường dẫn Python tùy chỉnh không hợp lệ và không tìm thấy tệp thực thi dự phòng nào. Tập lệnh có thể không chạy.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Đường dẫn Python Tùy chỉnh Không thành công',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Đường dẫn Python Tùy chỉnh Không thành công',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Đường dẫn tệp thực thi Python tùy chỉnh '{path}' không hợp lệ hoặc không thể thực thi. Quay lại phát hiện tự động.",
 };

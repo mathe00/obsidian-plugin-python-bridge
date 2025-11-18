@@ -5,7 +5,8 @@ export default {
   SETTINGS_FOLDER_TITLE: 'Φάκελος Python Scripts',
   SETTINGS_FOLDER_DESC:
     'Διαδρομή προς το φάκελο που περιέχει τα Python scripts σας (απόλυτη ή σχετική με το vault).',
-  SETTINGS_FOLDER_PLACEHOLDER: '/διαδρομή/προς/τα/scripts σας ή ./scripts-python',
+  SETTINGS_FOLDER_PLACEHOLDER:
+    '/διαδρομή/προς/τα/scripts σας ή ./scripts-python',
   SETTINGS_PORT_TITLE: 'Θύρα HTTP Server',
   SETTINGS_PORT_DESC:
     'Θύρα για τον τοπικό HTTP server (1024-65535). Απαιτεί επανεκκίνηση ή αποθήκευση ρυθμίσεων για εφαρμογή.',
@@ -31,18 +32,21 @@ export default {
     'χρησιμοποιείται ήδη. Παρακαλώ επιλέξτε άλλη θύρα στις ρυθμίσεις ή κλείστε την άλλη εφαρμογή που τη χρησιμοποιεί. Ο διακομιστής δεν ξεκίνησε.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Αποτυχία έναρξης διακομιστή στη θύρα',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Μη έγκυρη θύρα. Εισαγάγετε έναν αριθμό μεταξύ 0 και 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Μη έγκυρη θύρα. Εισαγάγετε έναν αριθμό μεταξύ 0 και 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Η θύρα HTTP άλλαξε (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Το script ενδέχεται να στοχεύει την παλιά θύρα εάν εκτελείται ήδη ή έχει εκκινηθεί εξωτερικά.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Το script Python δεν βρέθηκε ή δεν είναι αρχείο:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Το script Python δεν βρέθηκε ή δεν είναι αρχείο:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Σφάλμα πρόσβασης στο αρχείο script:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Εκτέλεση script Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Σφάλμα κατά την εκτέλεση',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'με',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'απέτυχε με κωδικό εξόδου',
-  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Ελέγξτε τα αρχεία καταγραφής της κονσόλας.',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX:
+    'Ελέγξτε τα αρχεία καταγραφής της κονσόλας.',
   NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
     'Δεν ήταν δυνατή η εύρεση έγκυρου εκτελέσιμου αρχείου Python. Προσπάθεια:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
@@ -50,10 +54,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Ο φάκελος Python scripts δεν βρέθηκε ή είναι μη έγκυρος. Ελέγξτε τις ρυθμίσεις του plugin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Σφάλμα ανάγνωσης φακέλου scripts:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Δεν βρέθηκαν scripts Python (.py) στον διαμορφωμένο φάκελο.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Δεν βρέθηκαν scripts Python (.py) στον διαμορφωμένο φάκελο.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Εκτέλεση',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script(s) Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Η είσοδος δεν ταιριάζει με την απαιτούμενη μορφή.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Η είσοδος δεν ταιριάζει με την απαιτούμενη μορφή.',
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Εκτέλεση συγκεκριμένου script Python',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Εκτέλεση όλων των scripts Python στο φάκελο',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Υποβολή',
@@ -73,7 +79,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Δεν είναι δυνατή η ανανέωση των ρυθμίσεων: Το εκτελέσιμο αρχείο Python δεν βρέθηκε. Βεβαιωθείτε ότι η Python είναι εγκατεστημένη και βρίσκεται στο PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Ανανέωση ορισμών ρυθμίσεων script...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Οι ορισμοί ρυθμίσεων script ανανεώθηκαν με επιτυχία!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Οι ορισμοί ρυθμίσεων script ανανεώθηκαν με επιτυχία!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Αποτυχία ανανέωσης ορισμών ρυθμίσεων script. Ελέγξτε τα αρχεία καταγραφής για λεπτομέρειες.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -85,7 +92,8 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'Γλώσσα Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Επιλέξτε τη γλώσσα εμφάνισης για τη διεπαφή του plugin Python Bridge. Η επιλογή 'Αυτόματο' ακολουθεί τη ρύθμιση γλώσσας του Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Συμβουλή απόδοσης: Προσωρινή μνήμη Backlink',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Συμβουλή απόδοσης: Προσωρινή μνήμη Backlink',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Για βελτιωμένη απόδοση κατά την ανάκτηση backlinks (χρησιμοποιώντας τη συνάρτηση get_backlinks) σε μεγάλα vaults, εξετάστε το ενδεχόμενο εγκατάστασης του κοινοτικού plugin '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' από τον @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -106,7 +114,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Περιμένετε τόσα δευτερόλεπτα μετά την εκκίνηση του Obsidian πριν εκτελέσετε το σενάριο (ισχύει μόνο εάν είναι ενεργοποιημένο το 'Εκτέλεση κατά την εκκίνηση'). Χρησιμοποιήστε 0 για καμία καθυστέρηση.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Αυτόματη ρύθμιση PYTHONPATH για τη Βιβλιοθήκη',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Αυτόματη ρύθμιση PYTHONPATH για τη Βιβλιοθήκη',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Προσθέτει αυτόματα τον κατάλογο του plugin στο PYTHONPATH κατά την εκτέλεση σεναρίων, επιτρέποντας την απευθείας εισαγωγή της βιβλιοθήκης Python (Συνιστάται). Εάν απενεργοποιηθεί, πρέπει να αντιγράψετε το ObsidianPluginDevPythonToJS.py στον φάκελο των σεναρίων σας ή να διαχειριστείτε μη αυτόματα το sys.path.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -115,12 +124,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Διαδρομή Εκτελέσιμου Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'π.χ., /usr/bin/python3 ή C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'π.χ., /usr/bin/python3 ή C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Η διαδρομή εκτελέσιμου Python άλλαξε. Ανανέωση σεναρίων...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Η προσαρμοσμένη διαδρομή Python είναι μη έγκυρη και δεν βρέθηκε εφεδρικό εκτελέσιμο. Τα σενάρια ενδέχεται να μην εκτελεστούν.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Η προσαρμοσμένη διαδρομή Python απέτυχε',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Η προσαρμοσμένη διαδρομή Python απέτυχε',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
 };

@@ -10,10 +10,15 @@ import type ObsidianPythonBridge from '../main';
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The absolute path string or null if unavailable.
  */
-export function getCurrentVaultAbsolutePath(plugin: ObsidianPythonBridge): string | null {
+export function getCurrentVaultAbsolutePath(
+  plugin: ObsidianPythonBridge
+): string | null {
   const adapter = plugin.app.vault.adapter;
-  if (adapter instanceof FileSystemAdapter && adapter.getBasePath) return adapter.getBasePath();
-  plugin.logWarn('Vault adapter is not FileSystemAdapter or lacks getBasePath method.');
+  if (adapter instanceof FileSystemAdapter && adapter.getBasePath)
+    return adapter.getBasePath();
+  plugin.logWarn(
+    'Vault adapter is not FileSystemAdapter or lacks getBasePath method.'
+  );
   return null;
 }
 
@@ -24,8 +29,11 @@ export function getCurrentVaultAbsolutePath(plugin: ObsidianPythonBridge): strin
  * @returns An array of vault-relative or absolute paths.
  * @throws Error if `absolute` is true but vault path is unavailable.
  */
-export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute = false): string[] {
-  const relativePaths = plugin.app.vault.getMarkdownFiles().map(f => f.path);
+export function getAllNotePaths(
+  plugin: ObsidianPythonBridge,
+  absolute = false
+): string[] {
+  const relativePaths = plugin.app.vault.getMarkdownFiles().map((f) => f.path);
   if (absolute) {
     const vaultPath = getCurrentVaultAbsolutePath(plugin);
     if (!vaultPath) {
@@ -33,11 +41,17 @@ export function getAllNotePaths(plugin: ObsidianPythonBridge, absolute = false):
         'Cannot return absolute paths: Vault path unavailable for get_all_note_paths.'
       );
       // Throw an error as the Python client expects this possibility.
-      throw new Error('Cannot get absolute note paths: Vault absolute path is unavailable.');
+      throw new Error(
+        'Cannot get absolute note paths: Vault absolute path is unavailable.'
+      );
     }
     // Ensure vaultPath doesn't have a trailing separator for consistent joining
-    const cleanVaultPath = vaultPath.endsWith(path.sep) ? vaultPath.slice(0, -1) : vaultPath;
-    return relativePaths.map(p => normalizePath(path.join(cleanVaultPath, p)));
+    const cleanVaultPath = vaultPath.endsWith(path.sep)
+      ? vaultPath.slice(0, -1)
+      : vaultPath;
+    return relativePaths.map((p) =>
+      normalizePath(path.join(cleanVaultPath, p))
+    );
   }
   return relativePaths;
 }

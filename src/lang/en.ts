@@ -11,7 +11,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Port for the local HTTP server (1024-65535). Requires restart or settings save to apply.',
   SETTINGS_CACHE_TITLE: 'Disable Python Cache (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Run Python with the "-B" flag to prevent writing .pyc files.',
+  SETTINGS_CACHE_DESC:
+    'Run Python with the "-B" flag to prevent writing .pyc files.',
   // SETTINGS_AUTO_PYTHONPATH_NAME: "Auto-set PYTHONPATH for Library", // <-- REMOVED FROM HERE
   // SETTINGS_AUTO_PYTHONPATH_DESC: "...", // <-- REMOVED FROM HERE
 
@@ -35,7 +36,8 @@ export default {
     'is already in use. Please choose another port in settings or close the other application using it. Server not started.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Failed to start server on port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.', // Original message had error details appended after this
-  NOTICE_INVALID_PORT_RANGE: 'Invalid port. Please enter a number between 0 and 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Invalid port. Please enter a number between 0 and 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP Port changed (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
@@ -47,13 +49,15 @@ export default {
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'with',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'failed with exit code',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Check console logs.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Could not find a valid Python executable. Tried:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Could not find a valid Python executable. Tried:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Please ensure Python is installed and accessible via your system's PATH (or the 'py' launcher on Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python scripts folder not found or invalid. Please check plugin settings.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Error reading scripts folder:',
-  NOTICE_NO_SCRIPTS_FOUND: 'No Python scripts (.py) found in the configured folder.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'No Python scripts (.py) found in the configured folder.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Running',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python script(s)...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Input does not match the required format.', // Added for UserInputModal
@@ -82,23 +86,28 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automatic (Match Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Cannot refresh settings: Python executable not found. Please ensure Python is installed and in PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Refreshing script settings definitions...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Script settings definitions refreshed successfully!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Refreshing script settings definitions...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Script settings definitions refreshed successfully!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Failed to refresh script settings definitions. Check logs for details.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Cannot run script: Python executable not found. Please check installation and PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Refresh Python script settings definitions',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Refresh Python script settings definitions',
   SETTINGS_SECURITY_WARNING_TITLE: 'Security Warning',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Executing arbitrary Python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.',
   SETTINGS_LANGUAGE_TITLE: 'Plugin Language',
   SETTINGS_LANGUAGE_DESC:
     "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Performance Tip: Backlink Cache',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Performance Tip: Backlink Cache',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "For improved performance when retrieving backlinks (using the get_backlinks function) in large vaults, consider installing the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin by @mnaoumov.",
-  NOTICE_INVALID_FOLDER_PATH: 'Invalid folder path. Please select a valid folder in settings.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Invalid folder path. Please select a valid folder in settings.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Configured Python scripts folder path '{path}' is invalid or not found. Clearing setting.",
 
@@ -111,7 +120,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Startup Delay (seconds)',
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Wait this many seconds after Obsidian starts before running the script (only applies if 'Run on Startup' is on). Use 0 for no delay.",
-  NOTICE_SCRIPT_DISABLED: "Script '{scriptName}' is disabled in settings and cannot be executed.",
+  NOTICE_SCRIPT_DISABLED:
+    "Script '{scriptName}' is disabled in settings and cannot be executed.",
 
   // --- ADDED KEYS AT THE END ---
   SETTINGS_AUTO_PYTHONPATH_NAME: 'Auto-set PYTHONPATH for Library',
@@ -123,7 +133,8 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python Executable Path',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'e.g., /usr/bin/python3 or C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'e.g., /usr/bin/python3 or C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python executable path changed. Refreshing scripts...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

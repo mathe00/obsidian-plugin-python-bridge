@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Порт для локального HTTP-сервера (1024-65535). Потребує перезапуску або збереження налаштувань для застосування.',
   SETTINGS_CACHE_TITLE: 'Вимкнути кеш Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Запускати Python з прапорцем "-B", щоб запобігти запису файлів .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Запускати Python з прапорцем "-B", щоб запобігти запису файлів .pyc.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'Порт HTTP змінено на',
   NOTICE_PORT_CHANGED_SUFFIX: 'Перезапуск сервера...',
@@ -18,7 +19,8 @@ export default {
   NOTICE_PYTHON_MISSING_DESC:
     'Виконуваний файл Python не знайдено в PATH.\\nБудь ласка, встановіть Python і переконайтеся, що він доданий до змінної середовища PATH вашої системи, щоб плагін міг запускати скрипти.\\nФункції плагіна, що потребують Python, будуть недоступні.',
   NOTICE_REQUESTS_MISSING_TITLE: 'Помилка Python Bridge:',
-  NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Необхідну бібліотеку Python 'requests' не встановлено для",
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Необхідну бібліотеку Python 'requests' не встановлено для",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nБудь ласка, встановіть її, виконавши:\\n{pythonCmd} -m pip install requests\\nФункції плагіна, що потребують Python, будуть недоступні до встановлення.',
   NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Налаштовано недійсний порт HTTP:',
@@ -29,7 +31,8 @@ export default {
     'вже використовується. Будь ласка, виберіть інший порт у налаштуваннях або закрийте іншу програму, що його використовує. Сервер не запущено.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Не вдалося запустити сервер на порту',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Недійсний порт. Будь ласка, введіть число від 0 до 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Недійсний порт. Будь ласка, введіть число від 0 до 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Порт HTTP змінено (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
@@ -48,10 +51,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Папку скриптів Python не знайдено або вона недійсна. Будь ласка, перевірте налаштування плагіна.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Помилка читання папки скриптів:',
-  NOTICE_NO_SCRIPTS_FOUND: 'У налаштованій папці не знайдено скриптів Python (.py).',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'У налаштованій папці не знайдено скриптів Python (.py).',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Запуск',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'скриптів Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Введені дані не відповідають потрібному формату.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Введені дані не відповідають потрібному формату.',
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Запустити конкретний скрипт Python',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Запустити всі скрипти Python у папці',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Надіслати',
@@ -70,13 +75,16 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Автоматично (Як Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Неможливо оновити налаштування: Виконуваний файл Python не знайдено. Будь ласка, переконайтеся, що Python встановлено та знаходиться в PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Оновлення визначень налаштувань скриптів...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Визначення налаштувань скриптів успішно оновлено!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Оновлення визначень налаштувань скриптів...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Визначення налаштувань скриптів успішно оновлено!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Не вдалося оновити визначення налаштувань скриптів. Перевірте логи для деталей.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Неможливо запустити скрипт: Виконуваний файл Python не знайдено. Будь ласка, перевірте встановлення та PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Оновити визначення налаштувань скриптів Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Оновити визначення налаштувань скриптів Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Попередження про безпеку',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Виконання довільних скриптів Python може бути ризикованим. Переконайтеся, що ви довіряєте джерелу будь-якого скрипта, який ви запускаєте, оскільки він може отримати доступ до вашої системи та даних. Автор плагіна та автори скриптів не несуть відповідальності за будь-яку втрату даних або проблеми безпеки, спричинені скриптами, які ви вирішили виконати. Запускайте скрипти на свій страх і ризик.',
@@ -105,7 +113,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Зачекайте вказану кількість секунд після запуску Obsidian перед виконанням скрипту (застосовується, тільки якщо увімкнено 'Запускати при старті'). Використовуйте 0 для відсутності затримки.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Автоматично встановити PYTHONPATH для бібліотеки',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Автоматично встановити PYTHONPATH для бібліотеки',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Автоматично додавати каталог плагіна до PYTHONPATH під час запуску скриптів, дозволяючи прямий імпорт бібліотеки Python (Рекомендовано). Якщо вимкнено, ви повинні скопіювати ObsidianPluginDevPythonToJS.py до вашої папки скриптів або керувати sys.path вручну.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -114,12 +123,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Шлях до виконуваного файлу Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Абсолютний шлях до вашого виконуваного файлу Python або uv. Залиште порожнім для автоматичного визначення (uv, py, python3, python). Потребує перезавантаження плагіна або перезапуску для повного набуття чинності у разі зміни.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'напр., /usr/bin/python3 або C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'напр., /usr/bin/python3 або C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Шлях до виконуваного файлу Python змінено. Оновлення сценаріїв...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Настроюваний шлях Python недійсний, і не знайдено резервного виконуваного файлу. Сценарії можуть не працювати.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Помилка настроюваного шляху Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Помилка настроюваного шляху Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Настроюваний шлях до виконуваного файлу Python '{path}' недійсний або не може бути виконаний. Повернення до автоматичного визначення.",
 };

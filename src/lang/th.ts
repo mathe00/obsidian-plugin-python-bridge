@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'พอร์ตสำหรับเซิร์فเวอร์ HTTP ในเครื่อง (1024-65535) ต้องรีสตาร์ทหรือบันทึกการตั้งค่าเพื่อนำไปใช้',
   SETTINGS_CACHE_TITLE: 'ปิดใช้งานแคช Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'รัน Python ด้วยแฟล็ก "-B" เพื่อป้องกันการเขียนไฟล์ .pyc',
+  SETTINGS_CACHE_DESC:
+    'รัน Python ด้วยแฟล็ก "-B" เพื่อป้องกันการเขียนไฟล์ .pyc',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'พอร์ต HTTP เปลี่ยนเป็น',
   NOTICE_PORT_CHANGED_SUFFIX: 'กำลังรีสตาร์ทเซิร์ฟเวอร์...',
@@ -18,7 +19,8 @@ export default {
   NOTICE_PYTHON_MISSING_DESC:
     'ไม่พบไฟล์ปฏิบัติการ Python ใน PATH\\nโปรดติดตั้ง Python และตรวจสอบให้แน่ใจว่าได้เพิ่มลงในตัวแปรสภาพแวดล้อม PATH ของระบบเพื่อให้ปลั๊กอินรันสคริปต์ได้\\nคุณสมบัติปลั๊กอินที่ต้องใช้ Python จะไม่สามารถใช้งานได้',
   NOTICE_REQUESTS_MISSING_TITLE: 'ข้อผิดพลาด Python Bridge:',
-  NOTICE_REQUESTS_MISSING_DESC_PREFIX: "ไลบรารี Python ที่จำเป็น 'requests' ไม่ได้ติดตั้งสำหรับ",
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "ไลบรารี Python ที่จำเป็น 'requests' ไม่ได้ติดตั้งสำหรับ",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nโปรดติดตั้งโดยรัน:\\n{pythonCmd} -m pip install requests\\nคุณสมบัติปลั๊กอินที่ต้องใช้ Python จะไม่สามารถใช้งานได้จนกว่าจะติดตั้ง',
   NOTICE_INVALID_PORT_CONFIG_PREFIX: 'กำหนดค่าพอร์ต HTTP ไม่ถูกต้อง:',
@@ -29,8 +31,10 @@ export default {
     'มีการใช้งานอยู่แล้ว โปรดเลือกพอร์ตอื่นในการตั้งค่าหรือปิดแอปพลิเคชันอื่นที่ใช้งานอยู่ เซิร์ฟเวอร์ยังไม่ได้เริ่ม',
   NOTICE_SERVER_START_FAILED_PREFIX: 'ไม่สามารถเริ่มเซิร์ฟเวอร์บนพอร์ต',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'พอร์ตไม่ถูกต้อง โปรดป้อนตัวเลขระหว่าง 0 ถึง 65535',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: พอร์ต HTTP เปลี่ยนไป (',
+  NOTICE_INVALID_PORT_RANGE:
+    'พอร์ตไม่ถูกต้อง โปรดป้อนตัวเลขระหว่าง 0 ถึง 65535',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: พอร์ต HTTP เปลี่ยนไป (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     ') สคริปต์อาจกำหนดเป้าหมายไปที่พอร์ตเก่าหากกำลังทำงานอยู่แล้วหรือเปิดใช้งานจากภายนอก',
@@ -41,12 +45,14 @@ export default {
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'ด้วย',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'ล้มเหลวด้วยรหัสออก',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'ตรวจสอบบันทึกคอนโซล',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'ไม่พบไฟล์ปฏิบัติการ Python ที่ถูกต้อง ลอง:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'ไม่พบไฟล์ปฏิบัติการ Python ที่ถูกต้อง ลอง:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "โปรดตรวจสอบให้แน่ใจว่า Python ได้รับการติดตั้งและสามารถเข้าถึงได้ผ่าน PATH ของระบบ (หรือตัวเรียกใช้ 'py' บน Windows)",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'ไม่พบโฟลเดอร์สคริปต์ Python หรือไม่ถูกต้อง โปรดตรวจสอบการตั้งค่าปลั๊กอิน',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'ข้อผิดพลาดในการอ่านโฟลเดอร์สคริปต์:',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'ข้อผิดพลาดในการอ่านโฟลเดอร์สคริปต์:',
   NOTICE_NO_SCRIPTS_FOUND: 'ไม่พบสคริปต์ Python (.py) ในโฟลเดอร์ที่กำหนดค่าไว้',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'กำลังรัน',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'สคริปต์ Python...',
@@ -69,8 +75,10 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'อัตโนมัติ (ตรงกับ Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'ไม่สามารถรีเฟรชการตั้งค่า: ไม่พบไฟล์ปฏิบัติการ Python โปรดตรวจสอบให้แน่ใจว่า Python ได้รับการติดตั้งและอยู่ใน PATH',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'กำลังรีเฟรชคำจำกัดความการตั้งค่าสคริปต์...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'รีเฟรชคำจำกัดความการตั้งค่าสคริปต์สำเร็จแล้ว!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'กำลังรีเฟรชคำจำกัดความการตั้งค่าสคริปต์...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'รีเฟรชคำจำกัดความการตั้งค่าสคริปต์สำเร็จแล้ว!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'ไม่สามารถรีเฟรชคำจำกัดความการตั้งค่าสคริปต์ ตรวจสอบบันทึกเพื่อดูรายละเอียด',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -82,17 +90,20 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'ภาษาปลั๊กอิน',
   SETTINGS_LANGUAGE_DESC:
     "เลือกภาษาที่แสดงสำหรับอินเทอร์เฟซปลั๊กอิน Python Bridge 'อัตโนมัติ' จะเป็นไปตามการตั้งค่าภาษาของ Obsidian",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'เคล็ดลับประสิทธิภาพ: Backlink Cache',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'เคล็ดลับประสิทธิภาพ: Backlink Cache',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "เพื่อประสิทธิภาพที่ดีขึ้นในการดึงข้อมูล Backlink (โดยใช้ฟังก์ชัน get_backlinks) ใน Vault ขนาดใหญ่ ลองพิจารณาติดตั้งปลั๊กอินชุมชน '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' โดย @mnaoumov",
-  NOTICE_INVALID_FOLDER_PATH: 'เส้นทางโฟลเดอร์ไม่ถูกต้อง โปรดเลือกโฟลเดอร์ที่ถูกต้องในการตั้งค่า',
+  NOTICE_INVALID_FOLDER_PATH:
+    'เส้นทางโฟลเดอร์ไม่ถูกต้อง โปรดเลือกโฟลเดอร์ที่ถูกต้องในการตั้งค่า',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "เส้นทางโฟลเดอร์สคริปต์ Python ที่กำหนดค่า '{path}' ไม่ถูกต้องหรือไม่พบ กำลังล้างการตั้งค่า",
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'สคริปต์เปิดใช้งานอยู่',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "อนุญาตให้สคริปต์นี้ทำงานผ่านคำสั่ง ทางลัด หรือ 'เรียกใช้ทั้งหมด'",
-  NOTICE_SCRIPT_DISABLED: "สคริปต์ '{scriptName}' ถูกปิดใช้งานในการตั้งค่าและไม่สามารถดำเนินการได้",
+  NOTICE_SCRIPT_DISABLED:
+    "สคริปต์ '{scriptName}' ถูกปิดใช้งานในการตั้งค่าและไม่สามารถดำเนินการได้",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'ทำงานเมื่อเริ่มต้น',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -110,12 +121,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'เส้นทางไฟล์ Python ที่เรียกใช้งานได้',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'เส้นทางสัมบูรณ์ไปยังไฟล์ Python หรือ uv ที่เรียกใช้งานได้ของคุณ ปล่อยว่างไว้สำหรับการตรวจจับอัตโนมัติ (uv, py, python3, python) หากมีการเปลี่ยนแปลง จำเป็นต้องโหลดปลั๊กอินใหม่หรือรีสตาร์ทเพื่อให้มีผลสมบูรณ์',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'เช่น /usr/bin/python3 หรือ C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'เช่น /usr/bin/python3 หรือ C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'เส้นทางไฟล์ Python ที่เรียกใช้งานได้มีการเปลี่ยนแปลง กำลังรีเฟรชสคริปต์...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'เส้นทาง Python ที่กำหนดเองไม่ถูกต้อง และไม่พบไฟล์ปฏิบัติการสำรอง สคริปต์อาจไม่ทำงาน',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'เส้นทาง Python ที่กำหนดเองล้มเหลว',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'เส้นทาง Python ที่กำหนดเองล้มเหลว',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "เส้นทางไฟล์ Python ที่เรียกใช้งานได้ที่กำหนดเอง '{path}' ไม่ถูกต้องหรือไม่สามารถเรียกใช้งานได้ กำลังกลับไปใช้การตรวจจับอัตโนมัติ",
 };

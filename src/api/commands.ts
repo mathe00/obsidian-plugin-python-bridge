@@ -9,7 +9,10 @@ import type ObsidianPythonBridge from '../main';
  * @param commandId The ID of the command to execute.
  * @throws Error if command execution fails.
  */
-export function runObsidianCommand(plugin: ObsidianPythonBridge, commandId: string): void {
+export function runObsidianCommand(
+  plugin: ObsidianPythonBridge,
+  commandId: string
+): void {
   plugin.logDebug(`Attempting to execute command ID: ${commandId}`);
   try {
     // @ts-ignore - executeCommandById might not be in typings
@@ -17,7 +20,8 @@ export function runObsidianCommand(plugin: ObsidianPythonBridge, commandId: stri
     if (!success) {
       // @ts-ignore - accessing commands object which may not be in typings
       const commandExists = !!plugin.app.commands.commands[commandId];
-      if (!commandExists) throw new Error(`Command with ID "${commandId}" not found.`);
+      if (!commandExists)
+        throw new Error(`Command with ID "${commandId}" not found.`);
       else
         throw new Error(
           `Command "${commandId}" could not be executed (possibly disabled or inactive).`

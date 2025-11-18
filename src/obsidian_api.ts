@@ -13,10 +13,22 @@ export {
 export { getActiveNoteFrontmatter } from './api/active-note-frontmatter';
 
 // Vault Operations
-export { getCurrentVaultAbsolutePath, getAllNotePaths, getVaultName } from './api/vault-info';
-export { getNoteContentByPath, modifyNoteContentByRelativePath } from './api/note-content';
+export {
+  getCurrentVaultAbsolutePath,
+  getAllNotePaths,
+  getVaultName,
+} from './api/vault-info';
+export {
+  getNoteContentByPath,
+  modifyNoteContentByRelativePath,
+} from './api/note-content';
 export { getNoteFrontmatterByPath } from './api/note-frontmatter';
-export { createNote, checkPathExists, deletePath, renamePath } from './api/note-crud';
+export {
+  createNote,
+  checkPathExists,
+  deletePath,
+  renamePath,
+} from './api/note-crud';
 export { createFolder, listFolder } from './api/folder-operations';
 
 // Link Operations

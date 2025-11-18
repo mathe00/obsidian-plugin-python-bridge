@@ -14,7 +14,8 @@ export function getSelectedText(plugin: ObsidianPythonBridge): string {
   const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
   if (!view) throw new Error('No active Markdown view found.');
   const editor = view.editor;
-  if (!editor) throw new Error('Active Markdown view does not have an editor instance.');
+  if (!editor)
+    throw new Error('Active Markdown view does not have an editor instance.');
   return editor.getSelection();
 }
 
@@ -25,10 +26,15 @@ export function getSelectedText(plugin: ObsidianPythonBridge): string {
  * @param replacement The text to insert or replace the selection with.
  * @throws Error if no Markdown view/editor is active.
  */
-export function replaceSelectedText(plugin: ObsidianPythonBridge, replacement: string): void {
+export function replaceSelectedText(
+  plugin: ObsidianPythonBridge,
+  replacement: string
+): void {
   const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
-  if (!view) throw new Error('No active Markdown view found to replace selection in.');
+  if (!view)
+    throw new Error('No active Markdown view found to replace selection in.');
   const editor = view.editor;
-  if (!editor) throw new Error('Active Markdown view does not have an editor instance.');
+  if (!editor)
+    throw new Error('Active Markdown view does not have an editor instance.');
   editor.replaceSelection(replacement);
 }

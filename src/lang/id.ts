@@ -11,7 +11,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Port untuk server HTTP lokal (1024-65535). Memerlukan restart atau simpan pengaturan untuk menerapkan.',
   SETTINGS_CACHE_TITLE: 'Nonaktifkan Cache Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Jalankan Python dengan flag "-B" untuk mencegah penulisan file .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Jalankan Python dengan flag "-B" untuk mencegah penulisan file .pyc.',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'Python Bridge',
@@ -25,7 +26,8 @@ export default {
     "Pustaka Python yang diperlukan 'requests' tidak diinstal untuk",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\nHarap instal dengan menjalankan:\n{pythonCmd} -m pip install requests\nFitur plugin yang memerlukan Python tidak akan tersedia sampai diinstal.',
-  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Port HTTP yang dikonfigurasi tidak valid:',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX:
+    'Port HTTP yang dikonfigurasi tidak valid:',
   NOTICE_INVALID_PORT_CONFIG_SUFFIX:
     'Server tidak dimulai. Harap konfigurasikan port yang valid (1-65535) di pengaturan.',
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
@@ -33,12 +35,14 @@ export default {
     'sudah digunakan. Harap pilih port lain di pengaturan atau tutup aplikasi lain yang menggunakannya. Server tidak dimulai.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Gagal memulai server di port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Port tidak valid. Harap masukkan angka antara 0 dan 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Port tidak valid. Harap masukkan angka antara 0 dan 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Port HTTP berubah (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Skrip mungkin menargetkan port lama jika sudah berjalan atau diluncurkan secara eksternal.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Skrip Python tidak ditemukan atau bukan file:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Skrip Python tidak ditemukan atau bukan file:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Kesalahan mengakses file skrip:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Menjalankan skrip Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Kesalahan saat menjalankan',
@@ -56,7 +60,8 @@ export default {
     'Tidak ada skrip Python (.py) yang ditemukan di folder yang dikonfigurasi.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Menjalankan',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'skrip Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Input tidak cocok dengan format yang dibutuhkan.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Input tidak cocok dengan format yang dibutuhkan.',
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Jalankan skrip Python tertentu',
@@ -80,7 +85,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Tidak dapat menyegarkan pengaturan: Eksekusi Python tidak ditemukan. Pastikan Python terinstal dan ada di PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Menyegarkan definisi pengaturan skrip...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Definisi pengaturan skrip berhasil disegarkan!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Definisi pengaturan skrip berhasil disegarkan!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Gagal menyegarkan definisi pengaturan skrip. Periksa log untuk detail.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -122,8 +128,10 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Jalur Eksekusi Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Jalur absolut ke eksekusi Python atau uv Anda. Biarkan kosong untuk deteksi otomatis (uv, py, python3, python). Memerlukan muat ulang atau mulai ulang plugin agar berlaku penuh jika diubah.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'misalnya, /usr/bin/python3 atau C:Python39python.exe',
-  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: 'Jalur eksekusi Python diubah. Memperbarui skrip...',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'misalnya, /usr/bin/python3 atau C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'Jalur eksekusi Python diubah. Memperbarui skrip...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Jalur Python kustom tidak valid, dan tidak ada eksekusi fallback yang ditemukan. Skrip mungkin tidak berjalan.',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Jalur Python Kustom Gagal',

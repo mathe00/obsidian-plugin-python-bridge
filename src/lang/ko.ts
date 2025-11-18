@@ -4,13 +4,15 @@ export default {
   // Settings Tab
   SETTINGS_TAB_TITLE: 'Obsidian Python Bridge 설정',
   SETTINGS_FOLDER_TITLE: 'Python 스크립트 폴더',
-  SETTINGS_FOLDER_DESC: 'Python 스크립트가 포함된 폴더 경로 (절대 경로 또는 볼트 기준 상대 경로).',
+  SETTINGS_FOLDER_DESC:
+    'Python 스크립트가 포함된 폴더 경로 (절대 경로 또는 볼트 기준 상대 경로).',
   SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts 또는 ./scripts-python',
   SETTINGS_PORT_TITLE: 'HTTP 서버 포트',
   SETTINGS_PORT_DESC:
     '로컬 HTTP 서버 포트 (1024-65535). 적용하려면 재시작하거나 설정을 저장해야 합니다.',
   SETTINGS_CACHE_TITLE: 'Python 캐시 비활성화 (__pycache__)',
-  SETTINGS_CACHE_DESC: '".pyc" 파일 쓰기를 방지하기 위해 "-B" 플래그로 Python을 실행합니다.',
+  SETTINGS_CACHE_DESC:
+    '".pyc" 파일 쓰기를 방지하기 위해 "-B" 플래그로 Python을 실행합니다.',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'Python Bridge',
@@ -31,25 +33,30 @@ export default {
     '가 이미 사용 중입니다. 설정에서 다른 포트를 선택하거나 해당 포트를 사용하는 다른 응용 프로그램을 닫으십시오. 서버가 시작되지 않았습니다.',
   NOTICE_SERVER_START_FAILED_PREFIX: '포트에서 서버 시작 실패:',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: '잘못된 포트입니다. 0에서 65535 사이의 숫자를 입력하십시오.',
+  NOTICE_INVALID_PORT_RANGE:
+    '잘못된 포트입니다. 0에서 65535 사이의 숫자를 입력하십시오.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP 포트 변경됨 (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). 스크립트가 이미 실행 중이거나 외부에서 시작된 경우 이전 포트를 대상으로 할 수 있습니다.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python 스크립트를 찾을 수 없거나 파일이 아닙니다:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python 스크립트를 찾을 수 없거나 파일이 아닙니다:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: '스크립트 파일 액세스 오류:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Python 스크립트 실행 중:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: '실행 중 오류 발생',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: '(사용된 명령:',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: ') 종료 코드',
-  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: '로 실패했습니다. 콘솔 로그를 확인하십시오.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: '유효한 Python 실행 파일을 찾을 수 없습니다. 시도:',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX:
+    '로 실패했습니다. 콘솔 로그를 확인하십시오.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    '유효한 Python 실행 파일을 찾을 수 없습니다. 시도:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Python이 설치되어 있고 시스템 PATH(또는 Windows의 'py' 런처)를 통해 액세스할 수 있는지 확인하십시오.",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python 스크립트 폴더를 찾을 수 없거나 잘못되었습니다. 플러그인 설정을 확인하십시오.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: '스크립트 폴더 읽기 오류:',
-  NOTICE_NO_SCRIPTS_FOUND: '구성된 폴더에서 Python 스크립트(.py)를 찾을 수 없습니다.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    '구성된 폴더에서 Python 스크립트(.py)를 찾을 수 없습니다.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: '',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: '개의 Python 스크립트 실행 중...',
   NOTICE_INPUT_VALIDATION_FAILED: '입력이 필요한 형식과 일치하지 않습니다.',
@@ -76,7 +83,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     '설정을 새로고칠 수 없습니다: Python 실행 파일을 찾을 수 없습니다. Python이 설치되어 있고 PATH에 있는지 확인하십시오.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS: '스크립트 설정 정의를 새로고침하는 중...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: '스크립트 설정 정의를 성공적으로 새로고침했습니다!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    '스크립트 설정 정의를 성공적으로 새로고침했습니다!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     '스크립트 설정 정의를 새로고침하지 못했습니다. 자세한 내용은 로그를 확인하십시오.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -91,14 +99,16 @@ export default {
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: '성능 팁: 백링크 캐시',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "큰 보관소에서 백링크를 검색할 때(get_backlinks 함수 사용) 성능 향상을 위해 @mnaoumov의 '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' 커뮤니티 플러그인 설치를 고려하십시오.",
-  NOTICE_INVALID_FOLDER_PATH: '잘못된 폴더 경로입니다. 설정에서 유효한 폴더를 선택하십시오.',
+  NOTICE_INVALID_FOLDER_PATH:
+    '잘못된 폴더 경로입니다. 설정에서 유효한 폴더를 선택하십시오.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "구성된 Python 스크립트 폴더 경로 '{path}'가 잘못되었거나 찾을 수 없습니다. 설정을 지웁니다.",
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: '스크립트 활성화됨',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "명령, 단축키 또는 '모두 실행'을 통해 이 스크립트를 실행하도록 허용합니다.",
-  NOTICE_SCRIPT_DISABLED: "스크립트 '{scriptName}'이(가) 설정에서 비활성화되어 실행할 수 없습니다.",
+  NOTICE_SCRIPT_DISABLED:
+    "스크립트 '{scriptName}'이(가) 설정에서 비활성화되어 실행할 수 없습니다.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: '시작 시 실행',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -116,7 +126,8 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 실행 파일 경로',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python 또는 uv 실행 파일의 절대 경로입니다. 자동 감지(uv, py, python3, python)를 위해 비워 두십시오. 변경된 경우 전체 효과를 적용하려면 플러그인을 다시 로드하거나 다시 시작해야 합니다.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '예: /usr/bin/python3 또는 C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    '예: /usr/bin/python3 또는 C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python 실행 파일 경로가 변경되었습니다. 스크립트를 새로 고치는 중...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -11,7 +11,9 @@ import type ObsidianPythonBridge from '../main';
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The relative path string or null.
  */
-export function getActiveNoteRelativePath(plugin: ObsidianPythonBridge): string | null {
+export function getActiveNoteRelativePath(
+  plugin: ObsidianPythonBridge
+): string | null {
   return getActiveNoteFile(plugin)?.path ?? null;
 }
 
@@ -20,7 +22,9 @@ export function getActiveNoteRelativePath(plugin: ObsidianPythonBridge): string 
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The absolute path string or null if path cannot be determined.
  */
-export function getActiveNoteAbsolutePath(plugin: ObsidianPythonBridge): string | null {
+export function getActiveNoteAbsolutePath(
+  plugin: ObsidianPythonBridge
+): string | null {
   const file = getActiveNoteFile(plugin);
   if (!file) {
     plugin.logWarn('Cannot get active note absolute path: No active file.');
@@ -29,11 +33,16 @@ export function getActiveNoteAbsolutePath(plugin: ObsidianPythonBridge): string 
 
   const adapter = plugin.app.vault.adapter;
   // Check if the adapter is a FileSystemAdapter and has the getFullPath method
-  if (adapter instanceof FileSystemAdapter && typeof adapter.getFullPath === 'function') {
+  if (
+    adapter instanceof FileSystemAdapter &&
+    typeof adapter.getFullPath === 'function'
+  ) {
     try {
       // file.path is already the normalized vault-relative path
       const absolutePath = adapter.getFullPath(file.path);
-      plugin.logDebug(`Returning active note absolute path via getFullPath: ${absolutePath}`);
+      plugin.logDebug(
+        `Returning active note absolute path via getFullPath: ${absolutePath}`
+      );
       // Double-check with Node.js path.isAbsolute for sanity (optional)
       if (!path.isAbsolute(absolutePath)) {
         plugin.logWarn(
@@ -42,7 +51,10 @@ export function getActiveNoteAbsolutePath(plugin: ObsidianPythonBridge): string 
       }
       return absolutePath;
     } catch (error) {
-      plugin.logError(`Error calling adapter.getFullPath for "${file.path}":`, error);
+      plugin.logError(
+        `Error calling adapter.getFullPath for "${file.path}":`,
+        error
+      );
       return null; // Return null if the adapter method fails
     }
   } else {
@@ -58,6 +70,8 @@ export function getActiveNoteAbsolutePath(plugin: ObsidianPythonBridge): string 
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns The title string or null.
  */
-export function getActiveNoteTitle(plugin: ObsidianPythonBridge): string | null {
+export function getActiveNoteTitle(
+  plugin: ObsidianPythonBridge
+): string | null {
   return getActiveNoteFile(plugin)?.basename ?? null;
 }

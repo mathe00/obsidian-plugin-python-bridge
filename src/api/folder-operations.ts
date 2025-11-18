@@ -20,7 +20,9 @@ export async function createFolder(
   try {
     const existingPath = plugin.app.vault.getAbstractFileByPath(normalizedPath);
     if (existingPath)
-      throw new Error(`Path already exists at "${normalizedPath}" (cannot create folder).`);
+      throw new Error(
+        `Path already exists at "${normalizedPath}" (cannot create folder).`
+      );
     await plugin.app.vault.createFolder(normalizedPath);
     plugin.logInfo(`Folder created successfully: ${normalizedPath}`);
   } catch (error) {
@@ -51,7 +53,10 @@ export async function listFolder(
   } catch (error) {
     plugin.logError(`Error listing folder ${normalizedPath}:`, error);
     const pathExists = await checkPathExists(plugin, normalizedPath);
-    if (!pathExists) throw new Error(`Cannot list folder: Path not found at "${normalizedPath}"`);
+    if (!pathExists)
+      throw new Error(
+        `Cannot list folder: Path not found at "${normalizedPath}"`
+      );
     else
       throw new Error(
         `Failed to list folder "${normalizedPath}": ${error instanceof Error ? error.message : String(error)} (Is it a folder?)`

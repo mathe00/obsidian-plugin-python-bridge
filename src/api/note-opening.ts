@@ -17,9 +17,15 @@ export async function openNote(
   newLeaf = false
 ): Promise<void> {
   const normalizedPath = normalizePath(relativePath);
-  plugin.logDebug(`Requesting to open note: ${normalizedPath} (newLeaf: ${newLeaf})`);
+  plugin.logDebug(
+    `Requesting to open note: ${normalizedPath} (newLeaf: ${newLeaf})`
+  );
   try {
-    await plugin.app.workspace.openLinkText(normalizedPath, '', newLeaf ? 'split' : false); // sourcePath // PaneType or boolean
+    await plugin.app.workspace.openLinkText(
+      normalizedPath,
+      '',
+      newLeaf ? 'split' : false
+    ); // sourcePath // PaneType or boolean
     plugin.logInfo(`Successfully requested to open ${normalizedPath}`);
   } catch (error) {
     plugin.logError(`Failed to open link text "${normalizedPath}":`, error);

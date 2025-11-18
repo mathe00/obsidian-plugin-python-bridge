@@ -59,17 +59,23 @@ export async function dispatchAction(
         // The payload structure is now { absolute?: boolean }
         // Default to false if not provided or if payload is undefined or not an object
         const getAbsolutePaths =
-          typeof payload === 'object' && payload !== null && payload.absolute === true;
+          typeof payload === 'object' &&
+          payload !== null &&
+          payload.absolute === true;
         try {
           // Call the updated function from obsidian_api.ts
           const paths = getAllNotePaths(plugin, getAbsolutePaths);
           return { status: 'success', data: paths };
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
           plugin.logError(
             `Error in get_all_note_paths (absolute=${getAbsolutePaths}): ${errorMsg}`
           );
-          return { status: 'error', error: `Failed to get note paths: ${errorMsg}` };
+          return {
+            status: 'error',
+            error: `Failed to get note paths: ${errorMsg}`,
+          };
         }
       case 'get_active_note_content':
         const returnFormat =
@@ -79,14 +85,23 @@ export async function dispatchAction(
             ? payload.return_format
             : 'string';
         try {
-          const activeContent = await getActiveNoteContent(plugin, returnFormat);
+          const activeContent = await getActiveNoteContent(
+            plugin,
+            returnFormat
+          );
           return activeContent !== null
             ? { status: 'success', data: activeContent }
             : { status: 'error', error: 'No active Markdown note found.' };
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
-          plugin.logError(`Error in get_active_note_content (format=${returnFormat}): ${errorMsg}`);
-          return { status: 'error', error: `Failed to get active note content: ${errorMsg}` };
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
+          plugin.logError(
+            `Error in get_active_note_content (format=${returnFormat}): ${errorMsg}`
+          );
+          return {
+            status: 'error',
+            error: `Failed to get active note content: ${errorMsg}`,
+          };
         }
       case 'get_active_note_relative_path':
         const activeRelativePath = getActiveNoteRelativePath(plugin);
@@ -97,7 +112,10 @@ export async function dispatchAction(
         const activeAbsolutePath = getActiveNoteAbsolutePath(plugin);
         return activeAbsolutePath !== null
           ? { status: 'success', data: activeAbsolutePath }
-          : { status: 'error', error: 'No active note or vault path unavailable.' };
+          : {
+              status: 'error',
+              error: 'No active note or vault path unavailable.',
+            };
       case 'get_active_note_title':
         const activeTitle = getActiveNoteTitle(plugin);
         return activeTitle !== null
@@ -107,18 +125,27 @@ export async function dispatchAction(
         const vaultPath = getCurrentVaultAbsolutePath(plugin);
         return vaultPath !== null
           ? { status: 'success', data: vaultPath }
-          : { status: 'error', error: 'Could not determine vault absolute path.' };
+          : {
+              status: 'error',
+              error: 'Could not determine vault absolute path.',
+            };
       case 'get_active_note_frontmatter':
         const activeFrontmatter = await getActiveNoteFrontmatter(plugin);
         return { status: 'success', data: activeFrontmatter };
       case 'get_note_content':
         if (typeof payload?.path !== 'string')
-          return { status: 'error', error: "Invalid payload: 'path' (string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (string) required.",
+          };
         try {
           const content = await getNoteContentByPath(plugin, payload.path);
           return { status: 'success', data: content };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
 
       // --- Theme Management Actions ---
@@ -128,18 +155,31 @@ export async function dispatchAction(
           toggleTheme(plugin);
           return { status: 'success', data: null };
         } catch (error) {
-          const errorMsg = error instanceof Error ? error.message : String(error);
+          const errorMsg =
+            error instanceof Error ? error.message : String(error);
           plugin.logError(`Error in toggle_theme: ${errorMsg}`);
-          return { status: 'error', error: `Failed to toggle theme: ${errorMsg}` };
+          return {
+            status: 'error',
+            error: `Failed to toggle theme: ${errorMsg}`,
+          };
         }
       case 'get_note_frontmatter':
         if (typeof payload?.path !== 'string')
-          return { status: 'error', error: "Invalid payload: 'path' (string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (string) required.",
+          };
         try {
-          const frontmatter = await getNoteFrontmatterByPath(plugin, payload.path);
+          const frontmatter = await getNoteFrontmatterByPath(
+            plugin,
+            payload.path
+          );
           return { status: 'success', data: frontmatter };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
 
       // --- Editor Actions ---
@@ -148,22 +188,34 @@ export async function dispatchAction(
           const selectedText = getSelectedText(plugin);
           return { status: 'success', data: selectedText };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'replace_selected_text':
         if (typeof payload?.replacement !== 'string')
-          return { status: 'error', error: "Invalid payload: 'replacement' (string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'replacement' (string) required.",
+          };
         try {
           replaceSelectedText(plugin, payload.replacement);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
 
       // --- Note Modification/Opening ---
       case 'modify_note_content': // Kept for backward compatibility
         // Check if payload and required fields exist and have the correct type
-        if (typeof payload?.filePath !== 'string' || typeof payload?.content !== 'string') {
+        if (
+          typeof payload?.filePath !== 'string' ||
+          typeof payload?.content !== 'string'
+        ) {
           return {
             status: 'error',
             error:
@@ -202,26 +254,41 @@ export async function dispatchAction(
 
           // Calculate the relative path from the vault root to the file
           // Use the original vaultAbsPath and the received path here
-          const relativePath = normalizePath(path.relative(vaultAbsPath, receivedFilePath));
+          const relativePath = normalizePath(
+            path.relative(vaultAbsPath, receivedFilePath)
+          );
 
           // Call the internal function that modifies content using the relative path
-          await modifyNoteContentByRelativePath(plugin, relativePath, payload.content);
+          await modifyNoteContentByRelativePath(
+            plugin,
+            relativePath,
+            payload.content
+          );
 
           // Return success if modification was successful
           return { status: 'success', data: null };
         } catch (modifyError) {
           // Catch any errors during the process
-          const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
+          const errorMsg =
+            modifyError instanceof Error
+              ? modifyError.message
+              : String(modifyError);
           plugin.logError(
             `Error in modifyNoteContent (compat) for ${payload.filePath}: ${errorMsg}`
           );
           // Return an error response to the Python client
-          return { status: 'error', error: `Failed to modify note: ${errorMsg}` };
+          return {
+            status: 'error',
+            error: `Failed to modify note: ${errorMsg}`,
+          };
         }
       // The case "modify_note_content_by_path" remains unchanged as it uses relative paths
       case 'modify_note_content_by_path': // Preferred action
         // Check if payload and required fields exist and have the correct type
-        if (typeof payload?.path !== 'string' || typeof payload?.content !== 'string') {
+        if (
+          typeof payload?.path !== 'string' ||
+          typeof payload?.content !== 'string'
+        ) {
           return {
             status: 'error',
             error:
@@ -230,36 +297,57 @@ export async function dispatchAction(
         }
         try {
           // Directly call the modification function with the relative path
-          await modifyNoteContentByRelativePath(plugin, payload.path, payload.content);
+          await modifyNoteContentByRelativePath(
+            plugin,
+            payload.path,
+            payload.content
+          );
           // Return success
           return { status: 'success', data: null };
         } catch (modifyError) {
           // Catch errors during modification
-          const errorMsg = modifyError instanceof Error ? modifyError.message : String(modifyError);
-          plugin.logError(`Error in modifyNoteContentByPath for ${payload.path}: ${errorMsg}`);
+          const errorMsg =
+            modifyError instanceof Error
+              ? modifyError.message
+              : String(modifyError);
+          plugin.logError(
+            `Error in modifyNoteContentByPath for ${payload.path}: ${errorMsg}`
+          );
           // Return an error response
-          return { status: 'error', error: `Failed to modify note: ${errorMsg}` };
+          return {
+            status: 'error',
+            error: `Failed to modify note: ${errorMsg}`,
+          };
         }
 
       case 'open_note':
         if (typeof payload?.path !== 'string')
           return {
             status: 'error',
-            error: "Invalid payload: 'path' (relative vault path string) required.",
+            error:
+              "Invalid payload: 'path' (relative vault path string) required.",
           };
-        const newLeaf = typeof payload?.new_leaf === 'boolean' ? payload.new_leaf : false;
+        const newLeaf =
+          typeof payload?.new_leaf === 'boolean' ? payload.new_leaf : false;
         try {
           await openNote(plugin, payload.path, newLeaf);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
 
       // --- UI Interactions ---
       case 'show_notification':
         if (typeof payload?.content !== 'string')
-          return { status: 'error', error: "Invalid payload: 'content' (string) required." };
-        const duration = typeof payload?.duration === 'number' ? payload.duration : 4000;
+          return {
+            status: 'error',
+            error: "Invalid payload: 'content' (string) required.",
+          };
+        const duration =
+          typeof payload?.duration === 'number' ? payload.duration : 4000;
         plugin.showNotification(payload.content, duration); // Use plugin's method directly for Notice
         return { status: 'success', data: null };
       case 'request_user_input':
@@ -270,7 +358,8 @@ export async function dispatchAction(
         )
           return {
             status: 'error',
-            error: "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
+            error:
+              "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.",
           };
         // Use plugin's method which handles the modal
         const userInput = await plugin.requestUserInput(
@@ -298,12 +387,15 @@ export async function dispatchAction(
         if (typeof payload?.scriptPath !== 'string')
           return {
             status: 'error',
-            error: "Invalid payload: 'scriptPath' (relative path string) required.",
+            error:
+              "Invalid payload: 'scriptPath' (relative path string) required.",
           };
         const relativePath = normalizePath(payload.scriptPath);
         plugin.logDebug(`Requesting settings for script: ${relativePath}`);
-        const definitions = plugin.settings.scriptSettingsDefinitions[relativePath] || [];
-        const storedValues = plugin.settings.scriptSettingsValues[relativePath] || {};
+        const definitions =
+          plugin.settings.scriptSettingsDefinitions[relativePath] || [];
+        const storedValues =
+          plugin.settings.scriptSettingsValues[relativePath] || {};
         const finalValues: Record<string, any> = {};
         for (const def of definitions) {
           finalValues[def.key] = storedValues.hasOwnProperty(def.key)
@@ -326,32 +418,54 @@ export async function dispatchAction(
         }
       case 'create_note':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
-        const noteContent = typeof payload?.content === 'string' ? payload.content : '';
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
+        const noteContent =
+          typeof payload?.content === 'string' ? payload.content : '';
         try {
           await createNote(plugin, payload.path, noteContent);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'check_path_exists':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
         try {
           const exists = await checkPathExists(plugin, payload.path);
           return { status: 'success', data: exists };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'delete_path':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
-        const permanently = typeof payload?.permanently === 'boolean' ? payload.permanently : false;
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
+        const permanently =
+          typeof payload?.permanently === 'boolean'
+            ? payload.permanently
+            : false;
         try {
           await deletePath(plugin, payload.path, permanently);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'rename_path':
         if (typeof payload?.old_path !== 'string' || !payload.old_path)
@@ -368,7 +482,10 @@ export async function dispatchAction(
           await renamePath(plugin, payload.old_path, payload.new_path);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'run_obsidian_command': // Still disabled
         if (typeof payload?.command_id !== 'string' || !payload.command_id)
@@ -380,87 +497,135 @@ export async function dispatchAction(
           runObsidianCommand(plugin, payload.command_id);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_all_tags': // Still disabled
         try {
           const tags = getAllTags(plugin);
           return { status: 'success', data: tags };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_vault_name':
         try {
           const name = getVaultName(plugin);
           return { status: 'success', data: name };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_theme_mode':
         try {
           const mode = getThemeMode(plugin);
           return { status: 'success', data: mode };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'create_folder':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
         try {
           await createFolder(plugin, payload.path);
           return { status: 'success', data: null };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'list_folder':
         if (typeof payload?.path !== 'string')
-          return { status: 'error', error: "Invalid payload: 'path' (string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (string) required.",
+          };
         try {
           const contents = await listFolder(plugin, payload.path);
           return { status: 'success', data: contents };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_links':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
         // Only 'outgoing' is implemented in obsidian_api for now
         // const linkType = typeof payload?.type === "string" ? payload.type : 'outgoing';
         try {
           const links = getLinks(plugin, payload.path);
           return { status: 'success', data: links };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_editor_context':
         try {
           const context = getEditorContext(plugin);
           return { status: 'success', data: context };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
       case 'get_backlinks':
         if (typeof payload?.path !== 'string' || !payload.path)
-          return { status: 'error', error: "Invalid payload: 'path' (non-empty string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'path' (non-empty string) required.",
+          };
         const targetPath = normalizePath(payload.path);
         const useCache = payload.use_cache_if_available ?? true;
         const cacheMode = payload.cache_mode === 'safe' ? 'safe' : 'fast';
         try {
-          const backlinks = await getBacklinks(plugin, targetPath, useCache, cacheMode);
+          const backlinks = await getBacklinks(
+            plugin,
+            targetPath,
+            useCache,
+            cacheMode
+          );
           return { status: 'success', data: backlinks };
         } catch (error) {
-          return { status: 'error', error: error instanceof Error ? error.message : String(error) };
+          return {
+            status: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          };
         }
 
       // --- Event Listener Actions ---
       case 'register_event_listener':
         if (typeof payload?.eventName !== 'string' || !payload.eventName)
-          return { status: 'error', error: "Invalid payload: 'eventName' (string) required." };
+          return {
+            status: 'error',
+            error: "Invalid payload: 'eventName' (string) required.",
+          };
         const scriptPathForRegister = payload.scriptPath;
         if (!scriptPathForRegister || typeof scriptPathForRegister !== 'string')
           return {
             status: 'error',
-            error: 'Internal error: Script path not provided in payload for registration.',
+            error:
+              'Internal error: Script path not provided in payload for registration.',
           };
         const eventNameReg = payload.eventName;
         if (!plugin.eventListeners.has(eventNameReg))
@@ -473,12 +638,19 @@ export async function dispatchAction(
         return { status: 'success', data: null };
       case 'unregister_event_listener':
         if (typeof payload?.eventName !== 'string' || !payload.eventName)
-          return { status: 'error', error: "Invalid payload: 'eventName' (string) required." };
-        const scriptPathForUnregister = payload.scriptPath;
-        if (!scriptPathForUnregister || typeof scriptPathForUnregister !== 'string')
           return {
             status: 'error',
-            error: 'Internal error: Script path not provided in payload for unregistration.',
+            error: "Invalid payload: 'eventName' (string) required.",
+          };
+        const scriptPathForUnregister = payload.scriptPath;
+        if (
+          !scriptPathForUnregister ||
+          typeof scriptPathForUnregister !== 'string'
+        )
+          return {
+            status: 'error',
+            error:
+              'Internal error: Script path not provided in payload for unregistration.',
           };
         const eventNameUnreg = payload.eventName;
         removeListener(plugin, eventNameUnreg, scriptPathForUnregister); // Use helper from event_handler
@@ -496,7 +668,11 @@ export async function dispatchAction(
     // Catch errors from synchronous API calls or unexpected issues within the switch
     const errorMessage = error instanceof Error ? error.message : String(error);
     plugin.logError(`Error executing action "${action}":`, errorMessage);
-    if (error instanceof Error && error.stack) plugin.logError('Stack trace:', error.stack);
-    return { status: 'error', error: `Failed to execute action "${action}": ${errorMessage}` };
+    if (error instanceof Error && error.stack)
+      plugin.logError('Stack trace:', error.stack);
+    return {
+      status: 'error',
+      error: `Failed to execute action "${action}": ${errorMessage}`,
+    };
   }
 }

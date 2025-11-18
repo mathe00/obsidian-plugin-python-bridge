@@ -1,10 +1,10 @@
 {
-	"id": "python-bridge",
-	"name": "Python Bridge",
-	"version": "2.0.0",
-	"minAppVersion": "0.12.0",
-	"description": "🐍 A plugin that lets you write plugins in Python! Yes, it's as crazy as it sounds!",
-	"author": "mathe00",
-	"authorUrl": "https://github.com/mathe00/",
-	"isDesktopOnly": true
+  "id": "python-bridge",
+  "name": "Python Bridge",
+  "version": "2.0.0",
+  "minAppVersion": "0.12.0",
+  "description": "🐍 A plugin that lets you write plugins in Python! Yes, it's as crazy as it sounds!",
+  "author": "mathe00",
+  "authorUrl": "https://github.com/mathe00/",
+  "isDesktopOnly": true
 }

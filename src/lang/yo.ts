@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Ibùdó fún máyà HTTP àdúgbò (1024-65535). Ó nílò àtúnbẹ̀rẹ̀ tàbí ìpamọ́ ètò láti lò ó.',
   SETTINGS_CACHE_TITLE: 'Pa Cache Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Ṣiṣẹ́ Python pẹ̀lú àsíá "-B" láti dènà kíkọ àwọn fáìlì .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Ṣiṣẹ́ Python pẹ̀lú àsíá "-B" láti dènà kíkọ àwọn fáìlì .pyc.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'Ibùdó HTTP ti yípadà sí',
   NOTICE_PORT_CHANGED_SUFFIX: 'Àtúnbẹ̀rẹ̀ máyà...',
@@ -18,18 +19,22 @@ export default {
   NOTICE_PYTHON_MISSING_DESC:
     'A kò rí olùṣiṣẹ́ Python nínú PATH.\\nJọ̀wọ́ fi Python sori ẹ̀rọ kí o sì rí i dájú pé a ti fi kún ọ̀nà PATH àyíká ètò rẹ kí plugin lè ṣiṣẹ́ àwọn akosílẹ̀.\\nÀwọn ẹ̀yà plugin tí ó nílò Python kò ní sí.',
   NOTICE_REQUESTS_MISSING_TITLE: 'Àṣìṣe Python Bridge:',
-  NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Ilé-ìkàwé Python tí a nílò 'requests' kò sí fún",
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Ilé-ìkàwé Python tí a nílò 'requests' kò sí fún",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nJọ̀wọ́ fi í sori ẹ̀rọ nípa ṣíṣe:\\n{pythonCmd} -m pip install requests\\nÀwọn ẹ̀yà plugin tí ó nílò Python kò ní sí títí a ó fi sori ẹ̀rọ.',
   NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Ibùdó HTTP tí a ṣètò kò tọ́:',
-  NOTICE_INVALID_PORT_CONFIG_SUFFIX: 'Máyà kò bẹ̀rẹ̀. Jọ̀wọ́ ṣètò ibùdó tó tọ́ (1-65535) nínú ètò.',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'Máyà kò bẹ̀rẹ̀. Jọ̀wọ́ ṣètò ibùdó tó tọ́ (1-65535) nínú ètò.',
   NOTICE_PORT_IN_USE_PREFIX: 'Ibùdó',
   NOTICE_PORT_IN_USE_SUFFIX:
     'wà ní lílò tẹ́lẹ̀. Jọ̀wọ́ yan ibùdó mìíràn nínú ètò tàbí pa ohun èlò mìíràn tí ó ń lò ó. Máyà kò bẹ̀rẹ̀.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Ìbẹ̀rẹ̀ máyà lórí ibùdó',
   NOTICE_SERVER_START_FAILED_SUFFIX: 'kùnà.',
-  NOTICE_INVALID_PORT_RANGE: 'Ibudo ti ko tọ. Jọwọ tẹ nọmba sii laarin 0 ati 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Ibùdó HTTP ti yípadà (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Ibudo ti ko tọ. Jọwọ tẹ nọmba sii laarin 0 ati 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Ibùdó HTTP ti yípadà (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Akosílẹ̀ lè máa fojú sí ibùdó àtijọ́ tí ó bá ti ń ṣiṣẹ́ tàbí tí a bá ti gbéléwọ́ láti ìta.',
@@ -40,13 +45,15 @@ export default {
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'pẹ̀lú',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'kùnà pẹ̀lú koodu ìjáde',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Ṣàyẹ̀wò àwọn àkọsílẹ̀ console.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'A kò lè rí olùṣiṣẹ́ Python tó tọ́. A gbìyànjú:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'A kò lè rí olùṣiṣẹ́ Python tó tọ́. A gbìyànjú:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Jọ̀wọ́ rí i dájú pé a ti fi Python sori ẹ̀rọ àti pé ó wà nípasẹ̀ PATH ètò rẹ (tàbí olùgbéléwọ́ 'py' lórí Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'A kò rí fóldà àwọn akosílẹ̀ Python tàbí kò tọ́. Jọ̀wọ́ ṣàyẹ̀wò ètò plugin.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Àṣìṣe ní kíkà fóldà àwọn akosílẹ̀:',
-  NOTICE_NO_SCRIPTS_FOUND: 'A kò rí akosílẹ̀ Python (.py) kankan nínú fóldà tí a ṣètò.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'A kò rí akosílẹ̀ Python (.py) kankan nínú fóldà tí a ṣètò.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Ṣíṣe',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'akosílẹ̀ Python...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Ìtẹnumọ́ kò bá ìtòlẹ́sẹẹsẹ tí a nílò mu.',
@@ -69,7 +76,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'A kò lè tún ètò wò: A kò rí olùṣiṣẹ́ Python. Jọ̀wọ́ rí i dájú pé a ti fi Python sori ẹ̀rọ àti pé ó wà nínú PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Ní títún àwọn ìtumọ̀ ètò akosílẹ̀ wò...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Àwọn ìtumọ̀ ètò akosílẹ̀ ti tún wò ní àṣeyọrí!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Àwọn ìtumọ̀ ètò akosílẹ̀ ti tún wò ní àṣeyọrí!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Ìtúnwò àwọn ìtumọ̀ ètò akosílẹ̀ kùnà. Ṣàyẹ̀wò àwọn àkọsílẹ̀ fún àlàyé.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -84,14 +92,16 @@ export default {
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Àbá Iṣẹ́ ṣíṣe: Cache Backlink',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Fún iṣẹ́ ṣíṣe tó dára síi nígbà tí o bá ń gba àwọn backlink (lílo iṣẹ́ get_backlinks) nínú àwọn vault ńlá, ronú láti fi plugin àwùjọ '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' láti ọwọ́ @mnaoumov sínú ẹ̀rọ.",
-  NOTICE_INVALID_FOLDER_PATH: 'Opopona folda ti ko tọ. Jọwọ yan folda to tọ ninu awọn eto.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Opopona folda ti ko tọ. Jọwọ yan folda to tọ ninu awọn eto.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Ọna folda awọn iwe afọwọkọ Python ti a tunto '{path}' ko wulo tabi ko ri. Ko eto kuro.",
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Iwe Afọwọkọ Ti ṣiṣẹ',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "Gba iwe afọwọkọ yii laaye lati ṣiṣẹ nipasẹ awọn aṣẹ, awọn ọna abuja, tabi 'Ṣiṣe Gbogbo'.",
-  NOTICE_SCRIPT_DISABLED: "Iwe afọwọkọ '{scriptName}' jẹ alaabo ninu awọn eto ati pe ko le ṣiṣẹ.",
+  NOTICE_SCRIPT_DISABLED:
+    "Iwe afọwọkọ '{scriptName}' jẹ alaabo ninu awọn eto ati pe ko le ṣiṣẹ.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Ṣiṣe ni Ibẹrẹ',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -109,7 +119,8 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Ọ̀nà Ètò Python Tí Ó Lè Ṣeéṣe',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ọ̀nà pípé sí ètò Python tàbí uv rẹ tí ó ṣeéṣe. Fi sílẹ̀ ní òfo fún ìṣàwárí αυτόματη (uv, py, python3, python). Ó nílò ìtúnsílọ́ tàbí ìtúnsílẹ̀ plugin fún ipa pípé bí ó bá yípadà.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'àpẹẹrẹ, /usr/bin/python3 tàbí C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'àpẹẹrẹ, /usr/bin/python3 tàbí C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Ọ̀nà ètò Python tí ó ṣeéṣe ti yípadà. Àtúnsọ àwọn ìwé àfọwọ́kọ...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

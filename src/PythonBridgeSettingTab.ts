@@ -18,7 +18,11 @@ import type ObsidianPythonBridge from './main';
 import { getScriptsFolderPath, updateAndSyncCommands } from './python_executor';
 import { checkPythonEnvironment } from './environment_checker';
 import { DEFAULT_PORT, PYTHON_LIBRARY_FILENAME } from './constants';
-import { t, loadTranslations, getAvailableLanguages } from './lang/translations'; // Import helpers
+import {
+  t,
+  loadTranslations,
+  getAvailableLanguages,
+} from './lang/translations'; // Import helpers
 import * as path from 'path'; // Import path for relative path calculation
 import * as fs from 'fs'; // Import fs for absolute path check
 
@@ -40,7 +44,10 @@ class FolderSuggest extends AbstractInputSuggest<TFolder> {
       // Ensure we only consider actual TFolder objects
       if (file instanceof TFolder) {
         // Check if the folder path contains the input string AND is not __pycache__
-        if (file.name !== '__pycache__' && file.path.toLowerCase().contains(lowerCaseInputStr)) {
+        if (
+          file.name !== '__pycache__' &&
+          file.path.toLowerCase().contains(lowerCaseInputStr)
+        ) {
           // <--- Ignore __pycache__
           folders.push(file);
         }
@@ -88,7 +95,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       }
     } else {
       const normalizedRelative = normalizePath(trimmedPath);
-      const abstractFile = this.app.vault.getAbstractFileByPath(normalizedRelative);
+      const abstractFile =
+        this.app.vault.getAbstractFileByPath(normalizedRelative);
       return abstractFile instanceof TFolder;
     }
   }
@@ -115,18 +123,20 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_LANGUAGE_TITLE'))
       .setDesc(t('SETTINGS_LANGUAGE_DESC'))
-      .addDropdown(dropdown => {
+      .addDropdown((dropdown) => {
         const languages = getAvailableLanguages();
         dropdown.addOption('auto', t('SETTINGS_LANGUAGE_AUTO') || 'Automatic');
         for (const code in languages) {
           if (code !== 'auto') dropdown.addOption(code, languages[code]);
         }
-        dropdown.setValue(this.plugin.settings.pluginLanguage).onChange(async value => {
-          this.plugin.settings.pluginLanguage = value;
-          await this.plugin.saveSettings();
-          loadTranslations(this.plugin);
-          this.display(); // Redraw settings tab with new language
-        });
+        dropdown
+          .setValue(this.plugin.settings.pluginLanguage)
+          .onChange(async (value) => {
+            this.plugin.settings.pluginLanguage = value;
+            await this.plugin.saveSettings();
+            loadTranslations(this.plugin);
+            this.display(); // Redraw settings tab with new language
+          });
       });
 
     // Python Scripts Folder
@@ -144,11 +154,14 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
               async (value: string) => {
                 const newValue = value.trim();
                 const oldValue = this.plugin.settings.pythonScriptsFolder;
-                const isValidDirectory = await this.isPathValidDirectory(newValue);
+                const isValidDirectory =
+                  await this.isPathValidDirectory(newValue);
                 if (isValidDirectory) {
                   search.inputEl.classList.remove('python-bridge-input-error');
                   if (oldValue !== newValue) {
-                    this.plugin.logDebug(`Saving valid folder path: ${newValue}`);
+                    this.plugin.logDebug(
+                      `Saving valid folder path: ${newValue}`
+                    );
                     this.plugin.settings.pythonScriptsFolder = newValue;
                     await this.plugin.saveSettings();
                     // Trigger settings discovery & command sync only if path is valid and changed
@@ -161,7 +174,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                           );
                           this.display(); // Redraw potentially needed if script settings appeared/disappeared
                         })
-                        .catch(err =>
+                        .catch((err) =>
                           this.plugin.logError(
                             'Error updating settings cache & commands after folder change:',
                             err
@@ -187,10 +200,14 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   if (newValue) {
                     search.inputEl.classList.add('python-bridge-input-error');
                     new Notice(t('NOTICE_INVALID_FOLDER_PATH'));
-                    this.plugin.logWarn(`Invalid folder path entered: ${newValue}. Not saving.`);
+                    this.plugin.logWarn(
+                      `Invalid folder path entered: ${newValue}. Not saving.`
+                    );
                   } else {
                     // If field is empty, clear border and save empty path
-                    search.inputEl.classList.remove('python-bridge-input-error');
+                    search.inputEl.classList.remove(
+                      'python-bridge-input-error'
+                    );
                     if (oldValue !== '') {
                       this.plugin.settings.pythonScriptsFolder = '';
                       await this.plugin.saveSettings();
@@ -225,7 +242,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         t('SETTINGS_PYTHON_EXEC_PATH_DESC') ||
           'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.'
       )
-      .addText(text => {
+      .addText((text) => {
         text
           .setPlaceholder(
             t('SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER') ||
@@ -243,7 +260,10 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
               try {
                 // Check if the absolute path exists and is a file
                 if (
-                  !(fs.existsSync(currentTrimmedPath) && fs.statSync(currentTrimmedPath).isFile())
+                  !(
+                    fs.existsSync(currentTrimmedPath) &&
+                    fs.statSync(currentTrimmedPath).isFile()
+                  )
                 ) {
                   showVisualError = true; // Absolute path, but not a valid file
                 }
@@ -282,7 +302,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         text.inputEl.addEventListener('input', debouncedVisualValidation);
 
         // Logic for saving settings and re-checking environment on 'blur' (loss of focus)
-        text.inputEl.addEventListener('blur', async event => {
+        text.inputEl.addEventListener('blur', async (event) => {
           const newPath = (event.target as HTMLInputElement).value.trim();
 
           // Perform final visual validation on blur, without debounce, to ensure correct state
@@ -338,7 +358,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                 const portStr = value.trim();
                 // Handle empty input: reset to default
                 if (portStr === '') {
-                  this.plugin.logInfo('Port input cleared, resetting to default.');
+                  this.plugin.logInfo(
+                    'Port input cleared, resetting to default.'
+                  );
                   text.inputEl.classList.remove('python-bridge-input-error');
                   text.inputEl.style.borderColor = ''; // Clear border
                   if (this.plugin.settings.httpPort !== DEFAULT_PORT) {
@@ -349,7 +371,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                   return; // Stop processing if empty
                 }
                 const port = parseInt(portStr, 10);
-                const isValidPort = !isNaN(port) && (port === 0 || (port >= 1024 && port <= 65535));
+                const isValidPort =
+                  !isNaN(port) &&
+                  (port === 0 || (port >= 1024 && port <= 65535));
                 if (isValidPort) {
                   text.inputEl.classList.remove('python-bridge-input-error');
                   if (this.plugin.settings.httpPort !== port) {
@@ -379,27 +403,33 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     new Setting(containerEl)
       .setName(t('SETTINGS_CACHE_TITLE'))
       .setDesc(t('SETTINGS_CACHE_DESC'))
-      .addToggle(toggle =>
-        toggle.setValue(this.plugin.settings.disablePyCache).onChange(async value => {
-          this.plugin.settings.disablePyCache = value;
-          await this.plugin.saveSettings();
-        })
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.disablePyCache)
+          .onChange(async (value) => {
+            this.plugin.settings.disablePyCache = value;
+            await this.plugin.saveSettings();
+          })
       );
 
     // Auto-set PYTHONPATH Toggle
     new Setting(containerEl)
       .setName(t('SETTINGS_AUTO_PYTHONPATH_NAME'))
       .setDesc(t('SETTINGS_AUTO_PYTHONPATH_DESC'))
-      .addToggle(toggle =>
-        toggle.setValue(this.plugin.settings.autoSetPYTHONPATH).onChange(async value => {
-          this.plugin.settings.autoSetPYTHONPATH = value;
-          await this.plugin.saveSettings();
-          this.plugin.logInfo(`Automatic PYTHONPATH setting changed to: ${value}`);
-          // Optionally add a notice if disabled, explaining the consequence
-          if (!value) {
-            new Notice(t('NOTICE_AUTO_PYTHONPATH_DISABLED_DESC'), 6000);
-          }
-        })
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.autoSetPYTHONPATH)
+          .onChange(async (value) => {
+            this.plugin.settings.autoSetPYTHONPATH = value;
+            await this.plugin.saveSettings();
+            this.plugin.logInfo(
+              `Automatic PYTHONPATH setting changed to: ${value}`
+            );
+            // Optionally add a notice if disabled, explaining the consequence
+            if (!value) {
+              new Notice(t('NOTICE_AUTO_PYTHONPATH_DISABLED_DESC'), 6000);
+            }
+          })
       );
 
     // Script Specific Settings
@@ -430,14 +460,19 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
             }
             button
               .setDisabled(true)
-              .setButtonText(t('SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING'));
+              .setButtonText(
+                t('SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING')
+              );
             new Notice(t('NOTICE_REFRESHING_SCRIPT_SETTINGS'));
             try {
               await updateAndSyncCommands(this.plugin, scriptsFolder); // Call updateAndSyncCommands
               new Notice(t('NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS'));
               this.display(); // Redraw to show updated settings/scripts
             } catch (error) {
-              this.plugin.logError('Manual script settings refresh failed:', error);
+              this.plugin.logError(
+                'Manual script settings refresh failed:',
+                error
+              );
               new Notice(t('NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED'));
             } finally {
               // Ensure button is re-enabled even if display() fails or is interrupted
@@ -476,11 +511,16 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       scriptFiles = fs
         .readdirSync(scriptsFolder)
         .filter(
-          f =>
-            f.toLowerCase().endsWith('.py') && !f.startsWith('.') && f !== PYTHON_LIBRARY_FILENAME
+          (f) =>
+            f.toLowerCase().endsWith('.py') &&
+            !f.startsWith('.') &&
+            f !== PYTHON_LIBRARY_FILENAME
         ); // Exclude library
     } catch (error) {
-      this.plugin.logError('Error reading scripts folder in settings tab:', error);
+      this.plugin.logError(
+        'Error reading scripts folder in settings tab:',
+        error
+      );
       containerEl.createEl('p', {
         text:
           t('NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX') +
@@ -499,10 +539,13 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       for (const scriptFilename of scriptFiles) {
         const absolutePath = path.join(scriptsFolder, scriptFilename);
         // Calculate relative path for settings keys
-        const relativePath = normalizePath(path.relative(scriptsFolder, absolutePath));
+        const relativePath = normalizePath(
+          path.relative(scriptsFolder, absolutePath)
+        );
 
         // Ensure activation status exists (default true)
-        if (activationStatus[relativePath] === undefined) activationStatus[relativePath] = true;
+        if (activationStatus[relativePath] === undefined)
+          activationStatus[relativePath] = true;
         const isScriptActive = activationStatus[relativePath];
 
         // Display section for EACH script
@@ -514,11 +557,13 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         new Setting(containerEl)
           .setName(t('SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME'))
           .setDesc(t('SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC'))
-          .addToggle(toggle =>
-            toggle.setValue(isScriptActive).onChange(async value => {
+          .addToggle((toggle) =>
+            toggle.setValue(isScriptActive).onChange(async (value) => {
               activationStatus[relativePath] = value;
               await this.plugin.saveSettings();
-              this.plugin.logInfo(`Script '${relativePath}' activation status set to: ${value}`);
+              this.plugin.logInfo(
+                `Script '${relativePath}' activation status set to: ${value}`
+              );
               this.display(); // Redraw needed to show/hide auto-start options
             })
           );
@@ -526,17 +571,20 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         // Auto-start Toggle (Only if script is active)
         if (isScriptActive) {
           // Ensure auto-start status exists (default false)
-          if (autoStartStatus[relativePath] === undefined) autoStartStatus[relativePath] = false;
+          if (autoStartStatus[relativePath] === undefined)
+            autoStartStatus[relativePath] = false;
           const isAutoStartEnabled = autoStartStatus[relativePath];
 
           new Setting(containerEl)
             .setName(t('SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME')) // New translation key
             .setDesc(t('SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC')) // New translation key
-            .addToggle(toggle =>
-              toggle.setValue(isAutoStartEnabled).onChange(async value => {
+            .addToggle((toggle) =>
+              toggle.setValue(isAutoStartEnabled).onChange(async (value) => {
                 autoStartStatus[relativePath] = value;
                 await this.plugin.saveSettings();
-                this.plugin.logInfo(`Script '${relativePath}' auto-start status set to: ${value}`);
+                this.plugin.logInfo(
+                  `Script '${relativePath}' auto-start status set to: ${value}`
+                );
                 this.display(); // Redraw needed to show/hide delay input
               })
             );
@@ -544,30 +592,35 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
           // Auto-start Delay Input (Only if auto-start is enabled)
           if (isAutoStartEnabled) {
             // Ensure delay value exists (default 0)
-            if (autoStartDelay[relativePath] === undefined) autoStartDelay[relativePath] = 0;
+            if (autoStartDelay[relativePath] === undefined)
+              autoStartDelay[relativePath] = 0;
             const currentDelay = autoStartDelay[relativePath];
 
             new Setting(containerEl)
               .setName(t('SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME')) // New translation key
               .setDesc(t('SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC')) // New translation key
-              .addText(text => {
+              .addText((text) => {
                 text.inputEl.type = 'number';
                 text.inputEl.min = '0'; // Minimum delay is 0
                 text
                   .setPlaceholder('0')
                   .setValue(String(currentDelay))
                   .onChange(
-                    debounce(async value => {
+                    debounce(async (value) => {
                       const delayStr = value.trim();
                       let delayNum = parseInt(delayStr, 10);
                       // Validate: must be a non-negative integer
                       if (isNaN(delayNum) || delayNum < 0) {
                         text.inputEl.classList.add('python-bridge-input-error');
-                        this.plugin.logWarn(`Invalid auto-start delay entered: ${value}. Using 0.`);
+                        this.plugin.logWarn(
+                          `Invalid auto-start delay entered: ${value}. Using 0.`
+                        );
                         delayNum = 0; // Reset to default if invalid
                         // text.setValue("0"); // This might interfere with typing
                       } else {
-                        text.inputEl.classList.remove('python-bridge-input-error');
+                        text.inputEl.classList.remove(
+                          'python-bridge-input-error'
+                        );
                       }
                       // Save only if the valid number changed
                       if (autoStartDelay[relativePath] !== delayNum) {
@@ -602,9 +655,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
             // Switch statement for different setting types (unchanged from previous version)
             switch (settingDef.type) {
               case 'text':
-                setting.addText(text =>
+                setting.addText((text) =>
                   text.setValue(String(currentValue ?? '')).onChange(
-                    debounce(async value => {
+                    debounce(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();
                     }, this.DEBOUNCE_DELAY)
@@ -612,9 +665,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                 );
                 break;
               case 'textarea':
-                setting.addTextArea(text => {
+                setting.addTextArea((text) => {
                   text.setValue(String(currentValue ?? '')).onChange(
-                    debounce(async value => {
+                    debounce(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();
                     }, this.DEBOUNCE_DELAY)
@@ -623,7 +676,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                 });
                 break;
               case 'number': // Applying the compact style requested earlier
-                setting.addText(text => {
+                setting.addText((text) => {
                   text.inputEl.type = 'number';
                   if (settingDef.min !== undefined && settingDef.min !== null)
                     text.inputEl.min = String(settingDef.min);
@@ -631,53 +684,69 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     text.inputEl.max = String(settingDef.max);
                   if (settingDef.step !== undefined && settingDef.step !== null)
                     text.inputEl.step = String(settingDef.step);
-                  text.setValue(String(currentValue ?? settingDef.default ?? '')).onChange(
-                    debounce(async value => {
-                      const numValue = value === '' ? settingDef.default : parseFloat(value);
-                      const isValidNumber = !isNaN(numValue);
-                      if (isValidNumber) {
-                        text.inputEl.classList.remove('python-bridge-input-error');
-                      } else {
-                        text.inputEl.classList.add('python-bridge-input-error');
-                      }
-                      scriptValues[settingDef.key] = isValidNumber ? numValue : settingDef.default;
-                      await this.plugin.saveSettings();
-                    }, this.DEBOUNCE_DELAY)
-                  );
+                  text
+                    .setValue(String(currentValue ?? settingDef.default ?? ''))
+                    .onChange(
+                      debounce(async (value) => {
+                        const numValue =
+                          value === '' ? settingDef.default : parseFloat(value);
+                        const isValidNumber = !isNaN(numValue);
+                        if (isValidNumber) {
+                          text.inputEl.classList.remove(
+                            'python-bridge-input-error'
+                          );
+                        } else {
+                          text.inputEl.classList.add(
+                            'python-bridge-input-error'
+                          );
+                        }
+                        scriptValues[settingDef.key] = isValidNumber
+                          ? numValue
+                          : settingDef.default;
+                        await this.plugin.saveSettings();
+                      }, this.DEBOUNCE_DELAY)
+                    );
                 });
                 break;
               case 'slider':
-                setting.addSlider(slider => {
+                setting.addSlider((slider) => {
                   const min = settingDef.min ?? 0;
                   const max = settingDef.max ?? 100;
                   const step = settingDef.step ?? 1;
                   slider
                     .setLimits(min, max, step)
                     .setValue(
-                      Math.max(min, Math.min(max, Number(currentValue ?? settingDef.default)))
+                      Math.max(
+                        min,
+                        Math.min(
+                          max,
+                          Number(currentValue ?? settingDef.default)
+                        )
+                      )
                     )
                     .setDynamicTooltip()
-                    .onChange(async value => {
+                    .onChange(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();
                     });
                 });
                 break;
               case 'toggle':
-                setting.addToggle(toggle =>
+                setting.addToggle((toggle) =>
                   toggle
                     .setValue(Boolean(currentValue ?? settingDef.default))
-                    .onChange(async value => {
+                    .onChange(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();
                     })
                 );
                 break;
               case 'dropdown':
-                setting.addDropdown(dropdown => {
+                setting.addDropdown((dropdown) => {
                   const options = settingDef.options || [];
-                  options.forEach(option => {
-                    if (typeof option === 'string') dropdown.addOption(option, option);
+                  options.forEach((option) => {
+                    if (typeof option === 'string')
+                      dropdown.addOption(option, option);
                     else if (
                       typeof option === 'object' &&
                       option !== null &&
@@ -687,18 +756,22 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                       dropdown.addOption(option.value, option.display);
                   });
                   const validValue = options.some(
-                    opt => (typeof opt === 'string' ? opt : opt.value) === currentValue
+                    (opt) =>
+                      (typeof opt === 'string' ? opt : opt.value) ===
+                      currentValue
                   )
                     ? currentValue
                     : settingDef.default;
-                  dropdown.setValue(String(validValue ?? '')).onChange(async value => {
-                    scriptValues[settingDef.key] = value;
-                    await this.plugin.saveSettings();
-                  });
+                  dropdown
+                    .setValue(String(validValue ?? ''))
+                    .onChange(async (value) => {
+                      scriptValues[settingDef.key] = value;
+                      await this.plugin.saveSettings();
+                    });
                 });
                 break;
               default:
-                setting.addText(text =>
+                setting.addText((text) =>
                   text
                     .setValue(String(currentValue ?? ''))
                     .setDisabled(true)

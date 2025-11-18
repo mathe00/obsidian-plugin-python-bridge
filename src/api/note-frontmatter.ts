@@ -19,10 +19,14 @@ export async function getNoteFrontmatterByPath(
   if (!metadata) {
     const fileExists = !!plugin.app.vault.getAbstractFileByPath(normalizedPath);
     if (!fileExists) {
-      plugin.logDebug(`File not found at path for frontmatter lookup: ${normalizedPath}`);
+      plugin.logDebug(
+        `File not found at path for frontmatter lookup: ${normalizedPath}`
+      );
       return null;
     }
-    plugin.logDebug(`No metadata cache found for existing file: ${normalizedPath}`);
+    plugin.logDebug(
+      `No metadata cache found for existing file: ${normalizedPath}`
+    );
     return null;
   }
   return metadata.frontmatter ?? null;

@@ -18,7 +18,9 @@ export function getObsidianLanguage(plugin: ObsidianPythonBridge): string {
     // @ts-ignore - Accessing moment which is globally available in Obsidian
     const momentLocale = moment.locale();
     if (momentLocale) {
-      plugin.logDebug(`Obsidian language from moment.locale(): ${momentLocale}`);
+      plugin.logDebug(
+        `Obsidian language from moment.locale(): ${momentLocale}`
+      );
       return momentLocale;
     }
   } catch (e) {

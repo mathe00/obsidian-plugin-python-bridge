@@ -21,7 +21,11 @@ export default class ScriptSelectionModal extends SuggestModal<ScriptChoice> {
    * @param scriptChoices Array of script choices { label, value }.
    * @param onChoose Callback function executed with the selected script path or null if cancelled.
    */
-  constructor(app: App, scriptChoices: ScriptChoice[], onChoose: (result: string | null) => void) {
+  constructor(
+    app: App,
+    scriptChoices: ScriptChoice[],
+    onChoose: (result: string | null) => void
+  ) {
     super(app);
     this.scriptChoices = scriptChoices;
     this.onChoose = onChoose;
@@ -37,7 +41,9 @@ export default class ScriptSelectionModal extends SuggestModal<ScriptChoice> {
    */
   getSuggestions(query: string): ScriptChoice[] {
     const lowerCaseQuery = query.toLowerCase();
-    return this.scriptChoices.filter(choice => choice.label.toLowerCase().includes(lowerCaseQuery));
+    return this.scriptChoices.filter((choice) =>
+      choice.label.toLowerCase().includes(lowerCaseQuery)
+    );
   }
 
   /**

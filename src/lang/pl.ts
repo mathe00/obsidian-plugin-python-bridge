@@ -6,12 +6,14 @@ export default {
   SETTINGS_FOLDER_TITLE: 'Folder skryptów Python',
   SETTINGS_FOLDER_DESC:
     'Ścieżka do folderu zawierającego skrypty Python (bezwzględna lub względna do przechowalni).',
-  SETTINGS_FOLDER_PLACEHOLDER: '/ścieżka/do/twoich/skryptów lub ./scripts-python',
+  SETTINGS_FOLDER_PLACEHOLDER:
+    '/ścieżka/do/twoich/skryptów lub ./scripts-python',
   SETTINGS_PORT_TITLE: 'Port serwera HTTP',
   SETTINGS_PORT_DESC:
     'Port dla lokalnego serwera HTTP (1024-65535). Wymaga ponownego uruchomienia lub zapisania ustawień, aby zastosować.',
   SETTINGS_CACHE_TITLE: 'Wyłącz pamięć podręczną Pythona (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Uruchamia Pythona z flagą "-B", aby zapobiec zapisywaniu plików .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Uruchamia Pythona z flagą "-B", aby zapobiec zapisywaniu plików .pyc.',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'Python Bridge',
@@ -31,19 +33,24 @@ export default {
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
   NOTICE_PORT_IN_USE_SUFFIX:
     'jest już używany. Wybierz inny port w ustawieniach lub zamknij inną aplikację, która go używa. Serwer nie został uruchomiony.',
-  NOTICE_SERVER_START_FAILED_PREFIX: 'Nie udało się uruchomić serwera na porcie',
+  NOTICE_SERVER_START_FAILED_PREFIX:
+    'Nie udało się uruchomić serwera na porcie',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Nieprawidłowy port. Wprowadź liczbę od 0 do 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Port HTTP zmieniony (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Nieprawidłowy port. Wprowadź liczbę od 0 do 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Port HTTP zmieniony (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Skrypt może celować w stary port, jeśli jest już uruchomiony lub został uruchomiony zewnętrznie.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Nie znaleziono skryptu Python lub nie jest to plik:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Nie znaleziono skryptu Python lub nie jest to plik:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Błąd dostępu do pliku skryptu:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Uruchamianie skryptu Python:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Błąd podczas uruchamiania',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'za pomocą',
-  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'zakończył się niepowodzeniem z kodem wyjścia',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE:
+    'zakończył się niepowodzeniem z kodem wyjścia',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Sprawdź logi konsoli.',
   NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
     'Nie można znaleźć prawidłowego pliku wykonywalnego Pythona. Próbowano:',
@@ -52,10 +59,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Nie znaleziono folderu skryptów Python lub jest on nieprawidłowy. Sprawdź ustawienia wtyczki.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Błąd odczytu folderu skryptów:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Nie znaleziono skryptów Python (.py) w skonfigurowanym folderze.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Nie znaleziono skryptów Python (.py) w skonfigurowanym folderze.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Uruchamianie',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'skryptów Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Wprowadzone dane nie pasują do wymaganego formatu.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Wprowadzone dane nie pasują do wymaganego formatu.',
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Uruchom określony skrypt Python',
@@ -78,14 +87,16 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automatyczny (Jak Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Nie można odświeżyć ustawień: Nie znaleziono pliku wykonywalnego Python. Upewnij się, że Python jest zainstalowany i znajduje się w PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Odświeżanie definicji ustawień skryptów...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Odświeżanie definicji ustawień skryptów...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Definicje ustawień skryptów zostały pomyślnie odświeżone!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Nie udało się odświeżyć definicji ustawień skryptów. Sprawdź logi, aby uzyskać szczegóły.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Nie można uruchomić skryptu: Nie znaleziono pliku wykonywalnego Python. Sprawdź instalację i PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Odśwież definicje ustawień skryptów Python',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Odśwież definicje ustawień skryptów Python',
   SETTINGS_SECURITY_WARNING_TITLE: 'Ostrzeżenie dotyczące bezpieczeństwa',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Uruchamianie dowolnych skryptów Python może być ryzykowne. Upewnij się, że ufasz źródłu każdego uruchamianego skryptu, ponieważ mogą one uzyskać dostęp do Twojego systemu i danych. Autor wtyczki i autorzy skryptów nie ponoszą odpowiedzialności za utratę danych ani problemy z bezpieczeństwem spowodowane przez skrypty, które zdecydujesz się uruchomić. Uruchamiaj skrypty na własne ryzyko.',
@@ -114,7 +125,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Poczekaj tę liczbę sekund po uruchomieniu Obsidian przed uruchomieniem skryptu (dotyczy tylko, gdy opcja 'Uruchom przy starcie' jest włączona). Użyj 0, aby nie było opóźnienia.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Automatycznie ustaw PYTHONPATH dla biblioteki',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Automatycznie ustaw PYTHONPATH dla biblioteki',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Automatycznie dodaje katalog wtyczki do PYTHONPATH podczas uruchamiania skryptów, umożliwiając bezpośredni import biblioteki Python (Zalecane). Jeśli opcja jest wyłączona, musisz skopiować plik ObsidianPluginDevPythonToJS.py do folderu skryptów lub ręcznie zarządzać sys.path.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -123,12 +135,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Ścieżka Pliku Wykonywalnego Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ścieżka bezwzględna do pliku wykonywalnego Python lub uv. Pozostaw puste dla automatycznego wykrywania (uv, py, python3, python). Wymaga ponownego załadowania lub ponownego uruchomienia wtyczki, aby w pełni zadziałało po zmianie.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'np. /usr/bin/python3 lub C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'np. /usr/bin/python3 lub C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Zmieniono ścieżkę pliku wykonywalnego Python. Odświeżanie skryptów...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Niestandardowa ścieżka Python jest nieprawidłowa i nie znaleziono zapasowego pliku wykonywalnego. Skrypty mogą nie działać.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Niestandardowa Ścieżka Python Nie Powiodła Się',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Niestandardowa Ścieżka Python Nie Powiodła Się',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Niestandardowa ścieżka pliku wykonywalnego Python '{path}' jest nieprawidłowa lub nie można jej wykonać. Przywracanie automatycznego wykrywania.",
 };

@@ -4,10 +4,12 @@ export default {
   // Settings Tab
   SETTINGS_TAB_TITLE: 'Obsidian Python Bridge 设置',
   SETTINGS_FOLDER_TITLE: 'Python 脚本文件夹',
-  SETTINGS_FOLDER_DESC: '包含 Python 脚本的文件夹路径（绝对路径或相对于仓库的路径）。',
+  SETTINGS_FOLDER_DESC:
+    '包含 Python 脚本的文件夹路径（绝对路径或相对于仓库的路径）。',
   SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts 或 ./scripts-python',
   SETTINGS_PORT_TITLE: 'HTTP 服务器端口',
-  SETTINGS_PORT_DESC: '本地 HTTP 服务器的端口（1024-65535）。需要重新启动或保存设置才能应用。',
+  SETTINGS_PORT_DESC:
+    '本地 HTTP 服务器的端口（1024-65535）。需要重新启动或保存设置才能应用。',
   SETTINGS_CACHE_TITLE: '禁用 Python 缓存 (__pycache__)',
   SETTINGS_CACHE_DESC: '使用“-B”标志运行 Python 以阻止写入 .pyc 文件。',
 
@@ -23,7 +25,8 @@ export default {
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '安装。\n请通过运行以下命令安装：\n{pythonCmd} -m pip install requests\n在安装之前，需要 Python 的插件功能将不可用。',
   NOTICE_INVALID_PORT_CONFIG_PREFIX: '配置的 HTTP 端口无效：',
-  NOTICE_INVALID_PORT_CONFIG_SUFFIX: '服务器未启动。请在设置中配置一个有效的端口（1-65535）。',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    '服务器未启动。请在设置中配置一个有效的端口（1-65535）。',
   NOTICE_PORT_IN_USE_PREFIX: '端口',
   NOTICE_PORT_IN_USE_SUFFIX:
     '已被占用。请在设置中选择另一个端口或关闭使用该端口的其他应用程序。服务器未启动。',
@@ -32,7 +35,8 @@ export default {
   NOTICE_INVALID_PORT_RANGE: '端口无效。请输入 0 到 65535 之间的数字。',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge：HTTP 端口已更改（',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
-  NOTICE_PORT_MISMATCH_WARNING_SUFFIX: '）。如果脚本已在运行或从外部启动，它可能会指向旧端口。',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '）。如果脚本已在运行或从外部启动，它可能会指向旧端口。',
   NOTICE_SCRIPT_NOT_FOUND_PREFIX: '找不到 Python 脚本或不是文件：',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: '访问脚本文件时出错：',
   NOTICE_RUNNING_SCRIPT_PREFIX: '正在运行 Python 脚本：',
@@ -40,10 +44,12 @@ export default {
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: '时出错，使用',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: '失败，退出代码为',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: '请检查控制台日志。',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: '找不到有效的 Python 可执行文件。已尝试：',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    '找不到有效的 Python 可执行文件。已尝试：',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "请确保已安装 Python 并且可以通过系统 PATH（或 Windows 上的 'py' 启动器）访问。",
-  NOTICE_SCRIPTS_FOLDER_INVALID: '找不到 Python 脚本文件夹或无效。请检查插件设置。',
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    '找不到 Python 脚本文件夹或无效。请检查插件设置。',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: '读取脚本文件夹时出错：',
   NOTICE_NO_SCRIPTS_FOUND: '在配置的文件夹中找不到 Python 脚本 (.py)。',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: '正在运行',
@@ -63,7 +69,8 @@ export default {
     '重新扫描脚本文件夹以发现或更新 Python 脚本中定义的设置。',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: '刷新定义',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: '正在刷新...',
-  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: '未配置 Python 脚本文件夹。请在上方设置路径。',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    '未配置 Python 脚本文件夹。请在上方设置路径。',
   SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
     '在配置的文件夹中找不到具有可定义设置的脚本，或者设置发现失败。单击“刷新定义”重试。',
   SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: '设置：',
@@ -73,7 +80,8 @@ export default {
   NOTICE_REFRESHING_SCRIPT_SETTINGS: '正在刷新脚本设置定义...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: '脚本设置定义刷新成功！',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: '刷新脚本设置定义失败。请检查日志。',
-  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: '无法运行脚本：未找到 Python 可执行文件。请检查安装和 PATH。',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    '无法运行脚本：未找到 Python 可执行文件。请检查安装和 PATH。',
   CMD_REFRESH_SCRIPT_SETTINGS_NAME: '刷新 Python 脚本设置定义',
   SETTINGS_SECURITY_WARNING_TITLE: '安全警告',
   SETTINGS_SECURITY_WARNING_TEXT:
@@ -84,12 +92,14 @@ export default {
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: '性能提示：反向链接缓存',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     '为了在大型库中检索反向链接（使用 get_backlinks 函数）时提高性能，请考虑安装由 @mnaoumov 开发的“[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)”社区插件。',
-  NOTICE_INVALID_FOLDER_PATH: '文件夹路径无效。请在设置中选择一个有效的文件夹。',
+  NOTICE_INVALID_FOLDER_PATH:
+    '文件夹路径无效。请在设置中选择一个有效的文件夹。',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "配置的 Python 脚本文件夹路径 '{path}' 无效或找不到。正在清除设置。",
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: '脚本已启用',
-  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: '允许通过命令、快捷键或“全部运行”执行此脚本。',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    '允许通过命令、快捷键或“全部运行”执行此脚本。',
   NOTICE_SCRIPT_DISABLED: '脚本“{scriptName}”在设置中被禁用，无法执行。',
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: '启动时运行',
@@ -108,8 +118,10 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python 可执行文件路径',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Python 或 uv 可执行文件的绝对路径。留空以进行自动检测（uv、py、python3、python）。如果更改，需要重新加载或重新启动插件才能完全生效。',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: '例如 /usr/bin/python3 或 C:Python39python.exe',
-  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING: 'Python 可执行文件路径已更改。正在刷新脚本...',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    '例如 /usr/bin/python3 或 C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'Python 可执行文件路径已更改。正在刷新脚本...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     '自定义 Python 路径无效，且未找到备用可执行文件。脚本可能无法运行。',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: '自定义 Python 路径失败',

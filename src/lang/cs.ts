@@ -10,7 +10,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Port pro lokální HTTP server (1024-65535). Vyžaduje restart nebo uložení nastavení pro aplikaci.',
   SETTINGS_CACHE_TITLE: 'Zakázat Python Cache (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Spusťte Python s příznakem "-B", abyste zabránili zápisu .pyc souborů.',
+  SETTINGS_CACHE_DESC:
+    'Spusťte Python s příznakem "-B", abyste zabránili zápisu .pyc souborů.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'HTTP port změněn na',
   NOTICE_PORT_CHANGED_SUFFIX: 'Restartuji server...',
@@ -30,25 +31,29 @@ export default {
     'je již používán. Zvolte prosím jiný port v nastavení nebo ukončete jinou aplikaci, která jej používá. Server nebyl spuštěn.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Nepodařilo se spustit server na portu',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Neplatný port. Zadejte prosím číslo mezi 0 a 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Neplatný port. Zadejte prosím číslo mezi 0 a 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP port změněn (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Skript může cílit na starý port, pokud již běží nebo byl spuštěn externě.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python skript nebyl nalezen nebo není soubor:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python skript nebyl nalezen nebo není soubor:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Chyba při přístupu k souboru skriptu:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Spouštím Python skript:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Chyba při spouštění',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 's',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'selhal s návratovým kódem',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Zkontrolujte logy konzole.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Nelze najít platný spustitelný soubor Pythonu. Zkoušeno:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Nelze najít platný spustitelný soubor Pythonu. Zkoušeno:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Ujistěte se, že je Python nainstalován a dostupný přes systémovou proměnnou PATH (nebo spouštěč 'py' ve Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Složka Python skriptů nebyla nalezena nebo je neplatná. Zkontrolujte nastavení pluginu.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Chyba při čtení složky skriptů:',
-  NOTICE_NO_SCRIPTS_FOUND: 'V nakonfigurované složce nebyly nalezeny žádné Python skripty (.py).',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'V nakonfigurované složce nebyly nalezeny žádné Python skripty (.py).',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Spouštím',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python skript(y)...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Vstup neodpovídá požadovanému formátu.',
@@ -71,7 +76,8 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Nelze obnovit nastavení: Spustitelný soubor Pythonu nebyl nalezen. Ujistěte se, že je Python nainstalován a v PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Obnovuji definice nastavení skriptů...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Definice nastavení skriptů úspěšně obnoveny!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Definice nastavení skriptů úspěšně obnoveny!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Nepodařilo se obnovit definice nastavení skriptů. Zkontrolujte logy pro detaily.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
@@ -83,7 +89,8 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'Jazyk Pluginu',
   SETTINGS_LANGUAGE_DESC:
     "Zvolte jazyk zobrazení pro rozhraní pluginu Python Bridge. 'Automaticky' se řídí nastavením jazyka Obsidianu.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Tip pro výkon: Mezipaměť zpětných odkazů',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Tip pro výkon: Mezipaměť zpětných odkazů',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Pro zlepšení výkonu při načítání zpětných odkazů (pomocí funkce get_backlinks) ve velkých trezorech zvažte instalaci komunitního pluginu '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' od @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -94,7 +101,8 @@ export default {
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Skript Povolen',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
     "Povolit spuštění tohoto skriptu pomocí příkazů, zkratek nebo 'Spustit vše'.",
-  NOTICE_SCRIPT_DISABLED: "Skript '{scriptName}' je v nastavení zakázán a nelze jej spustit.",
+  NOTICE_SCRIPT_DISABLED:
+    "Skript '{scriptName}' je v nastavení zakázán a nelze jej spustit.",
 
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Spustit při startu',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
@@ -112,12 +120,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Cesta k spustitelnému souboru Pythonu',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolutní cesta k vašemu spustitelnému souboru Pythonu nebo uv. Ponechte prázdné pro automatickou detekci (uv, py, python3, python). Pokud dojde ke změně, vyžaduje pro plný účinek opětovné načtení nebo restartování pluginu.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'např. /usr/bin/python3 nebo C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'např. /usr/bin/python3 nebo C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Cesta ke spustitelnému souboru Pythonu byla změněna. Aktualizují se skripty...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Vlastní cesta k Pythonu je neplatná a nebyl nalezen žádný záložní spustitelný soubor. Skripty nemusí fungovat.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Vlastní cesta k Pythonu se nezdařila',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Vlastní cesta k Pythonu se nezdařila',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Vlastní cesta ke spustitelnému souboru Pythonu '{path}' je neplatná nebo ji nelze spustit. Vrací se k automatické detekci.",
 };

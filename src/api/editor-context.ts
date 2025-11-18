@@ -10,7 +10,9 @@ import type ObsidianPythonBridge from '../main';
  * @returns An object with editor context, or null if no editor is active.
  * @throws Error if accessing editor properties fails unexpectedly.
  */
-export function getEditorContext(plugin: ObsidianPythonBridge): Record<string, any> | null {
+export function getEditorContext(
+  plugin: ObsidianPythonBridge
+): Record<string, any> | null {
   const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
   if (!view || !view.editor) {
     plugin.logDebug('No active Markdown editor found for get_editor_context.');
@@ -20,7 +22,10 @@ export function getEditorContext(plugin: ObsidianPythonBridge): Record<string, a
   try {
     const cursor = editor.getCursor();
     const lineCount = editor.lineCount();
-    const context = { cursor: { line: cursor.line, ch: cursor.ch }, line_count: lineCount };
+    const context = {
+      cursor: { line: cursor.line, ch: cursor.ch },
+      line_count: lineCount,
+    };
     plugin.logDebug('Retrieved editor context:', context);
     return context;
   } catch (error) {

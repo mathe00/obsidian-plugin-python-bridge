@@ -13,19 +13,21 @@ import { getScriptsFolderPath } from './python_executor'; // Import helper
  * Registers internal listeners for Obsidian events that can trigger Python scripts.
  * @param plugin The ObsidianPythonBridge plugin instance.
  */
-export function registerObsidianEventListeners(plugin: ObsidianPythonBridge): void {
+export function registerObsidianEventListeners(
+  plugin: ObsidianPythonBridge
+): void {
   plugin.logInfo('Registering Obsidian event listeners...');
 
   // Vault changes
   plugin.registerEvent(
-    plugin.app.vault.on('modify', file => {
+    plugin.app.vault.on('modify', (file) => {
       if (file instanceof TFile) {
         triggerEvent(plugin, 'vault-modify', { path: file.path });
       }
     })
   );
   plugin.registerEvent(
-    plugin.app.vault.on('delete', file => {
+    plugin.app.vault.on('delete', (file) => {
       triggerEvent(plugin, 'vault-delete', {
         path: file.path,
         type: file instanceof TFile ? 'file' : 'folder',
@@ -44,7 +46,7 @@ export function registerObsidianEventListeners(plugin: ObsidianPythonBridge): vo
 
   // Metadata changes
   plugin.registerEvent(
-    plugin.app.metadataCache.on('changed', file => {
+    plugin.app.metadataCache.on('changed', (file) => {
       triggerEvent(plugin, 'metadata-changed', { path: file.path });
     })
   );
@@ -58,7 +60,7 @@ export function registerObsidianEventListeners(plugin: ObsidianPythonBridge): vo
 
   // Active leaf change
   plugin.registerEvent(
-    plugin.app.workspace.on('active-leaf-change', leaf => {
+    plugin.app.workspace.on('active-leaf-change', (leaf) => {
       const view = leaf?.view;
       let filePath = null;
       if (view instanceof MarkdownView && view.file) {
@@ -79,7 +81,11 @@ export function registerObsidianEventListeners(plugin: ObsidianPythonBridge): vo
  * @param eventName The name of the event being triggered.
  * @param payload Data associated with the event, must be JSON serializable.
  */
-export function triggerEvent(plugin: ObsidianPythonBridge, eventName: string, payload: any): void {
+export function triggerEvent(
+  plugin: ObsidianPythonBridge,
+  eventName: string,
+  payload: any
+): void {
   const listeningScripts = plugin.eventListeners.get(eventName);
   if (!listeningScripts || listeningScripts.size === 0) {
     // plugin.logDebug(`No scripts listening for event: ${eventName}`); // Can be noisy
@@ -92,7 +98,9 @@ export function triggerEvent(plugin: ObsidianPythonBridge, eventName: string, pa
   );
   const scriptsFolder = getScriptsFolderPath(plugin);
   if (!scriptsFolder) {
-    plugin.logError(`Cannot trigger event ${eventName}: Scripts folder path is invalid.`);
+    plugin.logError(
+      `Cannot trigger event ${eventName}: Scripts folder path is invalid.`
+    );
     return;
   }
 
@@ -100,19 +108,30 @@ export function triggerEvent(plugin: ObsidianPythonBridge, eventName: string, pa
   try {
     payloadJson = JSON.stringify(payload);
   } catch (error) {
-    plugin.logError(`Failed to serialize payload for event ${eventName}:`, error);
+    plugin.logError(
+      `Failed to serialize payload for event ${eventName}:`,
+      error
+    );
     plugin.logError(`Original payload was:`, payload);
     return;
   }
 
-  listeningScripts.forEach(relativePath => {
+  listeningScripts.forEach((relativePath) => {
     const absolutePath = path.join(scriptsFolder, relativePath);
     // Check if script still exists and is active before running
     if (plugin.settings.scriptActivationStatus[relativePath] !== false) {
       try {
         if (fs.existsSync(absolutePath) && fs.statSync(absolutePath).isFile()) {
-          plugin.logDebug(`Running script ${relativePath} for event ${eventName}`);
-          runPythonScriptForEvent(plugin, absolutePath, relativePath, eventName, payloadJson);
+          plugin.logDebug(
+            `Running script ${relativePath} for event ${eventName}`
+          );
+          runPythonScriptForEvent(
+            plugin,
+            absolutePath,
+            relativePath,
+            eventName,
+            payloadJson
+          );
         } else {
           plugin.logWarn(
             `Script ${relativePath} registered for event ${eventName} not found at ${absolutePath}. Removing listener.`
@@ -120,10 +139,15 @@ export function triggerEvent(plugin: ObsidianPythonBridge, eventName: string, pa
           removeListener(plugin, eventName, relativePath); // Clean up stale listener
         }
       } catch (error) {
-        plugin.logError(`Error checking file status for event script ${absolutePath}:`, error);
+        plugin.logError(
+          `Error checking file status for event script ${absolutePath}:`,
+          error
+        );
       }
     } else {
-      plugin.logDebug(`Skipping event notification for ${relativePath}: Script is disabled.`);
+      plugin.logDebug(
+        `Skipping event notification for ${relativePath}: Script is disabled.`
+      );
     }
   });
 }
@@ -144,7 +168,9 @@ async function runPythonScriptForEvent(
   payloadJson: string
 ) {
   if (!plugin.pythonExecutable) {
-    plugin.logError(`Cannot run event script ${scriptRelativePath}: Python executable not found.`);
+    plugin.logError(
+      `Cannot run event script ${scriptRelativePath}: Python executable not found.`
+    );
     return;
   }
   const pythonCmd = plugin.pythonExecutable;
@@ -161,7 +187,9 @@ async function runPythonScriptForEvent(
 
   // 1. Add the script's own directory
   pathsForPythonPath.push(scriptDir);
-  plugin.logDebug(`Adding script's own directory to PYTHONPATH for event script: ${scriptDir}`);
+  plugin.logDebug(
+    `Adding script's own directory to PYTHONPATH for event script: ${scriptDir}`
+  );
 
   // 2. Conditionally add the plugin's directory based on setting
   if (plugin.settings.autoSetPYTHONPATH) {
@@ -230,30 +258,38 @@ async function runPythonScriptForEvent(
       });
 
       let stderrOutput = '';
-      pythonProcess.stderr?.on('data', data => {
+      pythonProcess.stderr?.on('data', (data) => {
         stderrOutput += data.toString();
       });
 
-      pythonProcess.stdout?.on('data', data => {
-        plugin.logDebug(`[stdout EVENT ${scriptFilename}]: ${data.toString().trim()}`);
+      pythonProcess.stdout?.on('data', (data) => {
+        plugin.logDebug(
+          `[stdout EVENT ${scriptFilename}]: ${data.toString().trim()}`
+        );
       });
 
-      pythonProcess.on('error', error => {
-        plugin.logError(`Failed to start event script ${scriptRelativePath}: ${error.message}`);
+      pythonProcess.on('error', (error) => {
+        plugin.logError(
+          `Failed to start event script ${scriptRelativePath}: ${error.message}`
+        );
         reject(error);
       });
 
-      pythonProcess.on('close', code => {
+      pythonProcess.on('close', (code) => {
         if (code !== 0 && code !== null) {
           plugin.logError(
             `Event script ${scriptRelativePath} failed for event ${eventName} with exit code ${code}.`
           );
           if (stderrOutput.trim()) {
-            plugin.logError(`[Error Summary EVENT ${scriptFilename}]: ${stderrOutput.trim()}`);
+            plugin.logError(
+              `[Error Summary EVENT ${scriptFilename}]: ${stderrOutput.trim()}`
+            );
           }
           reject(new Error(`Event script exited with non-zero code: ${code}`));
         } else {
-          plugin.logDebug(`Event script ${scriptRelativePath} finished for event ${eventName}.`);
+          plugin.logDebug(
+            `Event script ${scriptRelativePath} finished for event ${eventName}.`
+          );
           resolve();
         }
       });

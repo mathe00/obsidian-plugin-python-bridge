@@ -23,7 +23,8 @@ export default {
     "Ang kinakailangang Python library na 'requests' ay hindi naka-install para sa",
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
     '.\\nPaki-install ito sa pamamagitan ng pagpapatakbo ng:\\n{pythonCmd} -m pip install requests\\nHindi magiging available ang mga feature ng plugin na nangangailangan ng Python hanggang sa mai-install ito.',
-  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Hindi wastong HTTP port ang na-configure:',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX:
+    'Hindi wastong HTTP port ang na-configure:',
   NOTICE_INVALID_PORT_CONFIG_SUFFIX:
     'Hindi nagsimula ang server. Paki-configure ang wastong port (1-65535) sa mga setting.',
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
@@ -33,33 +34,41 @@ export default {
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
   NOTICE_INVALID_PORT_RANGE:
     'Hindi wastong port. Mangyaring maglagay ng numero sa pagitan ng 0 at 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Nagbago ang HTTP Port (',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Nagbago ang HTTP Port (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Maaaring i-target ng script ang lumang port kung ito ay tumatakbo na o inilunsad sa labas.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Hindi mahanap ang Python script o hindi ito isang file:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Hindi mahanap ang Python script o hindi ito isang file:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Error sa pag-access ng script file:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Pinapatakbo ang Python script:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Error sa pagpapatakbo',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'gamit ang',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'nabigo gamit ang exit code',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Suriin ang mga log ng console.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Hindi makahanap ng wastong Python executable. Sinubukan:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Hindi makahanap ng wastong Python executable. Sinubukan:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Pakitiyak na naka-install ang Python at accessible sa pamamagitan ng PATH ng iyong system (o ang 'py' launcher sa Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Hindi mahanap ang folder ng mga Python script o hindi wasto. Paki-check ang mga setting ng plugin.',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Error sa pagbasa ng folder ng mga script:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Walang nahanap na Python script (.py) sa na-configure na folder.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Error sa pagbasa ng folder ng mga script:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Walang nahanap na Python script (.py) sa na-configure na folder.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Pinapatakbo',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python script...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Hindi tumutugma ang input sa kinakailangang format.',
-  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Patakbuhin ang isang partikular na Python script',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Hindi tumutugma ang input sa kinakailangang format.',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME:
+    'Patakbuhin ang isang partikular na Python script',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Patakbuhin ang lahat ng Python script sa folder',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Ipasa',
   MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Pumili ng Python script na patatakbuhin...',
   SETTINGS_SCRIPT_SETTINGS_TITLE: 'Mga Setting na Partikular sa Script',
-  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'I-refresh ang Mga Setting ng Script',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME:
+    'I-refresh ang Mga Setting ng Script',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
     'I-scan muli ang folder ng mga script para matuklasan o ma-update ang mga setting na tinukoy sa loob ng iyong mga Python script.',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'I-refresh ang Mga Depinisyon',
@@ -72,21 +81,24 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Awtomatiko (Itugma sa Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Hindi ma-refresh ang mga setting: Hindi mahanap ang Python executable. Pakitiyak na naka-install ang Python at nasa PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Nire-refresh ang mga depinisyon ng setting ng script...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Nire-refresh ang mga depinisyon ng setting ng script...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Matagumpay na na-refresh ang mga depinisyon ng setting ng script!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Nabigong i-refresh ang mga depinisyon ng setting ng script. Suriin ang mga log para sa mga detalye.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Hindi mapatakbo ang script: Hindi mahanap ang Python executable. Paki-check ang instalasyon at PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'I-refresh ang mga depinisyon ng setting ng Python script',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'I-refresh ang mga depinisyon ng setting ng Python script',
   SETTINGS_SECURITY_WARNING_TITLE: 'Babala sa Seguridad',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Maaaring mapanganib ang pagpapatakbo ng arbitrary na mga Python script. Tiyaking pinagkakatiwalaan mo ang pinagmulan ng anumang script na iyong pinapatakbo, dahil maaari nilang ma-access ang iyong system at data. Ang may-akda ng plugin at mga may-akda ng script ay hindi responsable para sa anumang pagkawala ng data o mga isyu sa seguridad na dulot ng mga script na pinili mong patakbuhin. Patakbuhin ang mga script sa iyong sariling panganib.',
   SETTINGS_LANGUAGE_TITLE: 'Wika ng Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Piliin ang display language para sa interface ng Python Bridge plugin. Ang 'Awtomatiko' ay sumusunod sa setting ng wika ng Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Tip sa Performance: Backlink Cache',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Tip sa Performance: Backlink Cache',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Para sa pinahusay na performance kapag kumukuha ng mga backlink (gamit ang get_backlinks function) sa malalaking vault, isaalang-alang ang pag-install ng '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin ni @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -107,7 +119,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Maghintay ng ganitong bilang ng segundo pagkatapos magsimula ang Obsidian bago patakbuhin ang script (nalalapat lamang kung naka-on ang 'Patakbuhin sa Startup'). Gumamit ng 0 para walang pagkaantala.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Awtomatikong itakda ang PYTHONPATH para sa Library',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Awtomatikong itakda ang PYTHONPATH para sa Library',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Awtomatikong idagdag ang direktoryo ng plugin sa PYTHONPATH kapag nagpapatakbo ng mga script, na nagpapahintulot sa direktang pag-import ng Python library (Inirerekomenda). Kung hindi pinagana, dapat mong kopyahin ang ObsidianPluginDevPythonToJS.py sa iyong folder ng mga script o manu-manong pamahalaan ang sys.path.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -116,12 +129,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Landas ng Python Executable',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Ganap na landas sa iyong Python o uv executable. Iwanang blangko para sa auto-detection (uv, py, python3, python). Nangangailangan ng plugin reload o restart para magkabisa nang buo kung binago.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'hal: /usr/bin/python3 o C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'hal: /usr/bin/python3 o C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Binago ang landas ng Python executable. Nagre-refresh ng mga script...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Hindi wasto ang custom na landas ng Python, at walang nakitang fallback executable. Maaaring hindi tumakbo ang mga script.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Nabigo ang Custom na Landas ng Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Nabigo ang Custom na Landas ng Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ang custom na landas ng Python executable '{path}' ay hindi wasto o hindi ma-execute. Babalik sa awtomatikong pagtuklas.",
 };

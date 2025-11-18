@@ -11,7 +11,8 @@ export default {
   SETTINGS_PORT_DESC:
     'Porta per il server HTTP locale (1024-65535). Richiede il riavvio o il salvataggio delle impostazioni per applicare.',
   SETTINGS_CACHE_TITLE: 'Disabilita Cache Python (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Esegue Python con il flag "-B" per prevenire la scrittura di file .pyc.',
+  SETTINGS_CACHE_DESC:
+    'Esegue Python con il flag "-B" per prevenire la scrittura di file .pyc.',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'Python Bridge',
@@ -31,10 +32,13 @@ export default {
   NOTICE_PORT_IN_USE_PREFIX: 'La porta',
   NOTICE_PORT_IN_USE_SUFFIX:
     "è già in uso. Scegli un'altra porta nelle impostazioni o chiudi l'altra applicazione che la sta usando. Server non avviato.",
-  NOTICE_SERVER_START_FAILED_PREFIX: 'Impossibile avviare il server sulla porta',
+  NOTICE_SERVER_START_FAILED_PREFIX:
+    'Impossibile avviare il server sulla porta',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Porta non valida. Inserisci un numero compreso tra 0 e 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Porta HTTP cambiata (',
+  NOTICE_INVALID_PORT_RANGE:
+    'Porta non valida. Inserisci un numero compreso tra 0 e 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: Porta HTTP cambiata (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Lo script potrebbe puntare alla vecchia porta se è già in esecuzione o è stato avviato esternamente.',
@@ -51,11 +55,14 @@ export default {
     "Assicurati che Python sia installato e accessibile tramite il PATH di sistema (o il launcher 'py' su Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Cartella degli script Python non trovata o non valida. Controlla le impostazioni del plugin.',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Errore durante la lettura della cartella degli script:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Nessuno script Python (.py) trovato nella cartella configurata.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Errore durante la lettura della cartella degli script:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Nessuno script Python (.py) trovato nella cartella configurata.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Esecuzione di',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'script Python...',
-  NOTICE_INPUT_VALIDATION_FAILED: "L'input non corrisponde al formato richiesto.",
+  NOTICE_INPUT_VALIDATION_FAILED:
+    "L'input non corrisponde al formato richiesto.",
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Esegui uno script Python specifico',
@@ -94,7 +101,8 @@ export default {
   SETTINGS_LANGUAGE_TITLE: 'Lingua del Plugin',
   SETTINGS_LANGUAGE_DESC:
     "Scegli la lingua di visualizzazione per l'interfaccia del plugin Python Bridge. 'Automatico' segue l'impostazione della lingua di Obsidian.",
-  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Suggerimento prestazioni: Cache Backlink',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Suggerimento prestazioni: Cache Backlink',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "Per prestazioni migliorate durante il recupero dei backlink (utilizzando la funzione get_backlinks) in vault di grandi dimensioni, considera l'installazione del plugin della community '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' di @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -115,7 +123,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Attendi questo numero di secondi dopo l'avvio di Obsidian prima di eseguire lo script (si applica solo se 'Esegui all'avvio' è attivo). Usa 0 per nessun ritardo.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Imposta automaticamente PYTHONPATH per la libreria',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Imposta automaticamente PYTHONPATH per la libreria',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     "Aggiunge automaticamente la directory del plugin a PYTHONPATH durante l'esecuzione degli script, consentendo l'importazione diretta della libreria Python (Consigliato). Se disabilitato, è necessario copiare ObsidianPluginDevPythonToJS.py nella cartella degli script o gestire manualmente sys.path.",
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -124,12 +133,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Percorso Eseguibile Python',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Percorso assoluto al tuo eseguibile Python o uv. Lascia vuoto per il rilevamento automatico (uv, py, python3, python). Richiede il ricaricamento o il riavvio del plugin per avere pieno effetto se modificato.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'es: /usr/bin/python3 o C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'es: /usr/bin/python3 o C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     "Percorso dell'eseguibile Python modificato. Aggiornamento degli script...",
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Il percorso Python personalizzato non è valido e non è stato trovato alcun eseguibile di fallback. Gli script potrebbero non essere eseguiti.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Percorso Python Personalizzato Fallito',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Percorso Python Personalizzato Fallito',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Il percorso personalizzato dell'eseguibile Python '{path}' non è valido o non è stato possibile eseguirlo. Ripristino del rilevamento automatico.",
 };

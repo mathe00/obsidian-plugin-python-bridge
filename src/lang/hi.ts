@@ -4,13 +4,15 @@ export default {
   // Settings Tab
   SETTINGS_TAB_TITLE: 'ऑब्सिडियन पाइथन ब्रिज सेटिंग्स',
   SETTINGS_FOLDER_TITLE: 'पाइथन स्क्रिप्ट्स फ़ोल्डर',
-  SETTINGS_FOLDER_DESC: 'आपकी पाइथन स्क्रिप्ट्स वाले फ़ोल्डर का पथ (पूर्ण या वॉल्ट के सापेक्ष)।',
+  SETTINGS_FOLDER_DESC:
+    'आपकी पाइथन स्क्रिप्ट्स वाले फ़ोल्डर का पथ (पूर्ण या वॉल्ट के सापेक्ष)।',
   SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts या ./scripts-python',
   SETTINGS_PORT_TITLE: 'HTTP सर्वर पोर्ट',
   SETTINGS_PORT_DESC:
     'स्थानीय HTTP सर्वर के लिए पोर्ट (1024-65535)। लागू करने के लिए पुनरारंभ या सेटिंग्स सहेजने की आवश्यकता है।',
   SETTINGS_CACHE_TITLE: 'पाइथन कैश अक्षम करें (__pycache__)',
-  SETTINGS_CACHE_DESC: '".pyc" फ़ाइलों को लिखने से रोकने के लिए "-B" ध्वज के साथ पाइथन चलाएँ।',
+  SETTINGS_CACHE_DESC:
+    '".pyc" फ़ाइलों को लिखने से रोकने के लिए "-B" ध्वज के साथ पाइथन चलाएँ।',
 
   // main.ts Notices
   NOTICE_PLUGIN_NAME: 'पाइथन ब्रिज',
@@ -32,7 +34,8 @@ export default {
     'पहले से उपयोग में है। कृपया सेटिंग्स में दूसरा पोर्ट चुनें या इसका उपयोग करने वाले अन्य एप्लिकेशन को बंद करें। सर्वर शुरू नहीं हुआ।',
   NOTICE_SERVER_START_FAILED_PREFIX: 'पोर्ट पर सर्वर शुरू करने में विफल:',
   NOTICE_SERVER_START_FAILED_SUFFIX: '।',
-  NOTICE_INVALID_PORT_RANGE: 'अमान्य पोर्ट। कृपया 0 और 65535 के बीच एक संख्या दर्ज करें।',
+  NOTICE_INVALID_PORT_RANGE:
+    'अमान्य पोर्ट। कृपया 0 और 65535 के बीच एक संख्या दर्ज करें।',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ पाइथन ब्रिज: HTTP पोर्ट बदला (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
@@ -44,13 +47,16 @@ export default {
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'के साथ',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'निकास कोड के साथ विफल:',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'कंसोल लॉग जांचें।',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'कोई मान्य पाइथन निष्पादन योग्य नहीं मिला। कोशिश की:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'कोई मान्य पाइथन निष्पादन योग्य नहीं मिला। कोशिश की:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "कृपया सुनिश्चित करें कि पाइथन स्थापित है और आपके सिस्टम के PATH (या विंडोज पर 'py' लॉन्चर) के माध्यम से पहुँचा जा सकता है।",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'पाइथन स्क्रिप्ट फ़ोल्डर नहीं मिला या अमान्य है। कृपया प्लगइन सेटिंग्स जांचें।',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'स्क्रिप्ट फ़ोल्डर पढ़ने में त्रुटि:',
-  NOTICE_NO_SCRIPTS_FOUND: 'कॉन्फ़िगर किए गए फ़ोल्डर में कोई पाइथन स्क्रिप्ट (.py) नहीं मिली।',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'स्क्रिप्ट फ़ोल्डर पढ़ने में त्रुटि:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'कॉन्फ़िगर किए गए फ़ोल्डर में कोई पाइथन स्क्रिप्ट (.py) नहीं मिली।',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'चल रहा है',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'पाइथन स्क्रिप्ट...',
   NOTICE_INPUT_VALIDATION_FAILED: 'इनपुट आवश्यक प्रारूप से मेल नहीं खाता।',
@@ -62,7 +68,8 @@ export default {
   // UserInputModal
   MODAL_SELECT_SCRIPT_PLACEHOLDER: 'चलाने के लिए एक पाइथन स्क्रिप्ट चुनें...',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'प्रस्तुत करें',
-  SETTINGS_SCRIPT_SETTINGS_TITLE: 'स<094d>क<094d>रिप<094d>ट-विशिष<094d>ट स<0947>टिंग<094d>स',
+  SETTINGS_SCRIPT_SETTINGS_TITLE:
+    'स<094d>क<094d>रिप<094d>ट-विशिष<094d>ट स<0947>टिंग<094d>स',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME:
     'स<094d>क<094d>रिप<094d>ट स<0947>टिंग<094d>स ताज़ा कर<0947><0902>',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
@@ -96,7 +103,8 @@ export default {
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'प्रदर्शन युक्ति: बैकलिंक कैश',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "बड़े वॉल्ट में बैकलिंक्स पुनर्प्राप्त करते समय (get_backlinks फ़ंक्शन का उपयोग करके) बेहतर प्रदर्शन के लिए, @mnaoumov द्वारा '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' सामुदायिक प्लगइन स्थापित करने पर विचार करें।",
-  NOTICE_INVALID_FOLDER_PATH: 'अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।',
+  NOTICE_INVALID_FOLDER_PATH:
+    'अमान्य फ़ोल्डर पथ। कृपया सेटिंग्स में एक मान्य फ़ोल्डर चुनें।',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "कॉन्फ़िगर किया गया पाइथन स्क्रिप्ट फ़ोल्डर पथ '{path}' अमान्य है या नहीं मिला। सेटिंग साफ़ की जा रही है।",
 
@@ -122,7 +130,8 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'पायथन निष्पादन योग्य पथ',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'उदा., /usr/bin/python3 या C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'उदा., /usr/bin/python3 या C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'पायथन निष्पादन योग्य पथ बदल गया है। स्क्रिप्ट रीफ्रेश हो रही हैं...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:

@@ -34,35 +34,43 @@ export default {
     'wird bereits verwendet. Bitte wählen Sie einen anderen Port in den Einstellungen oder schließen Sie die andere Anwendung, die ihn verwendet. Server nicht gestartet.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Fehler beim Starten des Servers auf Port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Ungültiger Port. Bitte geben Sie eine Zahl zwischen 0 und 65535 ein.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Ungültiger Port. Bitte geben Sie eine Zahl zwischen 0 und 65535 ein.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP-Port geändert (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Das Skript zielt möglicherweise auf den alten Port, wenn es bereits ausgeführt wird oder extern gestartet wurde.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python-Skript nicht gefunden oder ist keine Datei:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python-Skript nicht gefunden oder ist keine Datei:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Fehler beim Zugriff auf die Skriptdatei:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Führe Python-Skript aus:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Fehler beim Ausführen von',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'mit',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'fehlgeschlagen mit Exit-Code',
-  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Überprüfen Sie die Konsolenprotokolle.',
-  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: 'Keine gültige Python-Ausführungsdatei gefunden. Versucht:',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX:
+    'Überprüfen Sie die Konsolenprotokolle.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Keine gültige Python-Ausführungsdatei gefunden. Versucht:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
     "Bitte stellen Sie sicher, dass Python installiert und über den PATH Ihres Systems (oder den 'py'-Launcher unter Windows) zugänglich ist.",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python-Skript-Ordner nicht gefunden oder ungültig. Bitte überprüfen Sie die Plugin-Einstellungen.',
-  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Fehler beim Lesen des Skript-Ordners:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Keine Python-Skripte (.py) im konfigurierten Ordner gefunden.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Fehler beim Lesen des Skript-Ordners:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Keine Python-Skripte (.py) im konfigurierten Ordner gefunden.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Führe',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python-Skript(e) aus...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Die Eingabe entspricht nicht dem erforderlichen Format.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Die Eingabe entspricht nicht dem erforderlichen Format.',
 
   // main.ts Commands
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Ein bestimmtes Python-Skript ausführen',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Alle Python-Skripte im Ordner ausführen',
 
   // UserInputModal
-  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Wählen Sie ein Python-Skript zum Ausführen aus...',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER:
+    'Wählen Sie ein Python-Skript zum Ausführen aus...',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Senden',
   SETTINGS_SCRIPT_SETTINGS_TITLE: 'Skriptspezifische Einstellungen',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Skripteinstellungen aktualisieren',
@@ -78,14 +86,16 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automatisch (Wie Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Aktualisierung nicht möglich: Python-Ausführungsdatei nicht gefunden. Stellen Sie sicher, dass Python installiert und im PATH ist.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Aktualisiere Skripteinstellungsdefinitionen...',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Aktualisiere Skripteinstellungsdefinitionen...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
     'Skripteinstellungsdefinitionen erfolgreich aktualisiert!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Fehler beim Aktualisieren der Skripteinstellungsdefinitionen. Überprüfen Sie die Protokolle.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Skript kann nicht ausgeführt werden: Python-Ausführungsdatei nicht gefunden. Überprüfen Sie die Installation und den PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Python-Skripteinstellungsdefinitionen aktualisieren',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Python-Skripteinstellungsdefinitionen aktualisieren',
   SETTINGS_SECURITY_WARNING_TITLE: 'Sicherheitswarnung',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Das Ausführen beliebiger Python-Skripte kann riskant sein. Stellen Sie sicher, dass Sie der Quelle jedes Skripts vertrauen, das Sie ausführen, da diese auf Ihr System und Ihre Daten zugreifen können. Der Autor des Plugins und die Autoren der Skripte sind nicht verantwortlich für Datenverluste oder Sicherheitsprobleme, die durch von Ihnen ausgeführte Skripte verursacht werden. Führen Sie Skripte auf eigenes Risiko aus.',
@@ -122,12 +132,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Pfad zur Python-Ausführungsdatei',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absoluter Pfad zu Ihrer Python- oder uv-Ausführungsdatei. Leer lassen für automatische Erkennung (uv, py, python3, python). Erfordert ein Neuladen oder Neustarten des Plugins, um bei Änderungen vollständig wirksam zu werden.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 'z.B. /usr/bin/python3 oder C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'z.B. /usr/bin/python3 oder C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Pfad zur Python-Ausführungsdatei geändert. Skripte werden aktualisiert...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Der benutzerdefinierte Python-Pfad ist ungültig, und es wurde keine Fallback-Ausführungsdatei gefunden. Skripte werden möglicherweise nicht ausgeführt.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Benutzerdefinierter Python-Pfad fehlgeschlagen',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Benutzerdefinierter Python-Pfad fehlgeschlagen',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Der benutzerdefinierte Pfad zur Python-Ausführungsdatei '{path}' ist ungültig oder konnte nicht ausgeführt werden. Rückgriff auf automatische Erkennung.",
 };

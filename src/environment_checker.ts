@@ -13,7 +13,9 @@ import { t } from './lang/translations'; // Import translation function
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @returns {Promise<boolean>} True if environment is OK, false otherwise.
  */
-export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Promise<boolean> {
+export async function checkPythonEnvironment(
+  plugin: ObsidianPythonBridge
+): Promise<boolean> {
   plugin.logInfo('Checking Python environment...');
   plugin.pythonExecutable = null; // Reset before check
   const pythonCmd = await findPythonExecutable(plugin);
@@ -25,7 +27,11 @@ export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Prom
   plugin.logInfo(`Found Python executable: ${pythonCmd}`);
   plugin.pythonExecutable = pythonCmd; // Store the found command
   // Check for 'requests'
-  const requestsInstalled = await checkPythonModule(plugin, pythonCmd, 'requests');
+  const requestsInstalled = await checkPythonModule(
+    plugin,
+    pythonCmd,
+    'requests'
+  );
   if (!requestsInstalled) {
     plugin.logError(`Python module 'requests' not found using ${pythonCmd}.`);
     showRequestsMissingNotification(plugin, pythonCmd);
@@ -48,24 +54,35 @@ export async function checkPythonEnvironment(plugin: ObsidianPythonBridge): Prom
  * @param plugin The ObsidianPythonBridge plugin instance (for logging).
  * @returns The command string if found, otherwise null.
  */
-export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promise<string | null> {
+export async function findPythonExecutable(
+  plugin: ObsidianPythonBridge
+): Promise<string | null> {
   const isWindows = Platform.isWin; // Use Obsidian's Platform API
   // Add "uv" to the list of commands to try. It will be tried first.
   const customPath = plugin.settings.pythonExecutablePath?.trim();
 
   if (customPath) {
-    plugin.logInfo(`Attempting to use custom Python executable path: ${customPath}`);
+    plugin.logInfo(
+      `Attempting to use custom Python executable path: ${customPath}`
+    );
     try {
       // Validate the custom path by trying to run '--version'
       await new Promise<void>((resolve, reject) => {
         const process = spawn(customPath, ['--version']);
         process.on('error', reject); // Failed to spawn
-        process.on('close', code => {
+        process.on('close', (code) => {
           if (code === 0) resolve();
-          else reject(new Error(`Command ${customPath} --version exited with code ${code}`));
+          else
+            reject(
+              new Error(
+                `Command ${customPath} --version exited with code ${code}`
+              )
+            );
         });
       });
-      plugin.logInfo(`Custom Python executable path ${customPath} validated successfully.`);
+      plugin.logInfo(
+        `Custom Python executable path ${customPath} validated successfully.`
+      );
       return customPath; // Custom path is valid and working
     } catch (error) {
       plugin.logError(
@@ -83,7 +100,9 @@ export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promis
   plugin.logInfo(
     'No valid custom Python path set or custom path failed. Proceeding with auto-detection...'
   );
-  const commandsToTry = isWindows ? ['uv', 'py', 'python3', 'python'] : ['uv', 'python3', 'python'];
+  const commandsToTry = isWindows
+    ? ['uv', 'py', 'python3', 'python']
+    : ['uv', 'python3', 'python'];
   plugin.logDebug(
     `Attempting to find Python executable via auto-detection. Trying: ${commandsToTry.join(', ')}`
   );
@@ -93,12 +112,19 @@ export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promis
       await new Promise<void>((resolve, reject) => {
         const process = spawn(cmd, ['--version']);
         process.on('error', reject); // Failed to spawn (ENOENT)
-        process.on('close', code => {
+        process.on('close', (code) => {
           if (isWindows && code === 9009)
-            reject(new Error(`Command ${cmd} resulted in exit code 9009 (MS Store alias?)`));
+            reject(
+              new Error(
+                `Command ${cmd} resulted in exit code 9009 (MS Store alias?)`
+              )
+            );
           else if (code === 0)
             resolve(); // Success
-          else reject(new Error(`Command ${cmd} --version exited with code ${code}`)); // Reject if the --version command failed for this specific 'cmd'
+          else
+            reject(
+              new Error(`Command ${cmd} --version exited with code ${code}`)
+            ); // Reject if the --version command failed for this specific 'cmd'
         });
       });
       plugin.logDebug(`Python executable found: ${cmd}`);
@@ -109,7 +135,9 @@ export async function findPythonExecutable(plugin: ObsidianPythonBridge): Promis
       );
     }
   }
-  plugin.logError(`No valid Python executable found after trying: ${commandsToTry.join(', ')}`);
+  plugin.logError(
+    `No valid Python executable found after trying: ${commandsToTry.join(', ')}`
+  );
   return null; // Return null if no command was found
 }
 
@@ -125,7 +153,9 @@ export async function checkPythonModule(
   pythonCmd: string,
   moduleName: string
 ): Promise<boolean> {
-  plugin.logDebug(`Checking import of module '${moduleName}' using command '${pythonCmd}'...`);
+  plugin.logDebug(
+    `Checking import of module '${moduleName}' using command '${pythonCmd}'...`
+  );
   try {
     await new Promise<void>((resolve, reject) => {
       // Use spawn, similar to findPythonExecutable and runPythonScript
@@ -139,19 +169,21 @@ export async function checkPythonModule(
       }
       const process = spawn(pythonCmd, args);
       let stderrOutput = '';
-      process.stderr?.on('data', data => {
+      process.stderr?.on('data', (data) => {
         stderrOutput += data.toString();
       });
-      process.on('error', error => {
+      process.on('error', (error) => {
         // Handles errors like command not found *if* findPythonExecutable somehow failed
         plugin.logWarn(
           `Spawn error during module check for '${moduleName}' using '${pythonCmd}': ${error.message}`
         );
         reject(error);
       });
-      process.on('close', code => {
+      process.on('close', (code) => {
         if (code === 0) {
-          plugin.logDebug(`Module '${moduleName}' imported successfully using '${pythonCmd}'.`);
+          plugin.logDebug(
+            `Module '${moduleName}' imported successfully using '${pythonCmd}'.`
+          );
           resolve();
         } // Success
         else {
@@ -161,7 +193,11 @@ export async function checkPythonModule(
           );
           if (stderrOutput.trim())
             plugin.logWarn(`Stderr from failed import: ${stderrOutput.trim()}`);
-          reject(new Error(`Module '${moduleName}' import failed with exit code ${code}`));
+          reject(
+            new Error(
+              `Module '${moduleName}' import failed with exit code ${code}`
+            )
+          );
         }
       });
     });
@@ -181,7 +217,10 @@ export async function checkPythonModule(
 export function showPythonMissingNotification(): void {
   // Delay notice slightly to ensure Obsidian UI is ready
   setTimeout(() => {
-    new Notice(`${t('NOTICE_PYTHON_MISSING_TITLE')}\n${t('NOTICE_PYTHON_MISSING_DESC')}`, 0);
+    new Notice(
+      `${t('NOTICE_PYTHON_MISSING_TITLE')}\n${t('NOTICE_PYTHON_MISSING_DESC')}`,
+      0
+    );
   }, 500); // Persistent notice // Delay by 500ms (adjust if needed)
 }
 
@@ -198,7 +237,10 @@ export function showRequestsMissingNotification(
   setTimeout(() => {
     // Use translation for the notice, inserting the pythonCmd
     const descPrefix = t('NOTICE_REQUESTS_MISSING_DESC_PREFIX');
-    const descSuffix = t('NOTICE_REQUESTS_MISSING_DESC_SUFFIX').replace('{pythonCmd}', pythonCmd);
+    const descSuffix = t('NOTICE_REQUESTS_MISSING_DESC_SUFFIX').replace(
+      '{pythonCmd}',
+      pythonCmd
+    );
     new Notice(
       `${t('NOTICE_REQUESTS_MISSING_TITLE')}\n${descPrefix} ${pythonCmd}.${descSuffix}`,
       0

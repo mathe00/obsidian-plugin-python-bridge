@@ -5,12 +5,14 @@ export default {
   SETTINGS_FOLDER_TITLE: 'Mapp för Python-skript',
   SETTINGS_FOLDER_DESC:
     'Sökväg till mappen som innehåller dina Python-skript (absolut eller relativt till valvet).',
-  SETTINGS_FOLDER_PLACEHOLDER: '/sökväg/till/dina/skript eller ./scripts-python',
+  SETTINGS_FOLDER_PLACEHOLDER:
+    '/sökväg/till/dina/skript eller ./scripts-python',
   SETTINGS_PORT_TITLE: 'HTTP-serverport',
   SETTINGS_PORT_DESC:
     'Port för den lokala HTTP-servern (1024-65535). Kräver omstart eller sparande av inställningar för att tillämpas.',
   SETTINGS_CACHE_TITLE: 'Inaktivera Python Cache (__pycache__)',
-  SETTINGS_CACHE_DESC: 'Kör Python med flaggan "-B" för att förhindra att .pyc-filer skrivs.',
+  SETTINGS_CACHE_DESC:
+    'Kör Python med flaggan "-B" för att förhindra att .pyc-filer skrivs.',
   NOTICE_PLUGIN_NAME: 'Python Bridge',
   NOTICE_PORT_CHANGED_PREFIX: 'HTTP-port ändrad till',
   NOTICE_PORT_CHANGED_SUFFIX: 'Startar om servern...',
@@ -30,12 +32,14 @@ export default {
     'används redan. Välj en annan port i inställningarna eller stäng det andra programmet som använder den. Servern startades inte.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Kunde inte starta servern på port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.',
-  NOTICE_INVALID_PORT_RANGE: 'Ogiltig port. Ange ett nummer mellan 0 och 65535.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Ogiltig port. Ange ett nummer mellan 0 och 65535.',
   NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP-port ändrad (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Skriptet kan rikta in sig på den gamla porten om det redan körs eller startas externt.',
-  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python-skript hittades inte eller är inte en fil:',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python-skript hittades inte eller är inte en fil:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Fel vid åtkomst till skriptfil:',
   NOTICE_RUNNING_SCRIPT_PREFIX: 'Kör Python-skript:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Fel vid körning',
@@ -49,10 +53,12 @@ export default {
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Mappen för Python-skript hittades inte eller är ogiltig. Kontrollera plugin-inställningarna.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Fel vid läsning av skriptmapp:',
-  NOTICE_NO_SCRIPTS_FOUND: 'Inga Python-skript (.py) hittades i den konfigurerade mappen.',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Inga Python-skript (.py) hittades i den konfigurerade mappen.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Kör',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python-skript...',
-  NOTICE_INPUT_VALIDATION_FAILED: 'Inmatningen matchar inte det nödvändiga formatet.',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Inmatningen matchar inte det nödvändiga formatet.',
   CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Kör ett specifikt Python-skript',
   CMD_RUN_ALL_SCRIPTS_NAME: 'Kör alla Python-skript i mappen',
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Skicka',
@@ -71,13 +77,16 @@ export default {
   SETTINGS_LANGUAGE_AUTO: 'Automatisk (Matcha Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
     'Kan inte uppdatera inställningar: Python-exekverbar fil hittades inte. Se till att Python är installerat och finns i PATH.',
-  NOTICE_REFRESHING_SCRIPT_SETTINGS: 'Uppdaterar definitioner för skriptinställningar...',
-  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: 'Definitioner för skriptinställningar har uppdaterats!',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Uppdaterar definitioner för skriptinställningar...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Definitioner för skriptinställningar har uppdaterats!',
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Kunde inte uppdatera definitioner för skriptinställningar. Kontrollera loggar för detaljer.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Kan inte köra skript: Python-exekverbar fil hittades inte. Kontrollera installation och PATH.',
-  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'Uppdatera definitioner för Python-skriptinställningar',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Uppdatera definitioner för Python-skriptinställningar',
   SETTINGS_SECURITY_WARNING_TITLE: 'Säkerhetsvarning',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Att köra godtyckliga Python-skript kan vara riskabelt. Se till att du litar på källan till alla skript du kör, eftersom de kan komma åt ditt system och dina data. Plugin-författaren och skriptförfattarna ansvarar inte för dataförlust eller säkerhetsproblem som orsakas av skript du väljer att köra. Kör skript på egen risk.',
@@ -87,7 +96,8 @@ export default {
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: 'Prestandatips: Backlink Cache',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "För förbättrad prestanda vid hämtning av bakåtlänkar (med funktionen get_backlinks) i stora valv, överväg att installera community-pluginet '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' av @mnaoumov.",
-  NOTICE_INVALID_FOLDER_PATH: 'Ogiltig mappsökväg. Välj en giltig mapp i inställningarna.',
+  NOTICE_INVALID_FOLDER_PATH:
+    'Ogiltig mappsökväg. Välj en giltig mapp i inställningarna.',
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Konfigurerad sökväg för Python-skriptmapp '{path}' är ogiltig eller hittades inte. Rensar inställning.",
 
@@ -104,7 +114,8 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Vänta så här många sekunder efter att Obsidian har startat innan skriptet körs (gäller endast om 'Kör vid start' är aktiverat). Använd 0 för ingen fördröjning.",
 
-  SETTINGS_AUTO_PYTHONPATH_NAME: 'Ställ in PYTHONPATH automatiskt för biblioteket',
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Ställ in PYTHONPATH automatiskt för biblioteket',
   SETTINGS_AUTO_PYTHONPATH_DESC:
     'Lägg automatiskt till plugin-katalogen i PYTHONPATH när skript körs, vilket möjliggör direktimport av Python-biblioteket (Rekommenderas). Om inaktiverat måste du kopiera ObsidianPluginDevPythonToJS.py till din skriptmapp eller hantera sys.path manuellt.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
@@ -113,12 +124,14 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Sökväg till Python Exekverbar Fil',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolut sökväg till din Python- eller uv-exekverbara fil. Lämna tomt för automatisk identifiering (uv, py, python3, python). Kräver omladdning eller omstart av insticksprogrammet för full effekt om det ändras.',
-  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER: 't.ex. /usr/bin/python3 eller C:Python39python.exe',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    't.ex. /usr/bin/python3 eller C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Sökväg till Python exekverbar fil ändrad. Uppdaterar skript...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Anpassad Python-sökväg är ogiltig och ingen reserv-exekverbar fil hittades. Skript kanske inte körs.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Anpassad Python-sökväg misslyckades',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Anpassad Python-sökväg misslyckades',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Anpassad sökväg till Python exekverbar fil '{path}' är ogiltig eller kunde inte köras. Återgår till automatisk identifiering.",
 };

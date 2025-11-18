@@ -134,7 +134,9 @@ export function loadTranslations(plugin: ObsidianPythonBridge): void {
       plugin.logDebug(`Using locale from localStorage: ${targetLocale}`);
     } else if (momentLocale) {
       targetLocale = momentLocale;
-      plugin.logDebug(`localStorage empty, using locale from moment.locale(): ${targetLocale}`);
+      plugin.logDebug(
+        `localStorage empty, using locale from moment.locale(): ${targetLocale}`
+      );
     } else {
       plugin.logDebug(`Both localStorage and moment.locale() are unavailable.`);
     }

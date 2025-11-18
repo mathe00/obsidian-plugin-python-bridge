@@ -21,7 +21,8 @@ export async function createNote(
   plugin.logDebug(`Attempting to create note: ${normalizedPath}`);
   try {
     const existingFile = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-    if (existingFile) throw new Error(`File already exists at path: ${normalizedPath}`);
+    if (existingFile)
+      throw new Error(`File already exists at path: ${normalizedPath}`);
     const file = await plugin.app.vault.create(normalizedPath, content);
     plugin.logInfo(`Note created successfully: ${normalizedPath}`);
     return file;
@@ -50,7 +51,10 @@ export async function checkPathExists(
     plugin.logDebug(`Path exists check for "${normalizedPath}": ${exists}`);
     return exists;
   } catch (error) {
-    plugin.logError(`Error checking existence for path ${normalizedPath}:`, error);
+    plugin.logError(
+      `Error checking existence for path ${normalizedPath}:`,
+      error
+    );
     throw new Error(
       `Failed to check existence for path "${normalizedPath}": ${error instanceof Error ? error.message : String(error)}`
     );
@@ -70,9 +74,12 @@ export async function deletePath(
   permanently = false
 ): Promise<void> {
   const normalizedPath = normalizePath(relativePath);
-  plugin.logDebug(`Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`);
+  plugin.logDebug(
+    `Attempting to delete path: ${normalizedPath} (Permanently: ${permanently})`
+  );
   const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedPath);
-  if (!fileOrFolder) throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
+  if (!fileOrFolder)
+    throw new Error(`Cannot delete: Path not found at "${normalizedPath}"`);
   try {
     if (permanently) {
       plugin.logWarn(`Permanently deleting path: ${normalizedPath}`);
@@ -82,7 +89,9 @@ export async function deletePath(
       // Use fileManager.trashFile for moving to Obsidian/system trash
       await plugin.app.fileManager.trashFile(fileOrFolder);
     }
-    plugin.logInfo(`Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`);
+    plugin.logInfo(
+      `Path deleted successfully: ${normalizedPath} (Permanently: ${permanently})`
+    );
   } catch (error) {
     plugin.logError(`Error deleting path ${normalizedPath}:`, error);
     throw new Error(
@@ -105,20 +114,35 @@ export async function renamePath(
 ): Promise<void> {
   const normalizedOldPath = normalizePath(oldRelativePath);
   const normalizedNewPath = normalizePath(newRelativePath);
-  plugin.logDebug(`Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`);
-  const fileOrFolder = plugin.app.vault.getAbstractFileByPath(normalizedOldPath);
+  plugin.logDebug(
+    `Attempting to rename/move: ${normalizedOldPath} -> ${normalizedNewPath}`
+  );
+  const fileOrFolder =
+    plugin.app.vault.getAbstractFileByPath(normalizedOldPath);
   if (!fileOrFolder)
-    throw new Error(`Cannot rename: Source path not found at "${normalizedOldPath}"`);
+    throw new Error(
+      `Cannot rename: Source path not found at "${normalizedOldPath}"`
+    );
   if (normalizedOldPath === normalizedNewPath)
-    throw new Error(`Cannot rename: Old path and new path are identical "${normalizedOldPath}"`);
-  const destinationExists = plugin.app.vault.getAbstractFileByPath(normalizedNewPath);
+    throw new Error(
+      `Cannot rename: Old path and new path are identical "${normalizedOldPath}"`
+    );
+  const destinationExists =
+    plugin.app.vault.getAbstractFileByPath(normalizedNewPath);
   if (destinationExists)
-    throw new Error(`Cannot rename: Destination path already exists "${normalizedNewPath}"`);
+    throw new Error(
+      `Cannot rename: Destination path already exists "${normalizedNewPath}"`
+    );
   try {
     await plugin.app.vault.rename(fileOrFolder, normalizedNewPath);
-    plugin.logInfo(`Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`);
+    plugin.logInfo(
+      `Path renamed/moved successfully: ${normalizedOldPath} -> ${normalizedNewPath}`
+    );
   } catch (error) {
-    plugin.logError(`Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`, error);
+    plugin.logError(
+      `Error renaming path ${normalizedOldPath} to ${normalizedNewPath}:`,
+      error
+    );
     throw new Error(
       `Failed to rename path "${normalizedOldPath}" to "${normalizedNewPath}": ${error instanceof Error ? error.message : String(error)}`
     );

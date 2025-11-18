@@ -305,6 +305,25 @@ export async function updateScriptSettingsCache(
     currentScriptPaths.add(relativePath);
     let discoveryFailed = false; // Flag to track failure for the current script
 
+    // Security: Default new scripts to disabled state
+    if (!(relativePath in plugin.settings.scriptActivationStatus)) {
+      plugin.logInfo(
+        `New script detected, defaulting to disabled state: ${relativePath}`
+      );
+      plugin.settings.scriptActivationStatus[relativePath] = false;
+      changesMade = true;
+    }
+
+    // Initialize other status defaults for new scripts
+    if (!(relativePath in plugin.settings.scriptAutoStartStatus)) {
+      plugin.settings.scriptAutoStartStatus[relativePath] = false;
+      changesMade = true;
+    }
+    if (!(relativePath in plugin.settings.scriptAutoStartDelay)) {
+      plugin.settings.scriptAutoStartDelay[relativePath] = 0;
+      changesMade = true;
+    }
+
     // Check if script is disabled - skip settings discovery for security
     if (plugin.settings.scriptActivationStatus[relativePath] === false) {
       plugin.logInfo(
@@ -949,6 +968,20 @@ export async function updateDynamicScriptCommands(
       path.relative(scriptsFolder, scriptAbsolutePath)
     );
     activeScriptPaths.add(relativePath);
+
+    // Security: Default new scripts to disabled state
+    if (!(relativePath in plugin.settings.scriptActivationStatus)) {
+      plugin.logInfo(
+        `New script detected in command update, defaulting to disabled state: ${relativePath}`
+      );
+      plugin.settings.scriptActivationStatus[relativePath] = false;
+      // Initialize other status defaults for new scripts
+      plugin.settings.scriptAutoStartStatus[relativePath] = false;
+      plugin.settings.scriptAutoStartDelay[relativePath] = 0;
+      // Save settings immediately for security
+      await plugin.saveSettings();
+    }
+
     const commandId = getCommandIdForScript(relativePath);
     const commandName = `Run Script: ${file}`; // Simple name
     if (!plugin.dynamicScriptCommands.has(commandId)) {

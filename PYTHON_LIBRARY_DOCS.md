@@ -438,23 +438,7 @@ _(New)_ Retrieves editor context (cursor, line count).
 
 ### Theme Management
 
-_(New)_ Methods to control Obsidian's appearance.
-
-#### `set_theme_light() -> None`
-
-Sets the Obsidian theme to light mode.
-
-- **Parameters:** None
-- **Returns:** `None`
-- **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
-
-#### `set_theme_dark() -> None`
-
-Sets the Obsidian theme to dark mode.
-
-- **Parameters:** None
-- **Returns:** `None`
-- **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
+Methods to control Obsidian's appearance.
 
 #### `toggle_theme() -> None`
 
@@ -463,6 +447,8 @@ Toggles the Obsidian theme between the currently active mode and the other (ligh
 - **Parameters:** None
 - **Returns:** `None`
 - **Raises:** `ObsidianCommError` if the request fails or Obsidian reports an error.
+
+**Note:** Due to Obsidian API changes, only `toggle_theme()` remains functional. The `set_theme_light()` and `set_theme_dark()` functions are no longer available.
 
 ---
 

@@ -3,29 +3,29 @@
 export default {
   // Settings Tab
   SETTINGS_TAB_TITLE: 'Obsidian Python Bridge Settings',
-  SETTINGS_FOLDER_TITLE: 'Python Scripts Folder',
+  SETTINGS_FOLDER_TITLE: 'Python scripts folder',
   SETTINGS_FOLDER_DESC:
-    'Path to the folder containing your Python scripts (absolute or relative to the vault).',
+    'Path to the folder containing your python scripts (absolute or relative to the vault).',
   SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts or ./scripts-python',
-  SETTINGS_PORT_TITLE: 'HTTP Server Port',
+  SETTINGS_PORT_TITLE: 'HTTP server port',
   SETTINGS_PORT_DESC:
     'Port for the local HTTP server (1024-65535). Requires restart or settings save to apply.',
-  SETTINGS_CACHE_TITLE: 'Disable Python Cache (__pycache__)',
+  SETTINGS_CACHE_TITLE: 'Disable python cache (__pycache__)',
   SETTINGS_CACHE_DESC:
-    'Run Python with the "-B" flag to prevent writing .pyc files.',
+    'Run python with the "-B" flag to prevent writing .pyc files.',
 
   // main.ts Notices
-  NOTICE_PLUGIN_NAME: 'Python Bridge', // Added for prefixing notices
+  NOTICE_PLUGIN_NAME: 'Python bridge', // Added for prefixing notices
   NOTICE_PORT_CHANGED_PREFIX: 'HTTP port changed to',
   NOTICE_PORT_CHANGED_SUFFIX: 'Restarting server...',
-  NOTICE_PYTHON_MISSING_TITLE: 'Python Bridge Error:',
+  NOTICE_PYTHON_MISSING_TITLE: 'Python bridge error:',
   NOTICE_PYTHON_MISSING_DESC:
-    "Python executable not found in PATH.\nPlease install Python and ensure it's added to your system's PATH environment variable for the plugin to run scripts.\nPlugin features requiring Python will be unavailable.",
-  NOTICE_REQUESTS_MISSING_TITLE: 'Python Bridge Error:',
+    "Python executable not found in PATH.\nPlease install python and ensure it's added to your system's PATH environment variable for the plugin to run scripts.\nPlugin features requiring python will be unavailable.",
+  NOTICE_REQUESTS_MISSING_TITLE: 'Python bridge error:',
   NOTICE_REQUESTS_MISSING_DESC_PREFIX:
-    "The required Python library 'requests' is not installed for", // {pythonCmd} will be inserted here
+    "The required python library 'requests' is not installed for", // {pythonCmd} will be inserted here
   NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
-    '.\nPlease install it by running:\n{pythonCmd} -m pip install requests\nPlugin features requiring Python will be unavailable until installed.', // {pythonCmd} will be inserted here
+    '.\nPlease install it by running:\n{pythonCmd} -m pip install requests\nPlugin features requiring python will be unavailable until installed.', // {pythonCmd} will be inserted here
   NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Invalid HTTP port configured:',
   NOTICE_INVALID_PORT_CONFIG_SUFFIX:
     'Server not started. Please configure a valid port (1-65535) in settings.',
@@ -36,53 +36,53 @@ export default {
   NOTICE_SERVER_START_FAILED_SUFFIX: '.', // Original message had error details appended after this
   NOTICE_INVALID_PORT_RANGE:
     'Invalid port. Please enter a number between 0 and 65535.',
-  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: HTTP Port changed (',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python bridge: HTTP port changed (',
   NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
   NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
     '). Script might target the old port if already running or launched externally.',
   NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'Python script not found or is not a file:',
   NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Error accessing script file:',
-  NOTICE_RUNNING_SCRIPT_PREFIX: 'Running Python script:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'Running python script:',
   NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Error running',
   NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'with',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'failed with exit code',
   NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Check console logs.',
   NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
-    'Could not find a valid Python executable. Tried:',
+    'Could not find a valid python executable. Tried:',
   NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
-    "Please ensure Python is installed and accessible via your system's PATH (or the 'py' launcher on Windows).",
+    "Please ensure python is installed and accessible via your system's PATH (or the 'py' launcher on Windows).",
   NOTICE_SCRIPTS_FOLDER_INVALID:
     'Python scripts folder not found or invalid. Please check plugin settings.',
   NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Error reading scripts folder:',
   NOTICE_NO_SCRIPTS_FOUND:
-    'No Python scripts (.py) found in the configured folder.',
+    'No python scripts (.py) found in the configured folder.',
   NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Running',
   NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python script(s)...',
   NOTICE_INPUT_VALIDATION_FAILED: 'Input does not match the required format.', // Added for UserInputModal
 
   // main.ts Commands
-  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Run a specific Python script',
-  CMD_RUN_ALL_SCRIPTS_NAME: 'Run all Python scripts in folder',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Run a specific python script',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'Run all python scripts in folder',
 
   // UserInputModal
   MODAL_USER_INPUT_SUBMIT_BUTTON: 'Submit',
 
   // ScriptSelectionModal (Placeholder - if needed later)
-  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Select a Python script to run...',
-  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Script-Specific Settings',
-  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Refresh Script Settings',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Select a python script to run...',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Script-specific settings',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Refresh script settings',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
-    'Rescan the scripts folder to discover or update settings defined within your Python scripts.',
-  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Refresh Definitions',
+    'Rescan the scripts folder to discover or update settings defined within your python scripts.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Refresh definitions',
   SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'Refreshing...',
   SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
     'Python scripts folder is not configured. Please set the path above.',
   SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
-    "No scripts with definable settings found in the configured folder, or settings discovery failed. Click 'Refresh Definitions' to try again.",
+    "No scripts with definable settings found in the configured folder, or settings discovery failed. Click 'Refresh definitions' to try again.",
   SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Settings for:',
   SETTINGS_LANGUAGE_AUTO: 'Automatic (Match Obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
-    'Cannot refresh settings: Python executable not found. Please ensure Python is installed and in PATH.',
+    'Cannot refresh settings: Python executable not found. Please ensure python is installed and in PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS:
     'Refreshing script settings definitions...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
@@ -92,10 +92,10 @@ export default {
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
     'Cannot run script: Python executable not found. Please check installation and PATH.',
   CMD_REFRESH_SCRIPT_SETTINGS_NAME:
-    'Refresh Python script settings definitions',
-  SETTINGS_SECURITY_WARNING_TITLE: 'Security Warning',
+    'Refresh python script settings definitions',
+  SETTINGS_SECURITY_WARNING_TITLE: 'Security warning',
   SETTINGS_SECURITY_WARNING_TEXT:
-    'Executing arbitrary Python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.',
+    'Executing arbitrary python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.',
   SETTINGS_LANGUAGE_TITLE: 'Plugin Language',
   SETTINGS_LANGUAGE_DESC:
     "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",

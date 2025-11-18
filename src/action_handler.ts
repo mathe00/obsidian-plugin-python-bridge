@@ -423,10 +423,10 @@ export async function dispatchAction(
             payload.scriptName,
             payload.inputType,
             payload.message,
-            payload.validationRegex,
-            payload.minValue,
-            payload.maxValue,
-            payload.step
+            payload.validationRegex as string | undefined,
+            payload.minValue as number | undefined,
+            payload.maxValue as number | undefined,
+            payload.step as number | undefined
           );
           if (userInput === null) {
             plugin.logDebug('User cancelled input modal.');
@@ -763,8 +763,8 @@ export async function dispatchAction(
             payload.replacement,
             payload.from_line,
             payload.from_ch,
-            payload.to_line,
-            payload.to_ch
+            payload.to_line as number,
+            payload.to_ch as number
           );
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
@@ -788,10 +788,10 @@ export async function dispatchAction(
           scrollIntoView(
             plugin,
             payload.from_line,
-            payload.from_ch,
-            payload.to_line,
-            payload.to_ch,
-            payload.center
+            payload.from_ch as number,
+            payload.to_line as number,
+            payload.to_ch as number,
+            payload.center as boolean
           );
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
@@ -815,8 +815,8 @@ export async function dispatchAction(
           const backlinks = await getBacklinks(
             plugin,
             targetPath,
-            useCache,
-            cacheMode
+            useCache as boolean,
+            cacheMode as 'fast' | 'safe'
           );
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: backlinks };

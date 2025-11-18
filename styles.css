@@ -9,6 +9,10 @@
   border-color: var(--background-modifier-border) !important;
 }
 
+.python-bridge-value-spacing {
+  margin-left: 10px;
+}
+
 /* For the security warning callout in PythonBridgeSettingTab */
 .python-bridge-security-warning-callout {
   margin-bottom: 1.5em; /* Example style, adjust as needed */

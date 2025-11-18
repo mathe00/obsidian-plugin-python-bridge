@@ -11,7 +11,7 @@ import type ObsidianPythonBridge from '../main';
  */
 export function getActiveNoteFrontmatter(
   plugin: ObsidianPythonBridge
-): Record<string, any> | null {
+): Record<string, unknown> | null {
   const file = getActiveNoteFile(plugin);
   if (!file) return null;
   const metadata = plugin.app.metadataCache.getFileCache(file);

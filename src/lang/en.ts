@@ -2,7 +2,7 @@
 // English translations (default)
 export default {
   // Settings Tab
-  SETTINGS_TAB_TITLE: 'Obsidian Python Bridge Settings',
+  SETTINGS_TAB_TITLE: 'Obsidian python bridge settings',
   SETTINGS_FOLDER_TITLE: 'Python scripts folder',
   SETTINGS_FOLDER_DESC:
     'Path to the folder containing your python scripts (absolute or relative to the vault).',
@@ -31,7 +31,7 @@ export default {
     'Server not started. Please configure a valid port (1-65535) in settings.',
   NOTICE_PORT_IN_USE_PREFIX: 'Port',
   NOTICE_PORT_IN_USE_SUFFIX:
-    'is already in use. Please choose another port in settings or close the other application using it. Server not started.',
+    'Is already in use. Please choose another port in settings or close the other application using it. Server not started.',
   NOTICE_SERVER_START_FAILED_PREFIX: 'Failed to start server on port',
   NOTICE_SERVER_START_FAILED_SUFFIX: '.', // Original message had error details appended after this
   NOTICE_INVALID_PORT_RANGE:
@@ -108,10 +108,10 @@ export default {
   NOTICE_INVALID_STARTUP_FOLDER_PATH:
     "Configured Python scripts folder path '{path}' is invalid or not found. Clearing setting.",
 
-  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Script Enabled',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Script enabled',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
-    "Allow this script to be executed via commands, shortcuts, or 'Run All'.",
-  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Run on Startup',
+    "Allow this script to be executed via commands, shortcuts, or 'Run all'.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Run on startup',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
     "Automatically run this script when Obsidian starts (only if 'Script Enabled' is also on).",
   SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Startup Delay (seconds)',

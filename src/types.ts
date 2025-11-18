@@ -10,7 +10,7 @@ export interface ScriptSettingDefinition {
   type: 'text' | 'textarea' | 'number' | 'toggle' | 'dropdown' | 'slider';
   label: string;
   description: string;
-  default: any;
+  default: string | number | boolean;
   options?: DropdownOption[]; // Only used for 'dropdown' type
   min?: number; // Used for 'number' and 'slider' types
   max?: number; // Used for 'number' and 'slider' types
@@ -27,7 +27,10 @@ export interface PythonBridgeSettings {
   /** Cache of settings definitions discovered from Python scripts. Key: relative script path */
   scriptSettingsDefinitions: Record<string, ScriptSettingDefinition[]>;
   /** User-configured values for script settings. Key: relative script path, Value: { settingKey: value } */
-  scriptSettingsValues: Record<string, Record<string, any>>;
+  scriptSettingsValues: Record<
+    string,
+    Record<string, string | number | boolean>
+  >;
   /** User-configured activation status for scripts. Key: relative script path, Value: boolean (true=active, false=inactive) */
   scriptActivationStatus: Record<string, boolean>;
   /** User-configured auto-start status for scripts. Key: relative script path, Value: boolean (true=auto-start) */
@@ -47,7 +50,7 @@ export interface PythonBridgeSettings {
 // Structure for JSON responses sent TO the Python client
 export interface JsonResponse {
   status: 'success' | 'error';
-  data?: any;
+  data?: unknown;
   error?: string;
 }
 
@@ -58,7 +61,7 @@ export interface JsonRequest {
     absolute?: boolean; // For get_all_note_paths
     return_format?: string; // For get_active_note_content
     // Add other potential payload structures here as a union if they become more defined
-    [key: string]: any; // Allow other arbitrary keys for now
+    [key: string]: unknown; // Allow other arbitrary keys for now
   };
 }
 

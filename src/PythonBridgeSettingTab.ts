@@ -118,7 +118,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     warningContainer.appendText(t('SETTINGS_SECURITY_WARNING_TEXT'));
 
     // General Plugin Settings
-    containerEl.createEl('h2', { text: t('SETTINGS_TAB_TITLE') });
+    new Setting(containerEl).setName(t('SETTINGS_TAB_TITLE')).setHeading();
 
     // Language Selection
     new Setting(containerEl)
@@ -460,7 +460,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       );
 
     // Audit Log Settings
-    containerEl.createEl('h2', { text: t('SETTINGS_AUDIT_LOG_TITLE') });
+    new Setting(containerEl)
+      .setName(t('SETTINGS_AUDIT_LOG_TITLE'))
+      .setHeading();
 
     // Enable Audit Log Toggle
     new Setting(containerEl)
@@ -559,9 +561,9 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
       });
 
     // Script Specific Settings
-    containerEl.createEl('h2', {
-      text: t('SETTINGS_SCRIPT_SETTINGS_TITLE'),
-    });
+    new Setting(containerEl)
+      .setName(t('SETTINGS_SCRIPT_SETTINGS_TITLE'))
+      .setHeading();
 
     // Refresh Button
     new Setting(containerEl)
@@ -676,9 +678,11 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
         const isScriptActive = activationStatus[relativePath];
 
         // Display section for EACH script
-        containerEl.createEl('h3', {
-          text: `${t('SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX')} ${scriptFilename}`,
-        }); // Use filename for title
+        new Setting(containerEl)
+          .setName(
+            `${t('SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX')} ${scriptFilename}`
+          )
+          .setHeading(); // Use filename for title
 
         // Activation Toggle (Always shown)
         new Setting(containerEl)

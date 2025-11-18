@@ -572,7 +572,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'run_obsidian_command': // Still disabled
+      case 'run_obsidian_command':
         if (typeof payload?.command_id !== 'string' || !payload.command_id) {
           const errorMsg =
             "Invalid payload: 'command_id' (non-empty string) required.";
@@ -589,7 +589,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'get_all_tags': // Still disabled
+      case 'get_all_tags':
         try {
           const tags = getAllTags(plugin);
           await logApiAction(plugin, action, 'success', sourceScript);

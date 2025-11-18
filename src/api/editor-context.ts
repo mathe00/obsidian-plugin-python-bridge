@@ -12,7 +12,7 @@ import type ObsidianPythonBridge from '../main';
  */
 export function getEditorContext(
   plugin: ObsidianPythonBridge
-): Record<string, any> | null {
+): Record<string, number | { line: number; ch: number }> | null {
   const view = plugin.app.workspace.getActiveViewOfType(MarkdownView);
   if (!view || !view.editor) {
     plugin.logDebug('No active Markdown editor found for get_editor_context.');

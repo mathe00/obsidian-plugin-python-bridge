@@ -13,7 +13,7 @@ import type ObsidianPythonBridge from '../main';
 export function getNoteFrontmatterByPath(
   plugin: ObsidianPythonBridge,
   relativePath: string
-): Record<string, any> | null {
+): Record<string, unknown> | null {
   const normalizedPath = normalizePath(relativePath);
   const metadata = plugin.app.metadataCache.getCache(normalizedPath);
   if (!metadata) {

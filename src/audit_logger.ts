@@ -21,11 +21,11 @@ export function getDefaultLogFilePath(plugin: ObsidianPythonBridge): string {
  * @param maxLogFileSize Maximum size of a single log file in bytes.
  * @param maxLogFiles Maximum number of log files to keep.
  */
-export async function rotateLogFiles(
+export function rotateLogFiles(
   logFilePath: string,
   maxLogFileSize: number,
   maxLogFiles: number
-): Promise<void> {
+): void {
   try {
     if (!fs.existsSync(logFilePath)) {
       return;

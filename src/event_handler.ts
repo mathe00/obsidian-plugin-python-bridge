@@ -84,7 +84,7 @@ export function registerObsidianEventListeners(
 export function triggerEvent(
   plugin: ObsidianPythonBridge,
   eventName: string,
-  payload: any
+  payload: unknown
 ): void {
   const listeningScripts = plugin.eventListeners.get(eventName);
   if (!listeningScripts || listeningScripts.size === 0) {
@@ -125,7 +125,7 @@ export function triggerEvent(
           plugin.logDebug(
             `Running script ${relativePath} for event ${eventName}`
           );
-          runPythonScriptForEvent(
+          void runPythonScriptForEvent(
             plugin,
             absolutePath,
             relativePath,

@@ -65,25 +65,25 @@ export default class ObsidianPythonBridge extends Plugin {
 
   // --- Logging Helpers ---
   // (Keep these methods as they are used by other modules via the plugin instance)
-  logDebug(message: string, ...optionalParams: any[]) {
+  logDebug(message: string, ...optionalParams: unknown[]) {
     console.debug(
       `plugin:obsidian-python-bridge:DEBUG: ${message}`,
       ...optionalParams
     );
   }
-  logInfo(message: string, ...optionalParams: any[]) {
+  logInfo(message: string, ...optionalParams: unknown[]) {
     console.warn(
       `plugin:obsidian-python-bridge:INFO: ${message}`,
       ...optionalParams
     );
   }
-  logWarn(message: string, ...optionalParams: any[]) {
+  logWarn(message: string, ...optionalParams: unknown[]) {
     console.warn(
       `plugin:obsidian-python-bridge:WARN: ${message}`,
       ...optionalParams
     );
   }
-  logError(message: string, ...optionalParams: any[]) {
+  logError(message: string, ...optionalParams: unknown[]) {
     console.error(
       `plugin:obsidian-python-bridge:ERROR: ${message}`,
       ...optionalParams
@@ -142,8 +142,8 @@ export default class ObsidianPythonBridge extends Plugin {
       const scriptsFolder = getScriptsFolderPath(this); // Pass 'this' (the plugin instance) directly
       if (scriptsFolder && this.pythonExecutable) {
         // Run discovery and command sync asynchronously
-        updateAndSyncCommands(this, scriptsFolder)
-          .catch((err) => {
+        void updateAndSyncCommands(this, scriptsFolder)
+          .catch((err: unknown) => {
             this.logError(
               'Initial script settings discovery and command sync failed:',
               err
@@ -395,7 +395,7 @@ export default class ObsidianPythonBridge extends Plugin {
           body += chunk.toString();
         });
         req.on('end', () => {
-          (async () => {
+          void (async () => {
             let request: JsonRequest;
             let response: JsonResponse;
             let statusCode = 200; // Assume success initially
@@ -514,7 +514,7 @@ export default class ObsidianPythonBridge extends Plugin {
     minValue?: number,
     maxValue?: number,
     step?: number
-  ): Promise<any> {
+  ): Promise<string | number | boolean> {
     return new Promise((resolve) => {
       const modal = new UserInputModal(
         this.app,

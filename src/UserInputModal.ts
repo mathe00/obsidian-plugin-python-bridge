@@ -11,7 +11,7 @@ export default class UserInputModal extends Modal {
   minValue?: number;
   maxValue?: number;
   step?: number;
-  onSubmit: (input: any) => void;
+  onSubmit: (input: string | number | boolean) => void;
   inputEl: HTMLInputElement | undefined;
 
   constructor(
@@ -19,7 +19,7 @@ export default class UserInputModal extends Modal {
     scriptName: string,
     inputType: string,
     message: string,
-    onSubmit: (input: any) => void,
+    onSubmit: (input: string | number | boolean) => void,
     validationRegex?: string,
     minValue?: number,
     maxValue?: number,
@@ -66,7 +66,7 @@ export default class UserInputModal extends Modal {
           text: this.inputEl.value,
           cls: 'python-bridge-range-value',
         });
-        valueDisplay.style.marginLeft = '10px'; // Add some spacing
+        valueDisplay.addClass('python-bridge-value-spacing'); // Add some spacing
         this.inputEl.addEventListener('input', () => {
           valueDisplay.textContent = (this.inputEl as HTMLInputElement).value;
         });
@@ -96,12 +96,12 @@ export default class UserInputModal extends Modal {
     });
     submitButton.addEventListener('click', () => {
       if (this.inputEl) {
-        let inputValue: any;
+        let inputValue: string | number | boolean;
         let validationPassed = true; // Flag to track validation status
 
         // Handle different input types to get the correct value
         if (this.inputType === 'boolean' || this.inputType === 'checkbox') {
-          inputValue = (this.inputEl as HTMLInputElement).checked;
+          inputValue = this.inputEl.checked;
           this.inputEl.classList.remove('python-bridge-input-error'); // Reset border for checkbox/boolean
           this.inputEl.classList.add('python-bridge-input-normal');
         } else if (this.inputType === 'number' || this.inputType === 'range') {

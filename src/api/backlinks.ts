@@ -28,12 +28,16 @@ export async function getBacklinks(
   let backlinksResult: Record<string, LinkCache[]> | null = null;
   let errorOccurred: string | null = null;
   // @ts-ignore: Accessing internal 'plugins' property which is not part of the public API.
-  const isCachePluginEnabled = (plugin.app as any).plugins.enabledPlugins.has(
-    'backlink-cache'
-  );
+  const isCachePluginEnabled = (
+    plugin.app as unknown as { plugins: { enabledPlugins: Set<string> } }
+  ).plugins.enabledPlugins.has('backlink-cache');
   const attemptCacheFeatures = useCacheIfAvailable && isCachePluginEnabled;
   // @ts-ignore: Accessing 'getBacklinksForFile' which might be monkey-patched by 'backlink-cache' plugin.
-  const getBacklinksFn = (plugin.app.metadataCache as any).getBacklinksForFile;
+  const getBacklinksFn = (
+    plugin.app.metadataCache as {
+      getBacklinksForFile?: (...args: unknown[]) => unknown;
+    }
+  ).getBacklinksForFile;
   if (typeof getBacklinksFn !== 'function') {
     plugin.logError(
       'Native function app.metadataCache.getBacklinksForFile not found!'
@@ -94,7 +98,9 @@ export async function getBacklinks(
       // The structure returned by the cache plugin seems to be { data: Map<string, LinkCache[]> }
       // The native one might be different, adjust based on observation if needed.
       // @ts-ignore: Accessing 'data' property which might exist on the result from 'backlink-cache'.
-      const backlinksMap = (backlinksResult as any)?.data;
+      const backlinksMap = (
+        backlinksResult as { data?: Map<string, LinkCache[]> }
+      )?.data;
       if (backlinksMap instanceof Map) {
         plugin.logDebug(
           `Iterating through Map with ${backlinksMap.size} entries.`

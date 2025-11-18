@@ -178,7 +178,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                           );
                           this.display(); // Redraw potentially needed if script settings appeared/disappeared
                         })
-                        .catch((err) =>
+                        .catch((err: unknown) =>
                           this.plugin.logError(
                             'Error updating settings cache & commands after folder change:',
                             err
@@ -327,7 +327,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
           // Only save and re-check if the path has actually changed from what's currently stored
           if (this.plugin.settings.pythonExecutablePath !== newPath) {
-            (async () => {
+            void (async () => {
               this.plugin.settings.pythonExecutablePath = newPath;
               await this.plugin.saveSettings();
               this.plugin.logInfo(
@@ -696,19 +696,17 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                 // Prevent immediate state change, show warning modal first
                 toggle.setValue(false); // Reset toggle to false
 
-                new ActivationWarningModal(
-                  this.app,
-                  scriptFilename,
-                  async () => {
-                    // Callback executed only on "Activate Anyway" click
+                new ActivationWarningModal(this.app, scriptFilename, () => {
+                  // Callback executed only on "Activate Anyway" click
+                  void (async () => {
                     activationStatus[relativePath] = true;
                     await this.plugin.saveSettings();
                     this.plugin.logInfo(
                       `Script '${relativePath}' activation status set to: true`
                     );
                     this.display(); // Redraw needed to show/hide auto-start options
-                  }
-                ).open();
+                  })();
+                }).open();
               } else if (!value && isScriptActive) {
                 // If toggling from true to false, update directly
                 activationStatus[relativePath] = false;
@@ -814,7 +812,10 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
               .setName(settingDef.label || settingDef.key)
               .setDesc(settingDef.description || '')
               .setClass('python-bridge-setting-item');
-            const currentValue = scriptValues.hasOwnProperty(settingDef.key)
+            const currentValue = Object.prototype.hasOwnProperty.call(
+              scriptValues,
+              settingDef.key
+            )
               ? scriptValues[settingDef.key]
               : settingDef.default;
 
@@ -866,7 +867,8 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     debounce(async (value) => {
                       const numValue =
                         value === '' ? settingDef.default : parseFloat(value);
-                      const isValidNumber = !isNaN(numValue);
+                      const isValidNumber =
+                        typeof numValue === 'number' && !isNaN(numValue);
                       if (isValidNumber) {
                         text.inputEl.classList.remove(
                           'python-bridge-input-error'
@@ -958,7 +960,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     .setPlaceholder(
                       t('ERROR_UNKNOWN_SETTING_TYPE').replace(
                         '{type}',
-                        settingDef.type
+                        String(settingDef.type)
                       )
                     )
                 );

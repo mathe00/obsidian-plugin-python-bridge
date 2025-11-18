@@ -1,96 +1,143 @@
 // --- src/lang/ru.ts ---
 // Russian translations
 export default {
-	// Settings Tab
-	SETTINGS_TAB_TITLE: "Настройки Obsidian Python Bridge",
-	SETTINGS_FOLDER_TITLE: "Папка со скриптами Python",
-	SETTINGS_FOLDER_DESC:
-		"Путь к папке, содержащей ваши скрипты Python (абсолютный или относительный к хранилищу).",
-	SETTINGS_FOLDER_PLACEHOLDER: "/путь/к/вашим/скриптам или ./scripts-python",
-	SETTINGS_PORT_TITLE: "Порт HTTP-сервера",
-	SETTINGS_PORT_DESC:
-		"Порт для локального HTTP-сервера (1024-65535). Требуется перезапуск или сохранение настроек для применения.",
-	SETTINGS_CACHE_TITLE: "Отключить кэш Python (__pycache__)",
-	SETTINGS_CACHE_DESC:
-		'Запускает Python с флагом "-B", чтобы предотвратить запись файлов .pyc.',
+  // Settings Tab
+  SETTINGS_TAB_TITLE: 'Настройки Obsidian Python Bridge',
+  SETTINGS_FOLDER_TITLE: 'Папка со скриптами Python',
+  SETTINGS_FOLDER_DESC:
+    'Путь к папке, содержащей ваши скрипты Python (абсолютный или относительный к хранилищу).',
+  SETTINGS_FOLDER_PLACEHOLDER: '/путь/к/вашим/скриптам или ./scripts-python',
+  SETTINGS_PORT_TITLE: 'Порт HTTP-сервера',
+  SETTINGS_PORT_DESC:
+    'Порт для локального HTTP-сервера (1024-65535). Требуется перезапуск или сохранение настроек для применения.',
+  SETTINGS_CACHE_TITLE: 'Отключить кэш Python (__pycache__)',
+  SETTINGS_CACHE_DESC:
+    'Запускает Python с флагом "-B", чтобы предотвратить запись файлов .pyc.',
 
-	// main.ts Notices
-	NOTICE_PLUGIN_NAME: "Python Bridge",
-	NOTICE_PORT_CHANGED_PREFIX: "Порт HTTP изменен на",
-	NOTICE_PORT_CHANGED_SUFFIX: "Перезапуск сервера...",
-	NOTICE_PYTHON_MISSING_TITLE: "Ошибка Python Bridge:",
-	NOTICE_PYTHON_MISSING_DESC: "Исполняемый файл Python не найден в PATH.\nПожалуйста, установите Python и убедитесь, что он добавлен в переменную среды PATH вашей системы, чтобы плагин мог запускать скрипты.\nФункции плагина, требующие Python, будут недоступны.",
-	NOTICE_REQUESTS_MISSING_TITLE: "Ошибка Python Bridge:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Требуемая библиотека Python 'requests' не установлена для",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\nПожалуйста, установите ее, выполнив:\n{pythonCmd} -m pip install requests\nФункции плагина, требующие Python, будут недоступны до ее установки.",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Неверный порт HTTP:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Сервер не запущен. Пожалуйста, настройте действительный порт (1-65535) в настройках.",
-	NOTICE_PORT_IN_USE_PREFIX: "Порт",
-	NOTICE_PORT_IN_USE_SUFFIX: "уже используется. Пожалуйста, выберите другой порт в настройках или закройте другое приложение, использующее его. Сервер не запущен.",
-	NOTICE_SERVER_START_FAILED_PREFIX: "Не удалось запустить сервер на порту",
-	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
-	NOTICE_INVALID_PORT_RANGE: "Недопустимый порт. Пожалуйста, введите число от 0 до 65535.",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: Порт HTTP изменен (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Скрипт может использовать старый порт, если он уже запущен или запущен извне.",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Скрипт Python не найден или не является файлом:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Ошибка доступа к файлу скрипта:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "Запуск скрипта Python:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Ошибка при запуске",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "с помощью",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "завершился с кодом ошибки",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Проверьте логи консоли.",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Не удалось найти действительный исполняемый файл Python. Попытки:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Пожалуйста, убедитесь, что Python установлен и доступен через PATH вашей системы (или через 'py' в Windows).",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "Папка скриптов Python не найдена или недействительна. Пожалуйста, проверьте настройки плагина.",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Ошибка чтения папки скриптов:",
-	NOTICE_NO_SCRIPTS_FOUND: "В настроенной папке не найдено скриптов Python (.py).",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Запуск",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "скрипт(ов) Python...",
-	NOTICE_INPUT_VALIDATION_FAILED: "Ввод не соответствует требуемому формату.",
+  // main.ts Notices
+  NOTICE_PLUGIN_NAME: 'Python Bridge',
+  NOTICE_PORT_CHANGED_PREFIX: 'Порт HTTP изменен на',
+  NOTICE_PORT_CHANGED_SUFFIX: 'Перезапуск сервера...',
+  NOTICE_PYTHON_MISSING_TITLE: 'Ошибка Python Bridge:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'Исполняемый файл Python не найден в PATH.\nПожалуйста, установите Python и убедитесь, что он добавлен в переменную среды PATH вашей системы, чтобы плагин мог запускать скрипты.\nФункции плагина, требующие Python, будут недоступны.',
+  NOTICE_REQUESTS_MISSING_TITLE: 'Ошибка Python Bridge:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Требуемая библиотека Python 'requests' не установлена для",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    '.\nПожалуйста, установите ее, выполнив:\n{pythonCmd} -m pip install requests\nФункции плагина, требующие Python, будут недоступны до ее установки.',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Неверный порт HTTP:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'Сервер не запущен. Пожалуйста, настройте действительный порт (1-65535) в настройках.',
+  NOTICE_PORT_IN_USE_PREFIX: 'Порт',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'уже используется. Пожалуйста, выберите другой порт в настройках или закройте другое приложение, использующее его. Сервер не запущен.',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'Не удалось запустить сервер на порту',
+  NOTICE_SERVER_START_FAILED_SUFFIX: '.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Недопустимый порт. Пожалуйста, введите число от 0 до 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX: '⚠️ Python Bridge: Порт HTTP изменен (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '). Скрипт может использовать старый порт, если он уже запущен или запущен извне.',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Скрипт Python не найден или не является файлом:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Ошибка доступа к файлу скрипта:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'Запуск скрипта Python:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Ошибка при запуске',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'с помощью',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'завершился с кодом ошибки',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Проверьте логи консоли.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Не удалось найти действительный исполняемый файл Python. Попытки:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "Пожалуйста, убедитесь, что Python установлен и доступен через PATH вашей системы (или через 'py' в Windows).",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'Папка скриптов Python не найдена или недействительна. Пожалуйста, проверьте настройки плагина.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Ошибка чтения папки скриптов:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'В настроенной папке не найдено скриптов Python (.py).',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Запуск',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'скрипт(ов) Python...',
+  NOTICE_INPUT_VALIDATION_FAILED: 'Ввод не соответствует требуемому формату.',
 
-	// main.ts Commands
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Запустить определенный скрипт Python",
-	CMD_RUN_ALL_SCRIPTS_NAME: "Запустить все скрипты Python в папке",
+  // main.ts Commands
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Запустить определенный скрипт Python',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'Запустить все скрипты Python в папке',
 
-	// UserInputModal
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Выберите скрипт Python для запуска...",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "Отправить",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "Настройки скрипта",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Обновить настройки скриптов",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "Повторно сканировать папку скриптов для обнаружения или обновления настроек, определенных в ваших скриптах Python.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Обновить определения",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "Обновление...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "Папка скриптов Python не настроена. Пожалуйста, укажите путь выше.",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "В настроенной папке не найдены скрипты с определяемыми настройками, или обнаружение настроек не удалось. Нажмите 'Обновить определения', чтобы повторить попытку.",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "Настройки для:",
-	SETTINGS_LANGUAGE_AUTO: "Автоматически (Как Obsidian)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "Не удается обновить настройки: Исполняемый файл Python не найден. Убедитесь, что Python установлен и находится в PATH.",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "Обновление определений настроек скриптов...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "Определения настроек скриптов успешно обновлены!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Не удалось обновить определения настроек скриптов. Проверьте журналы для получения подробной информации.",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Не удается запустить скрипт: Исполняемый файл Python не найден. Проверьте установку и PATH.",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Обновить определения настроек скриптов Python",
-	SETTINGS_SECURITY_WARNING_TITLE: "Предупреждение о безопасности",
-	SETTINGS_SECURITY_WARNING_TEXT: "Выполнение произвольных скриптов Python может быть рискованным. Убедитесь, что вы доверяете источнику любого запускаемого скрипта, так как он может получить доступ к вашей системе и данным. Автор плагина и авторы скриптов не несут ответственности за потерю данных или проблемы безопасности, вызванные скриптами, которые вы решили выполнить. Запускайте скрипты на свой страх и риск.",
-	SETTINGS_LANGUAGE_TITLE: "Язык плагина",
-	SETTINGS_LANGUAGE_DESC: "Выберите язык отображения для интерфейса плагина Python Bridge. 'Автоматически' соответствует настройке языка Obsidian.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Совет по производительности: Кэш обратных ссылок",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Для повышения производительности при получении обратных ссылок (с помощью функции get_backlinks) в больших хранилищах рассмотрите возможность установки плагина сообщества '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' от @mnaoumov.",
-	NOTICE_INVALID_FOLDER_PATH: "Недопустимый путь к папке. Пожалуйста, выберите действительную папку в настройках.",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Настроенный путь к папке скриптов Python '{path}' недопустим или не найден. Очистка настройки.",
+  // UserInputModal
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Выберите скрипт Python для запуска...',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'Отправить',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Настройки скрипта',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Обновить настройки скриптов',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'Повторно сканировать папку скриптов для обнаружения или обновления настроек, определенных в ваших скриптах Python.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Обновить определения',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'Обновление...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'Папка скриптов Python не настроена. Пожалуйста, укажите путь выше.',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "В настроенной папке не найдены скрипты с определяемыми настройками, или обнаружение настроек не удалось. Нажмите 'Обновить определения', чтобы повторить попытку.",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Настройки для:',
+  SETTINGS_LANGUAGE_AUTO: 'Автоматически (Как Obsidian)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'Не удается обновить настройки: Исполняемый файл Python не найден. Убедитесь, что Python установлен и находится в PATH.',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Обновление определений настроек скриптов...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Определения настроек скриптов успешно обновлены!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    'Не удалось обновить определения настроек скриптов. Проверьте журналы для получения подробной информации.',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'Не удается запустить скрипт: Исполняемый файл Python не найден. Проверьте установку и PATH.',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Обновить определения настроек скриптов Python',
+  SETTINGS_SECURITY_WARNING_TITLE: 'Предупреждение о безопасности',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'Выполнение произвольных скриптов Python может быть рискованным. Убедитесь, что вы доверяете источнику любого запускаемого скрипта, так как он может получить доступ к вашей системе и данным. Автор плагина и авторы скриптов не несут ответственности за потерю данных или проблемы безопасности, вызванные скриптами, которые вы решили выполнить. Запускайте скрипты на свой страх и риск.',
+  SETTINGS_LANGUAGE_TITLE: 'Язык плагина',
+  SETTINGS_LANGUAGE_DESC:
+    "Выберите язык отображения для интерфейса плагина Python Bridge. 'Автоматически' соответствует настройке языка Obsidian.",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Совет по производительности: Кэш обратных ссылок',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "Для повышения производительности при получении обратных ссылок (с помощью функции get_backlinks) в больших хранилищах рассмотрите возможность установки плагина сообщества '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' от @mnaoumov.",
+  NOTICE_INVALID_FOLDER_PATH:
+    'Недопустимый путь к папке. Пожалуйста, выберите действительную папку в настройках.',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "Настроенный путь к папке скриптов Python '{path}' недопустим или не найден. Очистка настройки.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Скрипт Включен",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Разрешить выполнение этого скрипта с помощью команд, сочетаний клавиш или 'Выполнить все'.",
-	NOTICE_SCRIPT_DISABLED: "Скрипт '{scriptName}' отключен в настройках и не может быть выполнен.",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Скрипт Включен',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    "Разрешить выполнение этого скрипта с помощью команд, сочетаний клавиш или 'Выполнить все'.",
+  NOTICE_SCRIPT_DISABLED:
+    "Скрипт '{scriptName}' отключен в настройках и не может быть выполнен.",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Запускать при старте",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Автоматически запускать этот скрипт при старте Obsidian (только если 'Скрипт включен' также активирован).",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Задержка запуска (секунды)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Подождите указанное количество секунд после запуска Obsidian перед выполнением скрипта (применяется, только если включено 'Запускать при старте'). Используйте 0 для отсутствия задержки.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Запускать при старте',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "Автоматически запускать этот скрипт при старте Obsidian (только если 'Скрипт включен' также активирован).",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Задержка запуска (секунды)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "Подождите указанное количество секунд после запуска Obsidian перед выполнением скрипта (применяется, только если включено 'Запускать при старте'). Используйте 0 для отсутствия задержки.",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "Автоматически установить PYTHONPATH для библиотеки",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "Автоматически добавлять каталог плагина в PYTHONPATH при запуске скриптов, разрешая прямой импорт библиотеки Python (Рекомендуется). Если отключено, вы должны скопировать ObsidianPluginDevPythonToJS.py в папку со скриптами или управлять sys.path вручную.",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Автоматический PYTHONPATH отключен. Убедитесь, что ObsidianPluginDevPythonToJS.py находится в вашей папке скриптов, или управляйте sys.path вручную.",
+  SETTINGS_AUTO_PYTHONPATH_NAME:
+    'Автоматически установить PYTHONPATH для библиотеки',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'Автоматически добавлять каталог плагина в PYTHONPATH при запуске скриптов, разрешая прямой импорт библиотеки Python (Рекомендуется). Если отключено, вы должны скопировать ObsidianPluginDevPythonToJS.py в папку со скриптами или управлять sys.path вручную.',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'Автоматический PYTHONPATH отключен. Убедитесь, что ObsidianPluginDevPythonToJS.py находится в вашей папке скриптов, или управляйте sys.path вручную.',
 
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Путь к исполняемому файлу Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'Абсолютный путь к вашему исполняемому файлу Python или uv. Оставьте пустым для автоопределения (uv, py, python3, python). Требуется перезагрузка плагина или перезапуск для полного вступления в силу при изменении.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'например, /usr/bin/python3 или C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'Путь к исполняемому файлу Python изменен. Обновление скриптов...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    'Пользовательский путь Python недействителен, и не найден резервный исполняемый файл. Скрипты могут не работать.',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Ошибка пользовательского пути Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "Пользовательский путь к исполняемому файлу Python '{path}' недействителен или не может быть выполнен. Возврат к автоматическому определению.",
 };

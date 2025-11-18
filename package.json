@@ -1,20 +1,32 @@
 {
   "name": "python-bridge",
   "version": "2.0.0",
+  "description": "🐍 A plugin that lets you write plugins in Python! Yes, it's as crazy as it sounds!",
   "main": "main.js",
   "scripts": {
-    "dev": "rollup -w -c",
-    "build": "rollup -c"
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md,css}\""
   },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "python"
+  ],
+  "author": "mathe00",
+  "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@types/node": "^18.11.9",
-    "obsidian": "^1.5.8",
-    "rollup": "^3.2.5",
-    "rollup-plugin-typescript2": "^0.34.1",
-    "tslib": "^2.4.1",
-    "typescript": "^5.3.3"
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.17.3",
+    "obsidian": "latest",
+    "prettier": "^3.6.2",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4"
   }
 }

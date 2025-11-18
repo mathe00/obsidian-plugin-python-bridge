@@ -1,86 +1,134 @@
 // fa.ts - fa translations
 // WARNING: Auto-generated translations below. Please review and correct.
 export default {
-	SETTINGS_TAB_TITLE: "تنظیمات Obsidian Python Bridge",
-	SETTINGS_FOLDER_TITLE: "پوشه اسکریپت‌های پایتون",
-	SETTINGS_FOLDER_DESC: "مسیر پوشه‌ای که حاوی اسکریپت‌های پایتون شماست (مطلق یا نسبی به والت).",
-	SETTINGS_FOLDER_PLACEHOLDER: "/path/to/your/scripts یا ./scripts-python",
-	SETTINGS_PORT_TITLE: "پورت سرور HTTP",
-	SETTINGS_PORT_DESC: "پورت برای سرور HTTP محلی (1024-65535). برای اعمال نیاز به راه‌اندازی مجدد یا ذخیره تنظیمات دارد.",
-	SETTINGS_CACHE_TITLE: "غیرفعال کردن کش پایتون (__pycache__)",
-	SETTINGS_CACHE_DESC: "پایتون را با پرچم \"-B\" اجرا کنید تا از نوشتن فایل‌های .pyc جلوگیری شود.",
-	NOTICE_PLUGIN_NAME: "Python Bridge",
-	NOTICE_PORT_CHANGED_PREFIX: "پورت HTTP به",
-	NOTICE_PORT_CHANGED_SUFFIX: "تغییر کرد. در حال راه‌اندازی مجدد سرور...",
-	NOTICE_PYTHON_MISSING_TITLE: "خطای Python Bridge:",
-	NOTICE_PYTHON_MISSING_DESC: "فایل اجرایی پایتون در PATH یافت نشد.\\nلطفاً پایتون را نصب کنید و اطمینان حاصل کنید که به متغیر محیطی PATH سیستم شما اضافه شده است تا افزونه بتواند اسکریپت‌ها را اجرا کند.\\nویژگی‌های افزونه که به پایتون نیاز دارند در دسترس نخواهند بود.",
-	NOTICE_REQUESTS_MISSING_TITLE: "خطای Python Bridge:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "کتابخانه پایتون مورد نیاز 'requests' برای",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: "نصب نشده است.\\nلطفاً آن را با اجرای دستور زیر نصب کنید:\\n{pythonCmd} -m pip install requests\\nویژگی‌های افزونه که به پایتون نیاز دارند تا زمان نصب در دسترس نخواهند بود.",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "پورت HTTP نامعتبر پیکربندی شده است:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "سرور شروع نشد. لطفاً یک پورت معتبر (1-65535) را در تنظیمات پیکربندی کنید.",
-	NOTICE_PORT_IN_USE_PREFIX: "پورت",
-	NOTICE_PORT_IN_USE_SUFFIX: "در حال حاضر استفاده می‌شود. لطفاً پورت دیگری را در تنظیمات انتخاب کنید یا برنامه دیگری که از آن استفاده می‌کند را ببندید. سرور شروع نشد.",
-	NOTICE_SERVER_START_FAILED_PREFIX: "شروع به کار سرور روی پورت",
-	NOTICE_SERVER_START_FAILED_SUFFIX: "ناموفق بود.",
-	NOTICE_INVALID_PORT_RANGE: "پورت نامعتبر است. لطفاً عددی بین 0 تا 65535 وارد کنید.",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: پورت HTTP تغییر کرد (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). اسکریپت ممکن است پورت قدیمی را هدف قرار دهد اگر از قبل در حال اجرا باشد یا از خارج راه‌اندازی شده باشد.",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "اسکریپت پایتون یافت نشد یا یک فایل نیست:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "خطا در دسترسی به فایل اسکریپت:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "در حال اجرای اسکریپت پایتون:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "خطا در اجرای",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "با",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "با کد خروج",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "ناموفق بود. لاگ‌های کنسول را بررسی کنید.",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "فایل اجرایی پایتون معتبری یافت نشد. تلاش شد:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "لطفاً اطمینان حاصل کنید که پایتون نصب شده و از طریق PATH سیستم شما (یا لانچر 'py' در ویندوز) قابل دسترسی است.",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "پوشه اسکریپت‌های پایتون یافت نشد یا نامعتبر است. لطفاً تنظیمات افزونه را بررسی کنید.",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "خطا در خواندن پوشه اسکریپت‌ها:",
-	NOTICE_NO_SCRIPTS_FOUND: "هیچ اسکریپت پایتون (.py) در پوشه پیکربندی شده یافت نشد.",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "در حال اجرا",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "اسکریپت پایتون...",
-	NOTICE_INPUT_VALIDATION_FAILED: "ورودی با فرمت مورد نیاز مطابقت ندارد.",
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "اجرای یک اسکریپت پایتون خاص",
-	CMD_RUN_ALL_SCRIPTS_NAME: "اجرای تمام اسکریپت‌های پایتون در پوشه",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "ارسال",
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "یک اسکریپت پایتون برای اجرا انتخاب کنید...",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "تنظیمات مخصوص اسکریپت",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "بازخوانی تنظیمات اسکریپت",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "پوشه اسکریپت‌ها را برای کشف یا به‌روزرسانی تنظیمات تعریف شده در اسکریپت‌های پایتون خود دوباره اسکن کنید.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "بازخوانی تعاریف",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "در حال بازخوانی...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "پوشه اسکریپت‌های پایتون پیکربندی نشده است. لطفاً مسیر را در بالا تنظیم کنید.",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "هیچ اسکریپتی با تنظیمات قابل تعریف در پوشه پیکربندی شده یافت نشد، یا کشف تنظیمات ناموفق بود. برای تلاش مجدد روی 'بازخوانی تعاریف' کلیک کنید.",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "تنظیمات برای:",
-	SETTINGS_LANGUAGE_AUTO: "خودکار (مطابق با Obsidian)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "نمی‌توان تنظیمات را بازخوانی کرد: فایل اجرایی پایتون یافت نشد. لطفاً اطمینان حاصل کنید که پایتون نصب شده و در PATH قرار دارد.",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "در حال بازخوانی تعاریف تنظیمات اسکریپت...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "تعاریف تنظیمات اسکریپت با موفقیت بازخوانی شد!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "بازخوانی تعاریف تنظیمات اسکریپت ناموفق بود. برای جزئیات لاگ‌ها را بررسی کنید.",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "نمی‌توان اسکریپت را اجرا کرد: فایل اجرایی پایتون یافت نشد. لطفاً نصب و PATH را بررسی کنید.",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "بازخوانی تعاریف تنظیمات اسکریپت پایتون",
-	SETTINGS_SECURITY_WARNING_TITLE: "هشدار امنیتی",
-	SETTINGS_SECURITY_WARNING_TEXT: "اجرای اسکریپت‌های پایتون دلخواه می‌تواند خطرناک باشد. اطمینان حاصل کنید که به منبع هر اسکریپتی که اجرا می‌کنید اعتماد دارید، زیرا آنها می‌توانند به سیستم و داده‌های شما دسترسی پیدا کنند. نویسنده افزونه و نویسندگان اسکریپت مسئولیتی در قبال از دست دادن داده‌ها یا مشکلات امنیتی ناشی از اسکریپت‌هایی که برای اجرا انتخاب می‌کنید، ندارند. اسکریپت‌ها را با مسئولیت خود اجرا کنید.",
-	SETTINGS_LANGUAGE_TITLE: "زبان افزونه",
-	SETTINGS_LANGUAGE_DESC: "زبان نمایش رابط کاربری افزونه Python Bridge را انتخاب کنید. 'خودکار' از تنظیمات زبان Obsidian پیروی می‌کند.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "نکته عملکرد: حافظه پنهان بک‌لینک",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "برای بهبود عملکرد هنگام بازیابی بک‌لینک‌ها (با استفاده از تابع get_backlinks) در والت‌های بزرگ، نصب افزونه جامعه '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' توسط @mnaoumov را در نظر بگیرید.",
-	NOTICE_INVALID_FOLDER_PATH: "مسیر پوشه نامعتبر است. لطفاً یک پوشه معتبر در تنظیمات انتخاب کنید.",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "مسیر پوشه اسکریپت پایتون پیکربندی شده '{path}' نامعتبر است یا یافت نشد. در حال پاک کردن تنظیمات.",
+  SETTINGS_TAB_TITLE: 'تنظیمات Obsidian Python Bridge',
+  SETTINGS_FOLDER_TITLE: 'پوشه اسکریپت‌های پایتون',
+  SETTINGS_FOLDER_DESC:
+    'مسیر پوشه‌ای که حاوی اسکریپت‌های پایتون شماست (مطلق یا نسبی به والت).',
+  SETTINGS_FOLDER_PLACEHOLDER: '/path/to/your/scripts یا ./scripts-python',
+  SETTINGS_PORT_TITLE: 'پورت سرور HTTP',
+  SETTINGS_PORT_DESC:
+    'پورت برای سرور HTTP محلی (1024-65535). برای اعمال نیاز به راه‌اندازی مجدد یا ذخیره تنظیمات دارد.',
+  SETTINGS_CACHE_TITLE: 'غیرفعال کردن کش پایتون (__pycache__)',
+  SETTINGS_CACHE_DESC:
+    'پایتون را با پرچم "-B" اجرا کنید تا از نوشتن فایل‌های .pyc جلوگیری شود.',
+  NOTICE_PLUGIN_NAME: 'Python Bridge',
+  NOTICE_PORT_CHANGED_PREFIX: 'پورت HTTP به',
+  NOTICE_PORT_CHANGED_SUFFIX: 'تغییر کرد. در حال راه‌اندازی مجدد سرور...',
+  NOTICE_PYTHON_MISSING_TITLE: 'خطای Python Bridge:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'فایل اجرایی پایتون در PATH یافت نشد.\\nلطفاً پایتون را نصب کنید و اطمینان حاصل کنید که به متغیر محیطی PATH سیستم شما اضافه شده است تا افزونه بتواند اسکریپت‌ها را اجرا کند.\\nویژگی‌های افزونه که به پایتون نیاز دارند در دسترس نخواهند بود.',
+  NOTICE_REQUESTS_MISSING_TITLE: 'خطای Python Bridge:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "کتابخانه پایتون مورد نیاز 'requests' برای",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    'نصب نشده است.\\nلطفاً آن را با اجرای دستور زیر نصب کنید:\\n{pythonCmd} -m pip install requests\\nویژگی‌های افزونه که به پایتون نیاز دارند تا زمان نصب در دسترس نخواهند بود.',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'پورت HTTP نامعتبر پیکربندی شده است:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'سرور شروع نشد. لطفاً یک پورت معتبر (1-65535) را در تنظیمات پیکربندی کنید.',
+  NOTICE_PORT_IN_USE_PREFIX: 'پورت',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'در حال حاضر استفاده می‌شود. لطفاً پورت دیگری را در تنظیمات انتخاب کنید یا برنامه دیگری که از آن استفاده می‌کند را ببندید. سرور شروع نشد.',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'شروع به کار سرور روی پورت',
+  NOTICE_SERVER_START_FAILED_SUFFIX: 'ناموفق بود.',
+  NOTICE_INVALID_PORT_RANGE:
+    'پورت نامعتبر است. لطفاً عددی بین 0 تا 65535 وارد کنید.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: پورت HTTP تغییر کرد (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '). اسکریپت ممکن است پورت قدیمی را هدف قرار دهد اگر از قبل در حال اجرا باشد یا از خارج راه‌اندازی شده باشد.',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX: 'اسکریپت پایتون یافت نشد یا یک فایل نیست:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'خطا در دسترسی به فایل اسکریپت:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'در حال اجرای اسکریپت پایتون:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'خطا در اجرای',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'با',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'با کد خروج',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX:
+    'ناموفق بود. لاگ‌های کنسول را بررسی کنید.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'فایل اجرایی پایتون معتبری یافت نشد. تلاش شد:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "لطفاً اطمینان حاصل کنید که پایتون نصب شده و از طریق PATH سیستم شما (یا لانچر 'py' در ویندوز) قابل دسترسی است.",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'پوشه اسکریپت‌های پایتون یافت نشد یا نامعتبر است. لطفاً تنظیمات افزونه را بررسی کنید.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'خطا در خواندن پوشه اسکریپت‌ها:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'هیچ اسکریپت پایتون (.py) در پوشه پیکربندی شده یافت نشد.',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'در حال اجرا',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'اسکریپت پایتون...',
+  NOTICE_INPUT_VALIDATION_FAILED: 'ورودی با فرمت مورد نیاز مطابقت ندارد.',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'اجرای یک اسکریپت پایتون خاص',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'اجرای تمام اسکریپت‌های پایتون در پوشه',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'ارسال',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'یک اسکریپت پایتون برای اجرا انتخاب کنید...',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'تنظیمات مخصوص اسکریپت',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'بازخوانی تنظیمات اسکریپت',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'پوشه اسکریپت‌ها را برای کشف یا به‌روزرسانی تنظیمات تعریف شده در اسکریپت‌های پایتون خود دوباره اسکن کنید.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'بازخوانی تعاریف',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'در حال بازخوانی...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'پوشه اسکریپت‌های پایتون پیکربندی نشده است. لطفاً مسیر را در بالا تنظیم کنید.',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "هیچ اسکریپتی با تنظیمات قابل تعریف در پوشه پیکربندی شده یافت نشد، یا کشف تنظیمات ناموفق بود. برای تلاش مجدد روی 'بازخوانی تعاریف' کلیک کنید.",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'تنظیمات برای:',
+  SETTINGS_LANGUAGE_AUTO: 'خودکار (مطابق با Obsidian)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'نمی‌توان تنظیمات را بازخوانی کرد: فایل اجرایی پایتون یافت نشد. لطفاً اطمینان حاصل کنید که پایتون نصب شده و در PATH قرار دارد.',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'در حال بازخوانی تعاریف تنظیمات اسکریپت...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'تعاریف تنظیمات اسکریپت با موفقیت بازخوانی شد!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    'بازخوانی تعاریف تنظیمات اسکریپت ناموفق بود. برای جزئیات لاگ‌ها را بررسی کنید.',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'نمی‌توان اسکریپت را اجرا کرد: فایل اجرایی پایتون یافت نشد. لطفاً نصب و PATH را بررسی کنید.',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME: 'بازخوانی تعاریف تنظیمات اسکریپت پایتون',
+  SETTINGS_SECURITY_WARNING_TITLE: 'هشدار امنیتی',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'اجرای اسکریپت‌های پایتون دلخواه می‌تواند خطرناک باشد. اطمینان حاصل کنید که به منبع هر اسکریپتی که اجرا می‌کنید اعتماد دارید، زیرا آنها می‌توانند به سیستم و داده‌های شما دسترسی پیدا کنند. نویسنده افزونه و نویسندگان اسکریپت مسئولیتی در قبال از دست دادن داده‌ها یا مشکلات امنیتی ناشی از اسکریپت‌هایی که برای اجرا انتخاب می‌کنید، ندارند. اسکریپت‌ها را با مسئولیت خود اجرا کنید.',
+  SETTINGS_LANGUAGE_TITLE: 'زبان افزونه',
+  SETTINGS_LANGUAGE_DESC:
+    "زبان نمایش رابط کاربری افزونه Python Bridge را انتخاب کنید. 'خودکار' از تنظیمات زبان Obsidian پیروی می‌کند.",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'نکته عملکرد: حافظه پنهان بک‌لینک',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "برای بهبود عملکرد هنگام بازیابی بک‌لینک‌ها (با استفاده از تابع get_backlinks) در والت‌های بزرگ، نصب افزونه جامعه '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' توسط @mnaoumov را در نظر بگیرید.",
+  NOTICE_INVALID_FOLDER_PATH:
+    'مسیر پوشه نامعتبر است. لطفاً یک پوشه معتبر در تنظیمات انتخاب کنید.',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "مسیر پوشه اسکریپت پایتون پیکربندی شده '{path}' نامعتبر است یا یافت نشد. در حال پاک کردن تنظیمات.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "اسکریپت فعال شد",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "اجازه دهید این اسکریپت از طریق دستورات، میانبرها یا «اجرای همه» اجرا شود.",
-	NOTICE_SCRIPT_DISABLED: "اسکریپت '{scriptName}' در تنظیمات غیرفعال است و قابل اجرا نیست.",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'اسکریپت فعال شد',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    'اجازه دهید این اسکریپت از طریق دستورات، میانبرها یا «اجرای همه» اجرا شود.',
+  NOTICE_SCRIPT_DISABLED:
+    "اسکریپت '{scriptName}' در تنظیمات غیرفعال است و قابل اجرا نیست.",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "اجرا در هنگام راه‌اندازی",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "این اسکریپت را به طور خودکار هنگام شروع Obsidian اجرا کنید (فقط در صورتی که 'اسکریپت فعال' نیز روشن باشد).",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "تأخیر راه‌اندازی (ثانیه)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "این تعداد ثانیه پس از شروع Obsidian صبر کنید و سپس اسکریپت را اجرا کنید (فقط در صورتی اعمال می‌شود که 'اجرا در هنگام راه‌اندازی' روشن باشد). برای عدم تأخیر از 0 استفاده کنید.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'اجرا در هنگام راه‌اندازی',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "این اسکریپت را به طور خودکار هنگام شروع Obsidian اجرا کنید (فقط در صورتی که 'اسکریپت فعال' نیز روشن باشد).",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'تأخیر راه‌اندازی (ثانیه)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "این تعداد ثانیه پس از شروع Obsidian صبر کنید و سپس اسکریپت را اجرا کنید (فقط در صورتی اعمال می‌شود که 'اجرا در هنگام راه‌اندازی' روشن باشد). برای عدم تأخیر از 0 استفاده کنید.",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "تنظیم خودکار PYTHONPATH برای کتابخانه",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "هنگام اجرای اسکریپت‌ها، دایرکتوری افزونه را به‌طور خودکار به PYTHONPATH اضافه می‌کند و امکان وارد کردن مستقیم کتابخانه پایتون را فراهم می‌کند (توصیه می‌شود). اگر غیرفعال باشد، باید ObsidianPluginDevPythonToJS.py را در پوشه اسکریپت‌های خود کپی کنید یا sys.path را به‌صورت دستی مدیریت کنید.",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "PYTHONPATH خودکار غیرفعال شد. اطمینان حاصل کنید که ObsidianPluginDevPythonToJS.py در پوشه اسکریپت شما قرار دارد یا sys.path را به صورت دستی مدیریت کنید.",
+  SETTINGS_AUTO_PYTHONPATH_NAME: 'تنظیم خودکار PYTHONPATH برای کتابخانه',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'هنگام اجرای اسکریپت‌ها، دایرکتوری افزونه را به‌طور خودکار به PYTHONPATH اضافه می‌کند و امکان وارد کردن مستقیم کتابخانه پایتون را فراهم می‌کند (توصیه می‌شود). اگر غیرفعال باشد، باید ObsidianPluginDevPythonToJS.py را در پوشه اسکریپت‌های خود کپی کنید یا sys.path را به‌صورت دستی مدیریت کنید.',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'PYTHONPATH خودکار غیرفعال شد. اطمینان حاصل کنید که ObsidianPluginDevPythonToJS.py در پوشه اسکریپت شما قرار دارد یا sys.path را به صورت دستی مدیریت کنید.',
 
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'مسیر فایل اجرایی پایتون',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'مسیر مطلق به فایل اجرایی پایتون یا uv شما. برای تشخیص خودکار خالی بگذارید (uv، py، python3، python). در صورت تغییر، برای اعمال کامل اثر، نیاز به بارگذاری مجدد یا راه اندازی مجدد افزونه است.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'مثال: /usr/bin/python3 یا C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'مسیر فایل اجرایی پایتون تغییر کرد. در حال بازخوانی اسکریپت ها...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    'مسیر سفارشی پایتون نامعتبر است و هیچ فایل اجرایی جایگزینی یافت نشد. اسکریپت ها ممکن است اجرا نشوند.',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'مسیر سفارشی پایتون ناموفق بود',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "مسیر سفارشی فایل اجرایی پایتون '{path}' نامعتبر است یا قابل اجرا نیست. بازگشت به تشخیص خودکار.",
 };

@@ -1,86 +1,136 @@
 // fi.ts - fi translations
 // WARNING: Auto-generated translations below. Please review and correct.
 export default {
-	SETTINGS_TAB_TITLE: "Obsidian Python Bridge -asetukset",
-	SETTINGS_FOLDER_TITLE: "Python-skriptien kansio",
-	SETTINGS_FOLDER_DESC: "Polku kansioon, joka sisältää Python-skriptisi (absoluuttinen tai suhteessa vaultiin).",
-	SETTINGS_FOLDER_PLACEHOLDER: "/polku/skripteihisi tai ./scripts-python",
-	SETTINGS_PORT_TITLE: "HTTP-palvelimen portti",
-	SETTINGS_PORT_DESC: "Paikallisen HTTP-palvelimen portti (1024-65535). Vaatii uudelleenkäynnistyksen tai asetusten tallentamisen penerapan.",
-	SETTINGS_CACHE_TITLE: "Poista Python-välimuisti käytöstä (__pycache__)",
-	SETTINGS_CACHE_DESC: "Aja Python \"-B\"-lipulla estääksesi .pyc-tiedostojen kirjoittamisen.",
-	NOTICE_PLUGIN_NAME: "Python Bridge",
-	NOTICE_PORT_CHANGED_PREFIX: "HTTP-portti vaihdettu porttiin",
-	NOTICE_PORT_CHANGED_SUFFIX: "Käynnistetään palvelin uudelleen...",
-	NOTICE_PYTHON_MISSING_TITLE: "Python Bridge -virhe:",
-	NOTICE_PYTHON_MISSING_DESC: "Python-suoritettavaa tiedostoa ei löytynyt PATH-muuttujasta.\\nAsenna Python ja varmista, että se on lisätty järjestelmän PATH-ympäristömuuttujaan, jotta lisäosa voi suorittaa skriptejä.\\nPythonia vaativat lisäosan ominaisuudet eivät ole käytettävissä.",
-	NOTICE_REQUESTS_MISSING_TITLE: "Python Bridge -virhe:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Vaadittua Python-kirjastoa 'requests' ei ole asennettu kohteelle",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\\nAsenna se suorittamalla:\\n{pythonCmd} -m pip install requests\\nPythonia vaativat lisäosan ominaisuudet eivät ole käytettävissä ennen asennusta.",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "Virheellinen HTTP-portti määritetty:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Palvelinta ei käynnistetty. Määritä kelvollinen portti (1-65535) asetuksissa.",
-	NOTICE_PORT_IN_USE_PREFIX: "Portti",
-	NOTICE_PORT_IN_USE_SUFFIX: "on jo käytössä. Valitse toinen portti asetuksista tai sulje sitä käyttävä sovellus. Palvelinta ei käynnistetty.",
-	NOTICE_SERVER_START_FAILED_PREFIX: "Palvelimen käynnistäminen portissa",
-	NOTICE_SERVER_START_FAILED_SUFFIX: "epäonnistui.",
-	NOTICE_INVALID_PORT_RANGE: "Virheellinen portti. Anna numero väliltä 0–65535.",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: HTTP-portti muuttui (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Skripti saattaa kohdistaa vanhaan porttiin, jos se on jo käynnissä tai käynnistetty ulkoisesti.",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Python-skriptiä ei löytynyt tai se ei ole tiedosto:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Virhe skriptitiedoston käytössä:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "Suoritetaan Python-skriptiä:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Virhe suoritettaessa",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "komennolla",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "epäonnistui poistumiskoodilla",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Tarkista konsolilokit.",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "Kelvollista Python-suoritettavaa tiedostoa ei löytynyt. Yritetty:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Varmista, että Python on asennettu ja käytettävissä järjestelmän PATH-muuttujan kautta (tai 'py'-käynnistimellä Windowsissa).",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "Python-skriptien kansiota ei löytynyt tai se on virheellinen. Tarkista lisäosan asetukset.",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Virhe luettaessa skriptikansiota:",
-	NOTICE_NO_SCRIPTS_FOUND: "Määritetystä kansiosta ei löytynyt Python-skriptejä (.py).",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Suoritetaan",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "Python-skripti(ä)...",
-	NOTICE_INPUT_VALIDATION_FAILED: "Syöte ei vastaa vaadittua muotoa.",
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Suorita tietty Python-skripti",
-	CMD_RUN_ALL_SCRIPTS_NAME: "Suorita kaikki Python-skriptit kansiossa",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "Lähetä",
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Valitse suoritettava Python-skripti...",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "Skriptikohtaiset Asetukset",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Päivitä Skriptiasetukset",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "Skannaa skriptikansio uudelleen löytääksesi tai päivittääksesi Python-skripteissäsi määritellyt asetukset.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Päivitä Määritelmät",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "Päivitetään...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "Python-skriptien kansiota ei ole määritetty. Aseta polku yllä.",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "Määritetystä kansiosta ei löytynyt skriptejä, joilla olisi määriteltäviä asetuksia, tai asetusten löytäminen epäonnistui. Napsauta 'Päivitä Määritelmät' yrittääksesi uudelleen.",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "Asetukset kohteelle:",
-	SETTINGS_LANGUAGE_AUTO: "Automaattinen (Vastaa Obsidiania)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "Asetuksia ei voi päivittää: Python-suoritettavaa tiedostoa ei löytynyt. Varmista, että Python on asennettu ja PATH-muuttujassa.",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "Päivitetään skriptiasetusten määrittelyjä...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "Skriptiasetusten määrittelyt päivitetty onnistuneesti!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "Skriptiasetusten määrittelyjen päivitys epäonnistui. Tarkista lokit lisätietoja varten.",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "Skriptiä ei voi suorittaa: Python-suoritettavaa tiedostoa ei löytynyt. Tarkista asennus ja PATH.",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Päivitä Python-skriptiasetusten määrittelyt",
-	SETTINGS_SECURITY_WARNING_TITLE: "Turvallisuusvaroitus",
-	SETTINGS_SECURITY_WARNING_TEXT: "Mielivaltaisten Python-skriptien suorittaminen voi olla riskialtista. Varmista, että luotat minkä tahansa suorittamasi skriptin lähteeseen, sillä ne voivat käyttää järjestelmääsi ja tietojasi. Lisäosan tekijä ja skriptien tekijät eivät ole vastuussa mistään tietojen menetyksestä tai tietoturvaongelmista, jotka johtuvat valitsemistasi skripteistä. Suorita skriptit omalla vastuullasi.",
-	SETTINGS_LANGUAGE_TITLE: "Lisäosan Kieli",
-	SETTINGS_LANGUAGE_DESC: "Valitse Python Bridge -lisäosan käyttöliittymän näyttökieli. 'Automaattinen' noudattaa Obsidianin kieliasetusta.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Suorituskykyvinkki: Palautuslinkkien välimuisti",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Parantaaksesi suorituskykyä palautuslinkkejä haettaessa (käyttäen get_backlinks-funktiota) suurissa holveissa, harkitse @mnaoumov:n kehittämän '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' -yhteisölaajennuksen asentamista.",
-	NOTICE_INVALID_FOLDER_PATH: "Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Määritetty Python-skriptikansion polku '{path}' on virheellinen tai sitä ei löydy. Tyhjennetään asetusta.",
+  SETTINGS_TAB_TITLE: 'Obsidian Python Bridge -asetukset',
+  SETTINGS_FOLDER_TITLE: 'Python-skriptien kansio',
+  SETTINGS_FOLDER_DESC:
+    'Polku kansioon, joka sisältää Python-skriptisi (absoluuttinen tai suhteessa vaultiin).',
+  SETTINGS_FOLDER_PLACEHOLDER: '/polku/skripteihisi tai ./scripts-python',
+  SETTINGS_PORT_TITLE: 'HTTP-palvelimen portti',
+  SETTINGS_PORT_DESC:
+    'Paikallisen HTTP-palvelimen portti (1024-65535). Vaatii uudelleenkäynnistyksen tai asetusten tallentamisen penerapan.',
+  SETTINGS_CACHE_TITLE: 'Poista Python-välimuisti käytöstä (__pycache__)',
+  SETTINGS_CACHE_DESC:
+    'Aja Python "-B"-lipulla estääksesi .pyc-tiedostojen kirjoittamisen.',
+  NOTICE_PLUGIN_NAME: 'Python Bridge',
+  NOTICE_PORT_CHANGED_PREFIX: 'HTTP-portti vaihdettu porttiin',
+  NOTICE_PORT_CHANGED_SUFFIX: 'Käynnistetään palvelin uudelleen...',
+  NOTICE_PYTHON_MISSING_TITLE: 'Python Bridge -virhe:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'Python-suoritettavaa tiedostoa ei löytynyt PATH-muuttujasta.\\nAsenna Python ja varmista, että se on lisätty järjestelmän PATH-ympäristömuuttujaan, jotta lisäosa voi suorittaa skriptejä.\\nPythonia vaativat lisäosan ominaisuudet eivät ole käytettävissä.',
+  NOTICE_REQUESTS_MISSING_TITLE: 'Python Bridge -virhe:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Vaadittua Python-kirjastoa 'requests' ei ole asennettu kohteelle",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    '.\\nAsenna se suorittamalla:\\n{pythonCmd} -m pip install requests\\nPythonia vaativat lisäosan ominaisuudet eivät ole käytettävissä ennen asennusta.',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'Virheellinen HTTP-portti määritetty:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'Palvelinta ei käynnistetty. Määritä kelvollinen portti (1-65535) asetuksissa.',
+  NOTICE_PORT_IN_USE_PREFIX: 'Portti',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'on jo käytössä. Valitse toinen portti asetuksista tai sulje sitä käyttävä sovellus. Palvelinta ei käynnistetty.',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'Palvelimen käynnistäminen portissa',
+  NOTICE_SERVER_START_FAILED_SUFFIX: 'epäonnistui.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Virheellinen portti. Anna numero väliltä 0–65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: HTTP-portti muuttui (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '). Skripti saattaa kohdistaa vanhaan porttiin, jos se on jo käynnissä tai käynnistetty ulkoisesti.',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Python-skriptiä ei löytynyt tai se ei ole tiedosto:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: 'Virhe skriptitiedoston käytössä:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'Suoritetaan Python-skriptiä:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Virhe suoritettaessa',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'komennolla',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'epäonnistui poistumiskoodilla',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: 'Tarkista konsolilokit.',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'Kelvollista Python-suoritettavaa tiedostoa ei löytynyt. Yritetty:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "Varmista, että Python on asennettu ja käytettävissä järjestelmän PATH-muuttujan kautta (tai 'py'-käynnistimellä Windowsissa).",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'Python-skriptien kansiota ei löytynyt tai se on virheellinen. Tarkista lisäosan asetukset.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: 'Virhe luettaessa skriptikansiota:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Määritetystä kansiosta ei löytynyt Python-skriptejä (.py).',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Suoritetaan',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'Python-skripti(ä)...',
+  NOTICE_INPUT_VALIDATION_FAILED: 'Syöte ei vastaa vaadittua muotoa.',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Suorita tietty Python-skripti',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'Suorita kaikki Python-skriptit kansiossa',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'Lähetä',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Valitse suoritettava Python-skripti...',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Skriptikohtaiset Asetukset',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Päivitä Skriptiasetukset',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'Skannaa skriptikansio uudelleen löytääksesi tai päivittääksesi Python-skripteissäsi määritellyt asetukset.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: 'Päivitä Määritelmät',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'Päivitetään...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'Python-skriptien kansiota ei ole määritetty. Aseta polku yllä.',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "Määritetystä kansiosta ei löytynyt skriptejä, joilla olisi määriteltäviä asetuksia, tai asetusten löytäminen epäonnistui. Napsauta 'Päivitä Määritelmät' yrittääksesi uudelleen.",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Asetukset kohteelle:',
+  SETTINGS_LANGUAGE_AUTO: 'Automaattinen (Vastaa Obsidiania)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'Asetuksia ei voi päivittää: Python-suoritettavaa tiedostoa ei löytynyt. Varmista, että Python on asennettu ja PATH-muuttujassa.',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    'Päivitetään skriptiasetusten määrittelyjä...',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    'Skriptiasetusten määrittelyt päivitetty onnistuneesti!',
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    'Skriptiasetusten määrittelyjen päivitys epäonnistui. Tarkista lokit lisätietoja varten.',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'Skriptiä ei voi suorittaa: Python-suoritettavaa tiedostoa ei löytynyt. Tarkista asennus ja PATH.',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    'Päivitä Python-skriptiasetusten määrittelyt',
+  SETTINGS_SECURITY_WARNING_TITLE: 'Turvallisuusvaroitus',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'Mielivaltaisten Python-skriptien suorittaminen voi olla riskialtista. Varmista, että luotat minkä tahansa suorittamasi skriptin lähteeseen, sillä ne voivat käyttää järjestelmääsi ja tietojasi. Lisäosan tekijä ja skriptien tekijät eivät ole vastuussa mistään tietojen menetyksestä tai tietoturvaongelmista, jotka johtuvat valitsemistasi skripteistä. Suorita skriptit omalla vastuullasi.',
+  SETTINGS_LANGUAGE_TITLE: 'Lisäosan Kieli',
+  SETTINGS_LANGUAGE_DESC:
+    "Valitse Python Bridge -lisäosan käyttöliittymän näyttökieli. 'Automaattinen' noudattaa Obsidianin kieliasetusta.",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    'Suorituskykyvinkki: Palautuslinkkien välimuisti',
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "Parantaaksesi suorituskykyä palautuslinkkejä haettaessa (käyttäen get_backlinks-funktiota) suurissa holveissa, harkitse @mnaoumov:n kehittämän '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' -yhteisölaajennuksen asentamista.",
+  NOTICE_INVALID_FOLDER_PATH:
+    'Virheellinen kansion polku. Valitse kelvollinen kansio asetuksista.',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "Määritetty Python-skriptikansion polku '{path}' on virheellinen tai sitä ei löydy. Tyhjennetään asetusta.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "Skripti Käytössä",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Salli tämän skriptin suorittaminen komentojen, pikanäppäinten tai 'Suorita kaikki' kautta.",
-	NOTICE_SCRIPT_DISABLED: "Skripti '{scriptName}' on poistettu käytöstä asetuksista, eikä sitä voi suorittaa.",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Skripti Käytössä',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    "Salli tämän skriptin suorittaminen komentojen, pikanäppäinten tai 'Suorita kaikki' kautta.",
+  NOTICE_SCRIPT_DISABLED:
+    "Skripti '{scriptName}' on poistettu käytöstä asetuksista, eikä sitä voi suorittaa.",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Suorita käynnistyksen yhteydessä",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Suorita tämä skripti automaattisesti Obsidianin käynnistyessä (vain jos 'Skripti käytössä' on myös päällä).",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Käynnistysviive (sekuntia)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Odota näin monta sekuntia Obsidianin käynnistymisen jälkeen ennen skriptin suorittamista (koskee vain, jos 'Suorita käynnistyksen yhteydessä' on päällä). Käytä 0, jos et halua viivettä.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Suorita käynnistyksen yhteydessä',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "Suorita tämä skripti automaattisesti Obsidianin käynnistyessä (vain jos 'Skripti käytössä' on myös päällä).",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Käynnistysviive (sekuntia)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "Odota näin monta sekuntia Obsidianin käynnistymisen jälkeen ennen skriptin suorittamista (koskee vain, jos 'Suorita käynnistyksen yhteydessä' on päällä). Käytä 0, jos et halua viivettä.",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "Aseta PYTHONPATH automaattisesti kirjastolle",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "Lisää automaattisesti laajennushakemiston PYTHONPATHiin komentosarjoja suoritettaessa, mikä mahdollistaa Python-kirjaston suoran tuonnin (Suositus). Jos se on poistettu käytöstä, sinun on kopioitava ObsidianPluginDevPythonToJS.py komentosarjakansioosi tai hallittava sys.pathia manuaalisesti.",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "Automaattinen PYTHONPATH pois käytöstä. Varmista, että ObsidianPluginDevPythonToJS.py on komentosarjakansiossasi tai hallitse sys.pathia manuaalisesti.",
+  SETTINGS_AUTO_PYTHONPATH_NAME: 'Aseta PYTHONPATH automaattisesti kirjastolle',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'Lisää automaattisesti laajennushakemiston PYTHONPATHiin komentosarjoja suoritettaessa, mikä mahdollistaa Python-kirjaston suoran tuonnin (Suositus). Jos se on poistettu käytöstä, sinun on kopioitava ObsidianPluginDevPythonToJS.py komentosarjakansioosi tai hallittava sys.pathia manuaalisesti.',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'Automaattinen PYTHONPATH pois käytöstä. Varmista, että ObsidianPluginDevPythonToJS.py on komentosarjakansiossasi tai hallitse sys.pathia manuaalisesti.',
 
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python-suoritustiedoston polku',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'Absoluuttinen polku Python- tai uv-suoritustiedostoon. Jätä tyhjäksi automaattista tunnistusta varten (uv, py, python3, python). Vaatii laajennuksen uudelleenlatauksen tai uudelleenkäynnistyksen, jotta muutos tulee täysin voimaan.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'esim. /usr/bin/python3 tai C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'Python-suoritustiedoston polku muuttui. Päivitetään skriptejä...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    'Mukautettu Python-polku on virheellinen, eikä varasuoritustiedostoa löytynyt. Skriptit eivät välttämättä toimi.',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Mukautettu Python-polku epäonnistui',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "Mukautettu Python-suoritustiedoston polku '{path}' on virheellinen tai sitä ei voitu suorittaa. Palataan automaattiseen tunnistukseen.",
 };

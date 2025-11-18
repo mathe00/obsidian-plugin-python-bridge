@@ -1,86 +1,139 @@
 // ha.ts - ha translations
 // WARNING: Auto-generated translations below. Please review and correct.
 export default {
-	SETTINGS_TAB_TITLE: "Saitunan Obsidian Python Bridge",
-	SETTINGS_FOLDER_TITLE: "Jakkar Rubutun Python",
-	SETTINGS_FOLDER_DESC: "Hanyar zuwa jakkar da ke dauke da rubutun Python naka (cikakke ko dangane da vault).",
-	SETTINGS_FOLDER_PLACEHOLDER: "/hanya/zuwa/rubutunka ko ./scripts-python",
-	SETTINGS_PORT_TITLE: "Tashar Sabar HTTP",
-	SETTINGS_PORT_DESC: "Tasha don sabar HTTP ta gida (1024-65535). Yana buƙatar sake kunnawa ko adana saituna don amfani.",
-	SETTINGS_CACHE_TITLE: "Kashe Cache na Python (__pycache__)",
-	SETTINGS_CACHE_DESC: "Gudun Python da tutar \"-B\" don hana rubuta fayilolin .pyc.",
-	NOTICE_PLUGIN_NAME: "Python Bridge",
-	NOTICE_PORT_CHANGED_PREFIX: "An canza tashar HTTP zuwa",
-	NOTICE_PORT_CHANGED_SUFFIX: "Sake kunna sabar...",
-	NOTICE_PYTHON_MISSING_TITLE: "Kuskuren Python Bridge:",
-	NOTICE_PYTHON_MISSING_DESC: "Ba a sami mai aiwatar da Python a cikin PATH ba.\\nDa fatan za a shigar da Python kuma tabbatar an ƙara shi zuwa madaidaicin yanayin PATH na tsarin ku don plugin ya iya gudanar da rubutu.\\nAbubuwan plugin da ke buƙatar Python ba za su kasance ba.",
-	NOTICE_REQUESTS_MISSING_TITLE: "Kuskuren Python Bridge:",
-	NOTICE_REQUESTS_MISSING_DESC_PREFIX: "Ba a shigar da ɗakin karatu na Python da ake buƙata 'requests' ba don",
-	NOTICE_REQUESTS_MISSING_DESC_SUFFIX: ".\\nDa fatan za a shigar da shi ta hanyar gudanarwa:\\n{pythonCmd} -m pip install requests\\nAbubuwan plugin da ke buƙatar Python ba za su kasance ba har sai an shigar.",
-	NOTICE_INVALID_PORT_CONFIG_PREFIX: "An saita tashar HTTP mara inganci:",
-	NOTICE_INVALID_PORT_CONFIG_SUFFIX: "Ba a fara sabar ba. Da fatan za a saita tasha mai inganci (1-65535) a cikin saituna.",
-	NOTICE_PORT_IN_USE_PREFIX: "Tasha",
-	NOTICE_PORT_IN_USE_SUFFIX: "ta riga ta kasance cikin amfani. Da fatan za a zaɓi wata tasha a cikin saituna ko rufe wani aikace-aikacen da ke amfani da ita. Ba a fara sabar ba.",
-	NOTICE_SERVER_START_FAILED_PREFIX: "An kasa fara sabar a tashar",
-	NOTICE_SERVER_START_FAILED_SUFFIX: ".",
-	NOTICE_INVALID_PORT_RANGE: "Tashar da ba ta da inganci. Da fatan za a shigar da lamba tsakanin 0 da 65535.",
-	NOTICE_PORT_MISMATCH_WARNING_PREFIX: "⚠️ Python Bridge: An canza Tashar HTTP (",
-	NOTICE_PORT_MISMATCH_WARNING_MIDDLE: "->",
-	NOTICE_PORT_MISMATCH_WARNING_SUFFIX: "). Rubutun na iya nufin tsohuwar tasha idan tana gudana ko an ƙaddamar da ita daga waje.",
-	NOTICE_SCRIPT_NOT_FOUND_PREFIX: "Ba a sami rubutun Python ba ko ba fayil ba ne:",
-	NOTICE_SCRIPT_ACCESS_ERROR_PREFIX: "Kuskure wajen samun damar fayil ɗin rubutu:",
-	NOTICE_RUNNING_SCRIPT_PREFIX: "Ana gudanar da rubutun Python:",
-	NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: "Kuskure wajen gudanarwa",
-	NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: "da",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: "ya kasa da lambar fita",
-	NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Duba log ɗin na'ura mai kwakwalwa.",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX: "An kasa samun ingantaccen mai aiwatar da Python. An gwada:",
-	NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX: "Da fatan za a tabbatar an shigar da Python kuma ana iya samun damar ta ta hanyar PATH na tsarin ku (ko mai ƙaddamar da 'py' a kan Windows).",
-	NOTICE_SCRIPTS_FOLDER_INVALID: "Ba a sami jakkar rubutun Python ba ko mara inganci. Da fatan za a duba saitunan plugin.",
-	NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX: "Kuskure wajen karanta jakkar rubutu:",
-	NOTICE_NO_SCRIPTS_FOUND: "Ba a sami rubutun Python (.py) a cikin jakkar da aka saita ba.",
-	NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: "Ana gudanarwa",
-	NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: "rubutun Python...",
-	NOTICE_INPUT_VALIDATION_FAILED: "Shigarwar ba ta dace da tsarin da ake buƙata ba.",
-	CMD_RUN_SPECIFIC_SCRIPT_NAME: "Gudun takamaiman rubutun Python",
-	CMD_RUN_ALL_SCRIPTS_NAME: "Gudun duk rubutun Python a cikin jaka",
-	MODAL_USER_INPUT_SUBMIT_BUTTON: "Gabatar",
-	MODAL_SELECT_SCRIPT_PLACEHOLDER: "Zaɓi rubutun Python don gudana...",
-	SETTINGS_SCRIPT_SETTINGS_TITLE: "Saitunan Musamman na Rubutu",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: "Sake Sabunta Saitunan Rubutu",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC: "Sake duba jakkar rubutu don gano ko sabunta saitunan da aka ayyana a cikin rubutun Python naka.",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Sake Sabunta Ma'anoni",
-	SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: "Ana sake sabuntawa...",
-	SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED: "Ba a saita jakkar rubutun Python ba. Da fatan za a saita hanyar a sama.",
-	SETTINGS_NO_SCRIPT_SETTINGS_FOUND: "Ba a sami rubutu tare da saitunan da za a iya ayyanawa a cikin jakkar da aka saita ba, ko kuma gano saitunan ya kasa. Danna 'Sake Sabunta Ma'anoni' don sake gwadawa.",
-	SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: "Saituna don:",
-	SETTINGS_LANGUAGE_AUTO: "Atomatik (Daidaita da Obsidian)",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH: "An kasa sake sabunta saituna: Ba a sami mai aiwatar da Python ba. Da fatan za a tabbatar an shigar da Python kuma yana cikin PATH.",
-	NOTICE_REFRESHING_SCRIPT_SETTINGS: "Ana sake sabunta ma'anonin saitunan rubutu...",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS: "An sake sabunta ma'anonin saitunan rubutu cikin nasara!",
-	NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED: "An kasa sake sabunta ma'anonin saitunan rubutu. Duba log don cikakken bayani.",
-	NOTICE_PYTHON_EXEC_MISSING_FOR_RUN: "An kasa gudanar da rubutu: Ba a sami mai aiwatar da Python ba. Da fatan za a duba shigarwa da PATH.",
-	CMD_REFRESH_SCRIPT_SETTINGS_NAME: "Sake sabunta ma'anonin saitunan rubutun Python",
-	SETTINGS_SECURITY_WARNING_TITLE: "Gargaɗin Tsaro",
-	SETTINGS_SECURITY_WARNING_TEXT: "Gudanar da rubutun Python na son rai na iya zama mai haɗari. Tabbatar ka amince da tushen kowane rubutun da kake gudanarwa, saboda suna iya samun damar tsarin ka da bayananka. Marubucin plugin da marubutan rubutu ba su da alhakin kowane asarar bayanai ko matsalolin tsaro da rubutun da ka zaɓa ya haifar. Gudanar da rubutu a kan haɗarinka.",
-	SETTINGS_LANGUAGE_TITLE: "Harshen Plugin",
-	SETTINGS_LANGUAGE_DESC: "Zaɓi harshen nuni don mahallin plugin na Python Bridge. 'Atomatik' yana bin saitin harshe na Obsidian.",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE: "Tukwici na Aiki: Ma'ajiyar Backlink",
-	SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC: "Don ingantaccen aiki lokacin da ake dawo da backlinks (ta amfani da aikin get_backlinks) a cikin manyan vaults, yi la'akari da shigar da plugin na al'umma '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' ta @mnaoumov.",
-	NOTICE_INVALID_FOLDER_PATH: "Hanyar babban fayil mara inganci. Da fatan za a zaɓi babban fayil mai inganci a cikin saituna.",
-	NOTICE_INVALID_STARTUP_FOLDER_PATH: "Hanyar babban fayil ɗin rubutun Python da aka saita '{path}' ba ta da inganci ko ba a samo ta ba. Share saitin.",
+  SETTINGS_TAB_TITLE: 'Saitunan Obsidian Python Bridge',
+  SETTINGS_FOLDER_TITLE: 'Jakkar Rubutun Python',
+  SETTINGS_FOLDER_DESC:
+    'Hanyar zuwa jakkar da ke dauke da rubutun Python naka (cikakke ko dangane da vault).',
+  SETTINGS_FOLDER_PLACEHOLDER: '/hanya/zuwa/rubutunka ko ./scripts-python',
+  SETTINGS_PORT_TITLE: 'Tashar Sabar HTTP',
+  SETTINGS_PORT_DESC:
+    'Tasha don sabar HTTP ta gida (1024-65535). Yana buƙatar sake kunnawa ko adana saituna don amfani.',
+  SETTINGS_CACHE_TITLE: 'Kashe Cache na Python (__pycache__)',
+  SETTINGS_CACHE_DESC:
+    'Gudun Python da tutar "-B" don hana rubuta fayilolin .pyc.',
+  NOTICE_PLUGIN_NAME: 'Python Bridge',
+  NOTICE_PORT_CHANGED_PREFIX: 'An canza tashar HTTP zuwa',
+  NOTICE_PORT_CHANGED_SUFFIX: 'Sake kunna sabar...',
+  NOTICE_PYTHON_MISSING_TITLE: 'Kuskuren Python Bridge:',
+  NOTICE_PYTHON_MISSING_DESC:
+    'Ba a sami mai aiwatar da Python a cikin PATH ba.\\nDa fatan za a shigar da Python kuma tabbatar an ƙara shi zuwa madaidaicin yanayin PATH na tsarin ku don plugin ya iya gudanar da rubutu.\\nAbubuwan plugin da ke buƙatar Python ba za su kasance ba.',
+  NOTICE_REQUESTS_MISSING_TITLE: 'Kuskuren Python Bridge:',
+  NOTICE_REQUESTS_MISSING_DESC_PREFIX:
+    "Ba a shigar da ɗakin karatu na Python da ake buƙata 'requests' ba don",
+  NOTICE_REQUESTS_MISSING_DESC_SUFFIX:
+    '.\\nDa fatan za a shigar da shi ta hanyar gudanarwa:\\n{pythonCmd} -m pip install requests\\nAbubuwan plugin da ke buƙatar Python ba za su kasance ba har sai an shigar.',
+  NOTICE_INVALID_PORT_CONFIG_PREFIX: 'An saita tashar HTTP mara inganci:',
+  NOTICE_INVALID_PORT_CONFIG_SUFFIX:
+    'Ba a fara sabar ba. Da fatan za a saita tasha mai inganci (1-65535) a cikin saituna.',
+  NOTICE_PORT_IN_USE_PREFIX: 'Tasha',
+  NOTICE_PORT_IN_USE_SUFFIX:
+    'ta riga ta kasance cikin amfani. Da fatan za a zaɓi wata tasha a cikin saituna ko rufe wani aikace-aikacen da ke amfani da ita. Ba a fara sabar ba.',
+  NOTICE_SERVER_START_FAILED_PREFIX: 'An kasa fara sabar a tashar',
+  NOTICE_SERVER_START_FAILED_SUFFIX: '.',
+  NOTICE_INVALID_PORT_RANGE:
+    'Tashar da ba ta da inganci. Da fatan za a shigar da lamba tsakanin 0 da 65535.',
+  NOTICE_PORT_MISMATCH_WARNING_PREFIX:
+    '⚠️ Python Bridge: An canza Tashar HTTP (',
+  NOTICE_PORT_MISMATCH_WARNING_MIDDLE: '->',
+  NOTICE_PORT_MISMATCH_WARNING_SUFFIX:
+    '). Rubutun na iya nufin tsohuwar tasha idan tana gudana ko an ƙaddamar da ita daga waje.',
+  NOTICE_SCRIPT_NOT_FOUND_PREFIX:
+    'Ba a sami rubutun Python ba ko ba fayil ba ne:',
+  NOTICE_SCRIPT_ACCESS_ERROR_PREFIX:
+    'Kuskure wajen samun damar fayil ɗin rubutu:',
+  NOTICE_RUNNING_SCRIPT_PREFIX: 'Ana gudanar da rubutun Python:',
+  NOTICE_SCRIPT_ERROR_RUNNING_PREFIX: 'Kuskure wajen gudanarwa',
+  NOTICE_SCRIPT_ERROR_RUNNING_MIDDLE: 'da',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE: 'ya kasa da lambar fita',
+  NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX: "Duba log ɗin na'ura mai kwakwalwa.",
+  NOTICE_PYTHON_EXEC_NOT_FOUND_PREFIX:
+    'An kasa samun ingantaccen mai aiwatar da Python. An gwada:',
+  NOTICE_PYTHON_EXEC_NOT_FOUND_SUFFIX:
+    "Da fatan za a tabbatar an shigar da Python kuma ana iya samun damar ta ta hanyar PATH na tsarin ku (ko mai ƙaddamar da 'py' a kan Windows).",
+  NOTICE_SCRIPTS_FOLDER_INVALID:
+    'Ba a sami jakkar rubutun Python ba ko mara inganci. Da fatan za a duba saitunan plugin.',
+  NOTICE_SCRIPTS_FOLDER_READ_ERROR_PREFIX:
+    'Kuskure wajen karanta jakkar rubutu:',
+  NOTICE_NO_SCRIPTS_FOUND:
+    'Ba a sami rubutun Python (.py) a cikin jakkar da aka saita ba.',
+  NOTICE_RUNNING_ALL_SCRIPTS_PREFIX: 'Ana gudanarwa',
+  NOTICE_RUNNING_ALL_SCRIPTS_SUFFIX: 'rubutun Python...',
+  NOTICE_INPUT_VALIDATION_FAILED:
+    'Shigarwar ba ta dace da tsarin da ake buƙata ba.',
+  CMD_RUN_SPECIFIC_SCRIPT_NAME: 'Gudun takamaiman rubutun Python',
+  CMD_RUN_ALL_SCRIPTS_NAME: 'Gudun duk rubutun Python a cikin jaka',
+  MODAL_USER_INPUT_SUBMIT_BUTTON: 'Gabatar',
+  MODAL_SELECT_SCRIPT_PLACEHOLDER: 'Zaɓi rubutun Python don gudana...',
+  SETTINGS_SCRIPT_SETTINGS_TITLE: 'Saitunan Musamman na Rubutu',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_NAME: 'Sake Sabunta Saitunan Rubutu',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_DESC:
+    'Sake duba jakkar rubutu don gano ko sabunta saitunan da aka ayyana a cikin rubutun Python naka.',
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_TEXT: "Sake Sabunta Ma'anoni",
+  SETTINGS_REFRESH_DEFINITIONS_BUTTON_REFRESHING: 'Ana sake sabuntawa...',
+  SETTINGS_SCRIPT_FOLDER_NOT_CONFIGURED:
+    'Ba a saita jakkar rubutun Python ba. Da fatan za a saita hanyar a sama.',
+  SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
+    "Ba a sami rubutu tare da saitunan da za a iya ayyanawa a cikin jakkar da aka saita ba, ko kuma gano saitunan ya kasa. Danna 'Sake Sabunta Ma'anoni' don sake gwadawa.",
+  SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Saituna don:',
+  SETTINGS_LANGUAGE_AUTO: 'Atomatik (Daidaita da Obsidian)',
+  NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
+    'An kasa sake sabunta saituna: Ba a sami mai aiwatar da Python ba. Da fatan za a tabbatar an shigar da Python kuma yana cikin PATH.',
+  NOTICE_REFRESHING_SCRIPT_SETTINGS:
+    "Ana sake sabunta ma'anonin saitunan rubutu...",
+  NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
+    "An sake sabunta ma'anonin saitunan rubutu cikin nasara!",
+  NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
+    "An kasa sake sabunta ma'anonin saitunan rubutu. Duba log don cikakken bayani.",
+  NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
+    'An kasa gudanar da rubutu: Ba a sami mai aiwatar da Python ba. Da fatan za a duba shigarwa da PATH.',
+  CMD_REFRESH_SCRIPT_SETTINGS_NAME:
+    "Sake sabunta ma'anonin saitunan rubutun Python",
+  SETTINGS_SECURITY_WARNING_TITLE: 'Gargaɗin Tsaro',
+  SETTINGS_SECURITY_WARNING_TEXT:
+    'Gudanar da rubutun Python na son rai na iya zama mai haɗari. Tabbatar ka amince da tushen kowane rubutun da kake gudanarwa, saboda suna iya samun damar tsarin ka da bayananka. Marubucin plugin da marubutan rubutu ba su da alhakin kowane asarar bayanai ko matsalolin tsaro da rubutun da ka zaɓa ya haifar. Gudanar da rubutu a kan haɗarinka.',
+  SETTINGS_LANGUAGE_TITLE: 'Harshen Plugin',
+  SETTINGS_LANGUAGE_DESC:
+    "Zaɓi harshen nuni don mahallin plugin na Python Bridge. 'Atomatik' yana bin saitin harshe na Obsidian.",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
+    "Tukwici na Aiki: Ma'ajiyar Backlink",
+  SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
+    "Don ingantaccen aiki lokacin da ake dawo da backlinks (ta amfani da aikin get_backlinks) a cikin manyan vaults, yi la'akari da shigar da plugin na al'umma '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' ta @mnaoumov.",
+  NOTICE_INVALID_FOLDER_PATH:
+    'Hanyar babban fayil mara inganci. Da fatan za a zaɓi babban fayil mai inganci a cikin saituna.',
+  NOTICE_INVALID_STARTUP_FOLDER_PATH:
+    "Hanyar babban fayil ɗin rubutun Python da aka saita '{path}' ba ta da inganci ko ba a samo ta ba. Share saitin.",
 
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: "An kunna Script",
-	SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC: "Bada damar aiwatar da wannan rubutun ta hanyar umarni, gajerun hanyoyi, ko 'Run All'.",
-	NOTICE_SCRIPT_DISABLED: "An kashe Script '{scriptName}' a cikin saituna kuma ba za a iya aiwatar da shi ba.",
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'An kunna Script',
+  SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
+    "Bada damar aiwatar da wannan rubutun ta hanyar umarni, gajerun hanyoyi, ko 'Run All'.",
+  NOTICE_SCRIPT_DISABLED:
+    "An kashe Script '{scriptName}' a cikin saituna kuma ba za a iya aiwatar da shi ba.",
 
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: "Gudun Lokacin Farawa",
-	SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC: "Gudun wannan rubutun ta atomatik lokacin da Obsidian ya fara (kawai idan 'An kunna Script' shima yana kunne).",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: "Jinkirin Farawa (sakanni)",
-	SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC: "Jira wannan adadin sakanni bayan Obsidian ya fara kafin gudanar da rubutun (yana aiki ne kawai idan 'Gudun Lokacin Farawa' yana kunne). Yi amfani da 0 don babu jinkiri.",
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Gudun Lokacin Farawa',
+  SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
+    "Gudun wannan rubutun ta atomatik lokacin da Obsidian ya fara (kawai idan 'An kunna Script' shima yana kunne).",
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Jinkirin Farawa (sakanni)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
+    "Jira wannan adadin sakanni bayan Obsidian ya fara kafin gudanar da rubutun (yana aiki ne kawai idan 'Gudun Lokacin Farawa' yana kunne). Yi amfani da 0 don babu jinkiri.",
 
-	SETTINGS_AUTO_PYTHONPATH_NAME: "Saita PYTHONPATH ta atomatik don Laburare",
-	SETTINGS_AUTO_PYTHONPATH_DESC: "Ƙara babban fayil ɗin plugin ta atomatik zuwa PYTHONPATH lokacin gudanar da rubutun, yana ba da damar shigo da laburaren Python kai tsaye (An ba da shawarar). Idan an kashe, dole ne ka kwafi ObsidianPluginDevPythonToJS.py zuwa babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
-	NOTICE_AUTO_PYTHONPATH_DISABLED_DESC: "An kashe PYTHONPATH ta atomatik. Tabbatar cewa ObsidianPluginDevPythonToJS.py yana cikin babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.",
+  SETTINGS_AUTO_PYTHONPATH_NAME: 'Saita PYTHONPATH ta atomatik don Laburare',
+  SETTINGS_AUTO_PYTHONPATH_DESC:
+    'Ƙara babban fayil ɗin plugin ta atomatik zuwa PYTHONPATH lokacin gudanar da rubutun, yana ba da damar shigo da laburaren Python kai tsaye (An ba da shawarar). Idan an kashe, dole ne ka kwafi ObsidianPluginDevPythonToJS.py zuwa babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.',
+  NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
+    'An kashe PYTHONPATH ta atomatik. Tabbatar cewa ObsidianPluginDevPythonToJS.py yana cikin babban fayil ɗin rubutun ka ko sarrafa sys.path da hannu.',
 
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Hanyar Fayil Mai Gudun Aiki na Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC:
+    'Cikakken hanyar zuwa fayil ɗin Python ko uv mai aiwatarwa. Bar fanko don ganowa ta atomatik (uv, py, python3, python). Yana buƙatar sake kunna plugin ko sake farawa don yin tasiri sosai idan an canza.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
+    'misali, /usr/bin/python3 ko C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
+    'An canza hanyar fayil mai aiwatarwa na Python. Ana sabunta rubutun...',
+  NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
+    "Hanyar Python na al'ada ba daidai ba ne, kuma ba a sami wani fayil mai aiwatarwa na baya ba. Rubutun na iya yin aiki ba.",
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
+    'Hanyar Python na Musamman Ya Kasa',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
+    "Hanyar fayil mai aiwatarwa na Python na al'ada '{path}' ba daidai ba ne ko kuma ba za a iya aiwatar da shi ba. Komawa zuwa ganowa ta atomatik.",
 };

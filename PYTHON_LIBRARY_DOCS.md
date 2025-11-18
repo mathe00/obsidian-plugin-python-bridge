@@ -612,7 +612,7 @@ _(New)_ Retrieves the name of the current vault.
 
 #### `get_all_tags() -> List[str]`
 
-_(Temporarily Disabled)_ Retrieves all unique tags.
+Retrieves all unique tags from your vault.
 
 - **Returns:** (`List[str]`) e.g., `['#tag1', '#tag/nested']`.
 - **Raises:** `ObsidianCommError` if request fails.
@@ -637,7 +637,7 @@ _(New)_ Retrieves current theme mode ('light' or 'dark').
 
 #### `run_obsidian_command(command_id: str) -> None`
 
-_(Temporarily Disabled)_ Executes an Obsidian command.
+Executes any Obsidian command by its ID.
 
 - **Parameters:** `command_id` (`str`) e.g., `"editor:toggle-bold"`.
 - **Returns:** `None`

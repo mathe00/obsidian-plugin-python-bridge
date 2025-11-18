@@ -175,6 +175,8 @@ In short, while some tasks are technically feasible without this plugin, they're
 - **📝 Access/Modify Active Note & Selection**: Easily get content (as a single string or list of lines), frontmatter, path, or title of the currently open note, and get or replace selected text in the editor. Get basic editor context (cursor position, line count).
 - **📂 Vault Interaction & File Management**: Get the vault path, list all note paths (relative or absolute), open specific notes, read/modify any note's content or frontmatter (by path). **Create, check existence, rename, delete notes and folders. List folder contents.** Get outgoing links from a note.
 - **🔗 Backlink Retrieval**: Get incoming links (backlinks) for a specific note. Optionally uses the [Backlink Cache plugin](https://github.com/mnaoumov/obsidian-backlink-cache) for significantly improved performance in large vaults if installed.
+- **🏷️ Tag Management**: Retrieve all unique tags from your vault using `get_all_tags()`.
+- **⚡ Command Execution**: Execute any Obsidian command by its ID using `run_obsidian_command()`.
 
 * **👂 Event Listening**: Allow Python scripts to react to Obsidian events (like note modification, deletion, rename, etc.) by registering listeners.
 
@@ -439,7 +441,7 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ### 🔥 High Priority
 
-- 🛠️ **Re-enable Disabled Features**: Fix build issues to re-enable `run_obsidian_command` and `get_all_tags`.
+- ✅ **Re-enabled Features**: `run_obsidian_command` and `get_all_tags` have been successfully re-enabled and are now functional.
 - 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
 
 ### 🔧 Medium Priority

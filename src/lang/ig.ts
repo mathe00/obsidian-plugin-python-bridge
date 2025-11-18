@@ -131,4 +131,18 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Ụzọ Python Omenala Akụọla',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ụzọ faịlụ Python omenala '{path}' ezighi ezi ma ọ bụ enweghị ike ịgba ọsọ. Na-alaghachi na nchọpụta onwe.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Ịdọ aka ná ntị Nche',
+  ACTIVATION_WARNING_MESSAGE:
+    'Ị nọ n\'ịgbachitere ịgba Python script "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Nweta ma gbanwee faịlụ na sistemụ gị',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Mee mkpesa netwọk nye ọrụ mpụga',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Gbaa iwu sistemụ ma nweta ihe ndị dị na sistemụ',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Naanị gbaa script sitere na isi mmalite ị tụkwasịrị obi. Onye edemede ngwa mgbakwunye abụghị maka mmebi ọ bụla kpatara script na-emebi emebi.',
+  ACTIVATION_WARNING_READMORE: 'Gụọkwuo banyere nchekwa nlele',
+  ACTIVATION_WARNING_CANCEL: 'Kagbuo',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Bido Ọbụlagodi',
 };

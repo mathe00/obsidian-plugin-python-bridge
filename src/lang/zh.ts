@@ -126,5 +126,17 @@ export default {
     '自定义 Python 路径无效，且未找到备用可执行文件。脚本可能无法运行。',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: '自定义 Python 路径失败',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
-    '自定义 Python 可执行文件路径“{path}”无效或无法执行。将回退到自动检测。',
+    '自定义 Python 可执行文件路径"{path}"无效或无法执行。将回退到自动检测。',
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: '安全警告',
+  ACTIVATION_WARNING_MESSAGE: '您即将启用 Python 脚本"{scriptName}"。',
+  ACTIVATION_WARNING_RISK_FILES: '访问和修改您系统上的文件',
+  ACTIVATION_WARNING_RISK_NETWORK: '向外部服务发出网络请求',
+  ACTIVATION_WARNING_RISK_SYSTEM: '执行系统命令和访问系统资源',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    '仅启用来自您信任来源的脚本。插件作者不对恶意脚本造成的任何损害负责。',
+  ACTIVATION_WARNING_READMORE: '阅读更多关于安全注意事项',
+  ACTIVATION_WARNING_CANCEL: '取消',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: '仍然激活',
 };

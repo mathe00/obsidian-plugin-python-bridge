@@ -139,4 +139,19 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'कस्टम पायथन पथ विफल',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "कस्टम पायथन निष्पादन योग्य पथ '{path}' अमान्य है या निष्पादित नहीं किया जा सका। स्वचालित पहचान पर वापस जा रहा है।",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'सुरक्षा चेतावनी',
+  ACTIVATION_WARNING_MESSAGE:
+    'आप पाइथन स्क्रिप्ट "{scriptName}" को सक्षम करने वाले हैं।',
+  ACTIVATION_WARNING_RISK_FILES:
+    'अपने सिस्टम पर फ़ाइलों तक पहुँचें और उन्हें संशोधित करें',
+  ACTIVATION_WARNING_RISK_NETWORK: 'बाहरी सेवाओं को नेटवर्क अनुरोध भेजें',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'सिस्टम कमांड निष्पादित करें और सिस्टम संसाधनों तक पहुँचें',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'केवल उन स्रोतों से स्क्रिप्ट सक्षम करें जिन पर आप भरोसा करते हैं। प्लगइन लेखक दुर्भावनापूर्ण स्क्रिप्ट के कारण होने वाले किसी भी नुकसान के लिए जिम्मेदार नहीं है।',
+  ACTIVATION_WARNING_READMORE: 'सुरक्षा विचारों के बारे में और पढ़ें',
+  ACTIVATION_WARNING_CANCEL: 'रद्द करें',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'फिर भी सक्षम करें',
 };

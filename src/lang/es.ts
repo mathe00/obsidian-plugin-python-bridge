@@ -147,4 +147,19 @@ export default {
     'Falló la Ruta Personalizada de Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "La ruta personalizada del ejecutable de Python '{path}' no es válida o no se pudo ejecutar. Volviendo a la detección automática.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Advertencia de Seguridad',
+  ACTIVATION_WARNING_MESSAGE:
+    'Estás a punto de habilitar el script de Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Acceder y modificar archivos en tu sistema',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Realizar solicitudes de red a servicios externos',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Ejecutar comandos del sistema y acceder a recursos del sistema',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Solo habilita scripts de fuentes en las que confíes. El autor del plugin no es responsable de ningún daño causado por scripts maliciosos.',
+  ACTIVATION_WARNING_READMORE: 'Leer más sobre consideraciones de seguridad',
+  ACTIVATION_WARNING_CANCEL: 'Cancelar',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Activar de Todos Modos',
 };

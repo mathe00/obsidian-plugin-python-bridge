@@ -139,5 +139,21 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE:
     'Özel Python Yolu Başarısız Oldu',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
-    "Özel Python çalıştırılabilir dosya yolu '{path}' geçersiz veya çalıştırılamadı. Otomatik algılamaya geri dönülüyor.",
+    "Özel Python çalıştırılabilir dosya yolu '{path}' geçersiz veya çalıştırılamadı. Otomatik algılamaya geri dönüluyor.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Güvenlik Uyarısı',
+  ACTIVATION_WARNING_MESSAGE:
+    'Python betiğini etkinleştirmek üzeresiniz: "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Sisteminizdeki dosyalara erişin ve değiştirin',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Harici hizmetlere ağ istekleri yapın',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Sistem komutlarını çalıştırın ve sistem kaynaklarına erişin',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Yalnızca güvendiğiniz kaynaklardan gelen betikleri etkinleştirin. Eklenti yazarı, kötü niyetli betiklerin neden olduğu zararlardan sorumlu değildir.',
+  ACTIVATION_WARNING_READMORE:
+    'Güvenlik hususları hakkında daha fazlasını okuyun',
+  ACTIVATION_WARNING_CANCEL: 'İptal',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Yine de Etkinleştir',
 };

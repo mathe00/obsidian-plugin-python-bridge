@@ -136,4 +136,20 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'কাস্টম পাইথন পাথ ব্যর্থ হয়েছে',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "কাস্টম পাইথন এক্সিকিউটেবল পাথ '{path}' অবৈধ অথবা চালানো যায়নি। স্বয়ংক্রিয় সনাক্তকরণে ফিরে যাওয়া হচ্ছে।",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'নিরাপত্তা সতর্কতা',
+  ACTIVATION_WARNING_MESSAGE:
+    'আপনি "{scriptName}" পাইথন স্ক্রিপ্টটি সক্ষম করতে যাচ্ছেন।',
+  ACTIVATION_WARNING_RISK_FILES:
+    'আপনার সিস্টেমে ফাইল অ্যাক্সেস এবং পরিবর্তন করুন',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'বাহ্যিক পরিষেবাগুলিতে নেটওয়ার্ক অনুরোধ করুন',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'সিস্টেম কমান্ড চালান এবং সিস্টেম সম্পদ অ্যাক্সেস করুন',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'শুধুমাত্র আপনি যে উৎসগুলিকে বিশ্বাস করেন সেই স্ক্রিপ্টগুলি সক্ষম করুন। ক্ষতিকারক স্ক্রিপ্টের কারণে হওয়া কোনও ক্ষতির জন্য প্লাগইন লেখক দায়ী নন।',
+  ACTIVATION_WARNING_READMORE: 'নিরাপত্তা বিবেচনাগুলি সম্পর্কে আরও পড়ুন',
+  ACTIVATION_WARNING_CANCEL: 'বাতিল করুন',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'যেকোনোভাবে সক্ষম করুন',
 };

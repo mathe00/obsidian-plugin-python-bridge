@@ -131,4 +131,17 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'مسیر سفارشی پایتون ناموفق بود',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "مسیر سفارشی فایل اجرایی پایتون '{path}' نامعتبر است یا قابل اجرا نیست. بازگشت به تشخیص خودکار.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'هشدار امنیتی',
+  ACTIVATION_WARNING_MESSAGE:
+    'شما در حال فعال کردن اسکریپت پایتون "{scriptName}" هستید.',
+  ACTIVATION_WARNING_RISK_FILES: 'دسترسی و تغییر فایل‌ها در سیستم شما',
+  ACTIVATION_WARNING_RISK_NETWORK: 'ایجاد درخواست‌های شبکه به سرویس‌های خارجی',
+  ACTIVATION_WARNING_RISK_SYSTEM: 'اجرای دستورات سیستم و دسترسی به منابع سیستم',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'فقط اسکریپت‌ها از منابعی که به آنها اعتماد دارید را فعال کنید. نویسنده افزونه مسئول هیچ آسیبی ناشی از اسکریپت‌های مخرب نیست.',
+  ACTIVATION_WARNING_READMORE: 'بیشتر بدانید در مورد ملاحظات امنیتی',
+  ACTIVATION_WARNING_CANCEL: 'لغو',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'به هر حال فعال کن',
 };

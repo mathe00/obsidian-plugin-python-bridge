@@ -134,4 +134,18 @@ export default {
     'Njia Maalum ya Python Imeshindwa',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Njia maalum ya faili ya Python inayoweza kutekelezwa '{path}' si sahihi au haikuweza kutekelezwa. Inarejea kwenye utambuzi wa kiotomatiki.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Onyo la Usalama',
+  ACTIVATION_WARNING_MESSAGE:
+    'Ume karibia kuwasha hati ya Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Fikia na ubadilishe faili kwenye mfumo wako',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Fanya maombi ya mtandao kwa huduma za nje',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Tekeleza amri za mfumo na fikia rasilimali za mfumo',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Washa tu hati kutoka vyanzo unavyoviamini. Mwandishi wa programu-jalizi hawajibiki kwa uharibu wowote unaosababishwa na hati zisizo na nidhamu.',
+  ACTIVATION_WARNING_READMORE: 'Soma zaidi kuhusu mazingira ya usalama',
+  ACTIVATION_WARNING_CANCEL: 'Ghairi',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Washa Hata Hivyo',
 };

@@ -133,4 +133,20 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Laluan Python Tersuai Gagal',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Laluan boleh laksana Python tersuai '{path}' tidak sah atau tidak dapat dilaksanakan. Kembali kepada pengesanan automatik.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Amaran Keselamatan',
+  ACTIVATION_WARNING_MESSAGE:
+    'Anda akan membolehkan skrip Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Akses dan ubah suai fail pada sistem anda',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Buat permintaan rangkaian ke perkhidmatan luaran',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Laksanakan arahan sistem dan akses sumber sistem',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Hanya benarkan skrip dari sumber yang anda percayai. Pengarang plugin tidak bertanggungjawab atas sebarang kerosakan yang disebabkan oleh skrip berniat jahat.',
+  ACTIVATION_WARNING_READMORE:
+    'Baca lebih lanjut tentang pertimbangan keselamatan',
+  ACTIVATION_WARNING_CANCEL: 'Batal',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Aktifkan Juga',
 };

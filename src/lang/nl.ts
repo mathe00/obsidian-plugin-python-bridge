@@ -134,4 +134,20 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Aangepast Python-pad Mislukt',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Aangepast pad naar Python uitvoerbaar bestand '{path}' is ongeldig of kon niet worden uitgevoerd. Terugvallen op automatische detectie.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Veiligheidswaarschuwing',
+  ACTIVATION_WARNING_MESSAGE:
+    'U staat op het punt om het Python-script "{scriptName}" in te schakelen.',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Toegang tot en wijzigen van bestanden op uw systeem',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Netwerkverzoeken maken naar externe services',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Systeemopdrachten uitvoeren en toegang krijgen tot systeembronnen',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Schakel alleen scripts in van bronnen die u vertrouwt. De auteur van de plug-in is niet verantwoordelijk voor schade veroorzaakt door kwaadaardige scripts.',
+  ACTIVATION_WARNING_READMORE: 'Lees meer over veiligheidsoverwegingen',
+  ACTIVATION_WARNING_CANCEL: 'Annuleren',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Toch Inschakelen',
 };

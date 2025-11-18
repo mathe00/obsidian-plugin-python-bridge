@@ -135,4 +135,17 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: '사용자 지정 Python 경로 실패',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "사용자 지정 Python 실행 파일 경로 '{path}'가 잘못되었거나 실행할 수 없습니다. 자동 감지로 대체합니다.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: '보안 경고',
+  ACTIVATION_WARNING_MESSAGE:
+    'Python 스크립트 "{scriptName}"을(를) 활성화하려고 합니다.',
+  ACTIVATION_WARNING_RISK_FILES: '시스템의 파일에 접근하고 수정',
+  ACTIVATION_WARNING_RISK_NETWORK: '외부 서비스에 네트워크 요청',
+  ACTIVATION_WARNING_RISK_SYSTEM: '시스템 명령을 실행하고 시스템 리소스에 접근',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    '신뢰할 수 있는 출처의 스크립트만 활성화하십시오. 플러그인 작성자는 악의적인 스크립트로 인한 손해에 대해 책임지지 않습니다.',
+  ACTIVATION_WARNING_READMORE: '보안 고려사항 더 읽기',
+  ACTIVATION_WARNING_CANCEL: '취소',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: '무시하고 활성화',
 };

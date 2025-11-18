@@ -140,4 +140,19 @@ export default {
     'カスタム Python パスに失敗しました',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     'カスタム Python 実行可能ファイルのパス「{path}」が無効であるか、実行できませんでした。自動検出にフォールバックします。',
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'セキュリティ警告',
+  ACTIVATION_WARNING_MESSAGE:
+    'Python スクリプト「{scriptName}」を有効にしようとしています。',
+  ACTIVATION_WARNING_RISK_FILES: 'システム上のファイルにアクセスおよび変更する',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    '外部サービスへのネットワークリクエストを行う',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'システムコマンドを実行し、システムリソースにアクセスする',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    '信頼できるソースからのスクリプトのみを有効にしてください。悪意のあるスクリプトによって引き起こされた損害について、プラグインの作者は責任を負いません。',
+  ACTIVATION_WARNING_READMORE: 'セキュリティに関する考慮事項について詳しく見る',
+  ACTIVATION_WARNING_CANCEL: 'キャンセル',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'とにかく有効にする',
 };

@@ -140,4 +140,19 @@ export default {
     'Ошибка пользовательского пути Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Пользовательский путь к исполняемому файлу Python '{path}' недействителен или не может быть выполнен. Возврат к автоматическому определению.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Предупреждение о безопасности',
+  ACTIVATION_WARNING_MESSAGE:
+    'Вы собираетесь включить скрипт Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Доступ и изменение файлов в вашей системе',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Отправка сетевых запросов к внешним сервисам',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Выполнение системных команд и доступ к системным ресурсам',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Включайте только скрипты из источников, которым вы доверяете. Автор плагина не несет ответственности за любой ущерб, причиненный вредоносными скриптами.',
+  ACTIVATION_WARNING_READMORE: 'Узнать больше о соображениях безопасности',
+  ACTIVATION_WARNING_CANCEL: 'Отмена',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Все равно включить',
 };

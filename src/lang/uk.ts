@@ -133,4 +133,20 @@ export default {
     'Помилка настроюваного шляху Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Настроюваний шлях до виконуваного файлу Python '{path}' недійсний або не може бути виконаний. Повернення до автоматичного визначення.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Попередження про безпеку',
+  ACTIVATION_WARNING_MESSAGE:
+    'Ви збираєтеся увімкнути скрипт Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Доступ до файлів на вашій системі та їх зміна',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Надсилання мережевих запитів до зовнішніх сервісів',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Виконання системних команд та доступ до системних ресурсів',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Увімкнюйте лише скрипти з джерел, яким ви довіряєте. Автор плагіна не несе відповідальності за будь-яку шкоду, спричинену зловмисними скриптами.',
+  ACTIVATION_WARNING_READMORE: 'Дізнатися більше про міркування безпеки',
+  ACTIVATION_WARNING_CANCEL: 'Скасувати',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Все одно увімкнути',
 };

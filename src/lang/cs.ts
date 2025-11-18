@@ -130,4 +130,20 @@ export default {
     'Vlastní cesta k Pythonu se nezdařila',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Vlastní cesta ke spustitelnému souboru Pythonu '{path}' je neplatná nebo ji nelze spustit. Vrací se k automatické detekci.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Bezpečnostní Varování',
+  ACTIVATION_WARNING_MESSAGE:
+    'Chystáte se povolit Python skript "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Přistupovat a upravovat soubory ve vašem systému',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Vytvářet síťové požadavky na externí služby',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Spouštět systémové příkazy a přistupovat ke systémovým zdrojům',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Povolujte pouze skripty ze zdrojů, kterým důvěřujete. Autor pluginu není zodpovědný za jakoukoli škodu způsobenou škodlivými skripty.',
+  ACTIVATION_WARNING_READMORE: 'Přečtěte si více o bezpečnostních opatřeních',
+  ACTIVATION_WARNING_CANCEL: 'Zrušit',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Přesto Aktivovat',
 };

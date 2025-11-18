@@ -131,4 +131,18 @@ export default {
     'เส้นทาง Python ที่กำหนดเองล้มเหลว',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "เส้นทางไฟล์ Python ที่เรียกใช้งานได้ที่กำหนดเอง '{path}' ไม่ถูกต้องหรือไม่สามารถเรียกใช้งานได้ กำลังกลับไปใช้การตรวจจับอัตโนมัติ",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'คำเตือนด้านความปลอดภัย',
+  ACTIVATION_WARNING_MESSAGE:
+    'คุณกำลังจะเปิดใช้งานสคริปต์ Python "{scriptName}"',
+  ACTIVATION_WARNING_RISK_FILES: 'เข้าถึงและแก้ไขไฟล์บนระบบของคุณ',
+  ACTIVATION_WARNING_RISK_NETWORK: 'ส่งคำขอเครือข่ายไปยังบริการภายนอก',
+  ACTIVATION_WARNING_RISK_SYSTEM: 'ดำเนินการคำสั่งระบบและเข้าถึงทรัพยากรระบบ',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'เปิดใช้งานเฉพาะสคริปต์จากแหล่งที่คุณเชื่อถือเท่านั้น ผู้เขียนปลั๊กอินไม่รับผิดชอบต่อความเสียหายใดๆ ที่เกิดจากสคริปต์ที่เป็นอันตราย',
+  ACTIVATION_WARNING_READMORE:
+    'อ่านเพิ่มเติมเกี่ยวกับข้อควรพิจารณาด้านความปลอดภัย',
+  ACTIVATION_WARNING_CANCEL: 'ยกเลิก',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'เปิดใช้งานต่อไป',
 };

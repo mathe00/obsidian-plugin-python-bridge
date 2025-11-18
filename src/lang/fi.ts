@@ -133,4 +133,19 @@ export default {
     'Mukautettu Python-polku epäonnistui',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Mukautettu Python-suoritustiedoston polku '{path}' on virheellinen tai sitä ei voitu suorittaa. Palataan automaattiseen tunnistukseen.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Turvallisuusvaroitus',
+  ACTIVATION_WARNING_MESSAGE:
+    'Olet aikeissa ottaa käyttöön Python-skriptin "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Käyttää ja muokata tiedostoja järjestelmässäsi',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Tee verkkopyyntöjä ulkoisille palveluille',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Suorittaa järjestelmäkomentoja ja käyttää järjestelmän resursseja',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Ota käyttöön vain skriptejä, joihin luotat. Lisäosan tekijä ei ole vastuussa haitallisista skripteistä aiheutuvista vahingoista.',
+  ACTIVATION_WARNING_READMORE: 'Lue lisää turvallisuushuomioista',
+  ACTIVATION_WARNING_CANCEL: 'Peruuta',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Ota käyttöön joka tapauksessa',
 };

@@ -145,4 +145,19 @@ export default {
     'Niestandardowa Ścieżka Python Nie Powiodła Się',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Niestandardowa ścieżka pliku wykonywalnego Python '{path}' jest nieprawidłowa lub nie można jej wykonać. Przywracanie automatycznego wykrywania.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Ostrzeżenie o Bezpieczeństwie',
+  ACTIVATION_WARNING_MESSAGE:
+    'Zamierzasz włączyć skrypt Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Dostęp i modyfikacja plików w Twoim systemie',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Wykonywanie żądań sieciowych do zewnętrznych usług',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Wykonywanie poleceń systemowych i dostęp do zasobów systemowych',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Włączaj tylko skrypty ze źródeł, którym ufasz. Autor wtyczki nie ponosi odpowiedzialności za jakiekolwiek szkody spowodowane przez złośliwe skrypty.',
+  ACTIVATION_WARNING_READMORE: 'Czytaj więcej o kwestiach bezpieczeństwa',
+  ACTIVATION_WARNING_CANCEL: 'Anuluj',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Aktywuj Mimo To',
 };

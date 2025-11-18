@@ -131,4 +131,18 @@ export default {
     'Đường dẫn Python Tùy chỉnh Không thành công',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Đường dẫn tệp thực thi Python tùy chỉnh '{path}' không hợp lệ hoặc không thể thực thi. Quay lại phát hiện tự động.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Cảnh báo Bảo mật',
+  ACTIVATION_WARNING_MESSAGE: 'Bạn sắp bật script Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Truy cập và sửa đổi tệp trên hệ thống của bạn',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Gửi yêu cầu mạng đến các dịch vụ bên ngoài',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Thực thi lệnh hệ thống và truy cập tài nguyên hệ thống',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Chỉ bật các script từ nguồn bạn tin tưởng. Tác giả plugin không chịu trách nhiệm về bất kỳ thiệt hại nào do script độc hại gây ra.',
+  ACTIVATION_WARNING_READMORE: 'Đọc thêm về các cân nhắc bảo mật',
+  ACTIVATION_WARNING_CANCEL: 'Hủy',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Vẫn Bật',
 };

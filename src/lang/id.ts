@@ -137,4 +137,21 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Jalur Python Kustom Gagal',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Jalur eksekusi Python kustom '{path}' tidak valid atau tidak dapat dieksekusi. Kembali ke deteksi otomatis.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Peringatan Keamanan',
+  ACTIVATION_WARNING_MESSAGE:
+    'Anda akan mengaktifkan skrip Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Mengakses dan memodifikasi file di sistem Anda',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Membuat permintaan jaringan ke layanan eksternal',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Menjalankan perintah sistem dan mengakses sumber daya sistem',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Hanya aktifkan skrip dari sumber yang Anda percayai. Penulis plugin tidak bertanggung jawab atas kerusakan apa pun yang disebabkan oleh skrip berbahaya.',
+  ACTIVATION_WARNING_READMORE:
+    'Baca selengkapnya tentang pertimbangan keamanan',
+  ACTIVATION_WARNING_CANCEL: 'Batal',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Aktifkan Saja',
 };

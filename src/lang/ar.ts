@@ -135,4 +135,16 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'فشل مسار Python المخصص',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "مسار ملف Python التنفيذي المخصص '{path}' غير صالح أو لا يمكن تنفيذه. الرجوع إلى الكشف التلقائي.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'تحذير أمني',
+  ACTIVATION_WARNING_MESSAGE: 'أنت على وشك تمكين سكربت بايثون "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'الوصول إلى الملفات وتعديلها على نظامك',
+  ACTIVATION_WARNING_RISK_NETWORK: 'إجراء طلبات شبكية إلى خدمات خارجية',
+  ACTIVATION_WARNING_RISK_SYSTEM: 'تنفيذ أوامر النظام والوصول إلى موارد النظام',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'قم فقط بتمكين السكربتات من المصادر التي تثق بها. مؤلف الإضافة ليس مسؤولاً عن أي ضرر تسببه السكربتات الخبيثة.',
+  ACTIVATION_WARNING_READMORE: 'اقرأ المزيد حول الاعتبارات الأمنية',
+  ACTIVATION_WARNING_CANCEL: 'إلغاء',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'تمكين على أي حال',
 };

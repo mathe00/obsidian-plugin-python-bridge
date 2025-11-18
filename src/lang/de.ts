@@ -142,4 +142,20 @@ export default {
     'Benutzerdefinierter Python-Pfad fehlgeschlagen',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Der benutzerdefinierte Pfad zur Python-Ausführungsdatei '{path}' ist ungültig oder konnte nicht ausgeführt werden. Rückgriff auf automatische Erkennung.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Sicherheitswarnung',
+  ACTIVATION_WARNING_MESSAGE:
+    'Sie sind dabei, das Python-Skript "{scriptName}" zu aktivieren.',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Auf Dateien in Ihrem System zugreifen und diese ändern',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Netzwerkanfragen an externe Dienste stellen',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Systembefehle ausführen und auf Systemressourcen zugreifen',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Aktivieren Sie nur Skripte aus Quellen, denen Sie vertrauen. Der Plugin-Autor ist nicht verantwortlich für Schäden, die durch bösartige Skripte verursacht werden.',
+  ACTIVATION_WARNING_READMORE: 'Mehr über Sicherheitsüberlegungen lesen',
+  ACTIVATION_WARNING_CANCEL: 'Abbrechen',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Trotzdem aktivieren',
 };

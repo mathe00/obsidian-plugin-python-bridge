@@ -134,4 +134,21 @@ export default {
     'Calea Python Personalizată a Eșuat',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Calea personalizată a executabilului Python '{path}' este invalidă sau nu a putut fi executată. Se revine la detectarea automată.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Avertisment de Securitate',
+  ACTIVATION_WARNING_MESSAGE:
+    'Sunteți pe cale să activați scriptul Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Accesa și modifica fișierele de pe sistemul dvs.',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Face cereri de rețea către servicii externe',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Execută comenzi de sistem și accesează resurse de sistem',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Activați doar scripturi de la surse de încredere. Autorul pluginului nu este responsabil pentru nicio daună cauzată de scripturi malițioase.',
+  ACTIVATION_WARNING_READMORE:
+    'Citiți mai multe despre considerațiile de securitate',
+  ACTIVATION_WARNING_CANCEL: 'Anulează',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Activează Oricum',
 };

@@ -143,4 +143,19 @@ export default {
     'Percorso Python Personalizzato Fallito',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Il percorso personalizzato dell'eseguibile Python '{path}' non è valido o non è stato possibile eseguirlo. Ripristino del rilevamento automatico.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Avviso di Sicurezza',
+  ACTIVATION_WARNING_MESSAGE:
+    'Stai per abilitare lo script Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Accedere e modificare file sul tuo sistema',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Effettuare richieste di rete a servizi esterni',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Eseguire comandi di sistema e accedere alle risorse di sistema',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    "Abilita solo script da fonti di cui ti fidi. L'autore del plugin non è responsabile per eventuali danni causati da script malevoli.",
+  ACTIVATION_WARNING_READMORE: 'Leggi di più sulle considerazioni di sicurezza',
+  ACTIVATION_WARNING_CANCEL: 'Annulla',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Attiva Comunque',
 };

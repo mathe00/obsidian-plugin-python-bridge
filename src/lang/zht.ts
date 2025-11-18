@@ -121,4 +121,16 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: '自訂 Python 路徑失敗',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "自訂 Python 可執行檔案路徑 '{path}' 無效或無法執行。將回復到自動偵測。",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: '安全警告',
+  ACTIVATION_WARNING_MESSAGE: '您即將啟用 Python 腳本 "{scriptName}"。',
+  ACTIVATION_WARNING_RISK_FILES: '存取和修改您系統上的檔案',
+  ACTIVATION_WARNING_RISK_NETWORK: '向外部服務發出網路請求',
+  ACTIVATION_WARNING_RISK_SYSTEM: '執行系統指令並存取系統資源',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    '僅啟用來自您信任來源的腳本。插件作者不對惡意腳本造成的任何損害負責。',
+  ACTIVATION_WARNING_READMORE: '閱讀更多關於安全注意事項',
+  ACTIVATION_WARNING_CANCEL: '取消',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: '仍然啟用',
 };

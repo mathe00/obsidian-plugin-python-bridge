@@ -143,4 +143,19 @@ export default {
     'Falha no Caminho Personalizado do Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "O caminho personalizado do executável Python '{path}' é inválido ou não pôde ser executado. Voltando para a deteção automática.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Aviso de Segurança',
+  ACTIVATION_WARNING_MESSAGE:
+    'Você está prestes a ativar o script Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Acessar e modificar arquivos no seu sistema',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Fazer solicitações de rede para serviços externos',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Executar comandos do sistema e acessar recursos do sistema',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Ative apenas scripts de fontes em que você confia. O autor do plugin não é responsável por qualquer dano causado por scripts maliciosos.',
+  ACTIVATION_WARNING_READMORE: 'Leia mais sobre considerações de segurança',
+  ACTIVATION_WARNING_CANCEL: 'Cancelar',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Ativar Mesmo Assim',
 };

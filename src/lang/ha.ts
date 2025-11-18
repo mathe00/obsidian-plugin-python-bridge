@@ -136,4 +136,17 @@ export default {
     'Hanyar Python na Musamman Ya Kasa',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Hanyar fayil mai aiwatarwa na Python na al'ada '{path}' ba daidai ba ne ko kuma ba za a iya aiwatar da shi ba. Komawa zuwa ganowa ta atomatik.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Gargaɗin Tsaro',
+  ACTIVATION_WARNING_MESSAGE: 'Kuna kan kunna rubutun Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Samun damar da gyara fayiloli a tsarin ku',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Yi bukatun sadarwa zuwa sabis na waje',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Aiwatar da umarnin tsarin da samun damar albarkatun tsarin',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Kunna kawai rubutun daga tushen da ka amince da shi. Marubucin plugin ba ya da alhakin kowane lalaci da aka haifar ta hanyar rubutun da ba su da aminci.',
+  ACTIVATION_WARNING_READMORE: "Karanta fiye da la'akari da tsaro",
+  ACTIVATION_WARNING_CANCEL: 'Soke',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Kunna Duk da haka',
 };

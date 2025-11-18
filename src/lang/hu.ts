@@ -139,4 +139,19 @@ export default {
     'Egyéni Python Elérési Út Sikertelen',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Az egyéni Python futtatható fájl elérési útja ('{path}') érvénytelen, vagy nem lehetett végrehajtani. Visszatérés az automatikus észleléshez.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Biztonsági Figyelmeztetés',
+  ACTIVATION_WARNING_MESSAGE:
+    'Az alábbi Python szkript engedélyezésére készül: "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Hozzáférés és fájlok módosítása a rendszerén',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Hálózati kérések küldése külső szolgáltatásoknak',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Rendszerparancsok végrehajtása és rendszererőforrások elérése',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Csak olyan szkripteket engedélyezzen, amelyek forrásában megbízik. A bővítmény szerzője nem felelős a rosszindulatú szkriptek által okozott károkért.',
+  ACTIVATION_WARNING_READMORE: 'Tudjon meg többet a biztonsági szempontokról',
+  ACTIVATION_WARNING_CANCEL: 'Mégse',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Engedélyezés Mindenképp',
 };

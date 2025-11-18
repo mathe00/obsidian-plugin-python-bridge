@@ -128,4 +128,18 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Ọ̀nà Python Àdáni Kùnà',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ọ̀nà ètò Python àdáni '{path}' kò tọ́ tàbí kò ṣeéṣe. Àtúnsọ sí ìṣàwárí αυτόματη.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Ìkìlọ̀ Ààbò',
+  ACTIVATION_WARNING_MESSAGE:
+    'O ń ṣe àkíyèsí láti ṣe ìṣe akosílẹ̀ Python "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Wọlé sí àwọn fáìlì lórí ẹ̀rọ rẹ àti yí wọ́n padà',
+  ACTIVATION_WARNING_RISK_NETWORK: 'Ṣe àwọn ìbẹ̀rẹ̀ oríṣiríṣi sí àwọn ìṣẹ́ ìta',
+  ACTIVATION_WARNING_RISK_SYSTEM: 'Ṣe àwọn aṣẹ ẹ̀rọ àti wọlé sí àwọn orísun ẹ̀rọ',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Ṣe ìṣe akosílẹ̀ láti orísun tí o gbẹ́kẹ̀lé nìkan. Onkọ̀wé plugin kò ní ṣe ìdájọ́ fún àwọn ipá tí ó bá ṣẹlẹ̀ nítorí àwọn akosílẹ̀ ajẹ́ọ́nà.',
+  ACTIVATION_WARNING_READMORE: 'Kà síi nípa àwọn nǹkan ààbò',
+  ACTIVATION_WARNING_CANCEL: 'Fagile',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Ṣe Ìṣe Bíkọ̀tá',
 };

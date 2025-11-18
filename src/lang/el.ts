@@ -134,4 +134,21 @@ export default {
     'Η προσαρμοσμένη διαδρομή Python απέτυχε',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Προειδοποίηση Ασφαλείας',
+  ACTIVATION_WARNING_MESSAGE:
+    'Πρόκειται να ενεργοποιήσετε το Python script "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Πρόσβαση και τροποποίηση αρχείων στο σύστημά σας',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Δημιουργία αιτημάτων δικτύου σε εξωτερικές υπηρεσίες',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Εκτέλεση εντολών συστήματος και πρόσβαση σε πόρους συστήματος',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Ενεργοποιήστε μόνο scripts από πηγές που εμπιστεύεστε. Ο συγγραφέας του plugin δεν ευθύνεται για οποιαδήποτε ζημιά που προκαλείται από κακόβουλα scripts.',
+  ACTIVATION_WARNING_READMORE:
+    'Διαβάστε περισσότερα για τις προληπτικές μέτρους ασφαλείας',
+  ACTIVATION_WARNING_CANCEL: 'Ακύρωση',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Ενεργοποίηση Ούτως ή Άλλως',
 };

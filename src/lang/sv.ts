@@ -134,4 +134,19 @@ export default {
     'Anpassad Python-sökväg misslyckades',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Anpassad sökväg till Python exekverbar fil '{path}' är ogiltig eller kunde inte köras. Återgår till automatisk identifiering.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Säkerhetsvarning',
+  ACTIVATION_WARNING_MESSAGE:
+    'Du är på väg att aktivera Python-skriptet "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES: 'Komma åt och ändra filer på ditt system',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Göra nätverksförfrågningar till externa tjänster',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'Köra systemkommandon och komma åt systemresurser',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'Aktivera endast skript från källor du litar på. Plugin-författaren är inte ansvarig för skador som orsakas av skadliga skript.',
+  ACTIVATION_WARNING_READMORE: 'Läs mer om säkerhetsöverväganden',
+  ACTIVATION_WARNING_CANCEL: 'Avbryt',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Aktivera ändå',
 };

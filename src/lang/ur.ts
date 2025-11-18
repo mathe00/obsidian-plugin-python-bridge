@@ -134,4 +134,20 @@ export default {
     'حسب ضرورت پائیتھن کا راستہ ناکام ہوگیا',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "حسب ضرورت پائیتھن ایگزیکیوٹیبل کا راستہ '{path}' غلط ہے یا اسے چلایا نہیں جا سکا۔ خودکار شناخت پر واپس جا رہے ہیں۔",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'سیکیورٹی انتباہ',
+  ACTIVATION_WARNING_MESSAGE:
+    'آپ Python اسکرپٹ "{scriptName}" کو فعال کرنے والے ہیں۔',
+  ACTIVATION_WARNING_RISK_FILES:
+    'آپ کے سسٹم پر فائلیں تک رسائی حاصل کریں اور ان میں ترمیم کریں',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'بیرونی سروسز کے لیے نیٹ ورک درخواستیں بھیجیں',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'سسٹم کمانڈز چلائیں اور سسٹم وسائل تک رسائی حاصل کریں',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'صرف ان اسکرپٹس کو فعال کریں جن پر آپ بھروسہ کرتے ہیں۔ پلگ ان مصنف کسی بھی نقصان کے ذمہ دار نہیں ہے جو مخرب اسکرپٹس کی وجہ سے ہو سکتا ہے۔',
+  ACTIVATION_WARNING_READMORE: 'سیکیورٹی غور و فکر کے بارے میں مزید پڑھیں',
+  ACTIVATION_WARNING_CANCEL: 'منسوخ کریں',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'بھی فعال کریں',
 };

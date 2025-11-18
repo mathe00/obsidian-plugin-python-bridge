@@ -139,4 +139,21 @@ export default {
     'Nabigo ang Custom na Landas ng Python',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ang custom na landas ng Python executable '{path}' ay hindi wasto o hindi ma-execute. Babalik sa awtomatikong pagtuklas.",
+
+  // Activation Warning Modal
+  ACTIVATION_WARNING_TITLE: 'Babala sa Seguridad',
+  ACTIVATION_WARNING_MESSAGE:
+    'Isasapatakas mo ang Python script na "{scriptName}".',
+  ACTIVATION_WARNING_RISK_FILES:
+    'Ma-access at baguhin ang mga file sa iyong system',
+  ACTIVATION_WARNING_RISK_NETWORK:
+    'Gumawa ng mga network request sa mga panlabas na serbisyo',
+  ACTIVATION_WARNING_RISK_SYSTEM:
+    'I-execute ang mga system command at ma-access ang mga system resource',
+  ACTIVATION_WARNING_SECURITY_NOTE:
+    'I-enable lamang ang mga script mula sa mga pinagkakatiwalaang pinagmulan. Ang may-akda ng plugin ay hindi responsable para sa anumang pinsala na dulot ng mga malicious script.',
+  ACTIVATION_WARNING_READMORE:
+    'Magbasa pa tungkol sa mga konsiderasyon sa seguridad',
+  ACTIVATION_WARNING_CANCEL: 'Kanselahin',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'I-activate Pa Rin',
 };

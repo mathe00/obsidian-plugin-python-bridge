@@ -441,7 +441,6 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 
 ### 🔥 High Priority
 
-- ✅ **Re-enabled Features**: `run_obsidian_command` and `get_all_tags` have been successfully re-enabled and are now functional.
 - 🛠️ **Advanced Editor Operations**: Implement reliable methods for finer editor control (e.g., `setCursor`, `getLine`, `setLine`, `replaceRange`, `scrollIntoView`). _(Note: Initial attempts faced persistent difficulties in reliably accessing the editor context at the right time, despite significant effort. Added back to roadmap for future investigation)._
 
 ### 🔧 Medium Priority
@@ -453,14 +452,9 @@ In just a **few lines**, you can interact with your Obsidian vault, display noti
 - 📊 **Analytics & Monitoring**: Script usage statistics, performance metrics dashboard, error tracking and reporting.
 - 🌐 **Enhanced Integration**: WebSocket support for real-time communication, support for async/await patterns in Python, batch processing capabilities.
 
-### 📦 Low Priority
-
-- 📦 **Code Refactoring**: If developers want to refactor the code to make it cleaner or more extensible, contributions are welcome! 😅
-- 📱 **Mobile Support (Highly Unlikely)**: Supporting mobile devices (iOS/Android) presents **significant technical challenges** due to OS limitations on executing external processes (like Python) and inter-app communication from within Obsidian's sandbox. While solutions involving environments like Termux (Android) might be theoretically explored, they would be extremely complex to implement reliably, require extensive user setup, and likely offer a subpar experience. Therefore, **mobile support is considered out of scope for this project's current architecture and is very unlikely to be implemented.**
-
 ### 📥 Status
 
-- 📥 **Plugin Submission**: The plugin (v2.0.0) has been submitted to the Obsidian Community Plugin list and is currently awaiting review and approval by the Obsidian team.
+- 📥 **Plugin Submission**: The plugin (v2.0.0) has been submitted to the Obsidian Community Plugin list and is currently awaiting review and approval by the Obsidian team. The review process can take several months - you can track the submission status at [obsidian-releases/pull/6315](https://github.com/obsidianmd/obsidian-releases/pull/6315). Until then, manual installation is required.
 
 <a id="installation"></a>
 
@@ -701,6 +695,38 @@ It's about providing a **familiar and efficient alternative** for specific use c
   3.  Installing necessary dependencies like `requests` (required) and `PyYAML` (optional, for property management) into the `uv` environment: `uv pip install requests PyYAML`.
 - **Benefits:** Using `uv` can simplify dependency management and ensure your scripts run with a consistent Python version and package set, isolated from your global Python installation.
 - **Detection:** The plugin checks for `uv --version` to confirm its availability.
+
+**Q: Will there ever be mobile support for this plugin?**
+
+**A:** **No, mobile support will never be implemented.** This decision is final and based on fundamental technical limitations:
+
+**Why Mobile Support is Impossible:**
+
+1. **OS Restrictions**: Mobile operating systems (iOS/Android) have strict sandboxing that prevents apps like Obsidian from executing external processes like Python interpreters. This is a core security feature that cannot be bypassed.
+
+2. **No Inter-Process Communication**: The plugin relies on HTTP communication between Obsidian and Python processes. Mobile OSes explicitly block this type of inter-app communication for security reasons.
+
+3. **Python Availability**: Even if communication were possible, there's no standard, accessible Python interpreter on mobile devices that could be leveraged by the plugin.
+
+4. **Architecture Mismatch**: The entire plugin architecture is built around desktop OS capabilities (process spawning, localhost networking, file system access) that simply don't exist on mobile platforms.
+
+**Why "Termux" or Similar Solutions Won't Work:**
+
+- **Complex Setup**: Solutions like Termux (Android) would require extremely complex user setup and would still be blocked by Android's security restrictions.
+- **Poor Experience**: Even if technically possible, the result would be unreliable, slow, and offer a terrible user experience.
+- **Maintenance Nightmare**: Supporting such workarounds would create an unsustainable maintenance burden.
+
+**The Bottom Line:**
+
+This plugin is **desktop-only** by design and will remain so permanently. The technical barriers are not just difficult—they're fundamental to how mobile operating systems work. Any attempt to support mobile would compromise the plugin's reliability, security, and core functionality.
+
+**Alternatives for Mobile Users:**
+
+- Use Obsidian's built-in features and community plugins designed for mobile
+- Sync your vault to a desktop computer where you can run Python scripts
+- Consider web-based automation solutions that work within mobile browser constraints
+
+This decision allows us to focus on making the desktop experience as robust and reliable as possible rather than attempting impossible mobile workarounds.
 
 ---
 

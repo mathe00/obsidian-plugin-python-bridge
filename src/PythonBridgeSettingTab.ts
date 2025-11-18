@@ -900,7 +900,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                         )
                       )
                     )
-                    .setDynamicTooltip()
+
                     .onChange(async (value) => {
                       scriptValues[settingDef.key] = value;
                       await this.plugin.saveSettings();

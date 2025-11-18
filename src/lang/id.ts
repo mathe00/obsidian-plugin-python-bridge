@@ -138,6 +138,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Jalur eksekusi Python kustom '{path}' tidak valid atau tidak dapat dieksekusi. Kembali ke deteksi otomatis.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Log Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Aktifkan Log Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Aktifkan logging audit untuk eksekusi skrip dan tindakan API untuk pemantauan keamanan dan debugging.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Jalur File Log Audit',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opsional: Jalur kustom untuk file log audit. Jika tidak ditentukan, default ke file di direktori plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'misalnya, /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Ukuran Maksimum File Log (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Ukuran maksimum file log tunggal sebelum rotasi. Default: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Jumlah Maksimum File Log',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Jumlah maksimum file log yang disimpan selama rotasi. Default: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Kesalahan: Tipe input yang tidak diketahui '{inputType}' diminta.",
+  ERROR_INVALID_NUMBER_INPUT: 'Input angka tidak valid.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Penemuan pengaturan gagal untuk {count} skrip: {scripts}. Periksa konsol untuk detail.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Tipe pengaturan tidak diketahui: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Jalur Eksekusi Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Jalur absolut ke eksekusi Python atau uv Anda. Biarkan kosong untuk deteksi otomatis (uv, py, python3, python). Memerlukan muat ulang atau mulai ulang plugin agar berlaku penuh jika diubah.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'misalnya, /usr/bin/python3 atau C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Jalur Python Kustom Gagal',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Jalur: {path}. Kesalahan: {error}. Kembali ke deteksi otomatis.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Peringatan Keamanan',
   ACTIVATION_WARNING_MESSAGE:

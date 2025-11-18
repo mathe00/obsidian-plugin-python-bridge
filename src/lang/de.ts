@@ -143,6 +143,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Der benutzerdefinierte Pfad zur Python-Ausführungsdatei '{path}' ist ungültig oder konnte nicht ausgeführt werden. Rückgriff auf automatische Erkennung.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit-Protokoll',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Audit-Protokoll aktivieren',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Audit-Protokollierung für Skriptausführungen und API-Aktionen zur Sicherheitsüberwachung und Fehlersuche aktivieren.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit-Protokoll-Dateipfad',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Optional: Benutzerdefinierter Pfad für die Audit-Protokolldatei. Wenn nicht angegeben, wird standardmäßig eine Datei im Plugin-Verzeichnis verwendet.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'z.B. /pfad/zum/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximale Protokolldateigröße (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximale Größe einer einzelnen Protokolldatei vor der Rotation. Standard: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximale Protokolldateien',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximale Anzahl der Protokolldateien, die während der Rotation beibehalten werden. Standard: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Fehler: Unbekannter Eingabetyp '{inputType}' angefordert.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ungültige Zahleneingabe.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Einstellungserkennung für {count} Skript(e) fehlgeschlagen: {scripts}. Überprüfen Sie die Konsole für Details.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Unbekannter Einstellungstyp: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Pfad zur Python-Ausführungsdatei',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absoluter Pfad zu Ihrer Python- oder uv-Ausführungsdatei. Leer lassen für automatische Erkennung (uv, py, python3, python). Erfordert ein Neuladen oder Neustarten des Plugins, um bei Änderungen vollständig wirksam zu werden.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'z.B. /usr/bin/python3 oder C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Benutzerdefinierter Python-Pfad fehlgeschlagen',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Pfad: {path}. Fehler: {error}. Rückgriff auf automatische Erkennung.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Sicherheitswarnung',
   ACTIVATION_WARNING_MESSAGE:

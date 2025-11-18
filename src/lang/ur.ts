@@ -135,6 +135,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "حسب ضرورت پائیتھن ایگزیکیوٹیبل کا راستہ '{path}' غلط ہے یا اسے چلایا نہیں جا سکا۔ خودکار شناخت پر واپس جا رہے ہیں۔",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'آڈٹ لاگ',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'آڈٹ لاگ کو فعال کریں',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'سیکیورٹی مانیٹرنگ اور ڈیبگنگ کے لیے اسکرپٹ ایگزیکیوشنز اور API ایکشنز کے لیے آڈٹ لاگنگ فعال کریں۔',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'آڈٹ لاگ فائل پاتھ',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'اختیاری: آڈٹ لاگ فائل کے لیے کسٹم پاتھ۔ اگر مشخص نہیں کیا گیا، تو پلگ ان ڈائریکٹری میں ایک فائل ڈیفالٹ ہوتی ہے۔',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'مثال: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'زیادہ سے زیادہ لاگ فائل سائز (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'روٹیشن سے پہلے ایک سنگل لاگ فائل کا زیادہ سے زیادہ سائز۔ ڈیفالٹ: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'زیادہ سے زیادہ لاگ فائلیں',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'روٹیشن کے دوران رکھنے کے لیے زیادہ سے زیادہ لاگ فائلوں کی تعداد۔ ڈیفالٹ: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "خرابی: نامعلوم ان پٹ ٹائپ '{inputType}' درخواست کیا گیا۔",
+  ERROR_INVALID_NUMBER_INPUT: 'غلط نمبر ان پٹ۔',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count} اسکرپٹ(س) کے لیے ترتیبات کی دریافت ناکام ہوئی: {scripts}۔ تفصیلات کے لیے کنسول چیک کریں۔',
+  ERROR_UNKNOWN_SETTING_TYPE: 'نامعلوم سیٹنگ ٹائپ: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'پائیتھن ایگزیکیوٹیبل پاتھ',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'آپ کے پائیتھن یا یووی ایگزیکیوٹیبل کا مطلق راستہ۔ خودکار شناخت (یووی، پی وائی، پائیتھن 3، پائیتھن) کے لیے خالی چھوڑ دیں۔ اگر تبدیل کیا جائے تو مکمل اثر کے لیے پلگ ان کو دوبارہ لوڈ یا دوبارہ شروع کرنے کی ضرورت ہے۔',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'مثال کے طور پر، /usr/bin/python3 یا C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'حسب ضرورت پائیتھن کا راستہ ناکام ہوگیا',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'پاتھ: {path}۔ خرابی: {error}۔ خودکار شناخت پر واپس جا رہے ہیں۔',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'سیکیورٹی انتباہ',
   ACTIVATION_WARNING_MESSAGE:

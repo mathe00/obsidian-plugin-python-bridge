@@ -132,6 +132,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "เส้นทางไฟล์ Python ที่เรียกใช้งานได้ที่กำหนดเอง '{path}' ไม่ถูกต้องหรือไม่สามารถเรียกใช้งานได้ กำลังกลับไปใช้การตรวจจับอัตโนมัติ",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'บันทึกการตรวจสอบ',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'เปิดใช้งานบันทึกการตรวจสอบ',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'เปิดใช้งานการบันทึกการตรวจสอบสำหรับการรันสคริปต์และการกระทำ API เพื่อการตรวจสอบความปลอดภัยและการแก้ไขข้อผิดพลาด',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'เส้นทางไฟล์บันทึกการตรวจสอบ',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'ไม่จำเป็น: เส้นทางที่กำหนดเองสำหรับไฟล์บันทึกการตรวจสอบ หากไม่ระบุ จะใช้ไฟล์ในไดเรกทอรีปลั๊กอิน',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'เช่น /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'ขนาดไฟล์บันทึกสูงสุด (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'ขนาดสูงสุดของไฟล์บันทึกเดี่ยวก่อนการหมุนเวียน ค่าเริ่มต้น: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'จำนวนไฟล์บันทึกสูงสุด',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'จำนวนไฟล์บันทึกสูงสุดที่จะเก็บระหว่างการหมุนเวียน ค่าเริ่มต้น: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "ข้อผิดพลาด: ไม่รู้จักประเภทอินพุต '{inputType}' ที่ร้องขอ",
+  ERROR_INVALID_NUMBER_INPUT: 'อินพุตตัวเลขไม่ถูกต้อง',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'การค้นหาการตั้งค่าล้มเหลวสำหรับ {count} สคริปต์: {scripts} ตรวจสอบคอนโซลสำหรับรายละเอียด',
+  ERROR_UNKNOWN_SETTING_TYPE: 'ไม่รู้จักประเภทการตั้งค่า: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'เส้นทางไฟล์ Python ที่เรียกใช้งานได้',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'เส้นทางสัมบูรณ์ไปยังไฟล์ Python หรือ uv ที่เรียกใช้งานได้ของคุณ ปล่อยว่างไว้สำหรับการตรวจจับอัตโนมัติ (uv, py, python3, python) หากมีการเปลี่ยนแปลง จำเป็นต้องโหลดปลั๊กอินใหม่หรือรีสตาร์ทเพื่อให้มีผลสมบูรณ์',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'เช่น /usr/bin/python3 หรือ C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'เส้นทาง Python ที่กำหนดเองล้มเหลว',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'เส้นทาง: {path} ข้อผิดพลาด: {error} กำลังกลับไปใช้การตรวจจับอัตโนมัติ',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'คำเตือนด้านความปลอดภัย',
   ACTIVATION_WARNING_MESSAGE:

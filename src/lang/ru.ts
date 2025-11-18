@@ -141,6 +141,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Пользовательский путь к исполняемому файлу Python '{path}' недействителен или не может быть выполнен. Возврат к автоматическому определению.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Журнал аудита',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Включить журнал аудита',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Включить ведение журнала аудита для выполнения скриптов и действий API для мониторинга безопасности и отладки.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Путь к файлу журнала аудита',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Необязательно: Пользовательский путь к файлу журнала аудита. Если не указан, по умолчанию используется файл в каталоге плагина.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'например, /путь/к/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Максимальный размер файла журнала (МБ)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Максимальный размер одного файла журнала перед ротацией. По умолчанию: 10МБ',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Максимальное количество файлов журнала',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Максимальное количество файлов журнала для хранения во время ротации. По умолчанию: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Ошибка: Запрошен неизвестный тип ввода '{inputType}'.",
+  ERROR_INVALID_NUMBER_INPUT: 'Неверный числовой ввод.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Обнаружение настроек не удалось для {count} скрипта(ов): {scripts}. Проверьте консоль для получения подробностей.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Неизвестный тип настройки: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Путь к исполняемому файлу Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Абсолютный путь к вашему исполняемому файлу Python или uv. Оставьте пустым для автоопределения (uv, py, python3, python). Требуется перезагрузка плагина или перезапуск для полного вступления в силу при изменении.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'например, /usr/bin/python3 или C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Ошибка пользовательского пути Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Путь: {path}. Ошибка: {error}. Возврат к автоопределению.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Предупреждение о безопасности',
   ACTIVATION_WARNING_MESSAGE:

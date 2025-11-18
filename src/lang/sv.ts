@@ -135,6 +135,43 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Anpassad sökväg till Python exekverbar fil '{path}' är ogiltig eller kunde inte köras. Återgår till automatisk identifiering.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Revisionslogg',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Aktivera Revisionslogg',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Aktivera revisionsloggning för skriptkörningar och API-åtgärder för säkerhetsövervakning och felsökning.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Sökväg till Revisionslogg',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Valfritt: Anpassad sökväg för revisionsloggfilen. Om inte specificerat, används en fil i plugin-katalogen.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 't.ex. /sökväg/till/revision.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximal Loggfilstorlek (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximal storlek på en enskild loggfil innan rotation. Standard: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximalt Antal Loggfiler',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximalt antal loggfiler att behålla under rotation. Standard: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "Fel: Okänd inmatningstyp '{inputType}' begärd.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ogiltig numerisk inmatning.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Inställningsupptäckt misslyckades för {count} skript: {scripts}. Kontrollera konsolen för detaljer.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Okänd inställningstyp: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Sökväg till Python Exekverbar Fil',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absolut sökväg till din Python- eller uv-exekverbara fil. Lämna tomt för automatisk identifiering (uv, py, python3, python). Kräver omladdning eller omstart av insticksprogrammet för full effekt om det ändras.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    't.ex. /usr/bin/python3 eller C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Anpassad Python-sökväg Misslyckades',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Sökväg: {path}. Fel: {error}. Återgår till automatisk identifiering.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Säkerhetsvarning',
   ACTIVATION_WARNING_MESSAGE:

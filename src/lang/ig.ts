@@ -132,6 +132,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ụzọ faịlụ Python omenala '{path}' ezighi ezi ma ọ bụ enweghị ike ịgba ọsọ. Na-alaghachi na nchọpụta onwe.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Ndepụta Nyocha',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Kwadebe Ndepụta Nyocha',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Kwadebe ndepụta nyocha maka ịgba edemede na omume API maka nlekota nchebe na nhazi njehie.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Ụzọ Faịlụ Ndepụta Nyocha',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Nhọrọ: Ụzọ omenala maka faịlụ ndepụta nyocha. Ọ bụrụ na edebeghị aha, ọ na-eji faịlụ na ndekọ ngwa mgbakwunye site na default.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ọmụmaatụ: /ụzọ/gaa/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Nha Kasịnụ nke Faịlụ Ndepụta (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Nha kasịnụ nke faịlụ ndepụta ọ bụla tupu mgbanwe. Default: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Faịlụ Ndepụta Kasịnụ',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    "Ọnụ ọgụgụ kasịnụ nke faịlụ ndepụta idebe n'oge mgbanwe. Default: 5",
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Njehie: A chọrọ ụdị ntinye a na-amaghị ama '{inputType}'.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ntinye nọmba ezighi ezi.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Nchọpụta ntọala kụrụ maka {count} edemede: {scripts}. Lelee console maka nkọwa.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Ụdị ntọala a na-amaghị ama: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Ụzọ Failụ Python Nwere Ike Ịgba ọsọ',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Ụzọ zuru oke na faịlụ Python ma ọ bụ uv gị nwere ike ịgba ọsọ. Hapụ ya oghere maka nchọpụta onwe (uv, py, python3, python). Ọ chọrọ ntinyegharị ma ọ bụ mmalitegharị plugin ka o wee rụọ ọrụ zuru oke ma ọ bụrụ na agbanwere ya.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ọmụmaatụ, /usr/bin/python3 ma ọ bụ C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Ụzọ Python Omenala Akụọla',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Ụzọ: {path}. Njehie: {error}. Na-alaghachi na nchọpụta onwe.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Ịdọ aka ná ntị Nche',
   ACTIVATION_WARNING_MESSAGE:

@@ -140,6 +140,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ang custom na landas ng Python executable '{path}' ay hindi wasto o hindi ma-execute. Babalik sa awtomatikong pagtuklas.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit Log',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Paganahin ang Audit Log',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Paganahin ang audit logging para sa mga pagpapatupad ng script at mga aksyon ng API para sa security monitoring at debugging.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Landas ng File ng Audit Log',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opsyonal: Custom na landas para sa audit log file. Kung hindi tinukoy, default sa isang file sa plugin directory.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'hal: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximum Size ng Log File (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximum size ng isang log file bago ang rotation. Default: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximum na Log Files',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximum na bilang ng log files na panatilihin habang nagro-rotate. Default: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Error: Hindi kilalang uri ng input '{inputType}' ang hiniling.",
+  ERROR_INVALID_NUMBER_INPUT: 'Hindi wastong numero input.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Nabigo ang pagtuklas ng setting para sa {count} script(s): {scripts}. Suriin ang console para sa mga detalye.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Hindi kilalang uri ng setting: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Landas ng Python Executable',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Ganap na landas sa iyong Python o uv executable. Iwanang blangko para sa auto-detection (uv, py, python3, python). Nangangailangan ng plugin reload o restart para magkabisa nang buo kung binago.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'hal: /usr/bin/python3 o C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Nabigo ang Custom na Landas ng Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Landas: {path}. Error: {error}. Babalik sa auto-detection.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Babala sa Seguridad',
   ACTIVATION_WARNING_MESSAGE:

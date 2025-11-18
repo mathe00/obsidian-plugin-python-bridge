@@ -130,7 +130,44 @@ export default {
     'مسیر سفارشی پایتون نامعتبر است و هیچ فایل اجرایی جایگزینی یافت نشد. اسکریپت ها ممکن است اجرا نشوند.',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'مسیر سفارشی پایتون ناموفق بود',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
-    "مسیر سفارشی فایل اجرایی پایتون '{path}' نامعتبر است یا قابل اجرا نیست. بازگشت به تشخیص خودکار.",
+    "مسار سفارشی فایل اجرایی پایتون '{path}' نامعتبر است یا قابل اجرا نیست. بازگشت به تشخیص خودکار.",
+
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'گزارش بازرسی',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'فعال کردن گزارش بازرسی',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'فعال کردن گزارش بازرسی برای اجرای اسکریپت‌ها و اقدامات API برای نظارت بر امنیت و اشکال‌زدایی.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'مسیر فایل گزارش بازرسی',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'اختیاری: مسیر سفارشی برای فایل گزارش بازرسی. اگر مشخص نشود، به طور پیش‌فرض از یک فایل در دایرکتوری افزونه استفاده می‌شود.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'مثال: /مسیر/به/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'حداکثر اندازه فایل گزارش (مگابایت)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'حداکثر اندازه یک فایل گزارش قبل از چرخش. پیش‌فرض: 10 مگابایت',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'حداکثر فایل‌های گزارش',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'حداکثر تعداد فایل‌های گزارش برای نگهداری در حین چرخش. پیش‌فرض: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "خطا: نوع ورودی ناشناخته '{inputType}' درخواست شد.",
+  ERROR_INVALID_NUMBER_INPUT: 'ورودی عددی نامعتبر است.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'کشف تنظیمات برای {count} اسکریپت ناموفق بود: {scripts}. برای جزئیات کنسول را بررسی کنید.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'نوع تنظیمات ناشناخته: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'مسیر فایل اجرایی پایتون',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'مسیر مطلق به فایل اجرایی پایتون یا uv شما. برای تشخیص خودکار خالی بگذارید (uv، py، python3، python). در صورت تغییر، برای اعمال کامل اثر، نیاز به بارگذاری مجدد یا راه اندازی مجدد افزونه است.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'مثال: /usr/bin/python3 یا C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'مسیر سفارشی پایتون ناموفق بود',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'مسیر: {path}. خطا: {error}. بازگشت به تشخیص خودکار.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
 
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'هشدار امنیتی',

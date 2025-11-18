@@ -137,6 +137,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Hanyar fayil mai aiwatarwa na Python na al'ada '{path}' ba daidai ba ne ko kuma ba za a iya aiwatar da shi ba. Komawa zuwa ganowa ta atomatik.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Rijistar Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Kunna Rijisan Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Kunna rijisan audit don aiwatar da rubutun da ayyukan API don lura da tsaro da gyaran kuskure.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Hanyar Fayil ɗin Rijisan Audit',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Zaɓi: Hanya ta musamman don fayil ɗin rijisan audit. Idan ba a bayyana ba, tana amfani da fayil a cikin babban fayil ɗin plugin ta tsohuwa.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'misali: /hanya/zuwa/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Matsakaicin Girman Fayil ɗin Rijisa (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Matsakaicin girman fayil ɗin rijisa guda ɗaya kafin juyawa. Tsohuwa: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Matsakaicin Fayilolin Rijisa',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Matsakaicin adadin fayilolin rijisa da ake adana a lokacin juyawa. Tsohuwa: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Kuskure: An nemi nau'in shigar da ba a sani ba '{inputType}'.",
+  ERROR_INVALID_NUMBER_INPUT: 'Shigar da lamba mara inganci.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    "Gano saituna ya kasa ga {count} rubutu: {scripts}. Duba na'ura mai kwakwalwa don cikakken bayani.",
+  ERROR_UNKNOWN_SETTING_TYPE: "Nau'in saita ba a sani ba: {type}",
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Hanyar Fayil Mai Gudun Aiki na Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Cikakken hanyar zuwa fayil ɗin Python ko uv mai aiwatarwa. Bar fanko don ganowa ta atomatik (uv, py, python3, python). Yana buƙatar sake kunna plugin ko sake farawa don yin tasiri sosai idan an canza.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'misali, /usr/bin/python3 ko C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Hanyar Python ta Musamman Ta Kasa',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Hanya: {path}. Kuskure: {error}. Komawa zuwa ganowa ta atomatik.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Gargaɗin Tsaro',
   ACTIVATION_WARNING_MESSAGE: 'Kuna kan kunna rubutun Python "{scriptName}".',

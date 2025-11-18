@@ -129,6 +129,42 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Ọ̀nà ètò Python àdáni '{path}' kò tọ́ tàbí kò ṣeéṣe. Àtúnsọ sí ìṣàwárí αυτόματη.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Àkójọ Ìwádìí',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Mu Àkójọ Ìwádìí Ṣiṣẹ́',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Mu ìkọwé àkójọ ìwádìí ṣiṣẹ́ fún ìṣe àwọn akosílẹ̀ àti àwọn iṣẹ́ API fún ìmọ́ra ààbò àti ìyọnusọ̀n àṣìṣe.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Ọ̀nà Fáìlì Àkójọ Ìwádìí',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Àyèka: Ọ̀nà àdánwò fún fáìlì àkójọ ìwádìí. Bí a kò ṣe àlàyé, ó ma ń lo fáìlì kan nínú itọ́sọ̀nà plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'àpẹẹrẹ: /ọ̀nà/sí/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Iwọ̀n Fáìlì Àkójọ Ìwádìí Tó Pọ̀jù (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Iwọ̀n fáìlì àkójọ ìwádìí kan tó pọ̀jù kí ìyípadà to. Aiyipada: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Àwọn Fáìlì Àkójọ Ìwádìí Tó Pọ̀jù',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Nọ́mbà àwọn fáìlì àkójọ ìwádìí tó pọ̀jù láti fi pamọ́ nígbà ìyípadà. Aiyipada: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "Àṣìṣe: A bẹ̀rẹ̀ orúkọ ìbẹ̀rẹ̀ àmúṣe '{inputType}'.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ìbẹ̀rẹ̀ nọ́mbà kò tọ́.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Ìwádìí ètò kùnà fún {count} akosílẹ̀: {scripts}. Ṣàyẹ̀wò console fún alàyé.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Orúkọ ètò àmúṣe: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Ọ̀nà Ètò Python Tí Ó Lè Ṣeéṣe',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Ọ̀nà pípé sí ètò Python tàbí uv rẹ tí ó ṣeéṣe. Fi sílẹ̀ ní òfo fún ìṣàwárí αυτόματη (uv, py, python3, python). Ó nílò ìtúnsílọ́ tàbí ìtúnsílẹ̀ plugin fún ipa pípé bí ó bá yípadà.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'àpẹẹrẹ, /usr/bin/python3 tàbí C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK: 'Ọ̀nà Python Àdáni Kùnà',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Ọ̀nà: {path}. Àṣìṣe: {error}. Àtúnsọ sí ìṣàwárí αυτόματη.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Ìkìlọ̀ Ààbò',
   ACTIVATION_WARNING_MESSAGE:

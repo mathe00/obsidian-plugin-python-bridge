@@ -122,6 +122,42 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "自訂 Python 可執行檔案路徑 '{path}' 無效或無法執行。將回復到自動偵測。",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: '稽核日誌',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: '啟用稽核日誌',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    '啟用腳本執行和 API 操作的稽核日誌記錄，用於安全監控和除錯。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: '稽核日誌檔案路徑',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    '選用：稽核日誌檔案的自訂路徑。如果未指定，預設為插件目錄中的檔案。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: '例如：/path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: '日誌檔案最大大小 (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    '單一日誌檔案在輪換前的最大大小。預設：10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: '最大日誌檔案數量',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    '輪換期間要保留的最大日誌檔案數量。預設：5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "錯誤：請求了未知的輸入類型 '{inputType}'。",
+  ERROR_INVALID_NUMBER_INPUT: '無效的數字輸入。',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '為 {count} 個腳本發現設定失敗：{scripts}。請檢查控制台以獲取詳細資訊。',
+  ERROR_UNKNOWN_SETTING_TYPE: '未知的設定類型：{type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python 可執行檔案路徑',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    '您的 Python 或 uv 可執行檔案的絕對路徑。留空以進行自動偵測（uv、py、python3、python）。如果變更，需要重新載入或重新啟動外掛程式才能完全生效。',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    '例如 /usr/bin/python3 或 C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK: '自訂 Python 路徑失敗',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    '路徑：{path}。錯誤：{error}。將回復到自動偵測。',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: '安全警告',
   ACTIVATION_WARNING_MESSAGE: '您即將啟用 Python 腳本 "{scriptName}"。',

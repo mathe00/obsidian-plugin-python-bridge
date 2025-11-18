@@ -141,6 +141,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Özel Python çalıştırılabilir dosya yolu '{path}' geçersiz veya çalıştırılamadı. Otomatik algılamaya geri dönüluyor.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Denetim Günlüğü',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Denetim Günlüğünü Etkinleştir',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Güvenlik izleme ve hata ayıklama için betik yürütmelerinin ve API eylemlerinin denetim günlüğünü etkinleştirin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Denetim Günlüğü Dosya Yolu',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'İsteğe bağlı: Denetim günlüğü dosyası için özel yol. Belirtilmezse, eklenti dizinindeki bir dosyaya varsayılan yapılır.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ör: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maksimum Günlük Dosya Boyutu (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Döndürmeden önce tek bir günlük dosyasının maksimum boyutu. Varsayılan: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maksimum Günlük Dosyası Sayısı',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Döndürme sırasında tutulacak maksimum günlük dosyası sayısı. Varsayılan: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Hata: Bilinmeyen giriş türü '{inputType}' istendi.",
+  ERROR_INVALID_NUMBER_INPUT: 'Geçersiz sayı girişi.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count} betik için ayar keşfi başarısız oldu: {scripts}. Ayrıntılar için konsolu kontrol edin.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Bilinmeyen ayar türü: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Python Çalıştırılabilir Dosya Yolu',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Python veya uv çalıştırılabilir dosyanızın mutlak yolu. Otomatik algılama için boş bırakın (uv, py, python3, python). Değiştirilirse tam olarak etkili olması için eklentinin yeniden yüklenmesi veya yeniden başlatılması gerekir.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ör: /usr/bin/python3 veya C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Özel Python Yolu Başarısız Oldu',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Yol: {path}. Hata: {error}. Otomatik algılamaya geri dönülüyor.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Güvenlik Uyarısı',
   ACTIVATION_WARNING_MESSAGE:

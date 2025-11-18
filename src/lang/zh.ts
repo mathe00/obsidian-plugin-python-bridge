@@ -128,6 +128,41 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     '自定义 Python 可执行文件路径"{path}"无效或无法执行。将回退到自动检测。',
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: '审计日志',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: '启用审计日志',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    '启用脚本执行和 API 操作的审计日志记录，用于安全监控和调试。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: '审计日志文件路径',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    '可选：审计日志文件的自定义路径。如果未指定，默认为插件目录中的文件。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: '例如 /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: '最大日志文件大小 (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC: '轮转前单个日志文件的最大大小。默认：10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: '最大日志文件数量',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC: '轮转期间保留的最大日志文件数量。默认：5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "错误：请求了未知的输入类型 '{inputType}'。",
+  ERROR_INVALID_NUMBER_INPUT: '无效的数字输入。',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '为 {count} 个脚本发现设置失败：{scripts}。请检查控制台获取详细信息。',
+  ERROR_UNKNOWN_SETTING_TYPE: '未知的设置类型：{type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python 可执行文件路径',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Python 或 uv 可执行文件的绝对路径。留空以进行自动检测（uv、py、python3、python）。如果更改，需要重新加载或重新启动插件才能完全生效。',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    '例如 /usr/bin/python3 或 C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    '自定义 Python 路径失败',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    '路径：{path}。错误：{error}。将回退到自动检测。',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: '安全警告',
   ACTIVATION_WARNING_MESSAGE: '您即将启用 Python 脚本"{scriptName}"。',

@@ -137,6 +137,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "কাস্টম পাইথন এক্সিকিউটেবল পাথ '{path}' অবৈধ অথবা চালানো যায়নি। স্বয়ংক্রিয় সনাক্তকরণে ফিরে যাওয়া হচ্ছে।",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'অডিট লগ',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'অডিট লগ সক্ষম করুন',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'নিরাপত্তা মনিটরিং এবং ডিবাগিংয়ের জন্য স্ক্রিপ্ট এক্সিকিউশন এবং API অ্যাকশনগুলির জন্য অডিট লগিং সক্ষম করুন।',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'অডিট লগ ফাইল পাথ',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'ঐচ্ছিক: অডিট লগ ফাইলের জন্য কাস্টম পাথ। যদি নির্দিষ্ট না করা হয়, প্লাগইন ডিরেক্টরিতে একটি ফাইলে ডিফল্ট হয়।',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'যেমন, /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'সর্বাধিক লগ ফাইল আকার (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'রোটেশনের আগে একটি একক লগ ফাইলের সর্বাধিক আকার। ডিফল্ট: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'সর্বাধিক লগ ফাইল',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'রোটেশনের সময় রাখার জন্য সর্বাধিক লগ ফাইলের সংখ্যা। ডিফল্ট: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "ত্রুটি: অজানা ইনপুট টাইপ '{inputType}' অনুরোধ করা হয়েছে।",
+  ERROR_INVALID_NUMBER_INPUT: 'অবৈধ সংখ্যা ইনপুট।',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count} স্ক্রিপ্টের জন্য সেটিংস আবিষ্কার ব্যর্থ হয়েছে: {scripts}। বিস্তারিত জানার জন্য কনসোল পরীক্ষা করুন।',
+  ERROR_UNKNOWN_SETTING_TYPE: 'অজানা সেটিং টাইপ: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'পাইথন এক্সিকিউটেবল পাথ',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'আপনার পাইথন বা ইউভি এক্সিকিউটেবলের সম্পূর্ণ পাথ। স্বয়ংক্রিয় সনাক্তকরণের জন্য খালি রাখুন (uv, py, python3, python)। পরিবর্তন করা হলে সম্পূর্ণ প্রভাবের জন্য প্লাগইন পুনরায় লোড বা পুনরায় চালু করতে হবে।',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'যেমন, /usr/bin/python3 অথবা C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'কাস্টম পাইথন পাথ ব্যর্থ হয়েছে',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'পাথ: {path}। ত্রুটি: {error}। স্বয়ংক্রিয় সনাক্তকরণে ফিরে যাওয়া হচ্ছে।',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'নিরাপত্তা সতর্কতা',
   ACTIVATION_WARNING_MESSAGE:

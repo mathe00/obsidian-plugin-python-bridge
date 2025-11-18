@@ -134,6 +134,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Настроюваний шлях до виконуваного файлу Python '{path}' недійсний або не може бути виконаний. Повернення до автоматичного визначення.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Журнал аудиту',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Увімкнути журнал аудиту',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Увімкнути журнал аудиту для виконання скриптів та дій API для моніторингу безпеки та налагодження.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Шлях до файлу журналу аудиту',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    "Необов'язково: Власний шлях до файлу журналу аудиту. Якщо не вказано, за замовчуванням використовується файл у каталозі плагіна.",
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'напр., /шлях/до/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Максимальний розмір файлу журналу (МБ)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Максимальний розмір одного файлу журналу перед ротацією. За замовчуванням: 10МБ',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Максимальна кількість файлів журналу',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Максимальна кількість файлів журналу для збереження під час ротації. За замовчуванням: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Помилка: Невідомий тип введення '{inputType}' запитано.",
+  ERROR_INVALID_NUMBER_INPUT: 'Недійсне числове введення.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Не вдалося виявити налаштування для {count} скрипт(ів): {scripts}. Перевірте консоль для деталей.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Невідомий тип налаштування: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Шлях до виконуваного файлу Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Абсолютний шлях до вашого виконуваного файлу Python або uv. Залиште порожнім для автоматичного визначення (uv, py, python3, python). Потребує перезавантаження плагіна або перезапуску для повного набуття чинності у разі зміни.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'напр., /usr/bin/python3 або C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Помилка власного шляху Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Шлях: {path}. Помилка: {error}. Повернення до автоматичного визначення.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Попередження про безпеку',
   ACTIVATION_WARNING_MESSAGE:

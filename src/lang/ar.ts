@@ -136,6 +136,43 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "مسار ملف Python التنفيذي المخصص '{path}' غير صالح أو لا يمكن تنفيذه. الرجوع إلى الكشف التلقائي.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'سجل التدقيق',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'تمكين سجل التدقيق',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'تمكين تسجيل سجل التدقيق لتنفيذات السكربتات والإجراءات البرمجية لمراقبة الأمان وتصحيح الأخطاء.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'مسار ملف سجل التدقيق',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'اختياري: مسار مخصص لملف سجل التدقيق. إذا لم يتم تحديده، يتم التعامل مع ملف في دليل المكون الإضافي.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'مثال: /مسار/إلى/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'الحد الأقصى لحجم ملف السجل (ميجابايت)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'الحد الأقصى لحجم ملف سجل واحد قبل التدوير. الافتراضي: 10 ميجابايت',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'الحد الأقصى لملفات السجل',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'الحد الأقصى لعدد ملفات السجل التي يجب الاحتفاظ بها أثناء التدوير. الافتراضي: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE: "خطأ: نوع إدخال غير معروف '{inputType}' مطلوب.",
+  ERROR_INVALID_NUMBER_INPUT: 'إدخال رقمي غير صالح.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'فشل اكتشاف الإعدادات لـ {count} سكربت(ات): {scripts}. تحقق من وحدة التحكم للحصول على التفاصيل.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'نوع إعداد غير معروف: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'مسار ملف Python التنفيذي',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'المسار المطلق لملف Python أو uv التنفيذي الخاص بك. اتركه فارغًا للكشف التلقائي (uv, py, python3, python). يتطلب إعادة تحميل المكون الإضافي أو إعادة تشغيله ليصبح ساري المفعول بالكامل في حالة تغييره.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'مثال: /usr/bin/python3 أو C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'فشل مسار Python المخصص',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'المسار: {path}. الخطأ: {error}. الرجوع إلى الكشف التلقائي.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'تحذير أمني',
   ACTIVATION_WARNING_MESSAGE: 'أنت على وشك تمكين سكربت بايثون "{scriptName}".',

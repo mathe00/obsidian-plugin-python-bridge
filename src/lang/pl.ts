@@ -146,6 +146,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Niestandardowa ścieżka pliku wykonywalnego Python '{path}' jest nieprawidłowa lub nie można jej wykonać. Przywracanie automatycznego wykrywania.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Dziennik Audytu',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Włącz Dziennik Audytu',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Włącz rejestrowanie audytu dla wykonywania skryptów i akcji API w celu monitorowania bezpieczeństwa i debugowania.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Ścieżka Pliku Dziennika Audytu',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opcjonalnie: Niestandardowa ścieżka dla pliku dziennika audytu. Jeśli nie określono, domyślnie używa pliku w katalogu wtyczki.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'np. /ścieżka/do/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maksymalny Rozmiar Pliku Dziennika (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maksymalny rozmiar pojedynczego pliku dziennika przed rotacją. Domyślnie: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maksymalna Liczba Plików Dziennika',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maksymalna liczba plików dziennika do zachowania podczas rotacji. Domyślnie: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Błąd: Nieznany typ wejścia '{inputType}' został zażądany.",
+  ERROR_INVALID_NUMBER_INPUT: 'Nieprawidłowe dane liczbowe.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Odkrywanie ustawień nie powiodło się dla {count} skryptu(ów): {scripts}. Sprawdź konsolę, aby uzyskać szczegóły.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Nieznany typ ustawienia: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Ścieżka Pliku Wykonywalnego Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Ścieżka bezwzględna do pliku wykonywalnego Python lub uv. Pozostaw puste dla automatycznego wykrywania (uv, py, python3, python). Wymaga ponownego załadowania lub ponownego uruchomienia wtyczki, aby w pełni zadziałało po zmianie.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'np. /usr/bin/python3 lub C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Niestandardowa Ścieżka Python Nie Powiodła Się',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Ścieżka: {path}. Błąd: {error}. Przywracanie automatycznego wykrywania.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Ostrzeżenie o Bezpieczeństwie',
   ACTIVATION_WARNING_MESSAGE:

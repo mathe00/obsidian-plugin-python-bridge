@@ -131,6 +131,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Vlastní cesta ke spustitelnému souboru Pythonu '{path}' je neplatná nebo ji nelze spustit. Vrací se k automatické detekci.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Auditní Záznam',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Povolit Auditní Záznam',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Povolit auditní protokolování pro spouštění skriptů a API akce pro bezpečnostní monitorování a ladění.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Cesta k Souboru Auditního Záznamu',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Volitelné: Vlastní cesta pro soubor auditního záznamu. Pokud není specifikována, výchozí je soubor v adresáři pluginu.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'např. /cesta/k/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximální Velikost Souboru Záznamu (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximální velikost jednoho souboru záznamu před rotací. Výchozí: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximální Počet Souborů Záznamu',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximální počet souborů záznamu k uchování během rotace. Výchozí: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Chyba: Požadován neznámý typ vstupu '{inputType}'.",
+  ERROR_INVALID_NUMBER_INPUT: 'Neplatný číselný vstup.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Zjištění nastavení selhalo pro {count} skript(ů): {scripts}. Zkontrolujte konzoli pro detaily.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Neznámý typ nastavení: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Cesta ke Spustitelnému Souboru Pythonu',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absolutní cesta k vašemu spustitelnému souboru Pythonu nebo uv. Ponechte prázdné pro automatickou detekci (uv, py, python3, python). Vyžaduje opětovné načtení nebo restartování pluginu pro plný účinek při změně.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'např. /usr/bin/python3 nebo C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Vlastní Cesta k Pythonu Selhala',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Cesta: {path}. Chyba: {error}. Vrací se k automatické detekci.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Bezpečnostní Varování',
   ACTIVATION_WARNING_MESSAGE:

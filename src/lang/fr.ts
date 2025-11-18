@@ -147,6 +147,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Le chemin personnalisé de l'exécutable Python '{path}' est invalide ou n'a pas pu être exécuté. Retour à la détection automatique.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: "Journal d'Audit",
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: "Activer le Journal d'Audit",
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    "Activer la journalisation d'audit pour les exécutions de scripts et les actions API pour la surveillance de sécurité et le débogage.",
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: "Chemin du Fichier de Journal d'Audit",
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    "Optionnel : Chemin personnalisé pour le fichier de journal d'audit. Si non spécifié, utilise par défaut un fichier dans le répertoire du plugin.",
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ex: /chemin/vers/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME:
+    'Taille Maximale du Fichier de Journal (Mo)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    "Taille maximale d'un fichier de journal avant la rotation. Par défaut : 10Mo",
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Nombre Maximum de Fichiers de Journal',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Nombre maximum de fichiers de journal à conserver pendant la rotation. Par défaut : 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Erreur : Type d'entrée inconnu '{inputType}' demandé.",
+  ERROR_INVALID_NUMBER_INPUT: 'Entrée numérique invalide.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Échec de la découverte des paramètres pour {count} script(s) : {scripts}. Vérifiez la console pour les détails.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Type de paramètre inconnu : {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: "Chemin de l'Exécutable Python",
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Chemin absolu vers votre exécutable Python ou uv. Laissez vide pour la détection automatique (uv, py, python3, python). Nécessite un rechargement ou redémarrage du plugin pour plein effet si modifié.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ex: /usr/bin/python3 ou C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Échec du Chemin Python Personnalisé',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Chemin : {path}. Erreur : {error}. Retour à la détection automatique.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Avertissement de Sécurité',
   ACTIVATION_WARNING_MESSAGE:

@@ -135,6 +135,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Η προσαρμοσμένη διαδρομή εκτελέσιμου Python '{path}' είναι μη έγκυρη ή δεν ήταν δυνατό να εκτελεστεί. Επιστροφή στην αυτόματη ανίχνευση.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Αρχείο Καταγραφής Ελέγχου',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Ενεργοποίηση Αρχείου Καταγραφής Ελέγχου',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Ενεργοποίηση καταγραφής ελέγχου για εκτελέσεις scripts και ενέργειες API για παρακολούθηση ασφαλείας και αποσφαλμάτωση.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Διαδρομή Αρχείου Καταγραφής Ελέγχου',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Προαιρετικό: Προσαρμοσμένη διαδρομή για το αρχείο καταγραφής ελέγχου. Αν δεν καθοριστεί, προεπιλέγεται ένα αρχείο στον κατάλογο του plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'π.χ., /διαδρομή/προς/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Μέγιστο Μέγεθος Αρχείου Καταγραφής (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Μέγιστο μέγεθος ενός αρχείου καταγραφής πριν την εναλλαγή. Προεπιλογή: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Μέγιστος Αριθμός Αρχείων Καταγραφής',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Μέγιστος αριθμός αρχείων καταγραφής για διατήρηση κατά την εναλλαγή. Προεπιλογή: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Σφάλμα: Άγνωστος τύπος εισαγωγής '{inputType}' ζητήθηκε.",
+  ERROR_INVALID_NUMBER_INPUT: 'Μη έγκυρη αριθμητική είσοδος.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Η ανακάλυψη ρυθμίσεων απέτυχε για {count} script(s): {scripts}. Ελέγξτε την κονσόλα για λεπτομέρειες.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Άγνωστος τύπος ρύθμισης: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Διαδρομή Εκτελέσιμου Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Απόλυτη διαδρομή προς το εκτελέσιμο Python ή uv. Αφήστε κενό για αυτόματη ανίχνευση (uv, py, python3, python). Απαιτεί επαναφόρτωση ή επανεκκίνηση της προσθήκης για πλήρη ισχύ εάν τροποποιηθεί.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'π.χ., /usr/bin/python3 ή C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Η προσαρμοσμένη διαδρομή Python απέτυχε',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Διαδρομή: {path}. Σφάλμα: {error}. Επιστροφή στην αυτόματη ανίχνευση.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Προειδοποίηση Ασφαλείας',
   ACTIVATION_WARNING_MESSAGE:

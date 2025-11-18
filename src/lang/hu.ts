@@ -140,6 +140,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Az egyéni Python futtatható fájl elérési útja ('{path}') érvénytelen, vagy nem lehetett végrehajtani. Visszatérés az automatikus észleléshez.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit Napló',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Audit Napló Engedélyezése',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Audit naplózás engedélyezése a szkript végrehajtásokhoz és API műveletekhez a biztonsági monitorozás és hibakeresés céljából.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit Napló Fájl Elérési Útja',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opcionális: Egyéni elérési út az audit napló fájlhoz. Ha nincs megadva, alapértelmezetten egy fájl a bővítmény könyvtárában.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'pl. /elérési/út/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximális Napló Fájl Méret (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Egyetlen naplófájl maximális mérete a rotáció előtt. Alapértelmezett: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximális Napló Fájlok',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'A rotáció során megtartandó naplófájlok maximális száma. Alapértelmezett: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Hiba: Ismeretlen bemeneti típus '{inputType}' kért.",
+  ERROR_INVALID_NUMBER_INPUT: 'Érvénytelen szám bemenet.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Beállítás felfedezés sikertelen {count} szkriptnél: {scripts}. Ellenőrizze a konzolt a részletekért.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Ismeretlen beállítás típus: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Python Futtatható Fájl Elérési Útja',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Abszolút elérési út a Python vagy uv futtatható fájlhoz. Hagyja üresen az automatikus észleléshez (uv, py, python3, python). A bővítmény újraindítása vagy újratöltése szükséges a teljes hatálybalépéshez, ha megváltozik.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'pl. /usr/bin/python3 vagy C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Egyéni Python Elérési Út Sikertelen',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Elérési út: {path}. Hiba: {error}. Visszatérés az automatikus észleléshez.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Biztonsági Figyelmeztetés',
   ACTIVATION_WARNING_MESSAGE:

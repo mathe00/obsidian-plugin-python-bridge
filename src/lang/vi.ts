@@ -132,6 +132,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Đường dẫn tệp thực thi Python tùy chỉnh '{path}' không hợp lệ hoặc không thể thực thi. Quay lại phát hiện tự động.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Nhật ký Kiểm tra',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Bật Nhật ký Kiểm tra',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Bật ghi nhật ký kiểm tra cho việc thực thi script và hành động API để giám sát bảo mật và gỡ lỗi.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Đường dẫn Tệp Nhật ký Kiểm tra',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Tùy chọn: Đường dẫn tùy chỉnh cho tệp nhật ký kiểm tra. Nếu không chỉ định, mặc định là tệp trong thư mục plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ví dụ: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Kích thước Tối đa Tệp Nhật ký (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Kích thước tối đa của một tệp nhật ký trước khi xoay vòng. Mặc định: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Số Tệp Nhật ký Tối đa',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Số tệp nhật ký tối đa để giữ trong quá trình xoay vòng. Mặc định: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Lỗi: Loại đầu vào không xác định '{inputType}' được yêu cầu.",
+  ERROR_INVALID_NUMBER_INPUT: 'Đầu vào số không hợp lệ.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Khám phá cài đặt không thành công cho {count} script: {scripts}. Kiểm tra console để biết chi tiết.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Loại cài đặt không xác định: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Đường dẫn Tệp Thực thi Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Đường dẫn tuyệt đối đến tệp thực thi Python hoặc uv của bạn. Để trống để tự động phát hiện (uv, py, python3, python). Yêu cầu tải lại hoặc khởi động lại plugin để có hiệu lực đầy đủ nếu thay đổi.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ví dụ: /usr/bin/python3 hoặc C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Đường dẫn Python Tùy chỉnh Không thành công',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Đường dẫn: {path}. Lỗi: {error}. Quay lại phát hiện tự động.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Cảnh báo Bảo mật',
   ACTIVATION_WARNING_MESSAGE: 'Bạn sắp bật script Python "{scriptName}".',

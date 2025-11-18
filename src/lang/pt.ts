@@ -144,6 +144,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "O caminho personalizado do executável Python '{path}' é inválido ou não pôde ser executado. Voltando para a deteção automática.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Log de Auditoria',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Ativar Log de Auditoria',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Ativar registro de auditoria para execuções de scripts e ações da API para monitoramento de segurança e depuração.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Caminho do Arquivo de Log de Auditoria',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opcional: Caminho personalizado para o arquivo de log de auditoria. Se não especificado, usa um arquivo no diretório do plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ex: /caminho/para/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Tamanho Máximo do Arquivo de Log (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Tamanho máximo de um único arquivo de log antes da rotação. Padrão: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Máximo de Arquivos de Log',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Número máximo de arquivos de log para manter durante a rotação. Padrão: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Erro: Tipo de entrada desconhecido '{inputType}' solicitado.",
+  ERROR_INVALID_NUMBER_INPUT: 'Entrada de número inválida.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Falha na descoberta de configurações para {count} script(s): {scripts}. Verifique o console para detalhes.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Tipo de configuração desconhecido: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Caminho do Executável Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Caminho absoluto para o seu executável Python ou uv. Deixe em branco para deteção automática (uv, py, python3, python). Requer recarregar ou reiniciar o plugin para ter efeito total se alterado.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ex: /usr/bin/python3 ou C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Falha no Caminho Personalizado do Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Caminho: {path}. Erro: {error}. Voltando para a deteção automática.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Aviso de Segurança',
   ACTIVATION_WARNING_MESSAGE:

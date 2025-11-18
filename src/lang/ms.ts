@@ -134,6 +134,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Laluan boleh laksana Python tersuai '{path}' tidak sah atau tidak dapat dilaksanakan. Kembali kepada pengesanan automatik.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Log Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Dayakan Log Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Dayakan pengelogan audit untuk pelaksanaan skrip dan tindakan API untuk pemantauan keselamatan dan nyahpepijat.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Laluan Fail Log Audit',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Pilihan: Laluan tersuai untuk fail log audit. Jika tidak ditentukan, lalai ke fail dalam direktori plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'cth: /laluan/ke/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Saiz Maksimum Fail Log (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Saiz maksimum satu fail log sebelum putaran. Lalai: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Fail Log Maksimum',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Bilangan maksimum fail log untuk disimpan semasa putaran. Lalai: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Ralat: Jenis input tidak diketahui '{inputType}' diminta.",
+  ERROR_INVALID_NUMBER_INPUT: 'Input nombor tidak sah.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Penemuan tetapan gagal untuk {count} skrip: {scripts}. Semak konsol untuk butiran.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Jenis tetapan tidak diketahui: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Laluan Boleh Laksana Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Laluan mutlak ke boleh laksana Python atau uv anda. Biarkan kosong untuk pengesanan automatik (uv, py, python3, python). Memerlukan muat semula atau mulakan semula plugin untuk berkuat kuasa sepenuhnya jika diubah.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'cth: /usr/bin/python3 atau C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Laluan Python Tersuai Gagal',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Laluan: {path}. Ralat: {error}. Kembali kepada pengesanan automatik.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Amaran Keselamatan',
   ACTIVATION_WARNING_MESSAGE:

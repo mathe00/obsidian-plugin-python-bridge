@@ -136,6 +136,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "사용자 지정 Python 실행 파일 경로 '{path}'가 잘못되었거나 실행할 수 없습니다. 자동 감지로 대체합니다.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: '감사 로그',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: '감사 로그 활성화',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    '스크립트 실행 및 API 작업에 대한 감사 로깅을 활성화하여 보안 모니터링 및 디버깅을 수행합니다.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: '감사 로그 파일 경로',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    '선택사항: 감사 로그 파일의 사용자 지정 경로입니다. 지정하지 않으면 플러그인 디렉토리의 파일로 기본 설정됩니다.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: '예: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: '최대 로그 파일 크기 (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    '회전 전 단일 로그 파일의 최대 크기입니다. 기본값: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: '최대 로그 파일 수',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    '회전 중 유지할 최대 로그 파일 수입니다. 기본값: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "오류: 알 수 없는 입력 유형 '{inputType}'이(가) 요청되었습니다.",
+  ERROR_INVALID_NUMBER_INPUT: '잘못된 숫자 입력입니다.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count}개 스크립트에 대한 설정 검색 실패: {scripts}. 자세한 내용은 콘솔을 확인하세요.',
+  ERROR_UNKNOWN_SETTING_TYPE: '알 수 없는 설정 유형: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python 실행 파일 경로',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Python 또는 uv 실행 파일의 절대 경로입니다. 자동 감지(uv, py, python3, python)를 위해 비워 두십시오. 변경된 경우 전체 효과를 적용하려면 플러그인을 다시 로드하거나 다시 시작해야 합니다.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    '예: /usr/bin/python3 또는 C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    '사용자 지정 Python 경로 실패',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    '경로: {path}. 오류: {error}. 자동 감지로 대체합니다.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: '보안 경고',
   ACTIVATION_WARNING_MESSAGE:

@@ -135,6 +135,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Calea personalizată a executabilului Python '{path}' este invalidă sau nu a putut fi executată. Se revine la detectarea automată.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Jurnal de Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Activează Jurnal de Audit',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Activează jurnalizarea auditului pentru execuțiile scripturilor și acțiunile API pentru monitorizarea securității și depanare.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Cale Fișier Jurnal Audit',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opțional: Cale personalizată pentru fișierul jurnal de audit. Dacă nu este specificat, implicit este un fișier în directorul pluginului.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ex: /cale/catre/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Dimensiune Maximă Fișier Jurnal (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Dimensiunea maximă a unui singur fișier jurnal înainte de rotație. Implicit: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Număr Maxim Fișiere Jurnal',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Numărul maxim de fișiere jurnal de păstrat în timpul rotației. Implicit: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Eroare: Tip de intrare necunoscut '{inputType}' solicitat.",
+  ERROR_INVALID_NUMBER_INPUT: 'Intrare numerică invalidă.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Descoperirea setărilor a eșuat pentru {count} script(uri): {scripts}. Verificați consola pentru detalii.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Tip de setare necunoscut: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Calea către Executabilul Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Calea absolută către executabilul Python sau uv. Lăsați necompletat pentru detectare automată (uv, py, python3, python). Necesită reîncărcarea sau repornirea pluginului pentru a intra în vigoare complet dacă este modificat.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ex: /usr/bin/python3 sau C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Calea Python Personalizată a Eșuat',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Cale: {path}. Eroare: {error}. Se revine la detectarea automată.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Avertisment de Securitate',
   ACTIVATION_WARNING_MESSAGE:

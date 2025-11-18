@@ -141,6 +141,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     'カスタム Python 実行可能ファイルのパス「{path}」が無効であるか、実行できませんでした。自動検出にフォールバックします。',
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: '監査ログ',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: '監査ログを有効にする',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'セキュリティ監視とデバッグのために、スクリプト実行とAPIアクションの監査ログを有効にします。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: '監査ログファイルのパス',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'オプション：監査ログファイルのカスタムパス。指定しない場合、プラグインディレクトリ内のファイルがデフォルトになります。',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: '例: /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: '最大ログファイルサイズ（MB）',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'ローテーション前の単一ログファイルの最大サイズ。デフォルト：10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: '最大ログファイル数',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'ローテーション時に保持する最大ログファイル数。デフォルト：5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "エラー：不明な入力タイプ '{inputType}' が要求されました。",
+  ERROR_INVALID_NUMBER_INPUT: '無効な数値入力です。',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count}個のスクリプトで設定の検出に失敗しました：{scripts}。詳細についてはコンソールを確認してください。',
+  ERROR_UNKNOWN_SETTING_TYPE: '不明な設定タイプ：{type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python 実行可能ファイルのパス',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Python または uv 実行可能ファイルへの絶対パス。自動検出の場合は空のままにします (uv、py、python3、python)。変更された場合、完全に有効にするにはプラグインの再読み込みまたは再起動が必要です。',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    '例: /usr/bin/python3 または C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'カスタム Python パスに失敗しました',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'パス：{path}。エラー：{error}。自動検出にフォールバックします。',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'セキュリティ警告',
   ACTIVATION_WARNING_MESSAGE:

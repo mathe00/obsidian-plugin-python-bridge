@@ -135,6 +135,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Njia maalum ya faili ya Python inayoweza kutekelezwa '{path}' si sahihi au haikuweza kutekelezwa. Inarejea kwenye utambuzi wa kiotomatiki.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Kumbukumbu ya Ukaguzi',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Washa Kumbukumbu ya Ukaguzi',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Washa uandishi wa kumbukumbu ya ukaguzi kwa utekelezaji wa hati na vitendo vya API kwa ufuatiliaji wa usalama na utatuzi wa hitilafu.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Njia ya Faili ya Kumbukumbu ya Ukaguzi',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Hiari: Njia maalum kwa faili ya kumbukumbu ya ukaguzi. Ikiwa haibainishwi, inatumia faili katika saraka ya programu-jalizi kwa chaguo-msingi.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'k.m. /njia/ya/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Ukubwa Mz wa Faili ya Kumbukumbu (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Ukubwa wa juu zaidi wa faili ya kumbukumbu moja kabla ya mzunguko. Chaguo-msingi: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Faili za Kumbukumbu za Kiwango cha Juu',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Idadi ya juu zaidi ya faili za kumbukumbu za kuhifadhi wakati wa mzunguko. Chaguo-msingi: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Hitilafu: Aina ya ingizo isiyojulikana '{inputType}' imetolewa.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ingizo la nambari si sahihi.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Ugunduzi wa mipangilio umeshindwa kwa {count} hati: {scripts}. Angalia koni kwa maelezo.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Aina ya mpangilio isiyojulikana: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Njia ya Faili ya Python Inayoweza Kutekelezwa',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Njia kamili ya faili yako ya Python au uv inayoweza kutekelezwa. Acha tupu kwa utambuzi wa kiotomatiki (uv, py, python3, python). Inahitaji kupakia upya programu-jalizi au kuanzisha upya ili ianze kutumika kikamilifu ikibadilishwa.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'k.m. /usr/bin/python3 au C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Njia Maalum ya Python Imeshindwa',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Njia: {path}. Hitilafu: {error}. Inarejea kwenye utambuzi wa kiotomatiki.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Onyo la Usalama',
   ACTIVATION_WARNING_MESSAGE:

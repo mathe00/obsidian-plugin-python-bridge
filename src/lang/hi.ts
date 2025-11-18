@@ -140,6 +140,43 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "कस्टम पायथन निष्पादन योग्य पथ '{path}' अमान्य है या निष्पादित नहीं किया जा सका। स्वचालित पहचान पर वापस जा रहा है।",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'ऑडिट लॉग',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'ऑडिट लॉग सक्षम करें',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'सुरक्षा निगरानी और डिबगिंग के लिए स्क्रिप्ट निष्पादन और API क्रियाओं के लिए ऑडिट लॉगिंग सक्षम करें।',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'ऑडिट लॉग फ़ाइल पथ',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'वैकल्पिक: ऑडिट लॉग फ़ाइल के लिए कस्टम पथ। यदि निर्दिष्ट नहीं है, तो डिफ़ॉल्ट रूप से प्लगइन निर्देशिका में एक फ़ाइल होगी।',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'उदा., /path/to/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'अधिकतम लॉग फ़ाइल आकार (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'रोटेशन से पहले एक लॉग फ़ाइल का अधिकतम आकार। डिफ़ॉल्ट: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'अधिकतम लॉग फ़ाइलें',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'रोटेशन के दौरान रखने के लिए लॉग फ़ाइलों की अधिकतम संख्या। डिफ़ॉल्ट: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "त्रुटि: अज्ञात इनपुट प्रकार '{inputType}' अनुरोधित।",
+  ERROR_INVALID_NUMBER_INPUT: 'अमान्य संख्या इनपुट।',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    '{count} स्क्रिप्ट(ओं) के लिए सेटिंग्स खोजने में विफल: {scripts}। विवरण के लिए कंसोल जांचें।',
+  ERROR_UNKNOWN_SETTING_TYPE: 'अज्ञात सेटिंग प्रकार: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'पायथन निष्पादन योग्य पथ',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'आपके पायथन या यूवी निष्पादन योग्य का पूर्ण पथ। ऑटो-डिटेक्शन (यूवी, पीवाई, पायथन3, पायथन) के लिए खाली छोड़ दें। यदि बदला गया है तो पूर्ण प्रभाव के लिए प्लगइन पुनः लोड या पुनरारंभ करना आवश्यक है।',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'उदा., /usr/bin/python3 या C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK: 'कस्टम पायथन पथ विफल',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'पथ: {path}। त्रुटि: {error}। स्वचालित पहचान पर वापस जा रहा है।',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'सुरक्षा चेतावनी',
   ACTIVATION_WARNING_MESSAGE:

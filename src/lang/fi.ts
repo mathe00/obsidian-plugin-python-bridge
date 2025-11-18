@@ -134,6 +134,44 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Mukautettu Python-suoritustiedoston polku '{path}' on virheellinen tai sitä ei voitu suorittaa. Palataan automaattiseen tunnistukseen.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Tarkistusloki',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Ota tarkistusloki käyttöön',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Ota tarkistusloki käyttöön skriptien suorituksille ja API-toiminnoille turvallisuuden valvontaa ja vianetsintää varten.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Tarkistuslokitiedoston polku',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Valinnainen: Mukautettu polku tarkistuslokitiedostolle. Jos ei määritetty, käytetään oletustiedostoa lisäosan hakemistossa.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'esim. /polku/tarkistusloki.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Lokitiedoston enimmäiskoko (Mt)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Yhden lokitiedoston enimmäiskoko ennen kiertoa. Oletus: 10Mt',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Lokitiedostojen enimmäismäärä',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Säilytettävien lokitiedostojen enimmäismäärä kierron aikana. Oletus: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Virhe: Tuntematon syötetyyppi '{inputType}' pyydetty.",
+  ERROR_INVALID_NUMBER_INPUT: 'Virheellinen numeronsyöte.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Asetusten löytäminen epäonnistui {count} skriptille: {scripts}. Tarkista konsolista lisätiedot.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Tuntematon asetustyyppi: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python-suoritustiedoston polku',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absoluuttinen polku Python- tai uv-suoritustiedostoon. Jätä tyhjäksi automaattista tunnistusta varten (uv, py, python3, python). Vaatii lisäosan uudelleenlatauksen tai uudelleenkäynnistyksen, jotta muutos tulee täysin voimaan.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'esim. /usr/bin/python3 tai C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Mukautettu Python-polku epäonnistui',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Polku: {path}. Virhe: {error}. Palataan automaattiseen tunnistukseen.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Turvallisuusvaroitus',
   ACTIVATION_WARNING_MESSAGE:

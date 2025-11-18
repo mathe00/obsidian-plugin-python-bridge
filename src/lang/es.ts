@@ -148,6 +148,46 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "La ruta personalizada del ejecutable de Python '{path}' no es válida o no se pudo ejecutar. Volviendo a la detección automática.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Registro de Auditoría',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Habilitar Registro de Auditoría',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Habilitar registro de auditoría para ejecuciones de scripts y acciones de API para monitoreo de seguridad y depuración.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME:
+    'Ruta del Archivo de Registro de Auditoría',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Opcional: Ruta personalizada para el archivo de registro de auditoría. Si no se especifica, usa un archivo en el directorio del plugin.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'ej: /ruta/al/registro.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME:
+    'Tamaño Máximo del Archivo de Registro (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Tamaño máximo de un archivo de registro antes de la rotación. Predeterminado: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Número Máximo de Archivos de Registro',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Número máximo de archivos de registro a mantener durante la rotación. Predeterminado: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Error: Tipo de entrada desconocido '{inputType}' solicitado.",
+  ERROR_INVALID_NUMBER_INPUT: 'Entrada de número inválida.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Falló el descubrimiento de configuración para {count} script(s): {scripts}. Revisa la consola para detalles.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Tipo de configuración desconocido: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Ruta del Ejecutable de Python',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Ruta absoluta a tu ejecutable de Python o uv. Déjalo vacío para la autodetección (uv, py, python3, python). Requiere recargar o reiniciar el plugin para que tenga pleno efecto si se cambia.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'ej: /usr/bin/python3 o C:Python39python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Falló la Ruta Personalizada de Python',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Ruta: {path}. Error: {error}. Volviendo a la detección automática.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Advertencia de Seguridad',
   ACTIVATION_WARNING_MESSAGE:

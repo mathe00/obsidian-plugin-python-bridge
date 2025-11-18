@@ -135,6 +135,45 @@ export default {
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "Aangepast pad naar Python uitvoerbaar bestand '{path}' is ongeldig of kon niet worden uitgevoerd. Terugvallen op automatische detectie.",
 
+  // Audit Log Settings
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit Log',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Audit Log Inschakelen',
+  SETTINGS_AUDIT_LOG_ENABLE_DESC:
+    'Schakel audit logging in voor scriptuitvoeringen en API-acties voor beveiligingsmonitoring en debugging.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit Log Bestandspad',
+  SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
+    'Optioneel: Aangepast pad voor het audit logbestand. Indien niet gespecificeerd, wordt standaard een bestand in de plugin-map gebruikt.',
+  SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'bijv. /pad/naar/audit.log',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximale Logbestandgrootte (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
+    'Maximale grootte van een enkel logbestand voordat rotatie plaatsvindt. Standaard: 10MB',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximale Logbestanden',
+  SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
+    'Maximaal aantal logbestanden om te bewaren tijdens rotatie. Standaard: 5',
+  SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
+
+  // Error Messages
+  ERROR_UNKNOWN_INPUT_TYPE:
+    "Fout: Onbekend invoertype '{inputType}' opgevraagd.",
+  ERROR_INVALID_NUMBER_INPUT: 'Ongeldige getalinvoer.',
+  ERROR_SCRIPT_DISCOVERY_FAILED:
+    'Instellingen ontdekken mislukt voor {count} script(s): {scripts}. Controleer console voor details.',
+  ERROR_UNKNOWN_SETTING_TYPE: 'Onbekend instellingentype: {type}',
+
+  // Fallback Messages
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK:
+    'Pad naar Python Uitvoerbaar Bestand',
+  SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
+    'Absoluut pad naar uw Python- of uv-uitvoerbaar bestand. Laat leeg voor automatische detectie (uv, py, python3, python). Vereist herladen of opnieuw opstarten van de plug-in om volledig effect te hebben als dit wordt gewijzigd.',
+  SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
+    'bijv. /usr/bin/python3 of C:\\Python39\\python.exe',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
+    'Aangepast Python-pad Mislukt',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
+    'Pad: {path}. Fout: {error}. Terugvallen op automatische detectie.',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
+
   // Activation Warning Modal
   ACTIVATION_WARNING_TITLE: 'Veiligheidswaarschuwing',
   ACTIVATION_WARNING_MESSAGE:

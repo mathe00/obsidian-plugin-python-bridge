@@ -805,7 +805,7 @@ export function chooseAndRunPythonScript(plugin: ObsidianPythonBridge): void {
   new ScriptSelectionModal(plugin.app, scriptChoices, (selectedPath) => {
     if (selectedPath) {
       plugin.logDebug(`User selected script: ${selectedPath}`);
-      runPythonScript(plugin, selectedPath, 'manual');
+      void runPythonScript(plugin, selectedPath, 'manual');
     } // Don't await, run in background
     else plugin.logDebug('Script selection cancelled by user.');
   }).open();
@@ -947,7 +947,7 @@ export async function runAutoStartScripts(
                     plugin.logInfo(
                       `Executing delayed auto-start script: ${relativePath}`
                     );
-                    runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
+                    void runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
                   } else {
                     plugin.logWarn(
                       `Skipping delayed auto-start for ${relativePath}: Script status changed during delay (Active: ${latestActivationStatus}, AutoStart: ${latestAutoStartStatus}).`
@@ -957,7 +957,7 @@ export async function runAutoStartScripts(
               }, delayMs);
             } else {
               // Immediate execution (no need to re-check here as we just loaded settings)
-              runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
+              void runPythonScript(plugin, absolutePath, 'auto-start'); // No await needed here
             }
             scriptsRunCount++;
           } else {
@@ -1075,7 +1075,7 @@ export async function updateDynamicScriptCommands(
             plugin.settings.scriptActivationStatus[relativePath] !== false;
           if (isActive) {
             plugin.logInfo(`Executing script via command: ${relativePath}`);
-            runPythonScript(plugin, scriptAbsolutePath, 'manual');
+            void runPythonScript(plugin, scriptAbsolutePath, 'manual');
           } // Don't await
           else {
             plugin.logInfo(

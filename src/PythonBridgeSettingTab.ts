@@ -965,7 +965,7 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
                     )
                 );
                 this.plugin.logWarn(
-                  `Unknown setting type "${settingDef.type}" for key "${settingDef.key}" in script "${relativePath}"`
+                  `Unknown setting type "${String(settingDef.type)}" for key "${settingDef.key}" in script "${relativePath}"`
                 );
             }
           } // End loop for specific settings

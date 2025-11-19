@@ -65,7 +65,7 @@ export async function dispatchAction(
   try {
     switch (action) {
       // --- Vault/Note Info ---
-      case 'get_all_note_paths':
+      case 'get_all_note_paths': {
         // The payload structure is now { absolute?: boolean }
         // Default to false if not provided or if payload is undefined or not an object
         const getAbsolutePaths =
@@ -89,7 +89,8 @@ export async function dispatchAction(
             error: `Failed to get note paths: ${errorMsg}`,
           };
         }
-      case 'get_active_note_content':
+      }
+      case 'get_active_note_content': {
         const returnFormat =
           typeof payload === 'object' &&
           payload !== null &&
@@ -121,7 +122,8 @@ export async function dispatchAction(
             error: `Failed to get active note content: ${errorMsg}`,
           };
         }
-      case 'get_active_note_relative_path':
+      }
+      case 'get_active_note_relative_path': {
         const activeRelativePath = getActiveNoteRelativePath(plugin);
         if (activeRelativePath !== null) {
           await logApiAction(plugin, action, 'success', sourceScript);
@@ -131,7 +133,8 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'get_active_note_absolute_path':
+      }
+      case 'get_active_note_absolute_path': {
         const activeAbsolutePath = getActiveNoteAbsolutePath(plugin);
         if (activeAbsolutePath !== null) {
           await logApiAction(plugin, action, 'success', sourceScript);
@@ -141,7 +144,8 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'get_active_note_title':
+      }
+      case 'get_active_note_title': {
         const activeTitle = getActiveNoteTitle(plugin);
         if (activeTitle !== null) {
           await logApiAction(plugin, action, 'success', sourceScript);
@@ -151,7 +155,8 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'get_current_vault_absolute_path':
+      }
+      case 'get_current_vault_absolute_path': {
         const vaultPath = getCurrentVaultAbsolutePath(plugin);
         if (vaultPath !== null) {
           await logApiAction(plugin, action, 'success', sourceScript);
@@ -161,6 +166,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
       case 'get_active_note_frontmatter':
         try {
           const activeFrontmatter = getActiveNoteFrontmatter(plugin);
@@ -367,7 +373,7 @@ export async function dispatchAction(
           };
         }
 
-      case 'open_note':
+      case 'open_note': {
         if (typeof payload?.path !== 'string') {
           const errorMsg =
             "Invalid payload: 'path' (relative vault path string) required.";
@@ -386,9 +392,10 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
 
       // --- UI Interactions ---
-      case 'show_notification':
+      case 'show_notification': {
         if (typeof payload?.content !== 'string') {
           const errorMsg = "Invalid payload: 'content' (string) required.";
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
@@ -406,6 +413,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
       case 'request_user_input':
         if (
           typeof payload?.scriptName !== 'string' ||
@@ -464,7 +472,7 @@ export async function dispatchAction(
             plugin.settings.scriptSettingsDefinitions[relativePath] || [];
           const storedValues =
             plugin.settings.scriptSettingsValues[relativePath] || {};
-          const finalValues: Record<string, any> = {};
+          const finalValues: Record<string, string | number | boolean> = {};
           for (const def of definitions) {
             finalValues[def.key] = Object.prototype.hasOwnProperty.call(
               storedValues,
@@ -497,7 +505,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'create_note':
+      case 'create_note': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
@@ -516,6 +524,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
       case 'check_path_exists':
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
@@ -533,7 +542,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'delete_path':
+      case 'delete_path': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
@@ -554,6 +563,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
       case 'rename_path':
         if (typeof payload?.old_path !== 'string' || !payload.old_path) {
           const errorMsg =
@@ -801,7 +811,7 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
-      case 'get_backlinks':
+      case 'get_backlinks': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
@@ -826,9 +836,10 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+      }
 
       // --- Event Listener Actions ---
-      case 'register_event_listener':
+      case 'register_event_listener': {
         if (typeof payload?.eventName !== 'string' || !payload.eventName) {
           const errorMsg = "Invalid payload: 'eventName' (string) required.";
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
@@ -854,7 +865,8 @@ export async function dispatchAction(
         );
         await logApiAction(plugin, action, 'success', sourceScript);
         return { status: 'success', data: null };
-      case 'unregister_event_listener':
+      }
+      case 'unregister_event_listener': {
         if (typeof payload?.eventName !== 'string' || !payload.eventName) {
           const errorMsg = "Invalid payload: 'eventName' (string) required.";
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
@@ -877,13 +889,15 @@ export async function dispatchAction(
         );
         await logApiAction(plugin, action, 'success', sourceScript);
         return { status: 'success', data: null };
+      }
 
       // --- Default ---
-      default:
+      default: {
         const errorMsg = `Unknown action: ${action}`;
         plugin.logWarn(`Received unknown action: ${action}`);
         await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
         return { status: 'error', error: errorMsg };
+      }
     }
   } catch (error) {
     // Catch errors from synchronous API calls or unexpected issues within the switch

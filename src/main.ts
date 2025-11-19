@@ -150,7 +150,7 @@ export default class ObsidianPythonBridge extends Plugin {
             );
           })
           .then(() => {
-            runAutoStartScripts(this);
+            void runAutoStartScripts(this);
           }); // Run auto-start scripts AFTER initial discovery/sync
       } else {
         this.logWarn(

@@ -85,7 +85,7 @@ export async function writeAuditLogEntry(
     }
 
     // Rotate logs if necessary
-    await rotateLogFiles(logFilePath, maxLogFileSize, maxLogFiles);
+    rotateLogFiles(logFilePath, maxLogFileSize, maxLogFiles);
 
     // Format log entry as JSON string with newline
     const logLine = JSON.stringify(entry) + '\n';

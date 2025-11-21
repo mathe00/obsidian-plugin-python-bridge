@@ -787,10 +787,14 @@ export async function dispatchAction(
       case 'scroll_into_view':
         if (
           typeof payload?.from_line !== 'number' ||
-          typeof payload?.from_ch !== 'number'
+          typeof payload?.from_ch !== 'number' ||
+          (payload.to_line !== undefined &&
+            typeof payload.to_line !== 'number') ||
+          (payload.to_ch !== undefined && typeof payload.to_ch !== 'number') ||
+          (payload.center !== undefined && typeof payload.center !== 'boolean')
         ) {
           const errorMsg =
-            "Invalid payload: 'from_line' and 'from_ch' (numbers) required.";
+            "Invalid payload: 'from_line' and 'from_ch' (numbers) required, 'to_line', 'to_ch' (optional numbers), and 'center' (optional boolean) must be correct types.";
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
@@ -798,10 +802,10 @@ export async function dispatchAction(
           scrollIntoView(
             plugin,
             payload.from_line,
-            payload.from_ch as number,
-            payload.to_line as number,
-            payload.to_ch as number,
-            payload.center as boolean
+            payload.from_ch,
+            payload.to_line,
+            payload.to_ch,
+            payload.center
           );
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
@@ -818,6 +822,25 @@ export async function dispatchAction(
           await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
+        if (
+          payload.use_cache_if_available !== undefined &&
+          typeof payload.use_cache_if_available !== 'boolean'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'use_cache_if_available' must be a boolean.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
+        if (
+          payload.cache_mode !== undefined &&
+          payload.cache_mode !== 'fast' &&
+          payload.cache_mode !== 'safe'
+        ) {
+          const errorMsg =
+            "Invalid payload: 'cache_mode' must be 'fast' or 'safe'.";
+          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          return { status: 'error', error: errorMsg };
+        }
         const targetPath = normalizePath(payload.path);
         const useCache = payload.use_cache_if_available ?? true;
         const cacheMode = payload.cache_mode === 'safe' ? 'safe' : 'fast';
@@ -825,8 +848,8 @@ export async function dispatchAction(
           const backlinks = await getBacklinks(
             plugin,
             targetPath,
-            useCache as boolean,
-            cacheMode as 'fast' | 'safe'
+            useCache,
+            cacheMode
           );
           await logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: backlinks };

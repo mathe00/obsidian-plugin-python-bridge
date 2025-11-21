@@ -64,10 +64,10 @@ export function rotateLogFiles(
  * @param plugin The ObsidianPythonBridge plugin instance.
  * @param entry The audit log entry to write.
  */
-export async function writeAuditLogEntry(
+export function writeAuditLogEntry(
   plugin: ObsidianPythonBridge,
   entry: AuditLogEntry
-): Promise<void> {
+): void {
   if (!plugin.settings.auditLog.enabled) {
     return;
   }

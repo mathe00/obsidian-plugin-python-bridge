@@ -96,7 +96,7 @@ export default {
   SETTINGS_SECURITY_WARNING_TITLE: 'Security warning',
   SETTINGS_SECURITY_WARNING_TEXT:
     'Executing arbitrary python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.',
-  SETTINGS_LANGUAGE_TITLE: 'Plugin Language',
+  SETTINGS_LANGUAGE_TITLE: 'Plugin language',
   SETTINGS_LANGUAGE_DESC:
     "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
@@ -114,7 +114,7 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Run on startup',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
     "Automatically run this script when Obsidian starts (only if 'Script Enabled' is also on).",
-  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Startup Delay (seconds)',
+  SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Startup delay (seconds)',
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
     "Wait this many seconds after Obsidian starts before running the script (only applies if 'Run on Startup' is on). Use 0 for no delay.",
   NOTICE_SCRIPT_DISABLED:
@@ -127,7 +127,7 @@ export default {
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
     'Automatic PYTHONPATH disabled. Ensure ObsidianPluginDevPythonToJS.py is in your script folder or manage sys.path manually.',
 
-  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python Executable Path',
+  SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python executable path',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
     'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
@@ -136,24 +136,24 @@ export default {
     'Python executable path changed. Refreshing scripts...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Custom Python path is invalid, and no fallback executable was found. Scripts may not run.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom Python Path Failed',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom Python path failed',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
 
   // Audit Log Settings
-  SETTINGS_AUDIT_LOG_TITLE: 'Audit Log',
-  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Enable Audit Log',
+  SETTINGS_AUDIT_LOG_TITLE: 'Audit log',
+  SETTINGS_AUDIT_LOG_ENABLE_NAME: 'Enable audit log',
   SETTINGS_AUDIT_LOG_ENABLE_DESC:
     'Enable audit logging for script executions and API actions for security monitoring and debugging.',
-  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit Log File Path',
+  SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit log file path',
   SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
     'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.',
   SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'e.g., /path/to/audit.log',
-  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximum Log File Size (MB)',
+  SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximum log file size (MB)',
   SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
     'Maximum size of a single log file before rotation. Default: 10MB',
   SETTINGS_AUDIT_LOG_MAX_SIZE_PLACEHOLDER: '10',
-  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximum Log Files',
+  SETTINGS_AUDIT_LOG_MAX_FILES_NAME: 'Maximum log files',
   SETTINGS_AUDIT_LOG_MAX_FILES_DESC:
     'Maximum number of log files to keep during rotation. Default: 5',
   SETTINGS_AUDIT_LOG_MAX_FILES_PLACEHOLDER: '5',
@@ -167,7 +167,7 @@ export default {
   ERROR_UNKNOWN_SETTING_TYPE: 'Unknown setting type: {type}',
 
   // Fallback Messages
-  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python Executable Path',
+  SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python executable path',
   SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
     'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
@@ -179,7 +179,7 @@ export default {
   SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',
 
   // Activation Warning Modal
-  ACTIVATION_WARNING_TITLE: 'Security Warning',
+  ACTIVATION_WARNING_TITLE: 'Security warning',
   ACTIVATION_WARNING_MESSAGE:
     'You are about to enable the Python script "{scriptName}".',
   ACTIVATION_WARNING_RISK_FILES: 'Access and modify files on your system',
@@ -190,5 +190,5 @@ export default {
     'Only enable scripts from sources you trust. The plugin author is not responsible for any damage caused by malicious scripts.',
   ACTIVATION_WARNING_READMORE: 'Read more about security considerations',
   ACTIVATION_WARNING_CANCEL: 'Cancel',
-  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Activate Anyway',
+  ACTIVATION_WARNING_ACTIVATE_ANYWAY: 'Activate anyway',
 };

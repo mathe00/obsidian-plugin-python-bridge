@@ -933,7 +933,7 @@ export async function runAutoStartScripts(
               );
               setTimeout(() => {
                 // Use IIFE to handle async operations
-                (async () => {
+                void (async () => {
                   // Re-check status just before delayed execution
                   await plugin.loadSettings(); // Reload again
                   const latestActivationStatus =

@@ -136,7 +136,7 @@ export default {
     'Python executable path changed. Refreshing scripts...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
     'Custom Python path is invalid, and no fallback executable was found. Scripts may not run.',
-  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom Python path failed',
+  NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom python path failed',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
 
@@ -173,7 +173,7 @@ export default {
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
     'e.g., /usr/bin/python3 or C:\\Python39\\python.exe',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:
-    'Custom Python Path Failed',
+    'Custom python path failed',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC_FALLBACK:
     'Path: {path}. Error: {error}. Falling back to auto-detection.',
   SETTINGS_SCRIPT_AUTOSTART_DELAY_PLACEHOLDER: '0',

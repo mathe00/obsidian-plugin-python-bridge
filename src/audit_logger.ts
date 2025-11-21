@@ -124,7 +124,7 @@ export async function logScriptExecution(
     error: status === 'error' ? error : undefined,
   };
 
-  await writeAuditLogEntry(plugin, entry);
+  writeAuditLogEntry(plugin, entry);
 }
 
 /**
@@ -151,5 +151,5 @@ export async function logApiAction(
     error: status === 'error' ? error : undefined,
   };
 
-  await writeAuditLogEntry(plugin, entry);
+  writeAuditLogEntry(plugin, entry);
 }

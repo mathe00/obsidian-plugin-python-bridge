@@ -34,7 +34,7 @@ export default class ScriptSelectionModal extends SuggestModal<ScriptChoice> {
   }
 
   onOpen() {
-    super.onOpen();
+    void super.onOpen();
     // Add CSS class for RTL styling
     this.modalEl.addClass('python-bridge-script-selection');
   }

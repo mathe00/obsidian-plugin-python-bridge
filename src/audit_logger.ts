@@ -106,14 +106,14 @@ export function writeAuditLogEntry(
  * @param exitCode The exit code (optional).
  * @param error The error message (optional).
  */
-export async function logScriptExecution(
+export function logScriptExecution(
   plugin: ObsidianPythonBridge,
   scriptName: string,
   triggerType: string,
   status: 'start' | 'success' | 'error',
   exitCode?: number,
   error?: string
-): Promise<void> {
+): void {
   const entry: AuditLogEntry = {
     timestamp: new Date().toISOString(),
     type: 'script_execution',
@@ -135,13 +135,13 @@ export async function logScriptExecution(
  * @param sourceScript The script that initiated the action (optional).
  * @param error The error message (optional).
  */
-export async function logApiAction(
+export function logApiAction(
   plugin: ObsidianPythonBridge,
   action: string,
   status: 'success' | 'error',
   sourceScript?: string,
   error?: string
-): Promise<void> {
+): void {
   const entry: AuditLogEntry = {
     timestamp: new Date().toISOString(),
     type: 'api_action',

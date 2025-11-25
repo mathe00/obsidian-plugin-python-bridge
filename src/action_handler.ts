@@ -929,7 +929,7 @@ export async function dispatchAction(
     if (error instanceof Error && error.stack)
       plugin.logError('Stack trace:', error.stack);
 
-    await logApiAction(plugin, action, 'error', sourceScript, errorMessage);
+    logApiAction(plugin, action, 'error', sourceScript, errorMessage);
 
     return {
       status: 'error',

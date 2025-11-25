@@ -705,44 +705,42 @@ export async function runPythonScript(
         reject(error);
       });
       pythonProcess.on('close', (code) => {
-        void (async () => {
-          plugin.logDebug(
-            `${scriptFilename} (${context}, using ${pythonCmd}) finished with exit code ${code}.`
+        plugin.logDebug(
+          `${scriptFilename} (${context}, using ${pythonCmd}) finished with exit code ${code}.`
+        );
+        if (code !== 0 && code !== null) {
+          if (context === 'manual')
+            new Notice(
+              `${scriptFilename} ${t('NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE')} ${code}. ${t('NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX')}`,
+              5000
+            );
+          if (stderrOutput.trim())
+            plugin.logError(
+              `[Error Summary ${scriptFilename}]: ${stderrOutput.trim()}`
+            );
+
+          // Log script execution error
+          logScriptExecution(
+            plugin,
+            scriptFilename,
+            context,
+            'error',
+            code || undefined,
+            stderrOutput.trim()
           );
-          if (code !== 0 && code !== null) {
-            if (context === 'manual')
-              new Notice(
-                `${scriptFilename} ${t('NOTICE_SCRIPT_FAILED_EXIT_CODE_MIDDLE')} ${code}. ${t('NOTICE_SCRIPT_FAILED_EXIT_CODE_SUFFIX')}`,
-                5000
-              );
-            if (stderrOutput.trim())
-              plugin.logError(
-                `[Error Summary ${scriptFilename}]: ${stderrOutput.trim()}`
-              );
 
-            // Log script execution error
-            logScriptExecution(
-              plugin,
-              scriptFilename,
-              context,
-              'error',
-              code || undefined,
-              stderrOutput.trim()
-            );
-
-            reject(new Error(`Script exited with non-zero code: ${code}`));
-          } else {
-            // Log script execution success
-            logScriptExecution(
-              plugin,
-              scriptFilename,
-              context,
-              'success',
-              code || undefined
-            );
-            resolve(); // Success
-          }
-        })();
+          reject(new Error(`Script exited with non-zero code: ${code}`));
+        } else {
+          // Log script execution success
+          logScriptExecution(
+            plugin,
+            scriptFilename,
+            context,
+            'success',
+            code || undefined
+          );
+          resolve(); // Success
+        }
       });
     });
     plugin.logInfo(
@@ -931,9 +929,8 @@ export async function runAutoStartScripts(
               plugin.logInfo(
                 ` -> Delaying execution by ${delaySeconds} second(s).`
               );
-              setTimeout(async () => {
-                // Use IIFE to handle async operations
-                (async () => {
+              setTimeout(() => {
+                void (async () => {
                   // Re-check status just before delayed execution
                   await plugin.loadSettings(); // Reload again
                   const latestActivationStatus =

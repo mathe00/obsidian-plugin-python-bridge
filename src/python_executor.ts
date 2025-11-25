@@ -608,7 +608,7 @@ export async function runPythonScript(
   );
 
   // Log script execution start
-  await logScriptExecution(plugin, scriptFilename, context, 'start');
+  logScriptExecution(plugin, scriptFilename, context, 'start');
   // Prepare environment variables
   const currentPYTHONPATH = process.env.PYTHONPATH;
   const pathsForPythonPath: string[] = [];
@@ -721,7 +721,7 @@ export async function runPythonScript(
               );
 
             // Log script execution error
-            await logScriptExecution(
+            logScriptExecution(
               plugin,
               scriptFilename,
               context,
@@ -733,7 +733,7 @@ export async function runPythonScript(
             reject(new Error(`Script exited with non-zero code: ${code}`));
           } else {
             // Log script execution success
-            await logScriptExecution(
+            logScriptExecution(
               plugin,
               scriptFilename,
               context,
@@ -754,7 +754,7 @@ export async function runPythonScript(
     );
 
     // Log script execution error for exceptions
-    await logScriptExecution(
+    logScriptExecution(
       plugin,
       scriptFilename,
       context,

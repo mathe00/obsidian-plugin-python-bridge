@@ -75,7 +75,7 @@ export async function dispatchAction(
         try {
           // Call the updated function from obsidian_api.ts
           const paths = getAllNotePaths(plugin, getAbsolutePaths);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: paths };
         } catch (error) {
           const errorMsg =
@@ -83,7 +83,7 @@ export async function dispatchAction(
           plugin.logError(
             `Error in get_all_note_paths (absolute=${getAbsolutePaths}): ${errorMsg}`
           );
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return {
             status: 'error',
             error: `Failed to get note paths: ${errorMsg}`,
@@ -103,11 +103,11 @@ export async function dispatchAction(
             returnFormat
           );
           if (activeContent !== null) {
-            await logApiAction(plugin, action, 'success', sourceScript);
+            logApiAction(plugin, action, 'success', sourceScript);
             return { status: 'success', data: activeContent };
           } else {
             const errorMsg = 'No active Markdown note found.';
-            await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+            logApiAction(plugin, action, 'error', sourceScript, errorMsg);
             return { status: 'error', error: errorMsg };
           }
         } catch (error) {
@@ -116,7 +116,7 @@ export async function dispatchAction(
           plugin.logError(
             `Error in get_active_note_content (format=${returnFormat}): ${errorMsg}`
           );
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return {
             status: 'error',
             error: `Failed to get active note content: ${errorMsg}`,
@@ -126,72 +126,72 @@ export async function dispatchAction(
       case 'get_active_note_relative_path': {
         const activeRelativePath = getActiveNoteRelativePath(plugin);
         if (activeRelativePath !== null) {
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: activeRelativePath };
         } else {
           const errorMsg = 'No active Markdown note found.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
       case 'get_active_note_absolute_path': {
         const activeAbsolutePath = getActiveNoteAbsolutePath(plugin);
         if (activeAbsolutePath !== null) {
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: activeAbsolutePath };
         } else {
           const errorMsg = 'No active note or vault path unavailable.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
       case 'get_active_note_title': {
         const activeTitle = getActiveNoteTitle(plugin);
         if (activeTitle !== null) {
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: activeTitle };
         } else {
           const errorMsg = 'No active Markdown note found.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
       case 'get_current_vault_absolute_path': {
         const vaultPath = getCurrentVaultAbsolutePath(plugin);
         if (vaultPath !== null) {
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: vaultPath };
         } else {
           const errorMsg = 'Could not determine vault absolute path.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
       case 'get_active_note_frontmatter':
         try {
           const activeFrontmatter = getActiveNoteFrontmatter(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: activeFrontmatter };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_note_content':
         if (typeof payload?.path !== 'string') {
           const errorMsg = "Invalid payload: 'path' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           const content = await getNoteContentByPath(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: content };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
 
@@ -200,13 +200,13 @@ export async function dispatchAction(
       case 'toggle_theme':
         try {
           toggleTheme(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
           plugin.logError(`Error in toggle_theme: ${errorMsg}`);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return {
             status: 'error',
             error: `Failed to toggle theme: ${errorMsg}`,
@@ -215,17 +215,17 @@ export async function dispatchAction(
       case 'get_note_frontmatter':
         if (typeof payload?.path !== 'string') {
           const errorMsg = "Invalid payload: 'path' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           const frontmatter = getNoteFrontmatterByPath(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: frontmatter };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
 
@@ -233,28 +233,28 @@ export async function dispatchAction(
       case 'get_selected_text':
         try {
           const selectedText = getSelectedText(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: selectedText };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'replace_selected_text':
         if (typeof payload?.replacement !== 'string') {
           const errorMsg = "Invalid payload: 'replacement' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           replaceSelectedText(plugin, payload.replacement);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
 
@@ -315,7 +315,7 @@ export async function dispatchAction(
           );
 
           // Return success if modification was successful
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (modifyError) {
           // Catch any errors during the process
@@ -326,7 +326,7 @@ export async function dispatchAction(
           plugin.logError(
             `Error in modifyNoteContent (compat) for ${payload.filePath}: ${errorMsg}`
           );
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           // Return an error response to the Python client
           return {
             status: 'error',
@@ -354,7 +354,7 @@ export async function dispatchAction(
             payload.content
           );
           // Return success
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (modifyError) {
           // Catch errors during modification
@@ -365,7 +365,7 @@ export async function dispatchAction(
           plugin.logError(
             `Error in modifyNoteContentByPath for ${payload.path}: ${errorMsg}`
           );
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           // Return an error response
           return {
             status: 'error',
@@ -377,19 +377,19 @@ export async function dispatchAction(
         if (typeof payload?.path !== 'string') {
           const errorMsg =
             "Invalid payload: 'path' (relative vault path string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const newLeaf =
           typeof payload?.new_leaf === 'boolean' ? payload.new_leaf : false;
         try {
           await openNote(plugin, payload.path, newLeaf);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
@@ -398,19 +398,19 @@ export async function dispatchAction(
       case 'show_notification': {
         if (typeof payload?.content !== 'string') {
           const errorMsg = "Invalid payload: 'content' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const duration =
           typeof payload?.duration === 'number' ? payload.duration : 4000;
         try {
           plugin.showNotification(payload.content, duration); // Use plugin's method directly for Notice
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
@@ -422,7 +422,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'scriptName', 'inputType', 'message' (strings) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         // Use plugin's method which handles the modal
@@ -439,22 +439,22 @@ export async function dispatchAction(
           if (userInput === null) {
             plugin.logDebug('User cancelled input modal.');
             const errorMsg = 'User cancelled input.';
-            await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+            logApiAction(plugin, action, 'error', sourceScript, errorMsg);
             return { status: 'error', error: errorMsg };
           }
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: userInput };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
 
       // --- Internal/Test ---
       case '_test_connection_ping':
         plugin.logDebug('Received test connection ping from client.');
-        await logApiAction(plugin, action, 'success', sourceScript);
+        logApiAction(plugin, action, 'success', sourceScript);
         return { status: 'success', data: 'pong' };
 
       // --- Script Settings Action ---
@@ -462,7 +462,7 @@ export async function dispatchAction(
         if (typeof payload?.scriptPath !== 'string') {
           const errorMsg =
             "Invalid payload: 'scriptPath' (relative path string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
@@ -485,12 +485,12 @@ export async function dispatchAction(
             `Returning settings for ${relativePath}:`,
             finalValues
           );
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: finalValues };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
 
@@ -498,30 +498,30 @@ export async function dispatchAction(
       case 'get_obsidian_language':
         try {
           const lang = getObsidianLanguage(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: lang };
         } catch (error) {
           const errorMsg = `Failed to get Obsidian language: ${error instanceof Error ? error.message : String(error)}`;
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'create_note': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const noteContent =
           typeof payload?.content === 'string' ? payload.content : '';
         try {
           await createNote(plugin, payload.path, noteContent);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
@@ -529,24 +529,24 @@ export async function dispatchAction(
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           const exists = await checkPathExists(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: exists };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'delete_path': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const permanently =
@@ -555,12 +555,12 @@ export async function dispatchAction(
             : false;
         try {
           await deletePath(plugin, payload.path, permanently);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
@@ -568,136 +568,136 @@ export async function dispatchAction(
         if (typeof payload?.old_path !== 'string' || !payload.old_path) {
           const errorMsg =
             "Invalid payload: 'old_path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         if (typeof payload?.new_path !== 'string' || !payload.new_path) {
           const errorMsg =
             "Invalid payload: 'new_path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           await renamePath(plugin, payload.old_path, payload.new_path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'run_obsidian_command':
         if (typeof payload?.command_id !== 'string' || !payload.command_id) {
           const errorMsg =
             "Invalid payload: 'command_id' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           runObsidianCommand(plugin, payload.command_id);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_all_tags':
         try {
           const tags = getAllTags(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: tags };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_vault_name':
         try {
           const name = getVaultName(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: name };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_theme_mode':
         try {
           const mode = getThemeMode(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: mode };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'create_folder':
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           await createFolder(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'list_folder':
         if (typeof payload?.path !== 'string') {
           const errorMsg = "Invalid payload: 'path' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           const contents = await listFolder(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: contents };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_links':
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         // Only 'outgoing' is implemented in obsidian_api for now
         // const linkType = typeof payload?.type === "string" ? payload.type : 'outgoing';
         try {
           const links = getLinks(plugin, payload.path);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: links };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_editor_context':
         try {
           const context = getEditorContext(plugin);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: context };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'set_cursor':
@@ -707,33 +707,33 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'line' and 'ch' (numbers) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           setCursor(plugin, payload.line, payload.ch);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_line':
         if (typeof payload?.line_number !== 'number') {
           const errorMsg = "Invalid payload: 'line_number' (number) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           const lineContent = getLine(plugin, payload.line_number);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: lineContent };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'set_line':
@@ -743,17 +743,17 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'line_number' (number) and 'text' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
           setLine(plugin, payload.line_number, payload.text);
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'replace_range':
@@ -764,7 +764,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'replacement' (string), 'from_line' and 'from_ch' (numbers) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
@@ -776,12 +776,12 @@ export async function dispatchAction(
             payload.to_line as number,
             payload.to_ch as number
           );
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'scroll_into_view':
@@ -795,7 +795,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'from_line' and 'from_ch' (numbers) required, 'to_line', 'to_ch' (optional numbers), and 'center' (optional boolean) must be correct types.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         try {
@@ -807,19 +807,19 @@ export async function dispatchAction(
             payload.to_ch,
             payload.center
           );
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: null };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       case 'get_backlinks': {
         if (typeof payload?.path !== 'string' || !payload.path) {
           const errorMsg =
             "Invalid payload: 'path' (non-empty string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         if (
@@ -828,7 +828,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'use_cache_if_available' must be a boolean.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         if (
@@ -838,7 +838,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             "Invalid payload: 'cache_mode' must be 'fast' or 'safe'.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const targetPath = normalizePath(payload.path);
@@ -851,12 +851,12 @@ export async function dispatchAction(
             useCache,
             cacheMode
           );
-          await logApiAction(plugin, action, 'success', sourceScript);
+          logApiAction(plugin, action, 'success', sourceScript);
           return { status: 'success', data: backlinks };
         } catch (error) {
           const errorMsg =
             error instanceof Error ? error.message : String(error);
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
       }
@@ -865,7 +865,7 @@ export async function dispatchAction(
       case 'register_event_listener': {
         if (typeof payload?.eventName !== 'string' || !payload.eventName) {
           const errorMsg = "Invalid payload: 'eventName' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const scriptPathForRegister = payload.scriptPath;
@@ -875,7 +875,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             'Internal error: Script path not provided in payload for registration.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const eventNameReg = payload.eventName;
@@ -886,13 +886,13 @@ export async function dispatchAction(
           `Script '${scriptPathForRegister}' registered for event '${eventNameReg}'. Current listeners:`,
           plugin.eventListeners.get(eventNameReg)
         );
-        await logApiAction(plugin, action, 'success', sourceScript);
+        logApiAction(plugin, action, 'success', sourceScript);
         return { status: 'success', data: null };
       }
       case 'unregister_event_listener': {
         if (typeof payload?.eventName !== 'string' || !payload.eventName) {
           const errorMsg = "Invalid payload: 'eventName' (string) required.";
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const scriptPathForUnregister = payload.scriptPath;
@@ -902,7 +902,7 @@ export async function dispatchAction(
         ) {
           const errorMsg =
             'Internal error: Script path not provided in payload for unregistration.';
-          await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+          logApiAction(plugin, action, 'error', sourceScript, errorMsg);
           return { status: 'error', error: errorMsg };
         }
         const eventNameUnreg = payload.eventName;
@@ -910,7 +910,7 @@ export async function dispatchAction(
         plugin.logInfo(
           `Script '${scriptPathForUnregister}' unregistered from event '${eventNameUnreg}'.`
         );
-        await logApiAction(plugin, action, 'success', sourceScript);
+        logApiAction(plugin, action, 'success', sourceScript);
         return { status: 'success', data: null };
       }
 
@@ -918,7 +918,7 @@ export async function dispatchAction(
       default: {
         const errorMsg = `Unknown action: ${action}`;
         plugin.logWarn(`Received unknown action: ${action}`);
-        await logApiAction(plugin, action, 'error', sourceScript, errorMsg);
+        logApiAction(plugin, action, 'error', sourceScript, errorMsg);
         return { status: 'error', error: errorMsg };
       }
     }

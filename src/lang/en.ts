@@ -80,9 +80,9 @@ export default {
   SETTINGS_NO_SCRIPT_SETTINGS_FOUND:
     "No scripts with definable settings found in the configured folder, or settings discovery failed. Click 'Refresh definitions' to try again.",
   SETTINGS_SCRIPT_SETTINGS_HEADING_PREFIX: 'Settings for:',
-  SETTINGS_LANGUAGE_AUTO: 'Automatic (Match Obsidian)',
+  SETTINGS_LANGUAGE_AUTO: 'Automatic (match obsidian)',
   NOTICE_PYTHON_EXEC_MISSING_FOR_REFRESH:
-    'Cannot refresh settings: Python executable not found. Please ensure python is installed and in PATH.',
+    'Cannot refresh settings: python executable not found. Please ensure python is installed and in PATH.',
   NOTICE_REFRESHING_SCRIPT_SETTINGS:
     'Refreshing script settings definitions...',
   NOTICE_REFRESH_SCRIPT_SETTINGS_SUCCESS:
@@ -90,7 +90,7 @@ export default {
   NOTICE_REFRESH_SCRIPT_SETTINGS_FAILED:
     'Failed to refresh script settings definitions. Check logs for details.',
   NOTICE_PYTHON_EXEC_MISSING_FOR_RUN:
-    'Cannot run script: Python executable not found. Please check installation and PATH.',
+    'Cannot run script: python executable not found. Please check installation and PATH.',
   CMD_REFRESH_SCRIPT_SETTINGS_NAME:
     'Refresh python script settings definitions',
   SETTINGS_SECURITY_WARNING_TITLE: 'Security warning',
@@ -98,9 +98,9 @@ export default {
     'Executing arbitrary python scripts can be risky. Ensure you trust the source of any script you run, as they can access your system and data. The plugin author and script authors are not responsible for any data loss or security issues caused by scripts you choose to execute. Run scripts at your own risk.',
   SETTINGS_LANGUAGE_TITLE: 'Plugin language',
   SETTINGS_LANGUAGE_DESC:
-    "Choose the display language for the Python Bridge plugin interface. 'Automatic' follows Obsidian's language setting.",
+    "Choose the display language for the python nridge plugin interface. 'automatic' follows obsidian's language setting.",
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_TITLE:
-    'Performance Tip: Backlink Cache',
+    'Performance Tip: backlink cache',
   SETTINGS_BACKLINK_CACHE_RECOMMENDATION_DESC:
     "For improved performance when retrieving backlinks (using the get_backlinks function) in large vaults, consider installing the '[Backlink Cache](https://github.com/mnaoumov/obsidian-backlink-cache)' community plugin by @mnaoumov.",
   NOTICE_INVALID_FOLDER_PATH:
@@ -110,32 +110,32 @@ export default {
 
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_NAME: 'Script enabled',
   SETTINGS_SCRIPT_ACTIVATE_TOGGLE_DESC:
-    "Allow this script to be executed via commands, shortcuts, or 'Run all'.",
+    "Allow this script to be executed via commands, shortcuts, or 'run all'.",
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_NAME: 'Run on startup',
   SETTINGS_SCRIPT_AUTOSTART_TOGGLE_DESC:
-    "Automatically run this script when Obsidian starts (only if 'Script Enabled' is also on).",
+    "Automatically run this script when obsidian starts (only if 'script enabled' is also on).",
   SETTINGS_SCRIPT_AUTOSTART_DELAY_NAME: 'Startup delay (seconds)',
   SETTINGS_SCRIPT_AUTOSTART_DELAY_DESC:
-    "Wait this many seconds after Obsidian starts before running the script (only applies if 'Run on Startup' is on). Use 0 for no delay.",
+    "Wait this many seconds after obsidian starts before running the script (only applies if 'run on startup' is on). Use 0 for no delay.",
   NOTICE_SCRIPT_DISABLED:
     "Script '{scriptName}' is disabled in settings and cannot be executed.",
 
   // --- ADDED KEYS AT THE END ---
   SETTINGS_AUTO_PYTHONPATH_NAME: 'Auto-set PYTHONPATH for Library',
   SETTINGS_AUTO_PYTHONPATH_DESC:
-    'Automatically add the plugin directory to PYTHONPATH when running scripts, allowing direct import of the Python library (Recommended). If disabled, you must copy ObsidianPluginDevPythonToJS.py to your scripts folder or manage sys.path manually.',
+    'Automatically add the plugin directory to PYTHONPATH when running scripts, allowing direct import of the python library (recommended). If disabled, you must copy ObsidianPluginDevPythonToJS.py to your scripts folder or manage sys.path manually.',
   NOTICE_AUTO_PYTHONPATH_DISABLED_DESC:
     'Automatic PYTHONPATH disabled. Ensure ObsidianPluginDevPythonToJS.py is in your script folder or manage sys.path manually.',
 
   SETTINGS_PYTHON_EXEC_PATH_TITLE: 'Python executable path',
   SETTINGS_PYTHON_EXEC_PATH_DESC:
-    'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
+    'Absolute path to your python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER:
     'e.g., /usr/bin/python3 or C:Python39python.exe',
   NOTICE_PYTHON_EXEC_PATH_CHANGED_REFRESHING:
     'Python executable path changed. Refreshing scripts...',
   NOTICE_PYTHON_EXEC_PATH_INVALID_NO_FALLBACK:
-    'Custom Python path is invalid, and no fallback executable was found. Scripts may not run.',
+    'Custom python path is invalid, and no fallback executable was found. Scripts may not run.',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE: 'Custom python path failed',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_DESC:
     "The custom Python executable path '{path}' is invalid or could not be executed. Falling back to automatic detection.",
@@ -147,7 +147,7 @@ export default {
     'Enable audit logging for script executions and API actions for security monitoring and debugging.',
   SETTINGS_AUDIT_LOG_FILE_PATH_NAME: 'Audit log file path',
   SETTINGS_AUDIT_LOG_FILE_PATH_DESC:
-    'Optional: Custom path for the audit log file. If not specified, defaults to a file in the plugin directory.',
+    'Optional: custom path for the audit log file. If not specified, defaults to a file in the plugin directory.',
   SETTINGS_AUDIT_LOG_FILE_PATH_PLACEHOLDER: 'e.g., /path/to/audit.log',
   SETTINGS_AUDIT_LOG_MAX_SIZE_NAME: 'Maximum log file size (MB)',
   SETTINGS_AUDIT_LOG_MAX_SIZE_DESC:
@@ -169,7 +169,7 @@ export default {
   // Fallback Messages
   SETTINGS_PYTHON_EXEC_PATH_TITLE_FALLBACK: 'Python executable path',
   SETTINGS_PYTHON_EXEC_PATH_DESC_FALLBACK:
-    'Absolute path to your Python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
+    'Absolute path to your python or uv executable. Leave empty for auto-detection (uv, py, python3, python). Requires plugin reload or restart to take full effect if changed.',
   SETTINGS_PYTHON_EXEC_PATH_PLACEHOLDER_FALLBACK:
     'e.g., /usr/bin/python3 or C:\\Python39\\python.exe',
   NOTICE_PYTHON_EXEC_PATH_CUSTOM_FAILED_TITLE_FALLBACK:

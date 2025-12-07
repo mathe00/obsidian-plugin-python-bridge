@@ -113,9 +113,6 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
     warningContainer.createEl('br');
     warningContainer.appendText(t('SETTINGS_SECURITY_WARNING_TEXT'));
 
-    // General Plugin Settings
-    new Setting(containerEl).setName(t('SETTINGS_TAB_TITLE')).setHeading();
-
     // Python Scripts Folder
     new Setting(containerEl)
       .setName(t('SETTINGS_FOLDER_TITLE'))

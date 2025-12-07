@@ -3,7 +3,7 @@
   "name": "Python Bridge",
   "version": "2.0.0",
   "minAppVersion": "1.5.7",
-  "description": "🐍 Write and run Python scripts to extend Obsidian vaults",
+  "description": "🐍 Write and run Python scripts to extend vaults",
   "author": "mathe00",
   "authorUrl": "https://github.com/mathe00/",
   "isDesktopOnly": true

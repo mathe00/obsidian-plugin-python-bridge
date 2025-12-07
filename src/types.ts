@@ -22,7 +22,6 @@ export interface PythonBridgeSettings {
   pythonScriptsFolder: string;
   httpPort: number;
   disablePyCache: boolean;
-  pluginLanguage: string;
   pythonExecutablePath: string; // Path to custom Python/uv executable
   /** Cache of settings definitions discovered from Python scripts. Key: relative script path */
   scriptSettingsDefinitions: Record<string, ScriptSettingDefinition[]>;

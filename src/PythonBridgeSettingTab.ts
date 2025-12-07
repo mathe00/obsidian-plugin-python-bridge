@@ -18,11 +18,7 @@ import type ObsidianPythonBridge from './main';
 import { getScriptsFolderPath, updateAndSyncCommands } from './python_executor';
 import { checkPythonEnvironment } from './environment_checker';
 import { DEFAULT_PORT, PYTHON_LIBRARY_FILENAME } from './constants';
-import {
-  t,
-  loadTranslations,
-  getAvailableLanguages,
-} from './lang/translations'; // Import helpers
+import { t } from './lang/translations'; // Import helpers
 import * as path from 'path'; // Import path for relative path calculation
 import * as fs from 'fs'; // Import fs for absolute path check
 import ActivationWarningModal from './ActivationWarningModal';
@@ -119,27 +115,6 @@ export default class PythonBridgeSettingTab extends PluginSettingTab {
 
     // General Plugin Settings
     new Setting(containerEl).setName(t('SETTINGS_TAB_TITLE')).setHeading();
-
-    // Language Selection
-    new Setting(containerEl)
-      .setName(t('SETTINGS_LANGUAGE_TITLE'))
-      .setDesc(t('SETTINGS_LANGUAGE_DESC'))
-      .setClass('python-bridge-setting-item')
-      .addDropdown((dropdown) => {
-        const languages = getAvailableLanguages();
-        dropdown.addOption('auto', t('SETTINGS_LANGUAGE_AUTO') || 'Automatic');
-        for (const code in languages) {
-          if (code !== 'auto') dropdown.addOption(code, languages[code]);
-        }
-        dropdown
-          .setValue(this.plugin.settings.pluginLanguage)
-          .onChange(async (value) => {
-            this.plugin.settings.pluginLanguage = value;
-            await this.plugin.saveSettings();
-            loadTranslations(this.plugin);
-            this.display(); // Redraw settings tab with new language
-          });
-      });
 
     // Python Scripts Folder
     new Setting(containerEl)

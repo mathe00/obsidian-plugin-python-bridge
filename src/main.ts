@@ -37,7 +37,6 @@ const DEFAULT_SETTINGS: PythonBridgeSettings = {
   pythonScriptsFolder: '',
   httpPort: DEFAULT_PORT,
   disablePyCache: true,
-  pluginLanguage: 'auto',
   pythonExecutablePath: '', // Default to empty, meaning auto-detect
   autoSetPYTHONPATH: true,
   scriptSettingsDefinitions: {},

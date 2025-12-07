@@ -199,8 +199,7 @@ Thanks to the **Python library** (`ObsidianPluginDevPythonToJS.py`) provided wit
 
 This plugin aims to be accessible globally! The user interface (settings, commands, notices) is available in multiple languages.
 
-- **Automatic Detection:** By default, the plugin will try to match Obsidian's configured language.
-- **Manual Override:** You can select your preferred language for the plugin directly in the settings tab, regardless of Obsidian's language setting.
+- **Automatic Detection:** The plugin automatically follows Obsidian's configured language setting for the user interface. _(Note: Previous versions included manual language override, but this was removed to comply with Obsidian's community plugin guidelines which favor maximum simplicity (KISS principle). The automatic detection provides the best experience for most users while maintaining plugin store compatibility.)_
 - **Supported Languages (+30):**
   - 🇬🇧/🇺🇸 English (en)
   - 🇫🇷 French (fr)
@@ -526,7 +525,7 @@ After installing and enabling the plugin:
 
 1.  Go to **Settings** > **Community plugins** > **Python Bridge** (click the gear icon).
 2.  **⚠️ Security Warning**: Read the prominent security warning at the top of the settings page. This warning reminds you that the plugin executes Python scripts and you should only run scripts you trust and review.
-3.  **Plugin Language**: Choose your preferred language for the plugin interface, or select "Automatic" to follow Obsidian's language setting.
+3.  **Plugin Language**: The plugin automatically follows Obsidian's language setting for the user interface. _(Manual language override has been removed to comply with Obsidian community plugin guidelines favoring simplicity.)_
 4.  Set the **Path to Python Scripts Folder**: Enter the **absolute path** or **vault-relative path** to the folder where you will store your Python scripts. This is where the plugin will look for `.py` files to run and discover settings from.
 5.  **(Optional) Python Executable Path**: If the automatic detection of Python (or `uv`) fails, or if you need to use a specific Python/uv executable not in your default PATH, you can provide an **absolute path** to it here. Leave this field empty to use automatic detection (tries `uv`, then `py`, `python3`, `python`). _Changing this setting may require a plugin reload or Obsidian restart to take full effect for all operations._
 6.  Ensure the **HTTP Port** is set correctly (default is `27123`, 0 allows dynamic assignment).

@@ -1,7 +1,7 @@
 // --- src/lang/translations.ts ---
 // import { Notice } from 'obsidian'; // Notice is not used in this file
-import { moment } from 'obsidian';
 import type ObsidianPythonBridge from '../main'; // Use import type
+import { getObsidianLanguage } from '../api/obsidian-info';
 
 // Import language files
 import en from './en';
@@ -107,40 +107,15 @@ export const languageDisplayNames: Record<string, string> = {
 let activeTranslations: TranslationSet = en; // Default to English
 
 /**
- * Loads the translations based on the plugin setting or Obsidian's locale.
- * @param plugin The instance of the ObsidianPythonBridge plugin to access settings.
+ * Loads the translations based on Obsidian's app language automatically.
+ * @param plugin The instance of the ObsidianPythonBridge plugin.
  */
 export function loadTranslations(plugin: ObsidianPythonBridge): void {
-  const userChoice = plugin.settings.pluginLanguage;
-  let targetLocale: string | null = null;
-
-  plugin.logDebug(`User language choice: ${userChoice}`);
-
-  // 1. Check user's explicit choice in settings
-  if (userChoice && userChoice !== 'auto' && translations[userChoice]) {
-    targetLocale = userChoice;
-    plugin.logDebug(`Using locale from plugin setting: ${targetLocale}`);
-  }
-  // 2. If choice is 'auto' or invalid, use detection logic
-  else {
-    const storageLocale = window.localStorage.getItem('language');
-    const momentLocale = moment.locale();
-    plugin.logDebug(
-      `Debug Locales - localStorage: ${storageLocale}, moment.locale(): ${momentLocale}`
-    );
-
-    if (storageLocale && typeof storageLocale === 'string') {
-      targetLocale = storageLocale;
-      plugin.logDebug(`Using locale from localStorage: ${targetLocale}`);
-    } else if (momentLocale) {
-      targetLocale = momentLocale;
-      plugin.logDebug(
-        `localStorage empty, using locale from moment.locale(): ${targetLocale}`
-      );
-    } else {
-      plugin.logDebug(`Both localStorage and moment.locale() are unavailable.`);
-    }
-  }
+  // Use automatic language detection from Obsidian app
+  const targetLocale = getObsidianLanguage(plugin);
+  plugin.logDebug(
+    `Using automatically detected Obsidian language: ${targetLocale}`
+  );
 
   // Now, load translations based on the determined targetLocale
   if (targetLocale && translations[targetLocale]) {

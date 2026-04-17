@@ -80,7 +80,14 @@ export function buildPythonEnv(
 
   // --- 4. Optional: __pycache__ suppression ---
   if (plugin.settings.disablePyCache) {
+    // Redirect __pycache__ to a temp directory so script folders stay clean.
     env.PYTHONPYCACHEPREFIX = os.tmpdir();
+    // Also set PYTHONDONTWRITEBYTECODE=1 (env var equivalent of Python's -B flag).
+    // This is critical for `uv` support: we cannot pass -B as a CLI argument to
+    // uv without breaking its dependency resolution (uv run python -B would
+    // bypass PEP 723 / pyproject.toml handling). Using the env var achieves the
+    // same result for ALL Python commands (uv and non-uv alike).
+    env.PYTHONDONTWRITEBYTECODE = '1';
   }
 
   // --- 5. Merge caller-provided extras (e.g. event vars, script path, token) ---
@@ -91,12 +98,22 @@ export function buildPythonEnv(
  * Builds the command-line argument array for spawning a Python child process.
  *
  * Handles the two execution modes:
- *   - `uv`    → `uv run [python -B] script.py [extraArgs…]`
+ *   - `uv`      → `uv run script.py [extraArgs…]`
  *   - `python*` → `[-B] script.py [extraArgs…]`
+ *
+ * For `uv`, we ALWAYS use the `uv run script.py` form (never `uv run python …`).
+ * This preserves uv's dependency management features (PEP 723 inline script
+ * metadata, pyproject.toml resolution, automatic venv creation). When
+ * `disablePyCache` is true and the command is `uv`, the `-B` equivalent is
+ * handled via the `PYTHONDONTWRITEBYTECODE` environment variable in
+ * `buildPythonEnv()` instead of a CLI flag, because inserting `python -B`
+ * between `uv run` and the script path would bypass uv's dependency resolution.
  *
  * @param pythonCmd      - The resolved Python command (e.g. 'python3', 'uv').
  * @param scriptPath     - Absolute path to the script to execute.
- * @param disablePyCache - Whether to pass the `-B` flag (no .pyc files).
+ * @param disablePyCache - Whether to suppress .pyc file creation.
+ *                         For standard Python: passed as `-B` CLI flag.
+ *                         For uv: handled via env var (see buildPythonEnv).
  * @param extraArgs      - Additional arguments to append after the script path.
  * @returns Argument array ready for `spawn(cmd, args)`.
  */
@@ -107,12 +124,12 @@ export function buildPythonArgs(
   extraArgs: string[] = []
 ): string[] {
   if (pythonCmd === 'uv') {
-    if (disablePyCache) {
-      return ['run', 'python', '-B', scriptPath, ...extraArgs];
-    }
+    // Always use 'uv run script.py' to preserve uv's dependency management.
+    // The -B flag is NOT injected here for uv; it's handled via
+    // PYTHONDONTWRITEBYTECODE env var in buildPythonEnv() instead.
     return ['run', scriptPath, ...extraArgs];
   }
-  // Standard Python interpreter
+  // Standard Python interpreter: -B flag suppresses bytecode writing
   const base = disablePyCache ? ['-B'] : [];
   return [...base, scriptPath, ...extraArgs];
 }

@@ -89,20 +89,17 @@ export async function discoverScriptSettings(
   }
   const discoveryTimeoutMs = SETTINGS_DISCOVERY_TIMEOUT;
   return new Promise((resolve) => {
-    let commandArgs: string[];
     const executableToRun = plugin.pythonExecutable!;
 
-    if (executableToRun === 'uv') {
-      // For uv, the command is 'uv run script_path --get-settings-json'
-      // No direct equivalent for -B with 'uv run script.py'.
-      // The --get-settings-json flag is passed to the script itself.
-      commandArgs = ['run', scriptAbsolutePath, '--get-settings-json'];
-    } else {
-      // For standard python, it's 'python script_path --get-settings-json'
-      // The -B flag (disablePyCache) is handled by the main runPythonScript,
-      // not typically needed for discovery as it's a short-lived process.
-      commandArgs = [scriptAbsolutePath, '--get-settings-json'];
-    }
+    // Use centralized buildPythonArgs for consistency across all spawn sites.
+    // disablePyCache is false for discovery: it's a short-lived process,
+    // and buildPythonEnv already sets PYTHONDONTWRITEBYTECODE via env if needed.
+    const commandArgs = buildPythonArgs(
+      executableToRun,
+      scriptAbsolutePath,
+      false, // disablePyCache — not needed for short-lived discovery
+      ['--get-settings-json'],
+    );
     plugin.logDebug(
       `Running discovery command: ${executableToRun} ${commandArgs.join(' ')}`
     );

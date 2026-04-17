@@ -4,10 +4,10 @@
 import { TFile, MarkdownView } from 'obsidian';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
 import { spawn } from 'child_process';
 import type ObsidianPythonBridge from './main'; // Import the main plugin type
 import { getScriptsFolderPath } from './python_executor'; // Import helper
+import { buildPythonEnv, buildPythonArgs } from './python_env'; // DRY env construction
 
 /**
  * Registers internal listeners for Obsidian events that can trigger Python scripts.
@@ -181,78 +181,24 @@ async function runPythonScriptForEvent(
     `Running event handler: ${pythonCmd} ${scriptAbsolutePath} for event ${eventName}`
   );
 
-  // Prepare environment variables
-  const currentPYTHONPATH = process.env.PYTHONPATH;
-  const pathsForPythonPath: string[] = [];
+  // Build environment for event execution (includes event-specific env vars)
+  const env = buildPythonEnv(plugin, scriptDir, {
+    extraVars: {
+      OBSIDIAN_EVENT_NAME: eventName,
+      OBSIDIAN_EVENT_PAYLOAD: payloadJson,
+    },
+  });
 
-  // 1. Add the script's own directory
-  pathsForPythonPath.push(scriptDir);
-  plugin.logDebug(
-    `Adding script's own directory to PYTHONPATH for event script: ${scriptDir}`
+  // Build command arguments
+  const fullArgs = buildPythonArgs(
+    pythonCmd,
+    scriptAbsolutePath,
+    plugin.settings.disablePyCache
   );
-
-  // 2. Conditionally add the plugin's directory based on setting
-  if (plugin.settings.autoSetPYTHONPATH) {
-    // Check the setting
-    if (plugin.pluginDirAbsPath) {
-      pathsForPythonPath.push(plugin.pluginDirAbsPath);
-      plugin.logDebug(
-        `Adding plugin directory to PYTHONPATH for event script (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`
-      );
-    } else {
-      plugin.logWarn(
-        'Plugin directory path not available for event script, library might not be importable even if autoSetPYTHONPATH is enabled.'
-      );
-    }
-  } else {
-    plugin.logDebug(
-      'Skipping adding plugin directory to PYTHONPATH for event script (autoSetPYTHONPATH disabled).'
-    );
-  }
-
-  let newPYTHONPATH = pathsForPythonPath.join(path.delimiter);
-
-  // 3. Append any existing PYTHONPATH
-  if (currentPYTHONPATH) {
-    newPYTHONPATH = `${newPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
-  }
-
-  const env = {
-    ...process.env,
-    OBSIDIAN_HTTP_PORT: plugin.initialHttpPort.toString(),
-    OBSIDIAN_BRIDGE_ACTIVE: 'true',
-    PYTHONPATH: newPYTHONPATH, // Set our constructed PYTHONPATH
-    // Event Variables
-    OBSIDIAN_EVENT_NAME: eventName,
-    OBSIDIAN_EVENT_PAYLOAD: payloadJson,
-    ...(plugin.settings.disablePyCache && {
-      PYTHONPYCACHEPREFIX: os.tmpdir(),
-    }),
-  }; // End of CORRECT env block
-
-  plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH} for event script`);
-  plugin.logDebug(`Setting cwd=${scriptDir} for event script`);
-
-  const executableToRun = pythonCmd;
-  let fullArgs: string[];
-
-  if (pythonCmd === 'uv') {
-    if (plugin.settings.disablePyCache) {
-      // 'uv run python -B script.py'
-      fullArgs = ['run', 'python', '-B', scriptAbsolutePath];
-    } else {
-      // 'uv run script.py'
-      fullArgs = ['run', scriptAbsolutePath];
-    }
-  } else {
-    // Standard Python
-    const pythonArgsBase = plugin.settings.disablePyCache ? ['-B'] : [];
-    fullArgs = [...pythonArgsBase, scriptAbsolutePath];
-  }
 
   try {
     await new Promise<void>((resolve, reject) => {
-      const pythonProcess = spawn(executableToRun, fullArgs, {
+      const pythonProcess = spawn(pythonCmd, fullArgs, {
         env, // Use the correctly defined env
         cwd: scriptDir, // Set CWD
       });

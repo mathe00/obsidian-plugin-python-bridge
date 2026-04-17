@@ -5,7 +5,6 @@ import { Notice, normalizePath } from 'obsidian';
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as os from 'os';
 import type ObsidianPythonBridge from './main'; // Import the main plugin type
 import { t } from './lang/translations'; // Import translation function
 import {
@@ -15,6 +14,7 @@ import {
 import type { ScriptSettingDefinition } from './types'; // Import types
 import ScriptSelectionModal from './ScriptSelectionModal'; // Import modal
 import { logScriptExecution } from './audit_logger'; // Import audit logger
+import { buildPythonEnv, buildPythonArgs } from './python_env'; // DRY env construction
 
 /**
  * Resolves the absolute path to the Python scripts folder based on settings.
@@ -89,65 +89,25 @@ export async function discoverScriptSettings(
   }
   const discoveryTimeoutMs = SETTINGS_DISCOVERY_TIMEOUT;
   return new Promise((resolve) => {
-    let commandArgs: string[];
     const executableToRun = plugin.pythonExecutable!;
 
-    if (executableToRun === 'uv') {
-      // For uv, the command is 'uv run script_path --get-settings-json'
-      // No direct equivalent for -B with 'uv run script.py'.
-      // The --get-settings-json flag is passed to the script itself.
-      commandArgs = ['run', scriptAbsolutePath, '--get-settings-json'];
-    } else {
-      // For standard python, it's 'python script_path --get-settings-json'
-      // The -B flag (disablePyCache) is handled by the main runPythonScript,
-      // not typically needed for discovery as it's a short-lived process.
-      commandArgs = [scriptAbsolutePath, '--get-settings-json'];
-    }
+    // Use centralized buildPythonArgs for consistency across all spawn sites.
+    // disablePyCache is false for discovery: it's a short-lived process,
+    // and buildPythonEnv already sets PYTHONDONTWRITEBYTECODE via env if needed.
+    const commandArgs = buildPythonArgs(
+      executableToRun,
+      scriptAbsolutePath,
+      false, // disablePyCache — not needed for short-lived discovery
+      ['--get-settings-json']
+    );
     plugin.logDebug(
       `Running discovery command: ${executableToRun} ${commandArgs.join(' ')}`
     );
     const scriptDir = path.dirname(scriptAbsolutePath);
-    // --- PYTHONPATH for discovery: Only needs script's dir for its own imports ---
-    const currentPYTHONPATH = process.env.PYTHONPATH;
-    // --- PYTHONPATH for discovery: Mirror the logic from runPythonScript ---
-    const pathsForPythonPath: string[] = [];
-    // 1. Add the script's own directory
-    pathsForPythonPath.push(scriptDir);
+    // Build environment for discovery mode (sets OBSIDIAN_BRIDGE_MODE='discovery')
+    const env = buildPythonEnv(plugin, scriptDir, { isDiscovery: true });
     plugin.logDebug(
-      `Discovery PYTHONPATH: Adding script's own directory: ${scriptDir}`
-    );
-    // 2. Conditionally add the plugin's directory based on setting
-    if (plugin.settings.autoSetPYTHONPATH) {
-      // <-- Respect the setting
-      if (plugin.pluginDirAbsPath) {
-        pathsForPythonPath.push(plugin.pluginDirAbsPath);
-        plugin.logDebug(
-          `Discovery PYTHONPATH: Adding plugin directory (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`
-        );
-      } else {
-        plugin.logWarn(
-          'Discovery PYTHONPATH: Plugin directory path not available, library might not be importable even if autoSetPYTHONPATH is enabled.'
-        );
-      }
-    } else {
-      plugin.logDebug(
-        'Discovery PYTHONPATH: Skipping adding plugin directory (autoSetPYTHONPATH disabled).'
-      );
-    }
-    // 3. Construct the final PYTHONPATH, appending existing env var if present
-    let discoveryPYTHONPATH = pathsForPythonPath.join(path.delimiter);
-    if (currentPYTHONPATH) {
-      discoveryPYTHONPATH = `${discoveryPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
-    }
-    // --- End PYTHONPATH for discovery ---
-    const env = {
-      ...process.env, // Inherit existing environment
-      PYTHONPATH: discoveryPYTHONPATH,
-      OBSIDIAN_BRIDGE_MODE: 'discovery',
-    };
-    // --- End PYTHONPATH for discovery ---
-    plugin.logDebug(
-      `Executing discovery with PYTHONPATH: ${discoveryPYTHONPATH} and cwd: ${scriptDir}`
+      `Executing discovery with PYTHONPATH: ${env.PYTHONPATH} and cwd: ${scriptDir}`
     );
     const pythonProcess = spawn(executableToRun, commandArgs, {
       timeout: discoveryTimeoutMs,
@@ -609,73 +569,28 @@ export async function runPythonScript(
 
   // Log script execution start
   logScriptExecution(plugin, scriptFilename, context, 'start');
-  // Prepare environment variables
-  const currentPYTHONPATH = process.env.PYTHONPATH;
-  const pathsForPythonPath: string[] = [];
-
-  // 1. Add the script's own directory (for its relative imports)
-  pathsForPythonPath.push(scriptDir);
-  plugin.logDebug(`Adding script's own directory to PYTHONPATH: ${scriptDir}`);
-
-  // 2. Conditionally add the plugin's directory based on setting
-  if (plugin.settings.autoSetPYTHONPATH) {
-    if (plugin.pluginDirAbsPath) {
-      pathsForPythonPath.push(plugin.pluginDirAbsPath);
-      plugin.logDebug(
-        `Adding plugin directory to PYTHONPATH (autoSetPYTHONPATH enabled): ${plugin.pluginDirAbsPath}`
-      );
-    } else {
-      plugin.logWarn(
-        'Plugin directory path not available, library might not be importable even if autoSetPYTHONPATH is enabled.'
-      );
-    }
-  } else {
-    plugin.logDebug(
-      'Skipping adding plugin directory to PYTHONPATH (autoSetPYTHONPATH disabled).'
-    );
-  }
-
-  let newPYTHONPATH = pathsForPythonPath.join(path.delimiter);
-
-  // 3. Append any existing PYTHONPATH from the environment
-  if (currentPYTHONPATH) {
-    newPYTHONPATH = `${newPYTHONPATH}${path.delimiter}${currentPYTHONPATH}`;
-  }
-
-  const env = {
-    ...process.env, // Inherit existing environment
-    OBSIDIAN_HTTP_PORT: plugin.initialHttpPort.toString(),
-    OBSIDIAN_BRIDGE_ACTIVE: 'true',
-    PYTHONPATH: newPYTHONPATH, // Set our constructed PYTHONPATH
-    ...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }),
-    ...(plugin.settings.disablePyCache && { PYTHONPYCACHEPREFIX: os.tmpdir() }),
-  };
+  // Prepare environment variables using centralized builder
+  const env = buildPythonEnv(plugin, scriptDir, {
+    extraVars: {
+      ...(relativePath && { OBSIDIAN_SCRIPT_RELATIVE_PATH: relativePath }),
+    },
+  });
   plugin.logDebug(
     `Setting OBSIDIAN_HTTP_PORT=${plugin.initialHttpPort} for script.`
   );
   if (relativePath)
     plugin.logDebug(`Setting OBSIDIAN_SCRIPT_RELATIVE_PATH=${relativePath}`);
-  plugin.logDebug(`Setting PYTHONPATH=${newPYTHONPATH}`);
+  plugin.logDebug(`Setting PYTHONPATH=${env.PYTHONPATH}`);
   plugin.logDebug(`Setting cwd=${scriptDir}`);
   if (plugin.settings.disablePyCache)
     plugin.logDebug(`Attempting to disable __pycache__ creation.`);
-  // Determine Python arguments
+  // Determine Python arguments using centralized builder
   const executableToRun = pythonCmd;
-  let fullArgs: string[];
-
-  if (pythonCmd === 'uv') {
-    if (plugin.settings.disablePyCache) {
-      // To pass -B to Python when using uv, we need 'uv run python -B script.py'
-      fullArgs = ['run', 'python', '-B', scriptPath];
-    } else {
-      // Default 'uv run script.py'
-      fullArgs = ['run', scriptPath];
-    }
-  } else {
-    // Standard Python execution
-    const pythonArgsBase = plugin.settings.disablePyCache ? ['-B'] : [];
-    fullArgs = [...pythonArgsBase, scriptPath];
-  }
+  const fullArgs = buildPythonArgs(
+    pythonCmd,
+    scriptPath,
+    plugin.settings.disablePyCache
+  );
   // Execute using the stored pythonCmd
   try {
     await new Promise<void>((resolve, reject) => {

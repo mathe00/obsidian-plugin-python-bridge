@@ -96,6 +96,7 @@ cython_debug/
 .idea/
 *.swp
 *~
+.opencode/
 
 # Don't include the compiled main.js file in the repo.
 # They should be uploaded to GitHub releases instead.

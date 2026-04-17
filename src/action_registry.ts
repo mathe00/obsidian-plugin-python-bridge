@@ -49,13 +49,13 @@ import { removeListener } from './event_handler';
 
 /** Validates payload fields — returns an error string, or null if valid. */
 export type PayloadValidator = (
-  payload: Record<string, unknown>,
+  payload: Record<string, unknown>
 ) => string | null;
 
 /** Executes the action — returns response data, or throws on error. */
 export type ActionExecutor = (
   plugin: ObsidianPythonBridge,
-  payload: Record<string, unknown>,
+  payload: Record<string, unknown>
 ) => Promise<unknown>;
 
 export interface ActionDefinition {
@@ -262,7 +262,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
         payload.from_line as number,
         payload.from_ch as number,
         payload.to_line as number | undefined,
-        payload.to_ch as number | undefined,
+        payload.to_ch as number | undefined
       );
       return null;
     },
@@ -272,20 +272,11 @@ export const actionRegistry: Record<string, ActionDefinition> = {
     validate: (p) => {
       if (typeof p.from_line !== 'number' || typeof p.from_ch !== 'number')
         return "Invalid payload: 'from_line' and 'from_ch' (numbers) required.";
-      if (
-        p.to_line !== undefined &&
-        typeof p.to_line !== 'number'
-      )
+      if (p.to_line !== undefined && typeof p.to_line !== 'number')
         return "Invalid payload: 'to_line' must be a number if provided.";
-      if (
-        p.to_ch !== undefined &&
-        typeof p.to_ch !== 'number'
-      )
+      if (p.to_ch !== undefined && typeof p.to_ch !== 'number')
         return "Invalid payload: 'to_ch' must be a number if provided.";
-      if (
-        p.center !== undefined &&
-        typeof p.center !== 'boolean'
-      )
+      if (p.center !== undefined && typeof p.center !== 'boolean')
         return "Invalid payload: 'center' must be a boolean if provided.";
       return null;
     },
@@ -296,7 +287,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
         payload.from_ch as number,
         payload.to_line as number | undefined,
         payload.to_ch as number | undefined,
-        payload.center as boolean | undefined,
+        payload.center as boolean | undefined
       );
       return null;
     },
@@ -325,9 +316,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
     validate: requireString('path'),
     execute: async (plugin, payload) => {
       const permanently =
-        typeof payload.permanently === 'boolean'
-          ? payload.permanently
-          : false;
+        typeof payload.permanently === 'boolean' ? payload.permanently : false;
       return deletePath(plugin, payload.path as string, permanently);
     },
   },
@@ -335,7 +324,11 @@ export const actionRegistry: Record<string, ActionDefinition> = {
   rename_path: {
     validate: requireStrings('old_path', 'new_path'),
     execute: async (plugin, payload) =>
-      renamePath(plugin, payload.old_path as string, payload.new_path as string),
+      renamePath(
+        plugin,
+        payload.old_path as string,
+        payload.new_path as string
+      ),
   },
 
   // --- Note content modification (two variants) ---
@@ -348,7 +341,8 @@ export const actionRegistry: Record<string, ActionDefinition> = {
         : null,
     execute: async (plugin, payload) => {
       const vaultAbsPath = getCurrentVaultAbsolutePath(plugin);
-      if (!vaultAbsPath) throw new Error('Vault path unavailable for conversion.');
+      if (!vaultAbsPath)
+        throw new Error('Vault path unavailable for conversion.');
 
       const receivedFilePath = payload.filePath as string;
       const vaultPathWithSeparator = vaultAbsPath.endsWith(path.sep)
@@ -357,17 +351,17 @@ export const actionRegistry: Record<string, ActionDefinition> = {
 
       if (!receivedFilePath.startsWith(vaultPathWithSeparator)) {
         throw new Error(
-          `Path is outside the current vault. File='${receivedFilePath}' Vault='${vaultAbsPath}'`,
+          `Path is outside the current vault. File='${receivedFilePath}' Vault='${vaultAbsPath}'`
         );
       }
 
       const relativePath = normalizePath(
-        path.relative(vaultAbsPath, receivedFilePath),
+        path.relative(vaultAbsPath, receivedFilePath)
       );
       await modifyNoteContentByRelativePath(
         plugin,
         relativePath,
-        payload.content as string,
+        payload.content as string
       );
       return null;
     },
@@ -383,7 +377,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
       await modifyNoteContentByRelativePath(
         plugin,
         payload.path as string,
-        payload.content as string,
+        payload.content as string
       );
       return null;
     },
@@ -473,7 +467,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
         payload.validationRegex as string | undefined,
         payload.minValue as number | undefined,
         payload.maxValue as number | undefined,
-        payload.step as number | undefined,
+        payload.step as number | undefined
       );
       if (result === null) throw new Error('User cancelled input.');
       return result;
@@ -522,7 +516,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
       for (const def of definitions) {
         finalValues[def.key] = Object.prototype.hasOwnProperty.call(
           storedValues,
-          def.key,
+          def.key
         )
           ? storedValues[def.key]
           : def.default;
@@ -552,7 +546,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
       plugin.eventListeners.get(eventName)?.add(scriptPath);
       plugin.logInfo(
         `Script '${scriptPath}' registered for event '${eventName}'. Current listeners:`,
-        plugin.eventListeners.get(eventName),
+        plugin.eventListeners.get(eventName)
       );
       return null;
     },
@@ -571,7 +565,7 @@ export const actionRegistry: Record<string, ActionDefinition> = {
       const scriptPath = payload.scriptPath as string;
       removeListener(plugin, eventName, scriptPath);
       plugin.logInfo(
-        `Script '${scriptPath}' unregistered from event '${eventName}'.`,
+        `Script '${scriptPath}' unregistered from event '${eventName}'.`
       );
       return null;
     },

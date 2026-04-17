@@ -22,7 +22,7 @@ import { logApiAction } from './audit_logger';
  */
 export async function dispatchAction(
   plugin: ObsidianPythonBridge,
-  request: JsonRequest,
+  request: JsonRequest
 ): Promise<JsonResponse> {
   const { action, payload = {} } = request;
   const sourceScript = payload?.scriptPath as string | undefined;

@@ -98,7 +98,7 @@ export async function discoverScriptSettings(
       executableToRun,
       scriptAbsolutePath,
       false, // disablePyCache — not needed for short-lived discovery
-      ['--get-settings-json'],
+      ['--get-settings-json']
     );
     plugin.logDebug(
       `Running discovery command: ${executableToRun} ${commandArgs.join(' ')}`

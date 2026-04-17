@@ -1,1 +1,2 @@
 bun run validate || exit 1
+bun run bump-version

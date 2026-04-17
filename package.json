@@ -7,6 +7,7 @@
     "dev": "bun esbuild.config.mjs",
     "build": "tsc -noEmit -skipLibCheck && bun esbuild.config.mjs production",
     "version": "bun version-bump.mjs && git add manifest.json versions.json",
+    "bump-version": "bun scripts/bump-version.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"**/*.{ts,js,json,md,css}\"",

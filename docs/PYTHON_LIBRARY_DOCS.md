@@ -1,6 +1,6 @@
 # Obsidian Python Bridge - Python Client Library Documentation
 
-This document provides instructions and API reference for using `ObsidianPluginDevPythonToJS.py` client library to interact with the Obsidian Python Bridge plugin from your Python scripts.
+This document provides instructions and API reference for the **Obsidian Python Bridge client library** — a Python package (`obsidian_python_bridge/`) that lets your Python scripts communicate with the Obsidian Python Bridge plugin. A backward-compatible shim (`ObsidianPluginDevPythonToJS.py`) is also provided at the repository root so that existing scripts continue to work without changes.
 
 ## 🔒 Security Considerations for Script Authors
 
@@ -104,6 +104,33 @@ Check the Obsidian developer console for these logs when testing your scripts.
 
 This library facilitates communication between your Python scripts and the Obsidian Python Bridge plugin running inside Obsidian. It uses HTTP requests (via the `requests` library) to send commands to the plugin and receive data back, allowing you to interact with your Obsidian vault programmatically, define script-specific settings, and more.
 
+### Package Structure
+
+The client library is organised as a Python package:
+
+```
+obsidian_python_bridge/          # main package
+├── __init__.py                  # re-exports all public symbols
+├── _client.py                   # ObsidianPluginDevPythonToJS class
+├── _events.py                   # module-level event state & accessor functions
+├── _exceptions.py               # ObsidianCommError
+├── _settings.py                 # define_settings(), _handle_cli_args()
+├── _transport.py                # low-level HTTP send/receive
+├── _config.py                   # DEFAULT_HTTP_PORT, HTTP_PORT
+├── _version.py                  # __version__
+├── _notes.py                    # NotesMixin
+├── _editor.py                   # EditorMixin
+├── _vault.py                    # VaultMixin
+├── _ui.py                       # UIMixin
+├── _events_api.py               # EventsMixin (register/unregister listeners)
+├── _frontmatter.py              # FrontmatterMixin
+└── _links.py                    # LinksMixin
+
+ObsidianPluginDevPythonToJS.py   # backward-compatible shim (re-exports)
+```
+
+All public symbols (`ObsidianPluginDevPythonToJS`, `ObsidianCommError`, `define_settings`, `_handle_cli_args`) are re-exported from both the package and the shim, so you can import from either path. See the [Setup and Importing](#setup-and-importing) section for details.
+
 ## Prerequisites
 
 1.  **Python 3.x:** Ensure you have a working Python 3 installation accessible from your system's PATH. The library uses `argparse` for handling command-line flags, which is included in standard Python 3 distributions.
@@ -124,24 +151,44 @@ This library facilitates communication between your Python scripts and the Obsid
 
 ## Setup and Importing
 
-The Obsidian Python Bridge plugin is designed to make importing its client library (`ObsidianPluginDevPythonToJS.py`) as straightforward as possible.
+The Obsidian Python Bridge plugin is designed to make importing its client library as straightforward as possible. The library is distributed as a Python package (`obsidian_python_bridge/`) with a backward-compatible shim file (`ObsidianPluginDevPythonToJS.py`) at the repository root.
 
 **Recommended Method (Default Plugin Behavior):**
 
 The plugin has a setting named "**Auto-set PYTHONPATH for Library**" which is **enabled by default**.
 
-- When this setting is active, the plugin automatically configures the Python environment when it runs your scripts. This means the `ObsidianPluginDevPythonToJS.py` library (which is part of the plugin's installation) is made available to your scripts.
-- You can then directly use `from ObsidianPluginDevPythonToJS import ...` in your Python scripts without needing to copy the `ObsidianPluginDevPythonToJS.py` file into your scripts folder or manually modify `sys.path`.
+- When this setting is active, the plugin automatically configures the Python environment when it runs your scripts. This means the library (both the package and the shim) is made available to your scripts.
+- You can then import from either path:
+
+```python
+# Option A — legacy shim import (works with all existing scripts):
+from ObsidianPluginDevPythonToJS import (
+    ObsidianPluginDevPythonToJS,
+    ObsidianCommError,
+    define_settings,
+    _handle_cli_args,
+)
+
+# Option B — package import (new, recommended for new scripts):
+from obsidian_python_bridge import (
+    ObsidianPluginDevPythonToJS,
+    ObsidianCommError,
+    define_settings,
+    _handle_cli_args,
+)
+```
+
+Both paths re-export the exact same symbols — use whichever you prefer.
 
 **Alternative Method (If "Auto-set PYTHONPATH for Library" is Disabled):**
 
-If you have disabled the "Auto-set PYTHONPATH for Library" option in the plugin settings, you will need to ensure Python can find the `ObsidianPluginDevPythonToJS.py` library file. Options include:
+If you have disabled the "Auto-set PYTHONPATH for Library" option in the plugin settings, you will need to ensure Python can find the library. Options include:
 
-1.  **Copy the Library File:**
-    - Copy `ObsidianPluginDevPythonToJS.py` from the plugin's repository into the **same folder** as your Python scripts.
+1.  **Copy the Files:**
+    - Copy the entire `obsidian_python_bridge/` directory **and** the `ObsidianPluginDevPythonToJS.py` shim into the **same folder** as your Python scripts.
 2.  **Modify `sys.path` in Your Script (More Complex):**
-    - Store `ObsidianPluginDevPythonToJS.py` in a known location.
-    - In your script, _before_ the `from ObsidianPluginDevPythonToJS import ...` line, add the directory containing the library to `sys.path`.
+    - Store the library files in a known location.
+    - In your script, _before_ the import line, add the directory containing the library to `sys.path`.
     ```python
     # import sys
     # library_directory = "/path/to/library_location/"
@@ -165,7 +212,7 @@ When the Obsidian Python Bridge plugin starts or when you manually "Refresh Defi
 # === MANDATORY SCRIPT STRUCTURE ===
 import sys
 import os
-from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args
+from obsidian_python_bridge import define_settings, _handle_cli_args
 # ... other imports ...
 
 # --- Event Check (Recommended for event-handling scripts) ---
@@ -287,7 +334,7 @@ Each dictionary in the list passed to `define_settings` should have: `key` (str)
 import sys
 import os
 import json
-from ObsidianPluginDevPythonToJS import (
+from obsidian_python_bridge import (
     ObsidianPluginDevPythonToJS, ObsidianCommError,
     define_settings, _handle_cli_args
 )
@@ -342,6 +389,14 @@ All methods below may raise `ObsidianCommError` if communication with the Obsidi
 ---
 
 ### Library Helper Functions (Import directly)
+
+These functions live in the `obsidian_python_bridge` package and are re-exported through the backward-compatible shim `ObsidianPluginDevPythonToJS.py`. Import them from either path:
+
+```python
+from obsidian_python_bridge import define_settings, _handle_cli_args
+# or
+from ObsidianPluginDevPythonToJS import define_settings, _handle_cli_args
+```
 
 #### `define_settings(settings_list: List[Dict[str, Any]]) -> None`
 
@@ -679,11 +734,11 @@ Your Python scripts can react to events in Obsidian.
     - `OBSIDIAN_EVENT_NAME`: Name of the event (e.g., `"vault-modify"`).
     - `OBSIDIAN_EVENT_PAYLOAD`: JSON string with event data (e.g., `'{"path": "My Note.md"}'`).
 4.  **Your Script's Responsibility:**
-    - **At the start**, check `os.environ.get("OBSIDIAN_EVENT_NAME")`.
-    - If it exists, parse `OBSIDIAN_EVENT_PAYLOAD`, perform event-specific actions.
+    - **At the start**, check whether an event triggered the script (using `is_handling_event()` or `os.environ.get("OBSIDIAN_EVENT_NAME")`).
+    - If an event is active, retrieve the event name and payload via the accessor functions (see below).
     - Optionally call `obsidian.unregister_event_listener()` if it should only react once.
     - **Exit immediately using `sys.exit(0)`** to prevent normal script logic from running.
-    - If the variable doesn't exist, proceed with normal script logic (like initial registration or handling settings discovery - see "Handling Settings Discovery" section).
+    - If no event is active, proceed with normal script logic (like initial registration or handling settings discovery - see "Handling Settings Discovery" section).
 
 **Supported Event Names (Initial List):**
 
@@ -710,33 +765,62 @@ Unregisters the current script from an event.
 - **Returns:** `None`
 - **Raises:** `ValueError` if `event_name` empty. `ObsidianCommError` if unregistration fails.
 
-**Example Script (`react_on_modify.py` - Simplified):**
+---
+
+### Event Accessor Functions (Import directly)
+
+When the library is imported, it automatically parses the `OBSIDIAN_EVENT_NAME` and `OBSIDIAN_EVENT_PAYLOAD` environment variables at import time. The following functions provide convenient access to the parsed state — no need to call `os.environ.get()` or `json.loads()` yourself.
+
+```python
+# Import from either path:
+from obsidian_python_bridge import is_handling_event, get_event_name, get_event_payload
+# or
+from ObsidianPluginDevPythonToJS import is_handling_event, get_event_name, get_event_payload
+```
+
+#### `is_handling_event() -> bool`
+
+Returns `True` if the current script process was spawned by an Obsidian event trigger (i.e. the `OBSIDIAN_EVENT_NAME` environment variable was set). Use this at the top of your script to decide whether to handle an event or proceed with normal logic.
+
+- **Parameters:** None
+- **Returns:** (`bool`)
+
+#### `get_event_name() -> Optional[str]`
+
+Returns the name of the Obsidian event that triggered this process (e.g. `"vault-modify"`), or `None` if the script was not launched by an event.
+
+- **Parameters:** None
+- **Returns:** (`Optional[str]`)
+
+#### `get_event_payload() -> Optional[Dict[str, Any]]`
+
+Returns the parsed event payload as a dictionary, or `None` if no event triggered the process. If the payload JSON could not be parsed, the dictionary will contain an `"error"` key with details.
+
+- **Parameters:** None
+- **Returns:** (`Optional[Dict[str, Any]]`)
+
+**Example Script (`react_on_modify.py` - Using accessor functions):**
 
 ```python
 # react_on_modify.py
 import sys
-import os
-import json
 # For production, add robust error handling (try-except) for imports and API calls.
-from ObsidianPluginDevPythonToJS import (
+from obsidian_python_bridge import (
     ObsidianPluginDevPythonToJS, ObsidianCommError,
-    define_settings, _handle_cli_args # Import helpers
+    define_settings, _handle_cli_args,
+    is_handling_event, get_event_name, get_event_payload,
 )
 
 EVENT_TO_LISTEN_FOR = "vault-modify"
 
-# --- Check for event trigger FIRST ---
-event_name_from_env = os.environ.get("OBSIDIAN_EVENT_NAME")
-if event_name_from_env:
-    print(f"--- Script launched by Event: {event_name_from_env} ---")
-    payload_str = os.environ.get("OBSIDIAN_EVENT_PAYLOAD", "{}")
-    try:
-        event_payload = json.loads(payload_str)
-    except json.JSONDecodeError:
-        event_payload = {"error": "Failed to parse payload"}
+# --- Check for event trigger FIRST (using accessor functions) ---
+if is_handling_event():
+    event_name = get_event_name()
+    event_payload = get_event_payload()
+    print(f"--- Script launched by Event: {event_name} ---")
 
-    if event_name_from_env == EVENT_TO_LISTEN_FOR:
-        file_path = event_payload.get("path", "N/A")
+    if event_name == EVENT_TO_LISTEN_FOR:
+        file_path = (event_payload or {}).get("path", "N/A")
         print(f"Detected modification of: {file_path}")
         # Initialize client only if needed for a response
         # try:

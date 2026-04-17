@@ -1,5 +1,4 @@
 # --- ObsidianPluginDevPythonToJS.py ---
-# -*- coding: utf-8 -*-
 """
 Obsidian Python Bridge Client Library (HTTP Version)
 
@@ -8,12 +7,12 @@ Obsidian plugin (obsidian-python-bridge) via a local HTTP server using
 JSON messages.
 """
 
-import os
+import argparse  # Needed for CLI argument parsing
 import json
+import os
 import sys
 import traceback
-from typing import Any, Dict, List, Optional, Union
-import argparse  # Needed for CLI argument parsing
+from typing import Any
 
 # --- Dependencies ---
 # Attempt to import requests, required for HTTP communication
@@ -77,7 +76,7 @@ if _event_name_from_env:
 
 
 # --- Function for user scripts to define their settings ---
-def define_settings(settings_list: List[Dict[str, Any]]):
+def define_settings(settings_list: list[dict[str, Any]]):
     """
     Registers the settings definitions for the current script.
 
@@ -115,9 +114,7 @@ def _handle_cli_args():
     This should be called early in the user script, after define_settings.
     """
     # Use ArgumentParser for robust argument handling
-    parser = argparse.ArgumentParser(
-        description="Obsidian Python Bridge Script Runner Helper"
-    )
+    parser = argparse.ArgumentParser(description="Obsidian Python Bridge Script Runner Helper")
     parser.add_argument(
         "--get-settings-json",
         action="store_true",
@@ -125,7 +122,7 @@ def _handle_cli_args():
     )
     # Parse only known args defined above, ignore others that might be passed
     # This prevents errors if Obsidian or the user passes other args accidentally
-    args, unknown = parser.parse_known_args()
+    args, _unknown = parser.parse_known_args()
     # --- Check for Event Trigger Environment Variables ---
     # This check happens AFTER parsing CLI args but BEFORE checking --get-settings-json
     # because event triggers should take precedence over settings discovery.
@@ -153,11 +150,7 @@ def _handle_cli_args():
         try:
             # Use the globally stored definitions populated by define_settings
             # Ensure _script_settings_definitions exists, default to empty list if not defined by user script
-            definitions_to_output = (
-                _script_settings_definitions
-                if "_script_settings_definitions" in globals()
-                else []
-            )
+            definitions_to_output = _script_settings_definitions if "_script_settings_definitions" in globals() else []
             json_output = json.dumps(definitions_to_output)  # No indent for production
             print(json_output)  # Print JSON to stdout
             sys.exit(0)  # Exit successfully, preventing rest of script execution
@@ -190,8 +183,8 @@ class ObsidianCommError(Exception):
     def __init__(
         self,
         message: str,
-        action: Optional[str] = None,
-        status_code: Optional[int] = None,
+        action: str | None = None,
+        status_code: int | None = None,
     ):
         self.action = action
         self.status_code = status_code
@@ -237,9 +230,7 @@ class ObsidianPluginDevPythonToJS:
                                connection refused, Obsidian not running/plugin inactive).
         """
         if not isinstance(http_port, int) or not (1024 <= http_port <= 65535):
-            raise ValueError(
-                f"http_port must be an integer between 1024 and 65535. Received: {http_port}"
-            )
+            raise ValueError(f"http_port must be an integer between 1024 and 65535. Received: {http_port}")
         self.http_port = http_port
         self.base_url = f"http://127.0.0.1:{self.http_port}/"
         self.connect_timeout = connect_timeout
@@ -247,7 +238,7 @@ class ObsidianPluginDevPythonToJS:
         # Use a requests Session for potential performance benefits (connection pooling)
         self.session = requests.Session()
         # Store script path for event listener registration payload
-        self._script_relative_path_for_api: Optional[str] = None
+        self._script_relative_path_for_api: str | None = None
 
         # --- Determine execution mode (normal or discovery) ---
         self._execution_mode = os.environ.get("OBSIDIAN_BRIDGE_MODE", "normal")
@@ -260,12 +251,8 @@ class ObsidianPluginDevPythonToJS:
 
         # --- Read script relative path from environment variable ---
         # This is crucial for the get_script_settings method.
-        self.script_relative_path: Optional[str] = os.environ.get(
-            "OBSIDIAN_SCRIPT_RELATIVE_PATH"
-        )
-        self._script_relative_path_for_api = (
-            self.script_relative_path
-        )  # Store for API calls
+        self.script_relative_path: str | None = os.environ.get("OBSIDIAN_SCRIPT_RELATIVE_PATH")
+        self._script_relative_path_for_api = self.script_relative_path  # Store for API calls
         if not self.script_relative_path:
             # Log a warning but don't prevent initialization.
             # Only get_script_settings will fail later if called.
@@ -299,12 +286,9 @@ class ObsidianPluginDevPythonToJS:
                     error_data = response.json()
                     # Check if the error message matches known non-fatal errors for the ping
                     if "error" in error_data and (
-                        f"Unknown action: {test_action}" in error_data["error"]
-                        or "Not Found" in error_data["error"]
+                        f"Unknown action: {test_action}" in error_data["error"] or "Not Found" in error_data["error"]
                     ):
-                        print(
-                            "Connection test successful (server responded as expected)."
-                        )
+                        print("Connection test successful (server responded as expected).")
                         return  # Success
                 except requests.exceptions.JSONDecodeError:
                     # Server responded with an error status but non-JSON body, still counts as responding
@@ -343,8 +327,8 @@ class ObsidianPluginDevPythonToJS:
     def _send_receive(
         self,
         action: str,
-        payload: Optional[Dict[str, Any]] = None,
-        timeout: Optional[float] = None,
+        payload: dict[str, Any] | None = None,
+        timeout: float | None = None,
     ) -> Any:
         """
         Core private method to send a request and receive a response via HTTP POST.
@@ -392,9 +376,7 @@ class ObsidianPluginDevPythonToJS:
                 json=request_data,  # requests handles JSON serialization and Content-Type header
                 timeout=request_timeout,
             )
-            response_text = (
-                response.text
-            )  # Store raw text for potential error reporting
+            response_text = response.text  # Store raw text for potential error reporting
 
             # Check for HTTP errors first (4xx, 5xx)
             response.raise_for_status()  # Raises HTTPError for bad status codes
@@ -404,31 +386,20 @@ class ObsidianPluginDevPythonToJS:
             response_data = response.json()  # Raises JSONDecodeError if parsing fails
 
             # Validate the response structure and status field
-            if (
-                isinstance(response_data, dict)
-                and response_data.get("status") == "success"
-            ):
+            if isinstance(response_data, dict) and response_data.get("status") == "success":
                 # print(f"DEBUG: Success response received for '{action}'.") # Verbose
                 return response_data.get("data")  # Return the actual data payload
-            elif (
-                isinstance(response_data, dict)
-                and response_data.get("status") == "error"
-            ):
-                error_message = response_data.get(
-                    "error", "Unknown error reported by Obsidian."
-                )
+            if isinstance(response_data, dict) and response_data.get("status") == "error":
+                error_message = response_data.get("error", "Unknown error reported by Obsidian.")
                 # print(f"DEBUG: Error response received for '{action}': {error_message}") # Verbose
-                raise ObsidianCommError(
-                    error_message, action=action, status_code=response.status_code
-                )
-            else:
-                # Handle cases where response is JSON but lacks expected structure
-                # print(f"DEBUG: Invalid response format received for '{action}': {response_data}") # Verbose
-                raise ObsidianCommError(
-                    f"Invalid response format received: {response_data}",
-                    action=action,
-                    status_code=response.status_code,
-                )
+                raise ObsidianCommError(error_message, action=action, status_code=response.status_code)
+            # Handle cases where response is JSON but lacks expected structure
+            # print(f"DEBUG: Invalid response format received for '{action}': {response_data}") # Verbose
+            raise ObsidianCommError(
+                f"Invalid response format received: {response_data}",
+                action=action,
+                status_code=response.status_code,
+            )
 
         # --- Exception Handling for _send_receive ---
         except requests.exceptions.Timeout:
@@ -438,9 +409,7 @@ class ObsidianPluginDevPythonToJS:
             ) from None
         except requests.exceptions.ConnectionError as e:
             # Network problems (DNS failure, refused connection, etc)
-            raise ObsidianCommError(
-                f"HTTP connection failed: {e}", action=action
-            ) from e
+            raise ObsidianCommError(f"HTTP connection failed: {e}", action=action) from e
         except requests.exceptions.HTTPError as e:
             # Bad HTTP status code (4xx/5xx)
             status_code = e.response.status_code
@@ -481,14 +450,12 @@ class ObsidianPluginDevPythonToJS:
                 f"ERROR: Unexpected error in _send_receive: {e}\n{traceback.format_exc()}",
                 file=sys.stderr,
             )
-            raise ObsidianCommError(
-                f"An unexpected error occurred during communication: {e}", action=action
-            ) from e
+            raise ObsidianCommError(f"An unexpected error occurred during communication: {e}", action=action) from e
 
     # --- Public API Methods ---
 
     # --- NEW: Get Script Settings ---
-    def get_script_settings(self) -> Dict[str, Any]:
+    def get_script_settings(self) -> dict[str, Any]:
         """
         Retrieves the current values of the settings defined by this script,
         as configured by the user in the Obsidian Python Bridge settings tab.
@@ -547,9 +514,7 @@ class ObsidianPluginDevPythonToJS:
         self._send_receive("show_notification", payload)
         print(f"Notification request sent: '{content}' (duration: {duration}ms)")
 
-    def get_active_note_content(
-        self, return_format: str = "string"
-    ) -> Union[str, List[str]]:
+    def get_active_note_content(self, return_format: str = "string") -> str | list[str]:
         """
         Retrieves the full Markdown content of the currently active note in Obsidian.
 
@@ -572,7 +537,7 @@ class ObsidianPluginDevPythonToJS:
         payload = {"return_format": return_format}
         return self._send_receive("get_active_note_content", payload)
 
-    def get_active_note_frontmatter(self) -> Optional[Dict[str, Any]]:
+    def get_active_note_frontmatter(self) -> dict[str, Any] | None:
         """
         Retrieves the parsed YAML frontmatter of the currently active note.
 
@@ -613,10 +578,10 @@ class ObsidianPluginDevPythonToJS:
         script_name: str,
         input_type: str,
         message: str,
-        validation_regex: Optional[str] = None,
-        min_value: Optional[Union[int, float]] = None,
-        max_value: Optional[Union[int, float]] = None,
-        step: Optional[Union[int, float]] = None,
+        validation_regex: str | None = None,
+        min_value: int | float | None = None,
+        max_value: int | float | None = None,
+        step: int | float | None = None,
         **kwargs,  # Allow passing future/other args easily
     ) -> Any:
         """
@@ -640,9 +605,7 @@ class ObsidianPluginDevPythonToJS:
                                or if the request fails.
         """
         if not all([script_name, input_type, message]):
-            raise ValueError(
-                "script_name, input_type, and message are required arguments."
-            )
+            raise ValueError("script_name, input_type, and message are required arguments.")
 
         payload = {
             "scriptName": script_name,
@@ -706,7 +669,7 @@ class ObsidianPluginDevPythonToJS:
         """
         return self._send_receive("get_current_vault_absolute_path")
 
-    def get_all_note_paths(self, absolute: bool = False) -> List[str]:
+    def get_all_note_paths(self, absolute: bool = False) -> list[str]:
         """
         Retrieves the paths of all Markdown notes (.md files) within the vault.
 
@@ -736,7 +699,7 @@ class ObsidianPluginDevPythonToJS:
         #         raise ObsidianCommError(f"Path list contains non-string element: {p}", action="get_all_note_paths")
         return note_paths
 
-    def get_all_note_titles(self) -> List[str]:
+    def get_all_note_titles(self) -> list[str]:
         """
         Retrieves the titles (filenames without extensions) of all Markdown notes.
 
@@ -769,7 +732,7 @@ class ObsidianPluginDevPythonToJS:
         # Path should be relative to the vault for the plugin
         return self._send_receive("get_note_content", {"path": path})
 
-    def get_note_frontmatter(self, path: str) -> Optional[Dict[str, Any]]:
+    def get_note_frontmatter(self, path: str) -> dict[str, Any] | None:
         """
         Retrieves the parsed YAML frontmatter of a specific note.
 
@@ -845,10 +808,10 @@ class ObsidianPluginDevPythonToJS:
         self,
         file_path: str,
         action: str,
-        key: Optional[str] = None,
-        new_key: Optional[str] = None,
+        key: str | None = None,
+        new_key: str | None = None,
         use_vault_modify: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Manages top-level keys in a note's YAML frontmatter. Requires PyYAML.
 
@@ -871,9 +834,7 @@ class ObsidianPluginDevPythonToJS:
             IOError: If use_vault_modify is False and direct write fails.
         """
         if "yaml" not in sys.modules:
-            raise NameError(
-                "PyYAML is required for manage_properties_key. Install it (`pip install PyYAML`)."
-            )
+            raise NameError("PyYAML is required for manage_properties_key. Install it (`pip install PyYAML`).")
 
         if not os.path.isfile(file_path) or not file_path.endswith(".md"):
             return {
@@ -901,14 +862,12 @@ class ObsidianPluginDevPythonToJS:
 
         try:
             # Read the entire file content
-            with open(file_path, "r", encoding="utf-8") as file:
+            with open(file_path, encoding="utf-8") as file:
                 content = file.read()
 
             # --- YAML Frontmatter Parsing ---
             parts = content.split("---", 2)
-            if (
-                len(parts) < 3 or not parts[0].strip() == ""
-            ):  # Basic check for YAML block at the start
+            if len(parts) < 3 or not parts[0].strip() == "":  # Basic check for YAML block at the start
                 # If no frontmatter, treat as empty for 'add', error otherwise
                 if action == "add":
                     frontmatter = {}
@@ -926,9 +885,7 @@ class ObsidianPluginDevPythonToJS:
                 # Parse the YAML string
                 try:
                     # Use safe_load to avoid arbitrary code execution
-                    frontmatter = (
-                        yaml.safe_load(yaml_content_str) or {}
-                    )  # Treat empty/null YAML as empty dict
+                    frontmatter = yaml.safe_load(yaml_content_str) or {}  # Treat empty/null YAML as empty dict
                     if not isinstance(frontmatter, dict):
                         return {
                             "success": False,
@@ -941,9 +898,7 @@ class ObsidianPluginDevPythonToJS:
                     }
 
             # --- Perform Action ---
-            original_frontmatter = (
-                frontmatter.copy()
-            )  # Keep a copy for comparison if needed
+            original_frontmatter = frontmatter.copy()  # Keep a copy for comparison if needed
 
             if action == "add":
                 if key in frontmatter:
@@ -989,9 +944,7 @@ class ObsidianPluginDevPythonToJS:
             if frontmatter != original_frontmatter:
                 # If the frontmatter is now empty, don't write the '---' block
                 if not frontmatter:
-                    updated_full_content = (
-                        main_content.lstrip()
-                    )  # Remove leading newline if any
+                    updated_full_content = main_content.lstrip()  # Remove leading newline if any
                 else:
                     try:
                         # Dump the modified frontmatter back to a YAML string
@@ -1013,9 +966,7 @@ class ObsidianPluginDevPythonToJS:
                     # Reconstruct the full file content
                     # Ensure newline after closing '---' if main_content exists
                     separator = "\n" if main_content else ""
-                    updated_full_content = (
-                        f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
-                    )
+                    updated_full_content = f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
 
                 # --- Save based on use_vault_modify flag ---
                 if use_vault_modify:
@@ -1030,16 +981,14 @@ class ObsidianPluginDevPythonToJS:
                         with open(file_path, "w", encoding="utf-8") as file:
                             file.write(updated_full_content)
                         print("DEBUG: Direct file write successful.")
-                    except IOError as e:
+                    except OSError as e:
                         # Catch potential file writing errors
                         return {
                             "success": False,
                             "error": f"Direct file write failed: {e}",
                         }
             else:
-                print(
-                    f"DEBUG: No changes made to frontmatter for action '{action}' on key '{key}'."
-                )
+                print(f"DEBUG: No changes made to frontmatter for action '{action}' on key '{key}'.")
                 # If no changes were made, it's still technically a success
                 return {"success": True, "message": "No changes needed."}
 
@@ -1070,9 +1019,9 @@ class ObsidianPluginDevPythonToJS:
         action: str,
         value: Any = None,
         new_value: Any = None,
-        index: Optional[int] = None,
+        index: int | None = None,
         use_vault_modify: bool = True,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Manages values associated with a key in YAML frontmatter. Requires PyYAML.
 
@@ -1099,9 +1048,7 @@ class ObsidianPluginDevPythonToJS:
         """
         # --- Input Validation ---
         if "yaml" not in sys.modules:
-            raise NameError(
-                "PyYAML is required for manage_properties_value. Please install it (`pip install PyYAML`)."
-            )
+            raise NameError("PyYAML is required for manage_properties_value. Please install it (`pip install PyYAML`).")
         if not os.path.isfile(file_path) or not file_path.endswith(".md"):
             return {
                 "success": False,
@@ -1128,7 +1075,7 @@ class ObsidianPluginDevPythonToJS:
 
         try:
             # --- Read File and Parse YAML ---
-            with open(file_path, "r", encoding="utf-8") as file:
+            with open(file_path, encoding="utf-8") as file:
                 content = file.read()
             parts = content.split("---", 2)
             main_content = content  # Default if no frontmatter
@@ -1202,11 +1149,7 @@ class ObsidianPluginDevPythonToJS:
                     items_to_remove = value if isinstance(value, list) else [value]
                     original_length = len(current_value_at_key)
                     # Remove all occurrences of each item specified
-                    new_list = [
-                        item
-                        for item in current_value_at_key
-                        if item not in items_to_remove
-                    ]
+                    new_list = [item for item in current_value_at_key if item not in items_to_remove]
 
                     if len(new_list) == original_length:
                         return {
@@ -1215,9 +1158,7 @@ class ObsidianPluginDevPythonToJS:
                         }
 
                     frontmatter[key] = new_list
-                    print(
-                        f"DEBUG: Removed value(s) '{items_to_remove}' from list key '{key}'."
-                    )
+                    print(f"DEBUG: Removed value(s) '{items_to_remove}' from list key '{key}'.")
                     # Optional: Remove key if list becomes empty
                     # if not frontmatter[key]:
                     #     del frontmatter[key]
@@ -1227,9 +1168,7 @@ class ObsidianPluginDevPythonToJS:
                     # Allow removing a scalar value if it matches exactly
                     # This effectively sets the key to None or removes it? Let's remove it.
                     del frontmatter[key]
-                    print(
-                        f"DEBUG: Removed scalar key '{key}' because its value matched '{value}'."
-                    )
+                    print(f"DEBUG: Removed scalar key '{key}' because its value matched '{value}'.")
                 else:
                     # Cannot remove from a non-list if value doesn't match
                     return {
@@ -1247,11 +1186,7 @@ class ObsidianPluginDevPythonToJS:
                             if not isinstance(index, int):
                                 raise TypeError("Index must be an integer.")
                             # Check bounds after potential negative index resolution
-                            if not (
-                                -len(current_value_at_key)
-                                <= index
-                                < len(current_value_at_key)
-                            ):
+                            if not (-len(current_value_at_key) <= index < len(current_value_at_key)):
                                 raise IndexError  # Raise explicitly for unified handling below
                             current_value_at_key[index] = new_value
                             print(f"DEBUG: Updated index {index} of list key '{key}'.")
@@ -1265,13 +1200,9 @@ class ObsidianPluginDevPythonToJS:
                     elif value is not None:
                         # Update by finding old value (first occurrence)
                         try:
-                            idx_to_update = current_value_at_key.index(
-                                value
-                            )  # Find first occurrence
+                            idx_to_update = current_value_at_key.index(value)  # Find first occurrence
                             current_value_at_key[idx_to_update] = new_value
-                            print(
-                                f"DEBUG: Updated first occurrence of '{value}' in list key '{key}'."
-                            )
+                            print(f"DEBUG: Updated first occurrence of '{value}' in list key '{key}'.")
                         except ValueError:
                             return {
                                 "success": False,
@@ -1293,9 +1224,7 @@ class ObsidianPluginDevPythonToJS:
             if frontmatter != original_frontmatter:
                 # If the frontmatter is now empty, don't write the '---' block
                 if not frontmatter:
-                    updated_full_content = (
-                        main_content.lstrip()
-                    )  # Remove leading newline if any
+                    updated_full_content = main_content.lstrip()  # Remove leading newline if any
                 else:
                     try:
                         updated_yaml_str = yaml.dump(
@@ -1311,15 +1240,11 @@ class ObsidianPluginDevPythonToJS:
                         }
 
                     separator = "\n" if main_content else ""
-                    updated_full_content = (
-                        f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
-                    )
+                    updated_full_content = f"---\n{updated_yaml_str.strip()}\n---{separator}{main_content}"
 
                 if use_vault_modify:
                     print(f"DEBUG: Saving via Obsidian API (HTTP) for {file_path}")
-                    self.modify_note_content(
-                        file_path, updated_full_content
-                    )  # Uses HTTP now
+                    self.modify_note_content(file_path, updated_full_content)  # Uses HTTP now
                     print("DEBUG: modify_note_content request sent.")
                 else:
                     print(f"DEBUG: [RISKY] Direct file write to {file_path}")
@@ -1327,15 +1252,13 @@ class ObsidianPluginDevPythonToJS:
                         with open(file_path, "w", encoding="utf-8") as file:
                             file.write(updated_full_content)
                         print("DEBUG: Direct file write successful.")
-                    except IOError as e:
+                    except OSError as e:
                         return {
                             "success": False,
                             "error": f"Direct file write failed: {e}",
                         }
             else:
-                print(
-                    f"DEBUG: No changes made to frontmatter for action '{action}' on key '{key}'."
-                )
+                print(f"DEBUG: No changes made to frontmatter for action '{action}' on key '{key}'.")
                 return {"success": True, "message": "No changes needed."}
 
             return {"success": True}
@@ -1462,7 +1385,7 @@ class ObsidianPluginDevPythonToJS:
         self._send_receive("run_obsidian_command", payload)
         print(f"Request sent to run command: {command_id}")
 
-    def get_all_tags(self) -> List[str]:
+    def get_all_tags(self) -> list[str]:
         """
         Retrieves a list of all unique tags present in the vault.
         Includes the '#' prefix.
@@ -1516,7 +1439,7 @@ class ObsidianPluginDevPythonToJS:
         self._send_receive("create_folder", payload)
         print(f"Request sent to create folder: {path}")
 
-    def list_folder(self, path: str) -> Dict[str, List[str]]:
+    def list_folder(self, path: str) -> dict[str, list[str]]:
         """
         Lists the files and subfolders within a specified vault folder.
 
@@ -1534,13 +1457,11 @@ class ObsidianPluginDevPythonToJS:
             ObsidianCommError: If listing fails (e.g., path not found, not a folder).
         """
         if path is None:
-            raise ValueError(
-                'Path cannot be None for list_folder. Use an empty string "" for the vault root.'
-            )
+            raise ValueError('Path cannot be None for list_folder. Use an empty string "" for the vault root.')
         payload = {"path": path}
         return self._send_receive("list_folder", payload)
 
-    def get_links(self, path: str, type: str = "outgoing") -> List[str]:
+    def get_links(self, path: str, type: str = "outgoing") -> list[str]:
         """
         Retrieves links associated with a note.
         Currently only supports 'outgoing' links (including embeds).
@@ -1570,7 +1491,7 @@ class ObsidianPluginDevPythonToJS:
         payload = {"path": path, "type": type}
         return self._send_receive("get_links", payload)
 
-    def get_editor_context(self) -> Dict[str, Any]:
+    def get_editor_context(self) -> dict[str, Any]:
         """
         Retrieves context information about the active editor.
 
@@ -1773,7 +1694,7 @@ class ObsidianPluginDevPythonToJS:
 
     def get_backlinks(
         self, path: str, use_cache_if_available: bool = True, cache_mode: str = "fast"
-    ) -> Dict[str, List[Dict[str, Any]]]:
+    ) -> dict[str, list[dict[str, Any]]]:
         """
         Retrieves backlinks (incoming links) for a specific note.
 

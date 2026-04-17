@@ -1,0 +1,92 @@
+# ==============================================================================
+# Obsidian Python Bridge - Project Configuration (uv managed)
+# ==============================================================================
+# This project uses uv for Python dependency management and virtual environments.
+#
+# Quick commands:
+#   uv sync                  # Install all dependencies into .venv
+#   uv run ruff check .      # Run ruff linter
+#   uv run ruff format .     # Format Python code
+#
+# ==============================================================================
+
+[project]
+name = "obsidian-python-bridge"
+version = "2.0.0"
+description = "A plugin that lets you write plugins in Python for Obsidian"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "mathe00" },
+]
+
+# Runtime dependencies (for the Python client library)
+dependencies = [
+    "requests",
+    "pyyaml",
+]
+
+[dependency-groups]
+dev = [
+    "ruff",
+]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "C4",
+    "ARG",
+    "TID",
+    "RET",
+    "RSE",
+    "S",
+    "ISC",
+    "N",
+    "Q",
+    "T10",
+    "G",
+    "I",
+    "ANN",
+    "DTZ",
+    "TCH",
+    "FBT",
+    "RUF",
+]
+
+ignore = [
+    "ARG001",  # Allow unused arguments prefixed with underscore
+    "ANN001",  # Allow missing type annotations for function arguments
+    "ANN002",  # Allow missing type annotations for *args
+    "ANN003",  # Allow missing type annotations for **kwargs
+    "ANN201",  # Allow missing return type annotations for public functions
+    "ANN202",  # Allow missing return type annotations for private functions
+    "ANN204",  # Allow missing return type annotations for __init__
+    "ANN401",  # Allow any type annotation
+    "S105",    # Allow hardcoded passwords in assertions
+    "S106",    # Allow hardcoded passwords in function arguments
+    "S107",    # Allow hardcoded passwords in function defaults
+    "T201",    # Allow print statements
+    "COM812",  # Avoid conflicts with formatter
+    "FBT001",  # Allow boolean-typed positional arguments
+    "FBT002",  # Allow boolean default positional arguments
+    "RET504",  # Allow unnecessary assignment before return
+    "RUF013",  # Allow implicit Optional (PEP 484)
+]
+
+# The client library has long error message strings that can't easily be shortened
+[tool.ruff.lint.per-file-ignores]
+"ObsidianPluginDevPythonToJS.py" = ["E501", "SIM201"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"

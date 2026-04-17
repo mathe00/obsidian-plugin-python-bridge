@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync } from 'fs';
 
-const targetVersion = process.env.npm_package_version;
+// Read version directly from package.json (works with bun, npm, and any runtime)
+const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+const targetVersion = pkg.version;
 
 // read minAppVersion from manifest.json and bump version to target version
 const manifest = JSON.parse(readFileSync('manifest.json', 'utf8'));

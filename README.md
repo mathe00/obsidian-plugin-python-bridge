@@ -600,13 +600,13 @@ If you want to modify the plugin's TypeScript code or contribute:
     ```
 3.  **Install dependencies**:
     ```bash
-    npm install
+    bun install
     ```
 4.  **Build the project**:
     ```bash
-    npm run build
+    bun run build
     ```
-    Or run `npm run dev` to automatically rebuild on file changes.
+    Or run `bun run dev` to automatically rebuild on file changes.
 5.  **Install in Obsidian for Testing**:
     - Copy the generated `main.js`, `manifest.json`, and `styles.css` (if it exists) into a dedicated folder within your vault's plugin directory (e.g., `<your-vault>/.obsidian/plugins/obsidian-python-bridge-dev/`).
     - Enable the plugin in Obsidian.

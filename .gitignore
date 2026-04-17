@@ -1,15 +1,15 @@
 # --- .gitignore ---
-# Node.js / npm / TypeScript specific
+# Node.js / Bun / TypeScript specific
 node_modules/
 dist/
 build/
 *.tsbuildinfo
 *.tgz
-.npm
 .eslintcache
 .stylelintcache
-.yarn-integrity
-.pnp.*
+
+# Bun lockfile (we keep bun.lock in the repo)
+bun.lockb
 
 # Logs
 logs

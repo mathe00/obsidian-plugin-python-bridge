@@ -490,16 +490,8 @@ export default class ObsidianPythonBridge extends Plugin {
     }
   }
 
-  // --- Action Handler (Simplified) ---
-  // The complex logic is now in action_handler.ts
-  async handleAction(request: JsonRequest): Promise<JsonResponse> {
-    return dispatchAction(this, request);
-  } // Simply delegate
-
   // --- Obsidian Interaction Helpers ---
-  // Keep helpers needed directly by main.ts or UI components (like modals)
-
-  // Keep showNotification as it's called directly by action_handler
+  // These methods are called by action_handler and other modules via `plugin.xxx()`.
   showNotification(message: string, duration = 4000) {
     new Notice(message, duration);
   }
@@ -534,14 +526,7 @@ export default class ObsidianPythonBridge extends Plugin {
     });
   }
 
-  // Keep getAllNotePaths if used directly (e.g., by settings tab?), otherwise remove
-  // It's now primarily called via action_handler -> obsidian_api
-  getAllNotePaths(): string[] {
-    return this.app.vault.getMarkdownFiles().map((f) => f.path);
-  }
-
-  // Keep getCurrentVaultAbsolutePath if used directly (e.g., by settings tab?), otherwise remove
-  // It's now primarily called via action_handler -> obsidian_api
+  // getCurrentVaultAbsolutePath is used by python_executor.ts via plugin.getCurrentVaultAbsolutePath()
   getCurrentVaultAbsolutePath(): string | null {
     const adapter = this.app.vault.adapter;
     if (adapter instanceof FileSystemAdapter && adapter.getBasePath)
@@ -552,13 +537,10 @@ export default class ObsidianPythonBridge extends Plugin {
     return null;
   }
 
-  // Keep checkPythonEnvironment if called directly (e.g., by settings tab?), otherwise remove
-  // It's now primarily called during onload
+  // checkPythonEnvironment is used by python_executor.ts via plugin.checkPythonEnvironment()
   async checkPythonEnvironment(): Promise<boolean> {
     return checkPythonEnvironment(this);
-  } // Delegate
+  }
 
-  // Remove other API helpers previously here, as they are now in obsidian_api.ts
-  // Remove Python execution helpers, now in python_executor.ts
-  // Remove Event handling helpers, now in event_handler.ts
+  // Other API helpers are in obsidian_api.ts, Python execution in python_executor.ts, events in event_handler.ts
 }

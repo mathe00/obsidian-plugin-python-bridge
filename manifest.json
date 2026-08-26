@@ -1,10 +1,10 @@
 {
-  "id": "python-bridge",
-  "name": "Python Bridge",
-  "version": "2.0.0",
-  "minAppVersion": "1.8.7",
-  "description": "🐍 Write and run Python scripts to extend vaults",
-  "author": "mathe00",
-  "authorUrl": "https://github.com/mathe00/",
-  "isDesktopOnly": true
+	"id": "python-bridge",
+	"name": "Python Bridge",
+	"version": "2.0.1",
+	"minAppVersion": "1.8.7",
+	"description": "🐍 Write and run Python scripts to extend vaults",
+	"author": "mathe00",
+	"authorUrl": "https://github.com/mathe00/",
+	"isDesktopOnly": true
 }

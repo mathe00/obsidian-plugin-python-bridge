@@ -37,6 +37,7 @@ Yes, you read that right! With this plugin, you can **develop plugins for Obsidi
 - [🚀 Future Features (roadmap)](#roadmap)
 - [🛠️ Installation](#installation)
   - [Prerequisites](#prerequisites)
+  - [🚀 Quick Install (One-Liner) — Recommended](#install-one-liner)
   - [From Obsidian Community Plugins (Recommended - Pending Approval)](#install-community)
   - [Manual Installation (Using Releases)](#install-manual)
 - [⚙️ Configuration](#configuration)
@@ -483,6 +484,45 @@ Before installing the plugin, please ensure you have the following installed on 
     # or
     python3 -m pip install PyYAML
     ```
+
+<a id="install-one-liner"></a>
+
+### 🚀 Quick Install (One-Liner) — Recommended
+
+> **Easiest way to install!** Just run one command in your terminal and follow the interactive prompts. The installer will automatically detect your Obsidian vault, download the latest release, install Python dependencies, and set everything up for you.
+
+**Linux / macOS** (in your terminal):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/mathe00/obsidian-plugin-python-bridge/main/install.sh | bash
+```
+
+Or with `wget`:
+
+```bash
+wget -qO- https://raw.githubusercontent.com/mathe00/obsidian-plugin-python-bridge/main/install.sh | bash
+```
+
+**Windows** (in PowerShell — works on PowerShell 5.1+ built-in on all Windows 7+):
+
+```powershell
+irm https://raw.githubusercontent.com/mathe00/obsidian-plugin-python-bridge/main/install.ps1 | iex
+```
+
+**Windows** (from CMD — for those who prefer the Command Prompt):
+
+```cmd
+powershell -Command "irm https://raw.githubusercontent.com/mathe00/obsidian-plugin-python-bridge/main/install.ps1 | iex"
+```
+
+The installer will:
+
+- 🖥️ Detect your operating system automatically
+- 📂 Search for your Obsidian vault(s) and let you pick one
+- 📦 Download the latest release from GitHub
+- 🐍 Install Python dependencies (`requests`, `PyYAML`) automatically
+- ⚙️ Place everything in the right directory (`vault/.obsidian/plugins/obsidian-python-bridge/`)
+- 🛡️ Preserve your existing settings if upgrading
 
 <a id="install-community"></a>
 
